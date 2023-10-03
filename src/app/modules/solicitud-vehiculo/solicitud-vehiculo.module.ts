@@ -13,6 +13,7 @@ import { TablaComponent } from './components/tabla/tabla.component';
 import {NgSelectModule} from "@ng-select/ng-select";
 import {NgbActiveModal, NgbModule, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 import { ModalSecretariaComponent } from './components/modal-secretaria/modal-secretaria.component';
+import { ModalLogComponent } from './components/modal-log/modal-log.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ModalSecretariaComponent } from './components/modal-secretaria/modal-se
     MisSolicitudesComponent,
     ModalComponent,
     TablaComponent,
-    ModalSecretariaComponent
+    ModalSecretariaComponent,
+    ModalLogComponent
   ],
   imports: [
     CommonModule,

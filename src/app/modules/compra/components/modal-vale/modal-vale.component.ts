@@ -27,10 +27,12 @@ export class ModalValeComponent implements OnInit {
   }
 
   getValesPorCompra(compra: ICompra) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
     // Mostrar SweetAlert de carga
-    Swal.fire({
+    loadingAlert = Swal.fire({
       title: "Espere",
-      text: "Cargando vales...",
+      text: "Realizando la acción...",
       icon: "info",
       allowOutsideClick: false,
       allowEscapeKey: false,
@@ -41,13 +43,13 @@ export class ModalValeComponent implements OnInit {
     this.compraService.getValesPorCompra(compra.id).subscribe(
       (vales: IVale[]) => {
         // Cerrar SweetAlert de carga
-        Swal.close();
+        loadingAlert.close();
         // Asignar los vales a la lista
         this.listVale = vales;
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error
-        Swal.close();
+        loadingAlert.close();
         // Manejar el error de alguna manera, como mostrar un mensaje de error
         this.mensajesService.mensajesSweet(
           "error",

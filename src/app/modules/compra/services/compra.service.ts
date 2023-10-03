@@ -38,8 +38,10 @@ export class CompraService {
   }
 
   getCompras() {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
     // Mostrar SweetAlert de carga
-    Swal.fire({
+    loadingAlert = Swal.fire({
       title: "Espere",
       text: "Cargando compras...",
       icon: "info",
@@ -55,14 +57,14 @@ export class CompraService {
       .subscribe(
         (compras: ICompra[]) => {
           // Cerrar SweetAlert de carga
-          Swal.close();
+          loadingAlert.close();
 
           // Asignar las compras a la lista
           this.listCompra = compras;
         },
         (error) => {
           // Cerrar SweetAlert de carga en caso de error
-          Swal.close();
+          loadingAlert.close();
 
           // Manejar el error de alguna manera, como mostrar un mensaje de error
           this.mensajesService.mensajesSweet(
@@ -75,10 +77,12 @@ export class CompraService {
   }
 
   getProveedor() {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
     // Mostrar SweetAlert de carga
-    Swal.fire({
+    loadingAlert = Swal.fire({
       title: "Espere",
-      text: "Cargando proveedores...",
+      text: "Realizando la acción...",
       icon: "info",
       allowOutsideClick: false,
       allowEscapeKey: false,
@@ -92,14 +96,14 @@ export class CompraService {
       .subscribe(
         (proveedor: IProveedor[]) => {
           // Cerrar SweetAlert de carga
-          Swal.close();
+          loadingAlert.close();
 
           // Asignar los proveedores a la lista
           this.listProveedor = proveedor;
         },
         (error) => {
           // Cerrar SweetAlert de carga en caso de error
-          Swal.close();
+          loadingAlert.close();
 
           // Manejar el error de alguna manera, como mostrar un mensaje de error
           this.mensajesService.mensajesSweet(

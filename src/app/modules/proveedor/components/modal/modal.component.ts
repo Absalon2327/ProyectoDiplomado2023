@@ -113,8 +113,11 @@ export class ModalComponent implements OnInit {
     const proveedor = this.formularioGeneral.value;
     proveedor.estado = 8;
 
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
     // Mostrar SweetAlert de carga
-    Swal.fire({
+    loadingAlert = Swal.fire({
       title: "Espere",
       text: "Realizando la acción...",
       icon: "info",
@@ -127,7 +130,7 @@ export class ModalComponent implements OnInit {
     this.proveedorService.guardar(proveedor).subscribe({
       next: (resp: any) => {
         // Cerrar SweetAlert de carga
-        Swal.close();
+        loadingAlert.close();
         this.proveedorService.getProveedors();
         this.mensajesService.mensajesToast("success", "Registro agregado");
         this.modalService.dismissAll();
@@ -135,7 +138,7 @@ export class ModalComponent implements OnInit {
       },
       error: (err) => {
         // Cerrar SweetAlert de carga
-        Swal.close();
+        loadingAlert.close();
         this.mensajesService.mensajesSweet(
           "error",
           "Ups... Algo salió mal",
@@ -149,8 +152,11 @@ export class ModalComponent implements OnInit {
     const proveedor = this.formularioGeneral.value;
     proveedor.estado = this.proveedor.estado;
 
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
     // Mostrar SweetAlert de carga
-    Swal.fire({
+    loadingAlert = Swal.fire({
       title: "Espere",
       text: "Realizando la acción...",
       icon: "info",
@@ -163,7 +169,7 @@ export class ModalComponent implements OnInit {
     this.proveedorService.modificar(proveedor).subscribe({
       next: (resp: any) => {
         // Cerrar SweetAlert de carga
-        Swal.close();
+        loadingAlert.close();
         this.proveedorService.getProveedors();
         this.mensajesService.mensajesToast("success", "Registro modificado");
         this.modalService.dismissAll();
@@ -171,7 +177,7 @@ export class ModalComponent implements OnInit {
       },
       error: (err) => {
         // Cerrar SweetAlert de carga
-        Swal.close();
+        loadingAlert.close();
         this.mensajesService.mensajesSweet(
           "error",
           "Ups... Algo salió mal",

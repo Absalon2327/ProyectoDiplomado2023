@@ -119,3 +119,14 @@ export interface IActualizarSoliVe{
   codigoSolicitudVehiculo: string;
   estado: number;
 }
+
+export interface  ILogSoliVe {
+    "idLogSoliVe": string,
+    "estadoLogSolive": number,
+    "estadoString": string,
+    "fechaLogSoliVe": Date,//"2023-09-29 10:25:00"
+    "actividad": string,
+    "usuario": string,
+    "soliVe": string,
+    "soliVale": string
+}

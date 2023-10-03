@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {IActualizarSoliVe, IEstados, IPais, ISolicitudVehiculo, IMotorista} from "../interfaces/data.interface";
+import {
+  IActualizarSoliVe,
+  IEstados,
+  IPais,
+  ISolicitudVehiculo,
+  IMotorista,
+  ILogSoliVe
+} from "../interfaces/data.interface";
 import {environment} from "../../../../environments/environment";
 import {map} from "rxjs/operators";
 import {IVehiculos} from "../../vehiculo/interfaces/vehiculo-interface";
@@ -20,6 +27,7 @@ export class SolicitudVehiculoService {
   listSoliVehiculoRol : ISolicitudVehiculo [] = [];
   listVehiculos:string[] = [];
   listMotorista: IMotorista [] = [];
+  listLogSoliVe: ILogSoliVe [] = [];
   public usuario!: Usuario;
 
   constructor(private http: HttpClient) { }
@@ -223,6 +231,34 @@ export class SolicitudVehiculoService {
   modificarPdfPasajeros(multiPart: FormData){
     console.log("docus:", multiPart);
     return this.http.post<any>(`${this.url}/documentosoli/edit`, multiPart);
+  }
+
+  getLogSoli(codigoSoliVe: string): Promise<ILogSoliVe[]> {
+    // Mostrar la alerta de Swal antes de realizar la solicitud
+    Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    return this.http
+      .get(`${this.url}/solicitudvehiculo/log/${codigoSoliVe}`)
+      .pipe(map((resp: any) => resp as ILogSoliVe[]))
+      .toPromise() // Convertir el observable en una Promesa
+      .then((log: ILogSoliVe[]) => {
+        // Cierra la alerta de Swal cuando se obtienen las solicitudes
+        Swal.close();
+        this.listLogSoliVe = log;
+        return this.listLogSoliVe; // Devuelve las solicitudes como resultado de la Promesa
+      })
+      .catch((error) => {
+        // Cierra la alerta de Swal en caso de error y lanza el error
+        Swal.close();
+        console.error('Error al obtener el log de la solicitud', error);
+        throw error; // Lanza el error para que el componente lo maneje
+      });
   }
 
 }

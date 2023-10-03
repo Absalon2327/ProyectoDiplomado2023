@@ -25,6 +25,8 @@ export class SolicitudValeAprobarComponent implements OnInit {
   //interfaz para las solicitudes de vale
   solicitudesVales!: ISolicitudValeAprobar[];
 
+  storage: Storage = window.localStorage;
+
   //para las migas de pan
   breadCrumbItems: Array<{}>;
   //para la paginación
@@ -240,7 +242,9 @@ export class SolicitudValeAprobarComponent implements OnInit {
   }
 
   revision() {
-    console.log("entro a revisión");
+
+    const usuarioLogueado = JSON.parse(this.storage.getItem("usuario" || ""));
+    const empleado = usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
     this.observaciones = this.formularioSolicitudVale.get(
       "observacionRevision"
     )?.value;
@@ -253,7 +257,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
       estadoSolicitudVale: estadoSolicitud,
       observaciones: this.observaciones,
     };
-    console.log("solictud: ", solicitud);
+
 
     Swal.fire({
       title: "Espere",
@@ -265,7 +269,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
       showConfirmButton: false,
     });
     return new Promise<void>((resolve, reject) => {
-      this.service.solicitarAprobacion(solicitud).subscribe({
+      this.service.solicitarAprobacion(solicitud, empleado).subscribe({
         next: (resp: any) => {
           // Cerrar SweetAlert de carga
           Swal.close();
@@ -290,6 +294,8 @@ export class SolicitudValeAprobarComponent implements OnInit {
   }
 
   async aprobar() {
+    const usuarioLogueado = JSON.parse(this.storage.getItem("usuario" || ""));
+    const empleado = usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
     if ((await this.mensajesService.mensajeSolicitudAprobada(this.cantVales)) == true) {
       this.observaciones = this.formularioSolicitudVale.get(
         "observacionRevision"
@@ -315,7 +321,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
         showConfirmButton: false,
       });
       return new Promise<void>((resolve, reject) => {
-        this.service.solicitarAprobacion(solicitud).subscribe({
+        this.service.solicitarAprobacion(solicitud, empleado).subscribe({
           next: (resp: any) => {
             // Cerrar SweetAlert de carga
             Swal.close();

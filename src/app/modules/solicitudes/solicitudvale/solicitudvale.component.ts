@@ -31,6 +31,7 @@ import {
 
 import { UsuarioService } from "src/app/account/auth/services/usuario.service";
 import { title } from "process";
+import { IEmail } from "src/app/account/auth/interfaces/usuario";
 
 @Component({
   selector: "app-solicitudvale",
@@ -176,6 +177,51 @@ export class SolicitudvaleComponent implements OnInit {
     this.getSolicitudesVale(8);
   }
 
+  Email(asunto: string, titulo: string, mensaje: string, centro: string) {
+    const correoUsuario = this.storage.getItem("correo" || "");
+    const nombreUsuario = this.storage.getItem("nombre" || "");
+    const codUsuario = this.storage.getItem("codUsuario" || "");
+
+    const email: IEmail = {
+      asunto: asunto,
+      titulo: titulo,
+      email: correoUsuario,
+      receptor: "Estimad@ : " + nombreUsuario,
+      mensaje: mensaje,
+      centro: centro,
+      codigo: codUsuario,
+      abajo: "Gracias por su atención a este importante mensaje.",
+    };
+
+    this.usuarios.SendEmail(email).subscribe(
+      (resp) => {
+        Swal.close();
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2500,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          text: "¡Se ha enviando un mensaje al correo institucional!",
+        }).then(() => {});
+      },
+      (err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Algo salió mal",
+          text: err,
+        });
+      }
+    );
+  }
+
   getSolicitudesVale(estado: number) {
     this.service.getSolicitdValePorEstado(estado).subscribe({
       next: (data) => {
@@ -248,24 +294,21 @@ export class SolicitudvaleComponent implements OnInit {
       showConfirmButton: false,
       timer: 1000,
       didOpen: () => {
-
         timerInterval = setInterval(() => {
-          const content = Swal.getHtmlContainer()
+          const content = Swal.getHtmlContainer();
           if (content) {
-            const b = content.querySelector('b')
+            const b = content.querySelector("b");
             if (b) {
-              b.textContent = Swal.getTimerLeft() + ''
+              b.textContent = Swal.getTimerLeft() + "";
             }
           }
         }, 100);
       },
       willClose: () => {
         clearInterval(timerInterval);
-      }
+      },
     }).then((result) => {
-      if (
-        result.dismiss === Swal.DismissReason.timer
-      ) {
+      if (result.dismiss === Swal.DismissReason.timer) {
         this.service.getCodigoAsignacion(codigoSolitudVale).subscribe({
           next: (response) => {
             this.codigoAsignacion = response;
@@ -283,14 +326,12 @@ export class SolicitudvaleComponent implements OnInit {
               "error",
               "Ups... Algo salió mal",
               err.error.message
-            );// Rechaza la promesa con el error
+            ); // Rechaza la promesa con el error
           },
         });
       }
     });
-    return new Promise<void>((resolve, reject) => {
-
-    });
+    return new Promise<void>((resolve, reject) => {});
   }
 
   obtenerFechaFormateada(data: any) {
@@ -434,7 +475,8 @@ export class SolicitudvaleComponent implements OnInit {
   registrando() {
     //const usuariosObj = this.usuarios.getUsuario();
     const usuarioJson = JSON.parse(this.storage.getItem("usuario" || ""));
-
+    const empleado =
+    usuarioJson.empleado.nombre + " " + usuarioJson.empleado.apellido;
     //Asignaré los campos necesario para guardar la asignación
     const cantidadVales =
       this.formularioSolicitudVale.get("cantidadVales")?.value;
@@ -460,7 +502,7 @@ export class SolicitudvaleComponent implements OnInit {
       showConfirmButton: false,
     });
     return new Promise<void>((resolve, reject) => {
-      this.service.insertar(asignarVales, usuarioJson.codigoUsuario).subscribe({
+      this.service.insertar(asignarVales, usuarioJson.codigoUsuario, empleado).subscribe({
         next: (resp: any) => {
           // Cerrar SweetAlert de carga
           Swal.close();
@@ -485,6 +527,10 @@ export class SolicitudvaleComponent implements OnInit {
   }
 
   async solicitarAprobacion() {
+    const usuarioLogueado =
+      JSON.parse(this.storage.getItem("usuario" || ""));
+    const empleado =
+      usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
     //Asignaré los campos necesario para modificar la asignación
     const cantidadVales =
       this.formularioSolicitudVale.get("cantidadVales")?.value;
@@ -514,7 +560,7 @@ export class SolicitudvaleComponent implements OnInit {
         showConfirmButton: false,
       });
       return new Promise<void>((resolve, reject) => {
-        this.service.solicitarAprobacion(solicitud).subscribe({
+        this.service.solicitarAprobacion(solicitud, empleado).subscribe({
           next: (resp: any) => {
             // Cerrar SweetAlert de carga
             Swal.close();
@@ -524,6 +570,12 @@ export class SolicitudvaleComponent implements OnInit {
             this.mensajesService.mensajesToast(
               "success",
               "Enviada para Aprobar"
+            );
+            this.Email(
+              "Solicitar aprobación para la asignación de vales",
+              "Solicitud de Vale",
+              "Se ha enviado una solicitud de vale para su aprobación",
+              "Solicitud de Vale"
             );
             resolve(); // Resuelve la promesa sin argumentos
           },
@@ -615,13 +667,6 @@ export class SolicitudvaleComponent implements OnInit {
   scrollModal(scrollDataModal: any) {
     this.modalService.open(scrollDataModal, { scrollable: true });
   }
-
-  /* get paginatedItems() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.items.filter(item =>
-      item.solicitante.toLowerCase().includes(this.searchTerm.toLowerCase())
-    ).slice(startIndex, startIndex + this.itemsPerPage);
-  }*/
 
   get pageNumbers() {
     return Array(Math.ceil(this.filteredItems.length / this.itemsPerPage))

@@ -29,10 +29,13 @@ export class ProveedorService {
   }
 
   getProveedors() {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
     // Mostrar SweetAlert de carga
-    Swal.fire({
+    loadingAlert = Swal.fire({
       title: "Espere",
-      text: "Cargando proveedores...",
+      text: "Realizando la acción...",
       icon: "info",
       allowOutsideClick: false,
       allowEscapeKey: false,
@@ -45,15 +48,17 @@ export class ProveedorService {
       .pipe(map((resp: any) => resp as IProveedor[]))
       .subscribe(
         (proveedor: IProveedor[]) => {
-          // Cerrar SweetAlert de carga
-          Swal.close();
+          // Cerrar la alerta de carga específica
+          loadingAlert.close();
 
           // Asignar los proveedores a la lista
           this.listProveedor = proveedor;
         },
         (error) => {
-          // Cerrar SweetAlert de carga en caso de error
-          Swal.close();
+          // Cerrar la alerta de carga específica en caso de error
+          loadingAlert.close();
+
+          // Mostrar mensaje de error
           this.mensajesService.mensajesSweet(
             "error",
             "Ups... Algo salió mal",

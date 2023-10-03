@@ -640,9 +640,11 @@ export class ModalComponent implements OnInit {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
           //resp:any
-          this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           this.modalService.dismissAll();
+          setTimeout(() => {
+            this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          }, 3025);
           resolve();
         },
         error: (error) => {
@@ -674,9 +676,11 @@ export class ModalComponent implements OnInit {
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
               // valeResp: any
-              this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               this.modalService.dismissAll();
+              setTimeout(() => {
+                this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+              }, 3025);
               resolve();
             },
             error: (errorSoli) => {

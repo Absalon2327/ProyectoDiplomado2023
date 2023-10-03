@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ISolicitudVehiculo} from "../../interfaces/data.interface";
+import {ILogSoliVe, ISolicitudVehiculo} from "../../interfaces/data.interface";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ModalComponent} from "../modal/modal.component";
 import { ModalSecretariaComponent } from '../modal-secretaria/modal-secretaria.component';
@@ -8,6 +8,7 @@ import {SolicitudVehiculoService} from "../../services/solicitud-vehiculo.servic
 import Swal from "sweetalert2";
 import {Usuario} from "../../../../account/auth/models/usuario.models";
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
+import {ModalLogComponent} from "../modal-log/modal-log.component";
 
 @Component({
   selector: 'app-tabla',
@@ -23,6 +24,7 @@ export class TablaComponent implements OnInit {
   p: any; // paginacion
   selectedData: any; // Almacena los datos del registro seleccionado
   solicitudVale!: ISolicitudvalep;
+  logSoli: ILogSoliVe[];
   constructor(private modalService: NgbModal,
               private mensajesService: MensajesService,
               private soliService: SolicitudVehiculoService) {
@@ -38,7 +40,6 @@ export class TablaComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   abrirModal(leyenda: string, data: any) {
     this.selectedData = data; // Almacena los datos del registro seleccionado
     const modalRef = this.modalService.open(ModalComponent, {size:'xl', backdrop: 'static'});
@@ -49,12 +50,30 @@ export class TablaComponent implements OnInit {
   }
 
   abrirModalSecre(leyenda: string, data: any) {
-    this.selectedData = data;
     const modalRef = this.modalService.open(ModalSecretariaComponent, {size:'xl', backdrop: 'static'});
     modalRef.componentInstance.leyenda = leyenda;
     modalRef.componentInstance.soliVeOd = data;
     modalRef.componentInstance.usuarioActivo = this.userAcivo;
   }
+
+  abrirModalLog(data: any) {
+    this.obtenerLog(data.codigoSolicitudVehiculo).then(() => {
+      console.log("mostrando: ", this.logSoli);
+      const modalRef = this.modalService.open(ModalLogComponent, { size: 'xl', backdrop: 'static' });
+      modalRef.componentInstance.log = this.logSoli;
+    });
+  }
+
+  obtenerLog(codigoSoliVe: string): Promise<void> {
+    return this.soliService.getLogSoli(codigoSoliVe)
+      .then((log: ILogSoliVe[]) => {
+        this.logSoli = log;
+      })
+      .catch((error) => {
+        console.error('Error al obtener el log de la solicitud', error);
+      });
+  }
+
 
   async aprobarSolicitud(data: any){
     console.log(data);

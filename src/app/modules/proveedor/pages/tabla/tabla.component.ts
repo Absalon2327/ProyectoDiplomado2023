@@ -10,7 +10,6 @@ import { MensajesService } from "src/app/shared/global/mensajes.service";
   styleUrls: ["./tabla.component.scss"],
 })
 export class TablaComponent implements OnInit {
-
   @Input() proveedores!: IProveedor[];
   @Input() queryString!: string;
   p: any;
@@ -51,8 +50,8 @@ export class TablaComponent implements OnInit {
           this.cambio = "Activo";
         }
         this.proveedorService.modificar(this.proveedor).subscribe(() => {
-          this.mensajesService.mensajesToast("success", "Registro modificado");
           this.proveedorService.getProveedors();
+          this.mensajesService.mensajesToast("success", "Registro modificado");
         });
       } else if (result.isDenied) {
         this.mensajesService.mensajesToast("info", "Acción Cancelada!");

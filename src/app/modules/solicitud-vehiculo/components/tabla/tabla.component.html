@@ -52,19 +52,19 @@
                   ngbTooltip="Aprobar">
             <i class="mdi mdi-18px mdi-check-outline"></i></button>
 
-          <button type="button"
+          <!--<button type="button"
                   *ngIf="userAcivo.role == 'DECANO' && solicitudesVehiculo.length > 0 && solicitudesVehiculo[0].estado  == 3"
                   class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
                   (click)="revisionSolicitud(data)"
                   ngbTooltip="Enviar a revisión">
-            <i class="mdi mdi-18px mdi-help-circle-outline"></i></button>
+            <i class="mdi mdi-18px mdi-help-circle-outline"></i></button>-->
 
-          <button type="button"
+          <!--<button type="button"
                   *ngIf="userAcivo.role == 'DECANO' && solicitudesVehiculo.length > 0 && solicitudesVehiculo[0].estado  == 3"
                   class="btn btn-warning btn-sm btn-rounded boton-cuadrado mx-1"
                   (click)="anularSolicitud(data)"
                   ngbTooltip="Anular">
-            <i class="mdi mdi-18px mdi-alpha-x-circle-outline"></i></button>
+            <i class="mdi mdi-18px mdi-alpha-x-circle-outline"></i></button>-->
 
             <button type="button"
                     *ngIf="userAcivo.role == 'SECR_DECANATO' && solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 2"
@@ -72,6 +72,13 @@
                   (click)="abrirModalSecre('Edicion', data)"
                   ngbTooltip="Asignar">
               <i class="mdi mdi-18px mdi-book-edit-outline"></i></button>
+
+              <button type="button"
+                    *ngIf="userAcivo.role == 'USER'"
+                    class="btn btn-dark btn-sm btn-rounded boton-cuadrado mx-1"
+                  (click)="abrirModalLog(data)"
+                  ngbTooltip="Movimientos">
+              <i class="mdi mdi-18px mdi-clock-check-outline"></i></button>
         </td>
 
       </tr>

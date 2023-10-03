@@ -1,0 +1,87 @@
+
+<!-- Modal -->
+
+<div class="modal-header">
+  <h5 class="modal-title mt-0">Movimientos de la solicitud</h5>
+  <div class="btn-alerta" *ngIf="alerts">
+    <i
+      class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor"
+      ngbTooltip="Mostrar Ayuda"
+      *ngIf="!siMuestraAlertas()"
+      (click)="restaurarAlerts()"
+    ></i>
+  </div>
+  <button type="button" class="btn-close" aria-hidden="true" (click)="activeModal.dismiss('Cross click')">
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngFor="let alert of alerts">
+    <div
+      class="alert alert-{{ alert.type }} alert-dismissible fade show"
+      role="alert"
+      *ngIf="alert.show"
+    >
+      <strong>{{
+        alert.type === "info" ? "Importante!" : "Precaución!"
+        }}</strong>
+      {{ alert.message }}
+      <button
+        type="button"
+        class="btn-close"
+        (click)="CambiarAlert(alert)"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+
+  <div class="table-responsive mb-0">
+    <table class="table table-centered table-nowrap">
+      <thead class="table-light">
+      <tr>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Actividad</th>
+        <th class="align-middle">Fecha</th>
+        <th class="align-middle">Usuaio que la realizó</th>
+        <th class="align-middle" style="text-align: center">Estado</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngIf="log.length > 0; else noDataTemplate">
+        <!-- *ngFor="let data of cards | filter:queryString | paginate: { itemsPerPage: 10, currentPage: p }" -->
+        <tr *ngFor="let data of log;
+                            let i = index">
+          <td>{{calcularNumeroCorrelativo(i)}}</td>
+          <td>{{data.actividad}}</td>
+          <td>{{data.fechaLogSoliVe | date: "dd/MM/yyyy HH:mm:ss"}}</td>
+          <td>{{data.usuario}}</td>
+          <td style="text-align: center">
+            <h5><span class="{{data.estadoLogSolive === 1 ? 'badge rounded-pill bg-warning'
+          : data.estadoLogSolive === 2 ? 'badge rounded-pill bg-info'
+          : data.estadoLogSolive === 3 ? 'badge rounded-pill bg-esdec'
+          : data.estadoLogSolive === 4 ? 'badge rounded-pill bg-success'
+          : data.estadoLogSolive === 5 ? 'badge rounded-pill bg-purple'
+          : data.estadoLogSolive === 6 ? 'badge rounded-pill bg-revision'
+          : data.estadoLogSolive === 7 ? 'badge rounded-pill bg-prima'
+          : data.estadoLogSolive === 15 ? 'badge rounded-pill bg-danger': ''}}">
+            {{data.estadoString}}
+          </span></h5>
+          </td>
+
+        </tr>
+      </ng-container>
+      <ng-template #noDataTemplate>
+        <tr>
+          <td colspan="6" style="text-align: center;">
+            No hay datos disponibles.
+          </td>
+        </tr>
+      </ng-template>
+      </tbody>
+    </table>
+
+  </div>
+
+  <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
+          aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
+</div>
+<!-- Modal -->
