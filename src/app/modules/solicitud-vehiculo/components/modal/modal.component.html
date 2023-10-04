@@ -78,8 +78,7 @@
                    formControlName="fechaSalida"
                    [class]="esCampoValido('fechaSalida')"
                    (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                   formularioSoliVe.get('fechaSalida').value,
-                   formularioSoliVe.get('fechaEntrada').value)"
+                   formularioSoliVe.get('fechaSalida').value)"
                    [readonly]="soliVeOd != null && leyenda === 'Detalle'"/>
             <div class="invalid-feedback">
               <span
@@ -298,8 +297,7 @@
                    formControlName="fechaEntrada"
                    [class]="esCampoValido('fechaEntrada')"
                    (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                   formularioSoliVe.get('fechaSalida').value,
-                   formularioSoliVe.get('fechaEntrada').value)"
+                   formularioSoliVe.get('fechaSalida').value)"
                    [readOnly]="leyenda == 'Detalle' && soliVeOd != null"/>
             <div class="invalid-feedback">
               <span
@@ -328,8 +326,7 @@
                 labelForId="tipoVehiculo"
                  [class]="esCampoValido('tipoVehiculo')"
                 (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                formularioSoliVe.get('fechaSalida').value,
-                formularioSoliVe.get('fechaEntrada').value)"
+                formularioSoliVe.get('fechaSalida').value)"
               >
                 <ng-option
                   *ngFor="let car of listVehiculos"
