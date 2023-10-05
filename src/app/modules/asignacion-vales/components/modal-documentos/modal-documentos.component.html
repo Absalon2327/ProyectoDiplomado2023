@@ -1,90 +1,157 @@
 <span *ngIf="leyenda !== titulo">
-    <div class="text-sm-end">
-        <button type="button" class="btn btn-primary me-2" (click)="openModal(content)">{{titulo}}
-        </button>
-    </div>
+  <div class="text-sm-end">
+    <button
+      type="button"
+      class="btn btn-primary me-2"
+      (click)="validaciones(content)"
+    >
+      {{ titulo }}
+    </button>
+  </div>
 </span>
 
 <!-- Modal -->
 
-<div class="modal modal-fullscreen-xl-down fade" id="modalEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <ng-template #content role="document" let-modal>
-        <div class="modal-header">
-            <h5 class="modal-title mt-0">{{leyenda}} Documento</h5>
-            <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+<div
+  class="modal modal-fullscreen-xl-down fade"
+  id="modalEmpleado"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <ng-template #content role="document" let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title mt-0">{{ leyenda }} Documento</h5>
+      <button
+        type="button"
+        class="btn-close"
+        aria-hidden="true"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form
+        (ngSubmit)="guardar()"
+        [formGroup]="formBuilder"
+        enctype="multipart/form-data"
+      >
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label>Misión</label><span class="text-danger"> </span>
+
+              <div>
+                {{ mision }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <!-----INICIA SUBIR DOCUMENTO-->
+            <div class="mb-3">
+              <label class="control-label" for="file">Documento: </label>
+              <input
+                id="file"
+                type="file"
+                name="file"
+                multiple
+                class="form-control"
+                formControlName="foto"
+                (change)="onFileSelected($event)"
+              />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label class="control-label">Tipo documento:</label>
+              <select
+                class="form-control form-select"
+                id="tipo"
+                name="tipo"
+                formControlName="tipo"
+                [class]="esCampoValido('tipo')"
+              >
+                <option value="">Seleccione</option>
+                <option *ngFor="let item of select" [value]="item.value">
+                  {{ item.option }}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+                <!-- aqui la validación-->
+                <span *ngIf="formBuilder.get('tipo')?.errors?.['required']"
+                  >Requiere elegir una opción</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label class="control-label">N° Comprobante:</label>
+              <input
+                type="text"
+                formControlName="comprobante"
+                class="form-control"
+                id="comprobante"
+                name="comprobante"
+                placeholder="Ingresa numero de comprobante"
+                [class]="esCampoValido('comprobante')"
+              />
+              <div class="invalid-feedback">
+                <!-- aqui la validación-->
+                <span
+                  *ngIf="formBuilder.get('comprobante')?.errors?.['required']"
+                  >Requiere codigo de comprobante</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label class="control-label">Fecha:</label>
+              <input
+                type="date"
+                formControlName="fecha"
+                class="form-control"
+                id="fecha"
+                [max]="fechaMax"
+                name="fecha"
+                [class]="esCampoValido('fecha')"
+              />
+              <div class="invalid-feedback">
+                <!-- aqui la validación-->
+                <span *ngIf="formBuilder.get('fecha')?.errors?.['required']"
+                  >Requiere una fecha</span
+                >
+                <span *ngIf="formBuilder.get('fecha').hasError('maxDate')"
+                  >Requiere una fecha menor o igual a la actual</span
+                >
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
 
-            <form (ngSubmit)="guardar()" [formGroup]="formBuilder" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="mb-3">
-                          <label>Misión</label><span class="text-danger"> </span>
-                        
-                            <div >
-                              {{mision}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <!-----INICIA SUBIR DOCUMENTO-->
-                            <div class="mb-3" >
-                                    <label class="control-label" for="file">Documento: </label>
-                                    <input id="file" type="file" name="file" multiple class="form-control" formControlName="foto" (change)="onFileSelected($event)" />
-                            </div>                    
-                    </div>
-                    <div class="col-md-12">
-                        <div class="mb-3">
-                            <label class="control-label">Tipo documento:</label>
-                            <select class="form-control form-select" id="tipo"name="tipo" formControlName="tipo" [class]="esCampoValido('tipo')">
-                                <option value="">Seleccione tipo de documento</option>
-                                <option value="Comprobante de recibido">Comprobante de recibido</option>
-                                <option value="facturación de consumo de vales">facturación de consumo de vales</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                <!-- aqui la validación-->
-                                <span *ngIf="formBuilder.get('tipo')?.errors?.['required']">Requiere elegir una opción</span>
-                              </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="mb-3">
-                            <label class="control-label">N° Comprobante:</label>
-                            <input type="text" formControlName="comprobante" class="form-control" id="comprobante" name="comprobante" placeholder="Ingresa numero de comprobante" [class]="esCampoValido('comprobante')"/>
-                            <div class="invalid-feedback">
-                                <!-- aqui la validación-->
-                                <span *ngIf="formBuilder.get('comprobante')?.errors?.['required']">Requiere codigo de comprobante</span>
-                              </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="mb-3">
-                            <label class="control-label">Fecha:</label>
-                            <input type="date" formControlName="fecha" class="form-control" id="fecha" name="fecha" [class]="esCampoValido('fecha')"/>
-                            <div class="invalid-feedback">
-                                <!-- aqui la validación-->
-                                <span *ngIf="formBuilder.get('fecha')?.errors?.['required']">Requiere una fecha</span>
-                                <span *ngIf="formBuilder.get('fecha').hasError('maxDate')">Requiere una fecha menor o igual a la actual</span>
-                              </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="d-flex justify-content-end mt-4">
+          <button
+            type="submit"
+            class="btn btn-primary me-2"
+            id="btn-save"
+            name="btn-save"
+          >
+            Guardar
+          </button>
 
-
-                <div class="d-flex justify-content-end mt-4">
-                    <button type="submit" class="btn btn-primary me-2" id="btn-save" name="btn-save">
-                        Guardar
-                    </button>
-
-                    <button type="button" class="btn btn-dark" id="btn-cancel" name="btn-cancel" aria-hidden="true"
-                        (click)="modal.dismiss('Cross click')">
-                        Cancelar
-                    </button>
-                </div>
-
-            </form>
+          <button
+            type="button"
+            class="btn btn-dark"
+            id="btn-cancel"
+            name="btn-cancel"
+            aria-hidden="true"
+            (click)="modal.dismiss('Cross click')"
+          >
+            Cancelar
+          </button>
         </div>
-    </ng-template>
+      </form>
+    </div>
+  </ng-template>
 </div>
 <!-- Modal -->

@@ -86,8 +86,6 @@ export class MisSolicitudesComponent implements OnInit {
     } else { // Extra grande
       this.textSizeClass = 'text-xl';
     }
-
-    console.log('Tamaño de texto actual:', this.textSizeClass);
   }
 
 

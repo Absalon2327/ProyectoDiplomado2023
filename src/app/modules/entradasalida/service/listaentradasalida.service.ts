@@ -169,6 +169,17 @@ export class ListaentradasalidaService {
     return this.http.get<IEntradaSalida>(`${this.baseUrl}/entradasalida/buscarentradasalida?filtro=${estado}&tipo=${id}`, requestOptions);
   }
 
+  extrayendokilometraje(id: number): Observable<IEntradaSalida> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    const requestOptions = {
+      headers: headers
+    };
+    return this.http.get<IEntradaSalida>(`${this.baseUrl}/entradasalida/list?filtro=${id}`, requestOptions);
+  }
+
   obtenercodigosolicitudvale(id: number): Observable<ISolicitudvalep> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({

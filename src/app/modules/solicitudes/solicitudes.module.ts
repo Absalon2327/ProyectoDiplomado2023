@@ -1,6 +1,6 @@
 
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { SolicitudesRoutingModule } from "./solicitudes-routing.module";
 import { SolicitudvComponent } from "./solicitudv/solicitudv.component";
@@ -15,10 +15,11 @@ import { SolicitudValeAprobarComponent } from './solicitud-vale-aprobar/solicitu
 import { ValesAsignarComponent } from './solicitudvale/components/vales-asignar/vales-asignar.component';
 import { SolicitanteComponent } from './solicitante/solicitante.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MovimientosvalesComponent } from './movimientosvales/movimientosvales.component';
 
 @NgModule({
 
-  declarations: [ SolicitanteComponent, SolicitudvComponent, SolicitudvaleComponent, SolicitudValeAprobarComponent, ValesAsignarComponent],
+  declarations: [ SolicitanteComponent, SolicitudvComponent, SolicitudvaleComponent, SolicitudValeAprobarComponent, ValesAsignarComponent, MovimientosvalesComponent],
 
   imports: [
     CommonModule,
@@ -33,7 +34,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgSelectModule,
     NgbTooltipModule,
     NgbModule,
-  ]
+  ],
+  providers: [DatePipe],
 
 })
 export class SolicitudesModule {}

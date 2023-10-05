@@ -245,6 +245,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
 
     const usuarioLogueado = JSON.parse(this.storage.getItem("usuario" || ""));
     const empleado = usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
+    const cargo = usuarioLogueado.empleado.cargo.nombreCargo;
     this.observaciones = this.formularioSolicitudVale.get(
       "observacionRevision"
     )?.value;
@@ -269,7 +270,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
       showConfirmButton: false,
     });
     return new Promise<void>((resolve, reject) => {
-      this.service.solicitarAprobacion(solicitud, empleado).subscribe({
+      this.service.solicitarAprobacion(solicitud, empleado, cargo).subscribe({
         next: (resp: any) => {
           // Cerrar SweetAlert de carga
           Swal.close();
@@ -296,6 +297,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
   async aprobar() {
     const usuarioLogueado = JSON.parse(this.storage.getItem("usuario" || ""));
     const empleado = usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
+    const cargo = usuarioLogueado.empleado.cargo.nombreCargo;
     if ((await this.mensajesService.mensajeSolicitudAprobada(this.cantVales)) == true) {
       this.observaciones = this.formularioSolicitudVale.get(
         "observacionRevision"
@@ -321,7 +323,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
         showConfirmButton: false,
       });
       return new Promise<void>((resolve, reject) => {
-        this.service.solicitarAprobacion(solicitud, empleado).subscribe({
+        this.service.solicitarAprobacion(solicitud, empleado, cargo).subscribe({
           next: (resp: any) => {
             // Cerrar SweetAlert de carga
             Swal.close();

@@ -22,41 +22,12 @@ export class DevolucionValeService {
   ) {}
 
   getProveedor() {
-    // Crear una variable para la alerta de carga
-    let loadingAlert: any;
-
-    // Mostrar SweetAlert de carga
-    loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-
     this.http
       .get(`${this.baseUrl}/proveedor/listasinpagina`)
       .pipe(map((resp: any) => resp as IProveedor[]))
-      .subscribe(
-        (proveedor: IProveedor[]) => {
-          // Cerrar SweetAlert de carga
-          loadingAlert.close();
-
-          // Asignar los proveedores a la lista
-          this.listProveedor = proveedor;
-        },
-        (error) => {
-          // Cerrar SweetAlert de carga en caso de error
-          loadingAlert.close();
-          this.mensajesService.mensajesSweet(
-            "error",
-            "Ups... Algo salió mal",
-            "Error al cargar los proveedores"
-          );
-        }
-      );
+      .subscribe((proveedor: IProveedor[]) => {
+        this.listProveedor = proveedor;
+      });
   }
 
   getValesPorCantidad(cantidad: number = 0): Promise<IVale[]> {
@@ -65,13 +36,15 @@ export class DevolucionValeService {
 
     // Mostrar SweetAlert de carga
     loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
       allowOutsideClick: false,
       allowEscapeKey: false,
       showCancelButton: false,
       showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
 
     return new Promise<IVale[]>((resolve, reject) => {
@@ -109,13 +82,15 @@ export class DevolucionValeService {
 
     // Mostrar SweetAlert de carga
     loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
       allowOutsideClick: false,
       allowEscapeKey: false,
       showCancelButton: false,
       showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
 
     return new Promise<IVale[]>((resolve, reject) => {

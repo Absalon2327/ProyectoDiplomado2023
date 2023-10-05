@@ -19,11 +19,22 @@
     aria-hidden="true">
     <ng-template #content role="document" let-modal>
         <div class="modal-header">
-            <h5 class="modal-title mt-1">Registro de {{leyendas}} </h5>
-            <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+            <h5 class="modal-title mt-0">Registro de {{leyendas}} </h5>
+            <div class="btn-alerta" *ngIf="alerts">
+                <i class="mdi mdi-20px mdi-lightbulb-on-outline custom-cursor" ngbTooltip="Mostrar Ayuda"
+                    *ngIf="!siMuestraAlertas()" (click)="restaurarAlerts()"></i>
+                    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            
         </div>
         <div class="modal-body">
-
+            <div *ngFor="let alert of alerts">
+                <div class="alert alert-{{ alert.type }} alert-dismissible fade show" role="alert" *ngIf="alert.show">
+                    <strong>Importante!</strong>
+                    <div class="text-justify">{{ alert.message }}</div>
+                    <button type="button" class="btn-close" (click)="CambiarAlert(alert)" aria-label="Close"></button>
+                </div>
+            </div>
             <form (ngSubmit)="guardar()" [formGroup]="formBuilder" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-12">
@@ -41,11 +52,10 @@
                             <div class="mb-3">
                               <label>Fecha</label><span class="text-danger"> *</span>
                               <input type="date" class="form-control" id="fecha" name="fecha"
-                                formControlName="fecha"  [class]="esCampoValido('fecha')" [(ngModel)]="fechaActual"/>
+                                formControlName="fecha"  [class]="esCampoValido('fecha')" [(ngModel)]="fechaActual" disabled/>
                                 <div class="invalid-feedback">
                                   <!-- aqui la validación-->
                                   <span *ngIf="formBuilder.get('fecha')?.errors?.['required']">Requiere un fecha</span>
-                                  <span *ngIf="formBuilder.get('fecha').hasError('maxDate')">Requiere una fecha menor o igual a la actual</span>
                                 </div>
                                 
                             </div>
@@ -54,7 +64,7 @@
                             <div class="mb-3">
                                 <label>Hora</label><span class="text-danger"> *</span>
                                 <input type="time" class="form-control" id="hora" name="hora"
-                                  formControlName="hora" autocomplete="off" [class]="esCampoValido('hora')" [(ngModel)]="horaActual" />
+                                  formControlName="hora" autocomplete="off" [class]="esCampoValido('hora')" [(ngModel)]="horaActual" disabled/>
                                 <div class="invalid-feedback">
                                     <!-- aqui la validación-->
                                     <span *ngIf="formBuilder.get('hora')?.errors?.['required']">Requiere una hora</span>
@@ -81,9 +91,15 @@
                                 formControlName="combustible" autocomplete="off" [class]="esCampoValido('combustible')" placeholder="Escribe el tipo de combustible">
                                 <option value="">Seleccione la opción correspondiente</option>
                                 <option value="Un tanque">Un tanque</option>
+                                <option value="Mas de tres cuarto de tanque">Mas de tres cuarto de tanque</option>
                                 <option value="Tres cuarto de tanque">Tres cuarto de tanque</option>
+                                <option value="Menos de tres cuarto de tanque">Menos de tres cuarto de tanque</option>
+                                <option value="Mas de medio tanque">Mas de medio tanque</option>
                                 <option value="Medio tanque">Medio tanque</option>
+                                <option value="Menos de medio tanque">Menos de medio tanque</option>
+                                <option value="Mas de un cuarto de tanque">Mas de un cuarto de tanque</option>
                                 <option value="Un cuarto de tanque">Un cuarto de tanque</option>
+                                <option value="Menos de un cuarto de tanque">Menos de un cuarto de tanque</option>
                                 
                             </select>
                                 <div class="invalid-feedback">
@@ -95,8 +111,6 @@
                         </div>
                     </div>  
                 </div>
-
-
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn btn-primary me-2" id="btn-save" name="btn-save">
                      {{ titulo !== 'Editar' ? 'Guardar' : 'Modificar' }}

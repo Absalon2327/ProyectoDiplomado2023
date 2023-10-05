@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CompraDto, Consulta, ConsultaDto, DocumetSoliC, DocumetVale, DocumetValeId, IConsultaDelAl } from '../../Interfaces/CompraVale/Consulta';
+import { CompraDto, Consulta, ConsultaDto, Decano, DocumetSoliC, DocumetVale, DocumetValeId, IConsultaDelAl, IdVale, LogSoliVehi, LogVale } from '../../Interfaces/CompraVale/Consulta';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { IConsultaExcelTabla, IConsultaExcelTablaC, IConsultaExcelTablaCompraDto, IConsultaExcelTablaDto, ITablaConsulta, ITablaConsultaC, ITablaConsultaCompraDto, ITablaConsultaDto } from '../../Interfaces/CompraVale/excel';
@@ -207,5 +207,51 @@ export class ConsultaService {
   public descargarDocumento(nombreDocumento): Observable<Blob> {
     return this.http.get(`${this.urlbase}/document/descarga/${nombreDocumento}`, 
     { responseType: 'blob' });
+  }
+
+  async getDecano(): Promise<string> {
+    try {
+      const compras = await this.http
+        .get(`${this.urlbase}/consulta/decano`)
+        .toPromise();
+  
+      const decanos = compras as Decano[];
+      
+      if (decanos.length > 0) {
+        // Concatenar el nombre y apellido del primer Decano
+        const primerDecano = decanos[0];
+        const nombreApellido = `${primerDecano.nombre} ${primerDecano.apellido}`;
+        return nombreApellido;
+      } else {
+        throw new Error('No se encontraron decanos.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
+  getConsultaDecano(){
+    return this.http.get<Decano[]>(this.urlbase+'/consulta/decano');
+  }
+
+  getLogSoliVehi(id:string){
+    return this.http.get<LogSoliVehi[]>(this.urlbase+'/consulta/logsolivhe/'+id);
+  }
+
+  getCompraMovimientos(){
+    return this.http.get<ICompra[]>(this.urlbase+'/compra/listasinpagina');
+  }
+  
+  getLogVale(id:string){
+    return this.http.get<LogVale[]>(this.urlbase+'/consulta/logvale/'+id);
+  }
+
+  getIdVale(id:string){
+    return this.http.get<IdVale[]>(this.urlbase+'/consulta/idvale/'+id);
+  }
+  
+  getIdCompraV(id:string){
+    return this.http.get<ICompra>(this.urlbase+'/compra/lista/'+id);
   }
 }

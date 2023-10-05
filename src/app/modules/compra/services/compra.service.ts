@@ -6,8 +6,6 @@ import { ICompra } from "../interfaces/compra.interface";
 import { Observable } from "rxjs";
 import { IProveedor } from "../../proveedor/interfaces/proveedor.interface";
 import { IVale } from "../../devolucion-vale/interfaces/vale.interface";
-import Swal from "sweetalert2";
-import { MensajesService } from "src/app/shared/global/mensajes.service";
 
 @Injectable({
   providedIn: "root",
@@ -17,10 +15,7 @@ export class CompraService {
   listCompra: ICompra[] = [];
   listProveedor: IProveedor[] = [];
 
-  constructor(
-    private http: HttpClient,
-    private mensajesService: MensajesService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getComprasConPaginacion() {
     this.http
@@ -38,81 +33,21 @@ export class CompraService {
   }
 
   getCompras() {
-    // Crear una variable para la alerta de carga
-    let loadingAlert: any;
-    // Mostrar SweetAlert de carga
-    loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Cargando compras...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-
     this.http
       .get(`${this.baseUrl}/compra/listasinpagina`)
       .pipe(map((resp: any) => resp as ICompra[]))
-      .subscribe(
-        (compras: ICompra[]) => {
-          // Cerrar SweetAlert de carga
-          loadingAlert.close();
-
-          // Asignar las compras a la lista
-          this.listCompra = compras;
-        },
-        (error) => {
-          // Cerrar SweetAlert de carga en caso de error
-          loadingAlert.close();
-
-          // Manejar el error de alguna manera, como mostrar un mensaje de error
-          this.mensajesService.mensajesSweet(
-            "error",
-            "Ups... Algo salió mal",
-            "Error al cargar las compras"
-          );
-        }
-      );
+      .subscribe((compras: ICompra[]) => {
+        this.listCompra = compras;
+      });
   }
 
   getProveedor() {
-    // Crear una variable para la alerta de carga
-    let loadingAlert: any;
-    // Mostrar SweetAlert de carga
-    loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-
     this.http
       .get(`${this.baseUrl}/proveedor/listasinpagina`)
       .pipe(map((resp: any) => resp as IProveedor[]))
-      .subscribe(
-        (proveedor: IProveedor[]) => {
-          // Cerrar SweetAlert de carga
-          loadingAlert.close();
-
-          // Asignar los proveedores a la lista
-          this.listProveedor = proveedor;
-        },
-        (error) => {
-          // Cerrar SweetAlert de carga en caso de error
-          loadingAlert.close();
-
-          // Manejar el error de alguna manera, como mostrar un mensaje de error
-          this.mensajesService.mensajesSweet(
-            "error",
-            "Ups... Algo salió mal",
-            "Error al cargar los proveedores"
-          );
-        }
-      );
+      .subscribe((proveedor: IProveedor[]) => {
+        this.listProveedor = proveedor;
+      });
   }
 
   guardar(compra: ICompra, idusuariologueado: string) {

@@ -94,13 +94,14 @@ export class ServiceService {
     );
   }
 
-  insertar(asignacionVale: IAsignacionVale, idUsuario: string, empleado: string) {
+  insertar(asignacionVale: IAsignacionVale, idUsuario: string, empleado: string, cargo: string) {
     console.log("en el servicio:", asignacionVale);
     console.log("suario en el servicio:", this.usuario);
     const data = {
       asignacionValeInDto: asignacionVale,
       idUsuarioLogueado: idUsuario,
-      empleado: empleado
+      empleado: empleado,
+      cargo: cargo
     };
     console.log("data en el servicio:", data);
 
@@ -146,10 +147,11 @@ export class ServiceService {
   }
 
   //Cambia el estado, minserta la cantidad y añade observaciones a la solicitud de vale
-  solicitarAprobacion(solicitud: ISolcitudAprobar, usuario: string) {
+  solicitarAprobacion(solicitud: ISolcitudAprobar, usuario: string, cargo: string) {
     const data = {
       solicitudValeAprobarDto: solicitud,
       idUsuarioLogueado: usuario,
+      cargo: cargo
     };
 
     return this.http.post(

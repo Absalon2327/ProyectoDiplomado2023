@@ -41,7 +41,8 @@
         <th class="align-middle">No.</th>
         <th class="align-middle">Actividad</th>
         <th class="align-middle">Fecha</th>
-        <th class="align-middle">Usuaio que la realizó</th>
+        <th class="align-middle">Usuario que la realizó</th>
+        <th class="align-middle">Cargo</th>
         <th class="align-middle" style="text-align: center">Estado</th>
       </tr>
       </thead>
@@ -54,6 +55,7 @@
           <td>{{data.actividad}}</td>
           <td>{{data.fechaLogSoliVe | date: "dd/MM/yyyy HH:mm:ss"}}</td>
           <td>{{data.usuario}}</td>
+          <td>{{data.cargo}}</td>
           <td style="text-align: center">
             <h5><span class="{{data.estadoLogSolive === 1 ? 'badge rounded-pill bg-warning'
           : data.estadoLogSolive === 2 ? 'badge rounded-pill bg-info'
@@ -81,7 +83,10 @@
 
   </div>
 
-  <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
-          aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
-</div>
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
+            aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
+  </div>
+
+  </div>
 <!-- Modal -->

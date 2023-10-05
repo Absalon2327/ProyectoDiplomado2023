@@ -9,7 +9,7 @@
         <h4 class="mb-0 font-size-18">Inicio</h4>
         <div class="page-title-right">
           <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item active">Bienvenido al sistema</li>
+            <li class="breadcrumb-item active">Bienvenid@ al sistema</li>
           </ol>
         </div>
       </div>
@@ -18,68 +18,27 @@
   <!-- end page title -->
 
   <div class="row">
-    <div class="col-xl-4">
-      <div class="card overflow-hidden">
-        <div class="bg-primary bg-soft">
-          <div class="row">
-            <div class="col-6">
-              <div class="text-primary p-2">
-                <h5 class="text-primary">Bienvenid@ de nuevo!</h5>
-                <p>SysDecanato</p>
-              </div>
-            </div>
-            <div class="col-5 align-self-end">
-              <img
-                src="assets/images/profile-img.png"
-                alt=""
-                class="img-fluid"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="image-container mb-4">
-                <img
-                  class="rounded-circle header-profile-user"
-                  [src]="fotoempleado"
-                  alt="Header Avatar"
-                />
-              </div>
-              <h5 class="font-size-15 text-truncate">
-                {{ this.empleado.nombre }}
-              </h5>
-              <p class="text-muted mb-0 text-truncate">
-                {{ this.empleado.apellido }}
-              </p>
-            </div>
 
-            <div class="col-sm-8">
-              <div class="pt-4">
-                <div class="row">
-                  <div class="col-6">
-                    <h5 class="font-size-15">
-                      {{ this.empleado.cargo.nombreCargo }}
-                    </h5>
-                    <p class="text-muted mb-0">Cargo</p>
-                  </div>
-                  <div class="col-6">
-                    <h5 class="font-size-15">
-                      {{ this.empleado.departamento.nombre }}
-                    </h5>
-                    <p class="text-muted mb-0">Departamento</p>
-                  </div>
-                </div>
-                <div class="mt-4">
-                  <app-modal [leyenda]="'Datos'" [home]="true"></app-modal>
-                </div>
-              </div>
-            </div>
+    <div class="col-xl-12">
+      <div class="row">
+          <div class="col-md-3">
+              <app-stat [title]="'Vales disponibles'" [value]="valesActivos" [icon]="'mdi mdi-checkbook'"></app-stat>
           </div>
-        </div>
+          <div class="col-md-3">
+              <app-stat [title]="'Vales asignados'" [value]="ValesAsignados" [icon]="'dripicons-pulse'"></app-stat>
+          </div>
+          <div class="col-md-3">
+              <app-stat [title]="'Solicitudes nuevas'" [value]="soliNuevas" [icon]="'mdi mdi-plus'"></app-stat>
+          </div>
+          <div class="col-md-3">
+              <app-stat [title]="'Solicitudes por aprobar'" [value]="soliPorAprobar" [icon]="'mdi mdi-check'"></app-stat>
+          </div>
       </div>
+  </div>
+  </div>
 
+  <div class="row">
+    <div class="col-xl-4">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title mb-4">Compras</h4>
@@ -157,6 +116,5 @@
           <app-grafica-compra [chartData]="chartData"></app-grafica-compra>
         </div>
       </div>
-    </div>
   </div>
 </div>

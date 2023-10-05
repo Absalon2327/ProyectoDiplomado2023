@@ -4,8 +4,6 @@ import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { IProveedor } from "../interfaces/proveedor.interface";
 import { environment } from "src/environments/environment";
-import Swal from "sweetalert2";
-import { MensajesService } from "src/app/shared/global/mensajes.service";
 
 @Injectable({
   providedIn: "root",
@@ -14,10 +12,7 @@ export class ProveedorService {
   private baseUrl: string = environment.baseUrl;
   listProveedor: IProveedor[] = [];
 
-  constructor(
-    private http: HttpClient,
-    private mensajesService: MensajesService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getProveedorsPaginacion() {
     this.http
@@ -29,43 +24,12 @@ export class ProveedorService {
   }
 
   getProveedors() {
-    // Crear una variable para la alerta de carga
-    let loadingAlert: any;
-
-    // Mostrar SweetAlert de carga
-    loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-
     this.http
       .get(`${this.baseUrl}/proveedor/listasinpagina`)
       .pipe(map((resp: any) => resp as IProveedor[]))
-      .subscribe(
-        (proveedor: IProveedor[]) => {
-          // Cerrar la alerta de carga específica
-          loadingAlert.close();
-
-          // Asignar los proveedores a la lista
-          this.listProveedor = proveedor;
-        },
-        (error) => {
-          // Cerrar la alerta de carga específica en caso de error
-          loadingAlert.close();
-
-          // Mostrar mensaje de error
-          this.mensajesService.mensajesSweet(
-            "error",
-            "Ups... Algo salió mal",
-            "Error al cargar los proveedores"
-          );
-        }
-      );
+      .subscribe((proveedor: IProveedor[]) => {
+        this.listProveedor = proveedor;
+      });
   }
 
   getProveedorsById(id: string) {

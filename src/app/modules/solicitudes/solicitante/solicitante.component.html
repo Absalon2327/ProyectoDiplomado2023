@@ -1,117 +1,188 @@
+<app-loader></app-loader>
 <div class="container-fluid">
-    <app-page-title title="Solicitudes de Vehículos" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-  
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="row mb-2">
-              <div class="col-sm-4">
-                <div class="search-box me-2 mb-2 d-inline-block">
-                  <div class="position-relative">
-                    <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="term">
-                    <i class="bx bx-search-alt search-icon"></i>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
+  <app-page-title
+    title="Solicitudes de Vehículos"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
 
-  
-              </div>
-           
-              <div class="col-sm-5">
-                <div class="text-sm-end">
-  <!--                <app-modal [leyenda]="'Nueva'" [titulo]="'Agregar'"-->
-  <!--                ></app-modal>-->
-                  
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <div class="search-box me-2 mb-2 d-inline-block">
+                <div class="position-relative">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Buscar"
+                    [(ngModel)]="term"
+                  />
+                  <i class="bx bx-search-alt search-icon"></i>
                 </div>
               </div>
-              <!-- end col-->
             </div>
-  
-            <!-- Table data -->
-            <div class="table-responsive mb-0">
-                <table class="table table-centered table-nowrap">
-                  <thead class="table-light">
-                  <tr>
-                    <th class="align-middle">No.</th>
-                    <th class="align-middle">Departamento</th>
-                    <th class="align-middle">Lugar</th>
-                    <th class="align-middle">Objetivo</th>
-                    <th class="align-middle">Fecha uso</th>
-                    <th class="align-middle" style="text-align: center">Solicitante</th>
-                    <th class="align-middle" style="text-align: center">Estado</th>
-                    <th class="align-middle"
-                        style="text-align: center;">
-                      Acciones
-                    </th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngIf="veri">
-                      <td *ngIf="veri" colspan="8" style="text-align: center;">
-                        No hay datos disponibles.
-                       </td>
-                    </tr>
-                <!--  <ng-container *ngIf="solicitudesVehiculo.length > 0; else noDataTemplate">-->
-                    <!-- *ngFor="let data of cards | filter:queryString | paginate: { itemsPerPage: 10, currentPage: p }" -->
-                    <tr *ngFor="let data of solicitudesVehiculo | filter:term | paginate: { itemsPerPage: 10, currentPage: p };
-                                          let i = index">
-                      <td *ngIf="data.estado===7">{{calcularNumeroCorrelativo(i)}}</td>
-                      <td *ngIf="data.estado===7">{{data.solicitante.empleado.departamento.nombre}}</td>
-                      <td *ngIf="data.estado===7">{{data.lugarMision}}</td>
-                      <td *ngIf="data.estado===7">{{data.objetivoMision}}</td>
-                      <td *ngIf="data.estado===7">{{data.fechaSalida | date : "dd/MM/yyyy"}}</td>
-                      <td *ngIf="data.estado===7" style="text-align: center">{{data.solicitante.empleado.nombre+' '+data.solicitante.empleado.apellido}}</td>
-                      <td *ngIf="data.estado===7" style="text-align: center">
-                        <h5><span  [class]="                       
-                             data.estado == 7
-                            ? 'badge rounded-pill bg-info'
-                            : ''
-                        ">
-                          {{'Finalizada'}}
-                        </span></h5>
-                      </td>
-                      <td *ngIf="data.estado===7" style="text-align: center">
-                        <button type="button" (click)="cargarConsultaValeDelAl(data)" class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1">
-                                    <i class="mdi mdi-file-document-outline"></i></button>
-                       <button type="button" (click)="DocumentosSoliCard(data,mdDocumnetoSoliCar)" class="btn btn-warning btn-sm btn-rounded boton-cuadrado mx-1">
-                                      <i class="mdi mdi-format-list-bulleted"></i></button>
-                       <button type="button" (click)="DocumentosVale(data,mdDocumentVale)" class="btn btn-success btn-sm btn-rounded boton-cuadrado mx-1">
-                        <i class="mdi  mdi-download-outline"></i></button>
-                        <!-- <i class="mdi mdi-account-lock-outline"></i>
-                         mdi-account-check-outline -->
-                      </td>
-              
-                    </tr>
-                  <!--</ng-container>-->
-                  <ng-template>
-                    <tr>
-                      <td colspan="8" style="text-align: center;">
-                        No hay datos disponibles.
-                      </td>
-                    </tr>
-                  </ng-template>
-                  </tbody>
-                </table>
-              
-                <div class="pagination pagination-rounded justify-content-end mb-2">
-                <pagination-controls (pageChange)="p = $event" [nextLabel]="''" [previousLabel]="''"></pagination-controls>
-                </div>
-              
-              </div>
-              
-            <!-- end table -->
+            <div class="col-sm-3"></div>
+
+            <div class="col-sm-5">
+              <div class="text-sm-end"></div>
+            </div>
+            <!-- end col-->
           </div>
+
+          <!-- Table data -->
+          <div class="table-responsive mb-0">
+            <table class="table table-centered table-nowrap">
+              <thead class="table-light">
+                <tr>
+                  <th class="align-middle">No.</th>
+                  <th class="align-middle">Departamento</th>
+                  <th class="align-middle">Lugar</th>
+                  <th class="align-middle">Objetivo</th>
+                  <th class="align-middle">Fecha uso</th>
+                  <th class="align-middle" style="text-align: center">
+                    Solicitante
+                  </th>
+                  <th class="align-middle" style="text-align: center">
+                    Estado
+                  </th>
+                  <th class="align-middle" style="text-align: center">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="veri">
+                  <td *ngIf="veri" colspan="8" style="text-align: center">
+                    No hay datos disponibles.
+                  </td>
+                </tr>
+                <tr
+                  *ngFor="
+                    let data of solicitudesVehiculo
+                      | filter : term
+                      | paginate : { itemsPerPage: 8, currentPage: p };
+                    let i = index
+                  "
+                >
+                  <td *ngIf="data.estado === 7">
+                    {{ calcularNumeroCorrelativo(i) }}
+                  </td>
+                  <td *ngIf="data.estado === 7">
+                    {{ data.solicitante.empleado.departamento.nombre }}
+                  </td>
+                  <td *ngIf="data.estado === 7">
+                    {{ data.direccion.slice(0, 15)
+                    }}{{ data.direccion.length > 15 ? "..." : "" }}
+                  </td>
+                  <td *ngIf="data.estado === 7">
+                    {{ data.objetivoMision.slice(0, 15)
+                    }}{{ data.objetivoMision.length > 15 ? "..." : "" }}
+                  </td>
+                  <td *ngIf="data.estado === 7">
+                    {{ data.fechaSalida | date : "dd/MM/yyyy" }}
+                  </td>
+                  <td *ngIf="data.estado === 7" style="text-align: center">
+                    {{
+                      data.solicitante.empleado.nombre +
+                        " " +
+                        data.solicitante.empleado.apellido
+                    }}
+                  </td>
+                  <td *ngIf="data.estado === 7" style="text-align: center">
+                    <h5>
+                      <span
+                        [class]="
+                          data.estado == 7 ? 'badge rounded-pill bg-info' : ''
+                        "
+                      >
+                        {{ "Finalizada" }}
+                      </span>
+                    </h5>
+                  </td>
+                  <td *ngIf="data.estado === 7" style="text-align: center">
+                    <button
+                      type="button"
+                      (click)="cargarConsultaValeDelAl(data)"
+                      class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
+                    >
+                      <i
+                        class="mdi mdi-file-document-outline"
+                        ngbTooltip="Solicitud de tranporte"
+                      ></i>
+                    </button>
+                    <button
+                      type="button"
+                      (click)="DocumentosSoliCard(data, mdDocumnetoSoliCar)"
+                      class="btn btn-warning btn-sm btn-rounded boton-cuadrado mx-1"
+                    >
+                      <i
+                        class="mdi mdi-format-list-bulleted"
+                        ngbTooltip="Lista de pasajeros doc."
+                      ></i>
+                    </button>
+                    <button
+                      type="button"
+                      (click)="DocumentosVale(data, mdDocumentVale)"
+                      class="btn btn-success btn-sm btn-rounded boton-cuadrado mx-1"
+                    >
+                      <i
+                        class="mdi mdi-download-outline"
+                        ngbTooltip="Documentos de liquidación"
+                      ></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+                      (click)="generarPDFLOGsoli(data)"
+                      ngbTooltip="Movimientos de solicitud de vehículos"
+                    >
+                      <i class="mdi mdi-file-document-outline"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm btn-rounded boton-cuadrado mx-1"
+                      (click)="generarPdfLogVale(data, content)"
+                      ngbTooltip="Movimientos de vales"
+                    >
+                      <i class="mdi mdi-gas-station"></i>
+                    </button>
+                  </td>
+                </tr>
+                <!--</ng-container>-->
+                <ng-template>
+                  <tr>
+                    <td colspan="8" style="text-align: center">
+                      No hay datos disponibles.
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+
+            <div class="pagination pagination-rounded justify-content-end mb-2">
+              <pagination-controls
+                (pageChange)="p = $event"
+                [nextLabel]="''"
+                [previousLabel]="''"
+              ></pagination-controls>
+            </div>
+          </div>
+
+          <!-- end table -->
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Large Modal -->
+<!-- Large Modal -->
 <ng-template #mdDocumnetoSoliCar let-modal>
   <div class="modal-header">
-    <h5 class="modal-title mt-0">Documentos lista de pasajeros solictud vehiculo</h5>
+    <h5 class="modal-title mt-0">
+      Documentos lista de pasajeros solictud vehiculo
+    </h5>
     <button
       type="button"
       class="btn-close"
@@ -122,47 +193,49 @@
   <div class="modal-body">
     <div class="container-fluid">
       <div class="row">
-    <table class="table table-centered table-nowrap">
-      <thead class="table-light">
-      <tr>
-        <th class="align-middle">No.</th>
-        <th class="align-middle">Fecha</th>
-        <th class="align-middle">Nombre Doc.</th>
-        <th class="align-middle"
-            style="text-align: center;">
-          Acciones
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <ng-container>
-        <!-- *ngFor="let data of cards | filter:queryString | paginate: { itemsPerPage: 10, currentPage: p }" -->
-        <tr *ngFor="let data of documentSoliCard let i = index">
-          <td *ngIf="data.tipodocument ==='Lista de pasajeros'">
-            {{calcularNumeroCorrelativo(i)}}
-          </td>
-          <td *ngIf="data.tipodocument ==='Lista de pasajeros'">
-            {{data.fecha | date : "dd/MM/yyyy"}}  
-          </td>
-          <td *ngIf="data.tipodocument ==='Lista de pasajeros'">
-            {{data.nombredocment}}   
-          </td>
-          <td *ngIf="data.tipodocument ==='Lista de pasajeros'" style="text-align: center">
-            <button type="button" (click)="descargarver(data)" class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1">
-              <i class="mdi mdi-18px mdi-download-outline"></i></button>
-          </td>
-        </tr>
-      </ng-container>
-      </tbody>
-    </table>
-    </div>
+        <table class="table table-centered table-nowrap">
+          <thead class="table-light">
+            <tr>
+              <th class="align-middle">No.</th>
+              <th class="align-middle">Fecha</th>
+              <th class="align-middle">Nombre Doc.</th>
+              <th class="align-middle" style="text-align: center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container>
+              <tr *ngFor="let data of documentSoliCard; let i = index">
+                <td>
+                  {{ calcularNumeroCorrelativo(i) }}
+                </td>
+                <td>
+                  {{ data.fecha | date : "dd/MM/yyyy" }}
+                </td>
+                <td>
+                  {{ data.nombredocment }}
+                </td>
+                <td style="text-align: center">
+                  <button
+                    type="button"
+                    (click)="descargarver(data)"
+                    class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
+                  >
+                    <i class="mdi mdi-18px mdi-download-outline"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
     <button
       type="button"
       class="btn btn-light"
-      (click)="modal.close('Close click')">
+      (click)="modal.close('Close click')"
+    >
       Cancelar
     </button>
 
@@ -172,74 +245,157 @@
 
 <!-- este modal me permite ver los vales que asignaré -->
 
-  <!-- Large Modal -->
-  <ng-template #mdDocumentVale let-modal>
-    <div class="modal-header">
-      <h5 class="modal-title mt-0">Documentos</h5>
-      <button
-        type="button"
-        class="btn-close"
-        (click)="modal.dismiss('Cross click')"
-        aria-hidden="true"
-      ></button>
-    </div>
-    <div class="modal-body">
-      <div class="container-fluid">
-        <div class="row">
-      <table class="table table-centered table-nowrap">
-        <thead class="table-light">
-        <tr>
-          <th class="align-middle">No.</th>
-          <th class="align-middle">Fecha</th>
-          <th class="align-middle">Comrobante</th>
-          <th class="align-middle">Document</th>
-          <th class="align-middle" style="text-align: center">Tipo</th>
-          <th class="align-middle"
-              style="text-align: center;">
-            Acciones
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <ng-container>
-          <!-- *ngFor="let data of cards | filter:queryString | paginate: { itemsPerPage: 10, currentPage: p }" -->
-          <tr *ngFor="let data of documentVale let i = index">
-            <td > 
-              {{calcularNumeroCorrelativo(i)}}  
-            </td>
-            <td> 
-              {{data.fecha | date : "dd/MM/yyyy"}}  
-            </td>
-            <td > 
-              {{data.comprobante}}  
-            </td>
-            <td >  
-              {{data.foto}} 
-            </td>
-            <td > 
-              {{data.tipo}}  
-            </td>
-            <td style="text-align: center"> 
-              <button type="button" (click)="descarver(data)" class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1">
-                <i class="mdi mdi-18px mdi-download-outline"></i></button>
-            </td>
-          </tr>
-        </ng-container>
-        </tbody>
-      </table>
+<!-- Large Modal -->
+<ng-template #mdDocumentVale let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Documentos</h5>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="modal.dismiss('Cross click')"
+      aria-hidden="true"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <table class="table table-centered table-nowrap">
+          <thead class="table-light">
+            <tr>
+              <th class="align-middle">No.</th>
+              <th class="align-middle">Fecha</th>
+              <th class="align-middle">Comrobante</th>
+              <th class="align-middle">Document</th>
+              <th class="align-middle" style="text-align: center">Tipo</th>
+              <th class="align-middle" style="text-align: center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container>
+              <!-- *ngFor="let data of cards | filter:queryString | paginate: { itemsPerPage: 10, currentPage: p }" -->
+              <tr *ngFor="let data of documentVale; let i = index">
+                <td>
+                  {{ calcularNumeroCorrelativo(i) }}
+                </td>
+                <td>
+                  {{ data.fecha | date : "dd/MM/yyyy" }}
+                </td>
+                <td>
+                  {{ data.comprobante }}
+                </td>
+                <td>
+                  {{ data.foto }}
+                </td>
+                <td>
+                  {{ data.tipo }}
+                </td>
+                <td style="text-align: center">
+                  <button
+                    type="button"
+                    (click)="descarver(data)"
+                    class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
+                  >
+                    <i class="mdi mdi-18px mdi-download-outline"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
       </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="modal.close('Close click')"
+    >
+      Cancelar
+    </button>
+
+    <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+  </div>
+</ng-template>
+
+<!-- este modal me permite ver los vales que asignaré -->
+
+<ng-template #content role="document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">
+      Movimientos de Vales
+      {{
+        compra.factura == "" || compra.factura == null
+          ? "Sin Factura"
+          : compra.factura
+      }}
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-hidden="true"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="card text-center">
+      <div class="card-header">
+        Código inicio {{ compra.codInicio }} | Código fin {{ compra.codFin }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ compra.proveedor.nombre }}</h5>
+        <p class="card-text">
+          {{ compra.descripcion }}
+        </p>
+        <div class="search-box d-inline-block">
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar Vale..."
+              [(ngModel)]="queryVale"
+            />
+            <i class="bx bx-search-alt search-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-muted">
+        Fecha de vencimiento {{ compra.fechaVencimiento | date : "dd/MM/yyyy" }}
       </div>
     </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-light"
-        (click)="modal.close('Close click')">
-        Cancelar
-      </button>
-  
-      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+    <div class="row">
+      <div
+        class="col-sm-3"
+        *ngFor="let data of idVales | filter : queryVale; let i = index"
+      >
+        <div class="card">
+          <div class="card-header">
+            {{ data.correlativo }}
+          </div>
+          <div class="card-body">
+            <h5>
+              <span [ngClass]="getClassOf(data.estado)">
+                {{ estadoNombre(data.estado) }}</span
+              >
+              <button
+                type="button"
+                class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+                (click)="
+                  generarPDFLogVale(data, compra, data.estado, solicitudesV)
+                "
+                ngbTooltip="Ver movimientos"
+              >
+                <i class="mdi mdi-file-document-outline"></i>
+              </button>
+            </h5>
+          </div>
+        </div>
+      </div>
     </div>
-  </ng-template>
-  
-  <!-- este modal me permite ver los vales que asignaré -->
+  </div>
+  <div class="modal-footer custom-modal">
+    <button class="btn btn-dark w-sm" (click)="modal.close('Close click')">
+      Cerrar
+    </button>
+  </div>
+</ng-template>

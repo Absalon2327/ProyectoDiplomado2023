@@ -37,16 +37,25 @@
           </span></h5>
         </td>
         <td style="text-align: center">
-          <button type="button" class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+          <button type="button"
+                  class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
                   (click)="abrirModal('Detalle', data)"
                   ngbTooltip="Más información">
             <i class="mdi mdi-18px mdi-eye-outline"></i></button>
+          <!--<button type="button"
+                  *ngIf= "(userAcivo.role == 'DECANO' || userAcivo.role == 'SECR_DECANATO') &&
+                   vista == 'listado'"
+                  class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+                  (click)="abrirModalSecre('Detalle', data)"
+                  ngbTooltip="Más información">
+            <i class="mdi mdi-18px mdi-eye-outline"></i></button>-->
 
             <button type="button"
-                    *ngIf="(userAcivo.role == 'DECANO' && solicitudesVehiculo.length > 0 && solicitudesVehiculo[0].estado  == 3 ||
+                    *ngIf="((userAcivo.role == 'DECANO' && solicitudesVehiculo.length > 0 && solicitudesVehiculo[0].estado  == 3 ||
                     userAcivo.role == 'DECANO' && solicitudesVehiculo.length > 0 && solicitudesVehiculo[0].estado  == 1 ||
                     userAcivo.role == 'JEFE_FINANACIERO' && solicitudesVehiculo.length > 0 && solicitudesVehiculo[0].estado  == 1 ||
-                    userAcivo.role == 'JEFE_DEPTO' && solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 1)"
+                    userAcivo.role == 'JEFE_DEPTO' && solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 1)
+                    && vista == 'listado')"
                     class="btn btn-success btn-sm btn-rounded boton-cuadrado mx-1"
                   (click)="aprobarSolicitud(data)"
                   ngbTooltip="Aprobar">
@@ -67,18 +76,21 @@
             <i class="mdi mdi-18px mdi-alpha-x-circle-outline"></i></button>-->
 
             <button type="button"
-                    *ngIf="userAcivo.role == 'SECR_DECANATO' && solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 2"
+                    *ngIf="userAcivo.role == 'SECR_DECANATO' &&
+                    (solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 2 ||
+                        solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 6) && vista == 'listado'"
                     class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
                   (click)="abrirModalSecre('Edicion', data)"
                   ngbTooltip="Asignar">
               <i class="mdi mdi-18px mdi-book-edit-outline"></i></button>
 
               <button type="button"
-                    *ngIf="userAcivo.role == 'USER'"
+                    *ngIf="vista == 'mis-solicitudes'"
                     class="btn btn-dark btn-sm btn-rounded boton-cuadrado mx-1"
                   (click)="abrirModalLog(data)"
                   ngbTooltip="Movimientos">
               <i class="mdi mdi-18px mdi-clock-check-outline"></i></button>
+
         </td>
 
       </tr>

@@ -123,7 +123,6 @@ export class SolicitudVehiculoService {
       .subscribe(
         (vehiculo)=> {
           this.listVehiculos = vehiculo;
-          console.log(this.listVehiculos);
         },
         (error) => {
           console.log("Error al obtener los vehiculos", error);
@@ -137,7 +136,6 @@ export class SolicitudVehiculoService {
       .pipe(map((resp: any) => resp as IMotorista[]))
       .subscribe(
         (empleados: IMotorista[]) => {
-          console.log(empleados);
           this.listMotorista = empleados; // Actualiza la propiedad listEmpleados
         },
         (error) => {
@@ -163,7 +161,6 @@ export class SolicitudVehiculoService {
   }
 
   enviarPdfPasajeros(multiPart: FormData){
-    console.log("docus:", multiPart);
     return this.http.post<any>(`${this.url}/documentosoli/upload`, multiPart);
   }
 
@@ -214,12 +211,10 @@ export class SolicitudVehiculoService {
   }
 
   updateSolciitudVehiculo(data: IActualizarSoliVe){
-    console.log("dataAc: ", data);
     return this.http.put<ISolicitudVehiculo>( `${this.url}/solicitudvehiculo/estadoupdate`, data);
   }
 
   registrarSolicitudVale(solicitudVale: ISolicitudvalep){
-    console.log("vale",solicitudVale);
     return this.http.post<ISolicitudvalep>( `${this.url}/solicitudvale/insertar`, solicitudVale);
   }
 
@@ -229,7 +224,6 @@ export class SolicitudVehiculoService {
   }
 
   modificarPdfPasajeros(multiPart: FormData){
-    console.log("docus:", multiPart);
     return this.http.post<any>(`${this.url}/documentosoli/edit`, multiPart);
   }
 

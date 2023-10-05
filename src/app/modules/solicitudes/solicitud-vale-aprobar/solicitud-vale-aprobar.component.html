@@ -25,12 +25,13 @@
             </div>
             <div class="col-md-3">
               <div class="form-group">
+                <label for="">Filtro por estado</label>
                 <select
                   class="form-control"
                   id="exampleCombobox"
                   (change)="filtrar($event.target.value)"
                 >
-                  <option value="">filtro por estado</option>
+                  <option value="">Seleccione</option>
                   <option value="1">Por Aprobar</option>
                   <option value="6">Revisión</option>
                   <option value="4">Aprobadas</option>

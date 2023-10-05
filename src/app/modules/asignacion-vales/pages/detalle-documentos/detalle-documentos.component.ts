@@ -85,6 +85,7 @@ export class DetalleDocumentosComponent {
   }
 
   openModal(content: any) {
+
     if (this.listaDocSize == 0) {
       this.mensajesService.mensajesToast(
         "info",

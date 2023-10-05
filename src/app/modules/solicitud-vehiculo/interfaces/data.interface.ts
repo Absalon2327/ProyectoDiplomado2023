@@ -127,6 +127,7 @@ export interface  ILogSoliVe {
     "fechaLogSoliVe": Date,//"2023-09-29 10:25:00"
     "actividad": string,
     "usuario": string,
+    "cargo": string,
     "soliVe": string,
     "soliVale": string
 }

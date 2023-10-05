@@ -3,8 +3,6 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ICompra } from "../../interfaces/compra.interface";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { IVale } from "src/app/modules/devolucion-vale/interfaces/vale.interface";
-import Swal from "sweetalert2";
-import { MensajesService } from "src/app/shared/global/mensajes.service";
 
 @Component({
   selector: "app-modal-vale",
@@ -18,7 +16,6 @@ export class ModalValeComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private mensajesService: MensajesService,
     private compraService: CompraService
   ) {}
 
@@ -27,37 +24,11 @@ export class ModalValeComponent implements OnInit {
   }
 
   getValesPorCompra(compra: ICompra) {
-    // Crear una variable para la alerta de carga
-    let loadingAlert: any;
-    // Mostrar SweetAlert de carga
-    loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-
-    this.compraService.getValesPorCompra(compra.id).subscribe(
-      (vales: IVale[]) => {
-        // Cerrar SweetAlert de carga
-        loadingAlert.close();
-        // Asignar los vales a la lista
+    this.compraService
+      .getValesPorCompra(compra.id)
+      .subscribe((vales: IVale[]) => {
         this.listVale = vales;
-      },
-      (error) => {
-        // Cerrar SweetAlert de carga en caso de error
-        loadingAlert.close();
-        // Manejar el error de alguna manera, como mostrar un mensaje de error
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          "Error al cargar los vales"
-        );
-      }
-    );
+      });
   }
 
   estadoNombre(estado: number): string {

@@ -24,4 +24,16 @@ export class HomeFinancieroService {
       .get(`${this.baseUrl}/compra/listarPorRangoDeFechas`, { params })
       .pipe(map((resp: any) => resp as ICompra[]));
   }
+
+  getCantidadValesPorEstado(estado: number): Observable<number> {
+    return this.http
+      .get(`${this.baseUrl}/vale/cantidadvalesporestado/${estado}`)
+      .pipe(map((resp: any) => resp as number));
+  }
+
+  getCantidadSolicitudesPorEstado(estado: number): Observable<number> {
+    return this.http
+      .get(`${this.baseUrl}/asignacionvale/solicivaleEstado/${estado}`)
+      .pipe(map((resp: any) => resp as number));
+  }
 }

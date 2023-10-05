@@ -323,20 +323,24 @@ export class DetalleService {
     return this.http.post(`${this.baseUrl}/asignacionvale/devolver`, data);
   }
 
-  liquidarVales(valesParaLiquidar: ILiquidacion, usuario: string) {
+  liquidarVales(valesParaLiquidar: ILiquidacion, usuario: string, empleado: string, cargo: string) {
     const data = {
       valesLiquidados: valesParaLiquidar,
       usuario: usuario,
+      empleado: empleado,
+      cargo: cargo
     };
     return this.http.post(`${this.baseUrl}/asignacionvale/liquidar`, data);
   }
 
-  anularMision(misionAnulada: IAnularMision, usuario: string) {
+  //anula la mision
+  anularMision(misionAnulada: IAnularMision, usuario: string, empleado: string, cargo: string) {
     const data = {
       misionAnulada: misionAnulada,
       usuario: usuario,
+      empleado: empleado,
+      cargo: cargo
     };
-    console.log("interfaz: ", misionAnulada);
     return this.http.post(`${this.baseUrl}/asignacionvale/anular`, data);
   }
 

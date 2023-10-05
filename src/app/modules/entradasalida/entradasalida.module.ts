@@ -42,7 +42,7 @@ import { CardComponent } from './components/card/card.component';
     NgxPaginationModule,
     Ng2SearchPipeModule,
     //BrowserModule
-  ],
+  ],exports:[ListarComponent],
   providers:[
     ListaentradasalidaService,
     //DatePipe

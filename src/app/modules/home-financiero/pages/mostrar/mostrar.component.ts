@@ -23,6 +23,11 @@ export class MostrarComponent implements OnInit {
 
   texto?: string;
 
+  valesActivos: number;
+  ValesAsignados: number;
+  soliNuevas: number;
+  soliPorAprobar: number;
+
   //grafica Compra
   chartData: any[] = [];
 
@@ -34,6 +39,8 @@ export class MostrarComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarComprasPorRangoDeFechas();
+    this.getcatidadValesPorEstado();
+    this.getcatidadSolicitudesPorEstado();
     this.texto = "Este Mes";
   }
 
@@ -145,7 +152,33 @@ export class MostrarComponent implements OnInit {
   graficar() {
     this.chartData = this.listCompra.map((compra) => ({
       data: [compra.totalCompra],
-      label: this.formatDateCompleto(compra.fechaCompra)
+      label: this.formatDateCompleto(compra.fechaCompra),
     }));
+  }
+
+  getcatidadValesPorEstado() {
+    this.homeFinancieroService
+      .getCantidadValesPorEstado(8)
+      .subscribe((cantidad: number) => {
+        this.valesActivos = cantidad;
+      });
+    this.homeFinancieroService
+      .getCantidadValesPorEstado(5)
+      .subscribe((cantidad: number) => {
+        this.ValesAsignados = cantidad;
+      });
+  }
+
+  getcatidadSolicitudesPorEstado() {
+    this.homeFinancieroService
+      .getCantidadSolicitudesPorEstado(8)
+      .subscribe((cantidad: number) => {
+        this.soliNuevas = cantidad;
+      });
+    this.homeFinancieroService
+      .getCantidadSolicitudesPorEstado(1)
+      .subscribe((cantidad: number) => {
+        this.soliPorAprobar = cantidad;
+      });
   }
 }

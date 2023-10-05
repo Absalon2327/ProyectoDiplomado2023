@@ -1,19 +1,27 @@
-
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Consulta } from '../Interfaces/CompraVale/Consulta';
-import { ExcelService } from '../Service/Excel/excel.service';
-import { ConsultaService } from '../Service/Excel/consulta.service';
-import { IConsultaExcelTabla, IConsultaExcelTablaC, IConsultaExcelTablaCompraDto, IConsultaExcelTablaDto } from '../Interfaces/CompraVale/excel';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Consulta, Decano } from "../Interfaces/CompraVale/Consulta";
+import { ExcelService } from "../Service/Excel/excel.service";
+import { ConsultaService } from "../Service/Excel/consulta.service";
+import {
+  IConsultaExcelTabla,
+  IConsultaExcelTablaC,
+  IConsultaExcelTablaCompraDto,
+  IConsultaExcelTablaDto,
+} from "../Interfaces/CompraVale/excel";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MensajesService } from "src/app/shared/global/mensajes.service";
-import Swal from 'sweetalert2';
-import { IExistenciaVales } from '../Interfaces/existenciavales.interface';
-import { ServiceService } from '../Service/service.service';
-import { UsuarioService } from 'src/app/account/auth/services/usuario.service';
-import { SolicitudVehiculoService } from '../../solicitud-vehiculo/services/solicitud-vehiculo.service';
-import { Usuario } from 'src/app/account/auth/models/usuario.models';
-
+import Swal from "sweetalert2";
+import { IExistenciaVales } from "../Interfaces/existenciavales.interface";
+import { ServiceService } from "../Service/service.service";
+import { UsuarioService } from "src/app/account/auth/services/usuario.service";
+import { SolicitudVehiculoService } from "../../solicitud-vehiculo/services/solicitud-vehiculo.service";
+import { Usuario } from "src/app/account/auth/models/usuario.models";
 
 @Component({
   selector: "app-solicitudv",
@@ -23,24 +31,24 @@ import { Usuario } from 'src/app/account/auth/models/usuario.models';
 export class SolicitudvComponent implements OnInit {
   breadCrumbItems: Array<{}>;
 
-  consultaExcel:Consulta[]=[];
-  fechaDesde:Date;
-  fechaAsta:Date;
+  consultaExcel: Consulta[] = [];
+  fechaDesde: Date;
+  fechaAsta: Date;
   formularioGeneral: FormGroup;
   resultado!: string;
   existenciaI: IExistenciaVales;
-  dataExcel: IConsultaExcelTabla; 
+  dataExcel: IConsultaExcelTabla;
   dataExcelC: IConsultaExcelTablaC;
   dataExcelConsulta: IConsultaExcelTablaDto;
   dataExcelCompra: IConsultaExcelTablaCompraDto;
+  decano: Decano[];
   usuario: Usuario;
   veri: boolean = false;
   alerts = [
     {
       id: 1,
       type: "info",
-      message:
-        " Seleccione y complete los campos obligatorios (*).",
+      message: " Seleccione y complete los campos obligatorios (*).",
       show: false,
     },
   ];
@@ -72,18 +80,18 @@ export class SolicitudvComponent implements OnInit {
   itemsPerPage = 5;
   currentPage = 1;
 
-
-  constructor(private modalService: NgbModal, 
-    private excelService:ExcelService, 
-    private consultaService: ConsultaService, 
-    private fb:FormBuilder,
+  constructor(
+    private modalService: NgbModal,
+    private excelService: ExcelService,
+    private consultaService: ConsultaService,
+    private fb: FormBuilder,
     private userService: UsuarioService,
     private soliVeService: SolicitudVehiculoService,
     private existenciaService: ServiceService,
-    private mensajesService: MensajesService) {
+    private mensajesService: MensajesService
+  ) {
     this.formularioGeneral = this.iniciarFormulario();
-   }
-
+  }
 
   ngOnInit() {
     this.breadCrumbItems = [
@@ -91,164 +99,166 @@ export class SolicitudvComponent implements OnInit {
       { label: "Modals", active: true },
     ];
   }
-  cargarConsulta(){
-    this.consultaService.getConsultaExporExcel().subscribe((response)=>{
+  cacultaDecano() {
+    this.consultaService.getConsultaDecano().subscribe({
+      next: (response) => {
+        this.decano = response;
+      },
+    });
+  }
+  cargarConsulta() {
+    this.consultaService.getConsultaExporExcel().subscribe((response) => {
       this.dataExcel = response;
-
+    });
+  }
+  cargarCompraDto() {
+    this.consultaService
+      .getConsultaCompraValeGDto(this.fechaDesde, this.fechaAsta)
+      .subscribe((consulta) => {
+        this.dataExcelCompra = consulta;
       });
   }
-  cargarCompraDto(){
-    this.consultaService.getConsultaCompraValeGDto(this.fechaDesde,this.fechaAsta).subscribe((consulta)=>{
-      this.dataExcelCompra = consulta;
-  });
-  }
 
-  cargarConsultaDto(){
-    this.consultaService.getConsultaValeGDto(this.fechaDesde,this.fechaAsta).subscribe((consulta)=>{
-      this.dataExcelConsulta = consulta;
-     });
-  }
-
-  cargarCompraC(){
-      this.consultaService.getCompraC().subscribe((response)=>{
-        this.dataExcelC = response;
+  cargarConsultaDto() {
+    this.consultaService
+      .getConsultaValeGDto(this.fechaDesde, this.fechaAsta)
+      .subscribe((consulta) => {
+        this.dataExcelConsulta = consulta;
       });
+  }
+
+  cargarCompraC() {
+    this.consultaService.getCompraC().subscribe((response) => {
+      this.dataExcelC = response;
+    });
   }
 
   obtnerExistenciaVales() {
     this.existenciaService.getCantidadVales().subscribe({
       next: (response) => {
         this.existenciaI = response;
-       // console.log(this.existenciaI);
+        // console.log(this.existenciaI);
       },
     });
   }
   limpiarCamposFechas() {
     this.formularioGeneral.reset();
   }
-  obtenerUsuarioActivo(){
+  obtenerUsuarioActivo() {
     // Suscríbete al Observable para obtener el usuario
     this.consultaService.getEmpleado().subscribe((usuario) => {
-      if(usuario.cargo.nombreCargo == "ASISTENTE FINANCIERA" || usuario.cargo.nombreCargo == "JEFE FINANCIERO" || usuario.cargo.nombreCargo == "ADMINISTRADOR"){
-    this.cargarConsultaDto();
-    this.cargarCompraDto();
-    this.obtnerExistenciaVales();  
-  //  this.download()
-  if (this.formularioGeneral.valid) {
-    const consulta = this.formularioGeneral.value;
-    if(consulta.fechaDesde < consulta.fechaAsta){
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: '¿Quieres general el excel?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, realizar',
-        cancelButtonText: 'Cancelar',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Aquí puedes colocar la lógica para realizar la acción
-          // por ejemplo, eliminar un elemento o realizar alguna operación
-          if(this.dataExcelConsulta != null && this.dataExcelCompra !=null){
-          this.download();
-          this.limpiarCamposFechas();
-        }else{
-          this.mensajesService.mensajesSweet(
+      if (
+        usuario.cargo.nombreCargo == "ASISTENTE FINANCIERA" ||
+        usuario.cargo.nombreCargo == "JEFE FINANCIERO" ||
+        usuario.cargo.nombreCargo == "ADMINISTRADOR"
+      ) {
+        this.cargarConsultaDto();
+        this.cargarCompraDto();
+        this.cacultaDecano();
+        this.obtnerExistenciaVales();
+        //  this.download()
+        if (this.formularioGeneral.valid) {
+          const consulta = this.formularioGeneral.value;
+          if (consulta.fechaDesde < consulta.fechaAsta) {
+            Swal.fire({
+              title: "¿Estás seguro?",
+              text: "¿Quieres general el excel?",
+              icon: "question",
+              showCancelButton: true,
+              confirmButtonText: "Sí, realizar",
+              cancelButtonText: "Cancelar",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Aquí puedes colocar la lógica para realizar la acción
+                // por ejemplo, eliminar un elemento o realizar alguna operación
+                if (
+                  this.dataExcelConsulta != null &&
+                  this.dataExcelCompra != null
+                ) {
+                  this.download();
+                  this.limpiarCamposFechas();
+                } else {
+                  this.mensajesService.mensajesSweet(
+                    "warning",
+                    "Ups... Algo salió mal",
+                    "No hay datos para general el Excel'"
+                  );
+                }
+              }
+            });
+          } else {
+            this.mensajesService.mensajesSweet(
+              "warning",
+              "Ups... Algo salió mal",
+              "El Campo 'Fecha Desde' debe ser menor a 'Fecha Hasta'"
+            );
+          }
+        } else {
+          this.mensajesService.mensajesToast(
             "warning",
-            "Ups... Algo salió mal",
-            "No hay datos para general el Excel'"
+            "Complete los que se indican"
+          );
+          return Object.values(this.formularioGeneral.controls).forEach(
+            (control) => control.markAsTouched()
           );
         }
-        } 
-      });
-    }else{
-      this.mensajesService.mensajesSweet(
-        "warning",
-        "Ups... Algo salió mal",
-        "El Campo 'Fecha Desde' debe ser menor a 'Fecha Hasta'"
-      );
-    }
-}else{
-  this.mensajesService.mensajesToast(
-    "warning",
-    "Complete los que se indican"
-  );
-  return Object.values(this.formularioGeneral.controls).forEach((control) =>
-    control.markAsTouched()
-  );
-}
-    }else{
-      this.mensajesService.mensajesSweet(
-        "warning",
-        "Ups... ",
-        "No tienes los permisos necesarios para esta acción'"
-      );
-    }
-//console.log('usuario ',this.usuario.role)
+      } else {
+        this.mensajesService.mensajesSweet(
+          "warning",
+          "Ups... ",
+          "No tienes los permisos necesarios para esta acción'"
+        );
+      }
     });
-    console.log('usuario ',this.usuario)
   }
-  
-  download(): void{
+
+  download(): void {
     this.cargarConsultaDto();
     this.cargarCompraDto();
+    this.cacultaDecano();
     this.obtnerExistenciaVales();
-   // getCompraC();
-   ///console.log(this.formatDate(new Date));
-   
-   // this.obtnerExistenciaVales();
-   
-     // this.cargarConsulta();
-      //this.cargarCompraC();
-   
-        this.excelService.dowloadExcel(this.existenciaI,this.dataExcelConsulta,this.dataExcelCompra,this.fechaDesde,this.fechaAsta);
-      
-      
+    this.excelService.dowloadExcel(
+      this.existenciaI,
+      this.dataExcelConsulta,
+      this.dataExcelCompra,
+      this.fechaDesde,
+      this.fechaAsta,
+      this.decano
+    );
+  }
 
- }
+  private iniciarFormulario() {
+    return this.fb.group({
+      fechaDesde: ["", [Validators.required]],
+      fechaAsta: ["", [Validators.required]],
+    });
+  }
+  esCampoValido(campo: string) {
+    const validarCampo = this.formularioGeneral.get(campo);
+    return !validarCampo?.valid && validarCampo?.touched
+      ? "is-invalid"
+      : validarCampo?.touched
+      ? "is-valid"
+      : "";
+  }
 
-private iniciarFormulario() {
-  return this.fb.group({
-    fechaDesde: [
-      "",
-      [
-        Validators.required,
-      ],
-    ],
-    fechaAsta: [
-      "",
-      [
-        Validators.required,
-      ],
-    ],
-  });
-}
-esCampoValido(campo: string) {
-  const validarCampo = this.formularioGeneral.get(campo);
-  return !validarCampo?.valid && validarCampo?.touched
-    ? "is-invalid"
-    : validarCampo?.touched
-    ? "is-valid"
-    : "";
-}
+  limpiarCampos() {
+    this.formularioGeneral.reset();
+  }
 
-limpiarCampos() {
-  this.formularioGeneral.reset();
-}
+  CambiarAlert(alert) {
+    alert.show = !alert.show;
+  }
 
+  restaurarAlerts() {
+    this.alerts.forEach((alert) => {
+      alert.show = true;
+    });
+  }
 
-CambiarAlert(alert) {
-  alert.show = !alert.show;
-}
-
-restaurarAlerts() {
-  this.alerts.forEach((alert) => {
-    alert.show = true;
-  });
-}
-
-siMuestraAlertas() {
-  return this.alerts.every((alert) => alert.show);
-}
+  siMuestraAlertas() {
+    return this.alerts.every((alert) => alert.show);
+  }
 
   /**
    * Open modal
@@ -323,7 +333,6 @@ siMuestraAlertas() {
     this.currentPage = pageNumber;
   }
 
-  
   formatDate(date: Date): string {
     // Aquí puedes personalizar el formato de la fecha
     const day = date.getDate();

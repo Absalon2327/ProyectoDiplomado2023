@@ -257,13 +257,15 @@ export class MostrarComponent implements OnInit {
 
     // Mostrar SweetAlert de carga
     loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
       allowOutsideClick: false,
       allowEscapeKey: false,
       showCancelButton: false,
       showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
 
     this.devolucionValeService

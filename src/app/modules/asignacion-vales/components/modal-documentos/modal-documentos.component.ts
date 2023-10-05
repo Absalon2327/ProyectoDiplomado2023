@@ -30,6 +30,8 @@ export class ModalDocumentosComponent implements OnInit {
   entradasalidas: IDocumentosvale[] = [];
   estadoEntrada!: number;
   sizeDocs: number;
+  fechaMax: string;
+  select = [];
 
   constructor(
     private modalService: NgbModal,
@@ -41,7 +43,10 @@ export class ModalDocumentosComponent implements OnInit {
 
   ngOnInit(): void {
     this.formBuilder = this.Iniciarformulario();
-    // this.ObtenerSolicitudValeById(this.codigoAsignacion);
+    this.ObtenerSolicitudValeById(this.codigoAsignacion);
+    this.fechaMax = new Date().toISOString().split("T")[0];
+    console.log("fechaMax: ", this.fechaMax);
+
   }
 
   guardar() {
@@ -61,13 +66,16 @@ export class ModalDocumentosComponent implements OnInit {
     }
   }
 
-  ObtenerSolicitudValeById(codigoA: string, content: any) {
+  ObtenerSolicitudValeById(codigoA: string /* , content: any */) {
     this.detalleservice.getAsignacionValeSolicitudVale(codigoA).subscribe({
       next: (data) => {
         this.asignacionSolicitud = data;
         this.idSolicitud =
           this.asignacionSolicitud.solicitudVale.idSolicitudVale;
-        this.obtenerSolicitud(this.idSolicitud, content);
+
+        console.log("idSolicitud: ", this.idSolicitud);
+        this.obtenerSolicitud(this.idSolicitud /* , content */);
+        this.obtenerLista(this.idSolicitud /* , content */);
       },
     });
   }
@@ -78,6 +86,8 @@ export class ModalDocumentosComponent implements OnInit {
       solicitudvale: this.asignacionSolicitud.solicitudVale.idSolicitudVale,
     });
     const datotipo = this.formBuilder.get("tipo").value;
+    console.log("value del select: ", datotipo);
+
     const listando = this.formBuilder.value;
     if (this.entradasalidas.length < 2) {
       if (this.entradasalidas.length == 0) {
@@ -99,10 +109,12 @@ export class ModalDocumentosComponent implements OnInit {
                 icon: "success",
                 text: "Almacenamiento exitoso",
               });
+
               //reinicia el formulario
               this.formBuilder.reset();
               //this.recargar();
               this.modalService.dismissAll();
+              this.recargar();
             }
           },
           (err: any) => {
@@ -137,6 +149,7 @@ export class ModalDocumentosComponent implements OnInit {
                 this.formBuilder.reset();
                 //this.recargar();
                 this.modalService.dismissAll();
+                this.recargar();
               }
             },
             (err: any) => {
@@ -180,8 +193,7 @@ export class ModalDocumentosComponent implements OnInit {
     this.router.navigate([currentUrl]);
   }
   openModal(content: any) {
-    this.ObtenerSolicitudValeById(this.codigoAsignacion, content);
-    this.obtenerLista(this.idSolicitud, content);
+    //this.ObtenerSolicitudValeById(this.codigoAsignacion, content);
   }
 
   validaciones(content: any) {
@@ -192,6 +204,40 @@ export class ModalDocumentosComponent implements OnInit {
           "Ya se registraron todos los documentos"
         );
       } else {
+        if (this.entradasalidas.length == 0) {
+          console.log("entro al if");
+
+          this.select = [
+            {
+              value: "Comprobante de recibido",
+              option: "Comprobante de recibido",
+            },
+            {
+              value: "facturación de consumo de vales",
+              option: "facturación de consumo de vales",
+            },
+          ];
+        } else {
+          for (let index = 0; index < this.entradasalidas.length; index++) {
+            const element = this.entradasalidas[index].tipo;
+            if (element == "Comprobante de recibido") {
+              this.select = [
+                {
+                  value: "facturación de consumo de vales",
+                  option: "facturación de consumo de vales",
+                },
+              ];
+            } else if (element == "facturación de consumo de vales") {
+              this.select = [
+                {
+                  value: "Comprobante de recibido",
+                  option: "Comprobante de recibido",
+                },
+              ];
+            } else if (element == "") {
+            }
+          }
+        }
         this.modalService.open(content, { size: "lx", centered: true });
       }
     } else {
@@ -216,7 +262,7 @@ export class ModalDocumentosComponent implements OnInit {
       tipo: ["", [Validators.required]],
       fecha: ["", [Validators.required, this.maxDateValidator()]],
       comprobante: ["", [Validators.required]],
-      foto: [""],
+      foto: ["", [Validators.required]],
       url: [""],
       solicitudvale: [""],
     });
@@ -243,21 +289,28 @@ export class ModalDocumentosComponent implements OnInit {
   get Listamisiones() {
     return this.detalleservice.listDeMisiones;
   }
-  obtenerSolicitud(id: string, content: any) {
+  obtenerSolicitud(id: string /* , content: any */) {
+    console.log("idSoli: ", id);
+
     this.detalleservice.getSolicitudVale(id).subscribe({
       next: (data) => {
         this.estadoEntrada = data[0].estadoEntradaSolicitudVale;
-        this.validaciones(content);
+        console.log("estadoEntrada: ", this.estadoEntrada);
+        // this.validaciones(content);
       },
     });
   }
-  obtenerLista(id: string, content: any) {
+  obtenerLista(id: string /* , content: any */) {
     //para poder mostrar e la tabla
+    console.log("id: ", id);
+
     this.detalleservice.ObtenerLista(id).subscribe(
       (resp: IDocumentosvale[]) => {
         this.entradasalidas = resp;
+        console.log("entradasalida: ", this.entradasalidas);
+
         this.sizeDocs = resp.length;
-        this.validaciones(content);
+        //this.validaciones(content);
       },
       (error) => {
         // Manejar errores aquí
