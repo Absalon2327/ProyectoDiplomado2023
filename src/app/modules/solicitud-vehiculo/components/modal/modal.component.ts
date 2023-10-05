@@ -381,6 +381,8 @@ export class ModalComponent implements OnInit {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
         } else if(tipoVehiculo != '') {
+          this.placas = [];
+          this.formularioSoliVe.get('vehiculo').setValue('');
           this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
         }
       },

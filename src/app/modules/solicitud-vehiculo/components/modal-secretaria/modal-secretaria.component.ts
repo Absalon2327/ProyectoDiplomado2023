@@ -397,12 +397,19 @@ export class ModalSecretariaComponent implements OnInit {
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
+          this.formularioSoliVe.get('vehiculo').setValue('');
+          if(this.soliVeOd.vehiculo.clase == tipoVehiculo){
+            this.placas.push(this.soliVeOd.vehiculo);
+            this.formularioSoliVe.get('vehiculo').setValue(this.soliVeOd.vehiculo.placa);
+          }
         }else if(tipoVehiculo != '') {
+          this.placas = [];
+          this.formularioSoliVe.get('vehiculo').setValue('');
           this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
         }
       },
       (error: any) => {
-        console.error('Error al obtener opciones de vehículos desde el backend:', error);
+        //console.error('Error al obtener opciones de vehículos desde el backend:', error);
       }
     );
   }
