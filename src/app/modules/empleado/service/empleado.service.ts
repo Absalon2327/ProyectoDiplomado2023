@@ -64,9 +64,9 @@ export class EmpleadoService {
       );
   }
 
-  getEstadoNombre(nombre: string): Observable<Object> {
+/*   getEstadoNombre(nombre: string): Observable<Object> {
     return this.http.get(`${this.baseUrl}/estados/PorID/${nombre}`);
-  }
+  } */
 
   public postEmpleado(empleado: IEmpleado): Observable<Object> {
     return this.http.post(`${this.baseUrl}/empleado/insertar`, empleado);

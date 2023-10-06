@@ -35,6 +35,7 @@ import { ChartsModule } from 'ng2-charts';
     ChartsModule
   ], providers: [
     DatePipe
-  ]
+  ],
+  exports:[MostrarComponent]
 })
 export class HomeFinancieroModule { }

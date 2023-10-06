@@ -6,7 +6,6 @@ import { IEmail, ILoginUsuario, IRegistroUsuario, IRespass } from '../interfaces
 import { environment } from 'src/environments/environment';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-import { IEmpleado } from 'src/app/modules/empleado/interface/empleado.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -45,10 +44,8 @@ export class UsuarioService {
 
     return this.http.post(`${this.baseUrl}/usuario/auth/login`, body).pipe(
       tap((resp: any) => {
-        const { codigoUsuario, nombre, clave, nuevo, role, token, empleado } = resp.usuario;
+        const { codigoUsuario, nombre, nuevo, role, token, empleado } = resp.usuario;
         this.usuario = new Usuario(codigoUsuario, nombre, "", nuevo, role, token, empleado);
-        console.log("punto 1 login: ", resp);
-        console.log("punto 2 login: ", resp.usuario.role);
         this.guardarLocalSotrage('token', resp.token);
         this.guardarLocalSotrage('codEmpleado', resp.usuario.empleado.codigoEmpleado);
         this.guardarLocalSotrage('empleadoFoto', resp.usuario.empleado.nombrefoto);

@@ -16,6 +16,7 @@ import {
   IConsultaDelAl,
   In,
   Tabla,
+  UsuarioDto,
   ValidarVale,
 } from "../../Interfaces/CompraVale/Consulta";
 import { Veri } from "../../Interfaces/CompraVale/Veri";
@@ -52,19 +53,52 @@ export class ExcelService {
     dataExcelCompra: IConsultaExcelTablaCompraDto,
     fechaDesde: Date,
     fechaAsta: Date,
-    deca: Decano[]
+    deca: UsuarioDto[]
   ) {
     this.workbook = new Workbook();
     this.workbook.creator = "ues.edu.sv";
     // this.workbook.addWorksheet('CONSULTAS');
-    this.crearTablaConsulta(
-      _existenciaI,
-      dataExcelConsulta.tablaConsultaConsulta,
-      dataExcelCompra.tablaConsultaCompra,
-      fechaDesde,
-      fechaAsta,
-      deca
-    );
+    if(dataExcelCompra != null){
+    if(_existenciaI != null){
+      this.crearTablaConsulta(
+        _existenciaI,
+        dataExcelConsulta.tablaConsultaConsulta,
+        dataExcelCompra.tablaConsultaCompra,
+        fechaDesde,
+        fechaAsta,
+        deca
+      );
+    }else{
+      this.crearTablaConsulta(
+        null,
+        dataExcelConsulta.tablaConsultaConsulta,
+        dataExcelCompra.tablaConsultaCompra,
+        fechaDesde,
+        fechaAsta,
+        deca
+      );
+    }
+    }else{
+      if(_existenciaI != null){
+        this.crearTablaConsulta(
+          _existenciaI,
+          dataExcelConsulta.tablaConsultaConsulta,
+          null,
+          fechaDesde,
+          fechaAsta,
+          deca
+        );
+      }else{
+        this.crearTablaConsulta(
+          null,
+          dataExcelConsulta.tablaConsultaConsulta,
+          null,
+          fechaDesde,
+          fechaAsta,
+          deca
+        );
+      }
+    }
     //this.crearTablaConsulta();
     this.workbook.xlsx.writeBuffer().then((data) => {
       const blob = new Blob([data]);
@@ -77,7 +111,7 @@ export class ExcelService {
     dataConsultaTaTableCompra: ITablaConsultaCompraDto[],
     fechaDesde: Date,
     fechaAsta: Date,
-    decan: Decano[]
+    decan: UsuarioDto[]
   ) {
     let sheet = this.workbook.addWorksheet("CONSULTAS");
     sheet.getColumn("A").width = 15;
@@ -178,6 +212,67 @@ export class ExcelService {
       wrapText: false,
     };
     titulo2.style.font = {
+      bold: true,
+      size: 12,
+      name: "Antique Olive",
+      color: {
+        argb: "FF000000",
+      },
+    };
+    titulo2.alignment = {
+      vertical: "middle",
+      horizontal: "center",
+      wrapText: false,
+    };
+    titulo3.style.font = {
+      bold: true,
+      size: 10,
+      name: "Antique Olive",
+      color: {
+        argb: "FF000000",
+      },
+    };
+    titulo4.style.font = {
+      bold: true,
+      size: 10,
+      name: "Antique Olive",
+      color: {
+        argb: "FF000000",
+      },
+    };
+    titulo5.style.font = {
+      bold: true,
+      size: 10,
+      name: "Antique Olive",
+      underline: "single",
+      color: {
+        argb: "FF000000",
+      },
+    };
+    titulo6.style.font = {
+      bold: true,
+      size: 10,
+      name: "Antique Olive",
+      underline: "single",
+      color: {
+        argb: "FF000000",
+      },
+    };
+    const headerR = sheet.getRow(10);
+    headerR.values = [
+      "N° de Vales/ F.",
+      "Entradas Cant.",
+      "Entradas P.U.",
+      "Entradas Total",
+      "Salidas Cant.",
+      "Salidas P.U.",
+      "Salidas  Total",
+      "Fecha",
+    ];
+    const titulo00 = sheet.getCell("H" + `${11}`);
+    titulo00.value = `${this.formatDate(`${fechaDesde}`)}`;
+    titulo00.style.font = {
+
       bold: true,
       size: 12,
       name: "Antique Olive",
@@ -487,6 +582,7 @@ export class ExcelService {
     index = index + 1;
     let cantcompra = 0;
     let cantcomprapu = 0;
+    if(dataConsultaTaTableCompra !=null){
     dataConsultaTaTableCompra.forEach((item) => {
       if (this.fechac === null) {
         row = fileInsertar[index];
@@ -555,6 +651,8 @@ export class ExcelService {
         this.fechac = item.fechacompra;
       }
     });
+  }
+
     //----------------------------------------------
     ["A", "B", "C", "D", "E", "F", "G", "H"].forEach((columnKey) => {
       sheet.getCell(`${columnKey}${index + 13}`).font = {
@@ -646,11 +744,19 @@ export class ExcelService {
       };
     });
     const titulo05 = sheet.getCell("A" + `${index + 15}`);
+   if(eexistenciaI !=null){
     titulo05.value =
       'Vales disponibles a la fecha de impresión: "' +
       `${this.formatoFecha(this.fechaActual)}` +
       '" = ' +
       `${eexistenciaI.valesDisponibles}`;
+   }else{
+    titulo05.value =
+    'Vales disponibles a la fecha de impresión: "' +
+    `${this.formatoFecha(this.fechaActual)}` +
+    '" = ' +
+    `${'0'}`;
+   }
     titulo05.style.font = {
       bold: true,
       size: 12,
@@ -673,7 +779,7 @@ export class ExcelService {
       },
     };
     const titulo09911 = sheet.getCell("A" + `${index + 18}`);
-    titulo09911.value = `${decan[0].nombre} ${decan[0].apellido}`;
+    titulo09911.value = `${decan[0].usuario}`;
     const titulo0991 = sheet.getCell("A" + `${index + 19}`);
     titulo0991.value = " Nombre y firma Decano";
     titulo0991.style.font = {

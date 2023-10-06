@@ -334,7 +334,7 @@ export const MENU_ASIS_FINAN: MenuItem[] = [
     id: 2,
     label: 'Inicio',
     icon: 'bx-home-circle',
-    link: '/home-financiero',
+    link: '/dashboard',
   },
   {
     id: 3,
@@ -452,7 +452,7 @@ export const MENU_JEFE_FINAN: MenuItem[] = [
     id: 2,
     label: 'Inicio',
     icon: 'bx-home-circle',
-    link: '/home-financiero',
+    link: '/dashboard',
   },
   {
     id: 3,

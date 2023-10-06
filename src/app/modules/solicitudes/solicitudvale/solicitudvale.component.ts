@@ -569,6 +569,8 @@ export class SolicitudvaleComponent implements OnInit {
     const fechaAsignacion = this.obtenerFechaConFormato();
 
     if (cantidadVales > 0) {
+      console.log("cantidadVales: ", cantidadVales);
+
       const solicitud: ISolcitudAprobar = {
         codigoSolicitudVale: this.codigoSolicitudValeAprobar,
         cantidadVales: cantidadVales,

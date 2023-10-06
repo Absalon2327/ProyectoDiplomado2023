@@ -15,8 +15,7 @@ const routes: Routes = [
   { path: 'home-financiero',  loadChildren: () => import('./home-financiero/home-financiero.module').then(m => m.HomeFinancieroModule) },
 
   //Ruta de empleado //
-  { path: 'empleados', 
-  loadChildren: () => import('./empleado/empleado.module').then(m => m.EmpleadoModule), canActivate: [AuthGuard] },
+  { path: 'empleados', loadChildren: () => import('./empleado/empleado.module').then(m => m.EmpleadoModule), canActivate: [AuthGuard] },
 
   { path: 'vehiculo', loadChildren: () => import('./vehiculo/vehiculo.module').then(m => m.VehiculoModule), canActivate: [AuthGuard] },
   { path: 'cargo', loadChildren: () => import('./cargo/cargo.module').then(m => m.CargoModule)},
