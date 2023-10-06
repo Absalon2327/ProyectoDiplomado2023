@@ -136,8 +136,11 @@ export class ModalSecretariaComponent implements OnInit {
       this.formularioSoliVe.get('solicitante')
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
-      // por estado revision
+      // poner atributo para verificar si tiene vales
+      // this.formularioSoliVe.get('tieneVale')
+      //   .setValue(this.soliVeOd.tieneVale ? 'SI' : 'NO');
 
+      // por estado revision
       if(this.soliVeOd.motorista != null){
         this.formularioSoliVe.get('motorista')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
@@ -273,6 +276,7 @@ export class ModalSecretariaComponent implements OnInit {
     //solicitudVehiculo.motorista = this.soliVeOd.motorista.codigoEmpleado;
     solicitudVehiculo.solicitante = this.soliVeOd.solicitante.codigoUsuario;
     solicitudVehiculo.nombreJefeDepto = this.soliVeOd.nombreJefeDepto;
+
     let nombreMotoristaExistente;
     if(this.soliVeOd.motorista != null) {
       nombreMotoristaExistente =  this.soliVeOd.motorista.nombre + ' ' +
@@ -483,6 +487,7 @@ export class ModalSecretariaComponent implements OnInit {
       motorista:['',[Validators.required]],
       observaciones:['',[]],
       file: ['',],
+      tieneVale:['',[Validators.required]],
     });
   }
 
