@@ -334,7 +334,7 @@ export const MENU_ASIS_FINAN: MenuItem[] = [
     id: 2,
     label: 'Inicio',
     icon: 'bx-home-circle',
-    link: '/home-financiero',
+    link: '/dashboard',
   },
   {
     id: 3,
@@ -439,13 +439,7 @@ export const MENU_ASIS_FINAN: MenuItem[] = [
     role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
     link: "/solicitudes/movimientosvales"
   },
-  {
-    id: 15,
-    label: "Vehiculos",
-    icon: "mdi mdi-car-outline",
-    role: ["ADMIN","ASIS_FINANCIERO"],
-    link: "/vehiculo/listar"
-  }
+
 ];
 
 export const MENU_JEFE_FINAN: MenuItem[] = [
@@ -458,7 +452,7 @@ export const MENU_JEFE_FINAN: MenuItem[] = [
     id: 2,
     label: 'Inicio',
     icon: 'bx-home-circle',
-    link: '/home-financiero',
+    link: '/dashboard',
   },
   {
     id: 3,
@@ -473,10 +467,16 @@ export const MENU_JEFE_FINAN: MenuItem[] = [
     icon: "mdi mdi-file-document-multiple-outline",
     role: ["ADMIN", "USER","JEFE_DEPTO","SECR_DECANATO","DECANO","ASIS_FINANCIERO","JEFE_FINANACIERO"],
     subItems: [
-
+      {
+        id: 8,
+        label: "Listado",
+        link: "/solicitud-vehiculo/listado",
+        role: ["ADMIN","JEFE_DEPTO","SECR_DECANATO","DECANO"],
+        parentId: 7,
+      },
 
       {
-        id: 10,
+        id: 9,
         label: "Mis solicitudes",
         link: "/solicitud-vehiculo/mis-solicitudes",
         role: ["ADMIN", "USER","JEFE_DEPTO","SECR_DECANATO","DECANO","ASIS_FINANCIERO","JEFE_FINANACIERO"],
@@ -485,49 +485,49 @@ export const MENU_JEFE_FINAN: MenuItem[] = [
     ],
   },
   {
-    id: 9,
+    id: 10,
     label: "Solcitudes de Vales",
     icon: "mdi mdi-clipboard-text-multiple-outline",
     role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
     subItems: [
 
       {
-        id: 10,
+        id: 11,
         label: "Por Aprobar",
         link: "/solicitudes/solictud-aprobar",
         role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
-        parentId: 9,
+        parentId: 10,
       },
 
     ],
   },
   {
-    id: 8,
+    id: 12,
     label: "Vales",
     icon: "mdi mdi-gas-station",
     role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
     subItems: [
 
       {
-        id: 111,
-        label: "Ajustes de Vales",
-        link: "/devolucion-vale",
+        id: 13,
+        label: "Proveedor",
+        link: "/proveedor",
         role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
-        parentId: 8,
+        parentId: 12,
       },
       {
-        id: 10,
+        id: 14,
         label: "Compras",
         link: "/compra",
         role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
-        parentId: 8,
+        parentId: 12,
       },
       {
-        id: 11,
+        id: 15,
         label: "Ajustes de Vales",
         link: "/devolucion-vale",
         role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
-        parentId: 8,
+        parentId: 12,
       },
 
     ],
@@ -535,29 +535,29 @@ export const MENU_JEFE_FINAN: MenuItem[] = [
 
 
   {
-    id: 11,
+    id: 16,
     label: "Reportes",
     icon: "mdi mdi-file-document-outline",
     role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
     subItems: [
       {
-        id: 12,
+        id: 17,
         label: "Consumo de Vales",
         link: "/solicitudes/solicitudv",
         role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
-        parentId: 11,
+        parentId: 16,
       },
       {
-        id: 13,
+        id: 18,
         label: "Solicitud de Transporte",
         link: "/solicitudes/solicitante",
         role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
-        parentId: 11,
+        parentId: 16,
       },
     ],
   },
   {
-    id: 14,
+    id: 19,
     label: "Movimientos de vales",
     icon: "mdi mdi-checkbox-multiple-blank-outline",
     role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],

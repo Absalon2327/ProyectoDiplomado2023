@@ -166,7 +166,7 @@ export class ModalComponent implements OnInit {
       titulo: 'Registro de empleado',
       email: correo,
       receptor: "Estimad@ : " + nombre,
-      mensaje: 'Se han registrado sus datos en el sistema de Misiones de la Universidad de El Salvador - Facultad Multidisciplinaria Paracentral. Para iniciar sesión por primera vez, utilice como nombre de usuario los parámetros de su correo electrónico antes de "@", y su clave por defecto será su número de DUI, la cual deberá cambiar una vez haya iniciado sesión.',
+      mensaje: 'Se han registrado sus datos en el sistema de Misiones de la Universidad de El Salvador - Facultad Multidisciplinaria Paracentral. Para iniciar sesión por primera vez, utilice como nombre de usuario el habitual que son los parámetros de su correo electrónico antes de "@", y su clave por defecto será su número de DUI, la cual deberá cambiar una vez haya iniciado sesión.',
       centro: 'Gracias por su atención a este importante mensaje.',
       codigo: '',
       abajo: 'Pagina principal : ' + 'http://localhost:4200/',

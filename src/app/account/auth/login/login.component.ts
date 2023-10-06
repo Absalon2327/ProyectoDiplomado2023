@@ -95,17 +95,7 @@ export class LoginComponent implements OnInit {
           }).then(() => {
             const rol = JSON.parse(this.storage.getItem("usuario" || ""));
             // Aquí se realiza la redirección
-            if (
-              rol.role == "ASIS_FINANCIERO" ||
-              rol.role == "JEFE_FINANACIERO" ||
-              rol.role == "ADMIN"
-            ) {
-              this.router.navigate(["/home-financiero"]);
-            } else if (rol.role == "VIGILANTE" || rol.role == "ADMIN") {
-              this.router.navigate(["/entrasalida/listar"]);
-            } else {
-              this.router.navigate(["/dashboard"]);
-            }
+            this.router.navigate(["/dashboard"]);
             this.loginForm.reset();
           });
         },

@@ -69,7 +69,7 @@ export class MovimientosvalesComponent implements OnInit {
     this.userService.getUsuario();
     this.breadCrumbItems = [
       { label: "Compra" },
-      { label: "Mostrar", active: true },
+      { label: "Mostrar / Reportes", active: true },
     ]; // miga de pan
     // this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado);
     this.getEstados();
@@ -98,11 +98,37 @@ export class MovimientosvalesComponent implements OnInit {
   }
 
   generarPDFLogVale(listVale: IVale, compr: ICompra, estado: number) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     this.consultaService
       .getLogVale(listVale.id)
       .subscribe((response: LogVale[]) => {
         this.crearPDFLogVa(compr, listVale, estado, response);
-      });
+         // Cerrar SweetAlert de carga
+loadingAlert.close();
+      },(err) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.mensajesService.mensajesSweet(
+          "error",
+          "Ups... Algo salió mal",
+          err.error.message
+        );
+      },);
   }
 
   crearPDFLogVa(compr: ICompra, vale: IVale, estado: number, log: LogVale[]) {

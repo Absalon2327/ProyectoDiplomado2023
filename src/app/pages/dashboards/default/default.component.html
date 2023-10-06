@@ -1,158 +1,192 @@
-
 <app-loader></app-loader>
-<div class="container-fluid">
+
+<ng-container
+  *ngIf="
+    usuariojson?.role == 'ASIS_FINANCIERO' ||
+    usuariojson?.role == 'JEFE_FINANACIERO'
+  "
+>
+  <app-mostrar></app-mostrar>
+</ng-container>
+
+<ng-container *ngIf="usuariojson?.role == 'ADMIN'">
+  <div class="container-fluid">
     <!-- start page title -->
     <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between">
-                <h4 class="mb-0 font-size-18">Panel de Control</h4>
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item active">Bienvenid@ al panel de control</li>
-                    </ol>
-                </div>
-            </div>
+      <div class="col-12">
+        <div
+          class="page-title-box d-flex align-items-center justify-content-between"
+        >
+          <h4 class="mb-0 font-size-18">Panel de Control</h4>
+          <div class="page-title-right">
+            <ol class="breadcrumb m-0">
+              <li class="breadcrumb-item active">
+                Bienvenid@ al panel de control
+              </li>
+            </ol>
+          </div>
         </div>
+      </div>
     </div>
     <!-- end page title -->
 
     <div class="row">
-
-        <div class="col-xl-12">
-            <!-- Componente 0 -->
-            <div class="row">
-                <div class="col-md-3">
-                    <app-stat [title]="'Vales disponibles'" [value]="cards?.vales"
-                        [icon]="'mdi mdi-checkbook'"></app-stat>
-                </div>
-                <div class="col-md-3">
-                    <app-stat [title]="'Misiones en proceso'" [value]="cards?.misiones"
-                        [icon]="'dripicons-pulse'"></app-stat>
-                </div>
-                <div class="col-md-3">
-                    <app-stat [title]="'Misiones del dia'" [value]="cards?.misioneshoy"
-                        [icon]="'mdi mdi-bus'"></app-stat>
-                </div>
-                <div class="col-md-3">
-                    <app-stat [title]="'Misiones del mes'" [value]="cards?.misionesmes"
-                        [icon]="'mdi mdi-bus-multiple'"></app-stat>
-                </div>
-            </div>
-
-            <div class="row">
-                <!-- componente 1 -->
-                <div class="col-xl-5">
-                    <div class="card overflow-hidden">
-                        <div class="bg-primary bg-soft">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="text-primary p-2">
-                                        <h5 class="text-primary">Bienvenid@ de nuevo!</h5>
-                                    </div>
-                                </div>
-                                <div class="col-4 align-self-end">
-                                    <img src="assets/images/profile-img.png" alt="" class="img-fluid" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="image-container mb-4">
-                                        <img class="rounded-circle header-profile-user" [src]="fotoempleado"
-                                            alt="Header Avatar" />
-                                    </div>
-                                    <h5 class="font-size-12 text-truncate">
-                                        {{ this.empleado.nombre }}
-                                    </h5>
-                                    <p class="text-muted mb-0 text-truncate">
-                                        {{ this.empleado.apellido }}
-                                    </p>
-                                </div>
-
-                                <div class="col-sm-8">
-                                    <div class="pt-4">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <p class="text-muted mb-0">Cargo</p>
-                                                <h5 class="font-size-12">
-                                                    {{ this.empleado.cargo.nombreCargo }}
-                                                </h5>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-muted mb-0">Departamento</p>
-                                                <h5 class="font-size-12">
-                                                    {{ this.empleado.departamento.nombre }}
-                                                </h5>
-                                            </div>
-                                        </div>
-                                        <div class="button-container">
-                                            <div class="mt-2">
-                                                <app-modal [leyenda]="'Datos'" [home]="true"></app-modal>
-                                            </div>
-                                            <div class="mt-2">
-                                                <app-modal [leyenda]="'Credenciales'" [home]="true"
-                                                    [nuevo]="usuariojson?.nuevo"></app-modal>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- end row componente 2-->
-                <!-- Componente lateral -->
-                <div *ngIf="usuariojson?.role != 'ADMIN'" class="col-xl-7">
-                    <div class="card">
-                        <div class="card-body">
-                            <h1>ROL: {{usuariojson?.role}}</h1>
-                        </div>
-                    </div>
-                </div>
-
-                 <!-- Componente lateral -->
-                 <div *ngIf="usuariojson?.role == 'ADMIN'" class="col-xl-7">
-                    <div class="card">
-                        <div class="card-body">
-                            <h1>ROL ADMIN: {{usuariojson?.role}}</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Comonente 3 -->
-            <div class="card">
-                <div class="card-body">
-                    <h1>ROL: {{usuariojson?.role}}</h1>
-                </div>
-            </div>
-
-
-            <!-- Componente 4 y 5 -->
-            <div class="row">
-                <!-- Componente 4 -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h1>ROL: {{usuariojson?.role}}</h1>
-                        </div>
-                    </div>
-                </div>
-                <!-- Componente 5 -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h1>ROL: {{usuariojson?.role}}</h1>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
+      <div class="col-xl-12">
+        <!-- Componente 0 -->
+        <div class="row">
+          <div class="col-md-3">
+            <app-stat
+              [title]="'Vales disponibles'"
+              [value]="cards?.vales"
+              [icon]="'mdi mdi-checkbook'"
+            ></app-stat>
+          </div>
+          <div class="col-md-3">
+            <app-stat
+              [title]="'Misiones en proceso'"
+              [value]="cards?.misiones"
+              [icon]="'dripicons-pulse'"
+            ></app-stat>
+          </div>
+          <div class="col-md-3">
+            <app-stat
+              [title]="'Misiones del dia'"
+              [value]="cards?.misioneshoy"
+              [icon]="'mdi mdi-bus'"
+            ></app-stat>
+          </div>
+          <div class="col-md-3">
+            <app-stat
+              [title]="'Misiones del mes'"
+              [value]="cards?.misionesmes"
+              [icon]="'mdi mdi-bus-multiple'"
+            ></app-stat>
+          </div>
         </div>
 
+        <div class="row">
+          <!-- componente 1 -->
+          <div class="col-xl-5">
+            <div class="card overflow-hidden">
+              <div class="bg-primary bg-soft">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="text-primary p-2">
+                      <h5 class="text-primary">Bienvenid@ de nuevo!</h5>
+                    </div>
+                  </div>
+                  <div class="col-4 align-self-end">
+                    <img
+                      src="assets/images/profile-img.png"
+                      alt=""
+                      class="img-fluid"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="card-body pt-0">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="image-container mb-4">
+                      <img
+                        class="rounded-circle header-profile-user"
+                        [src]="fotoempleado"
+                        alt="Header Avatar"
+                      />
+                    </div>
+                    <h5 class="font-size-12 text-truncate">
+                      {{ this.empleado.nombre }}
+                    </h5>
+                    <p class="text-muted mb-0 text-truncate">
+                      {{ this.empleado.apellido }}
+                    </p>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class="pt-4">
+                      <div class="row">
+                        <div class="col-6">
+                          <p class="text-muted mb-0">Cargo</p>
+                          <h5 class="font-size-12">
+                            {{ this.empleado.cargo.nombreCargo }}
+                          </h5>
+                        </div>
+                        <div class="col-6">
+                          <p class="text-muted mb-0">Departamento</p>
+                          <h5 class="font-size-12">
+                            {{ this.empleado.departamento.nombre }}
+                          </h5>
+                        </div>
+                      </div>
+                      <div class="button-container">
+                        <div class="mt-2">
+                          <app-modal
+                            [leyenda]="'Datos'"
+                            [home]="true"
+                          ></app-modal>
+                        </div>
+                        <div class="mt-2">
+                          <app-modal
+                            [leyenda]="'Credenciales'"
+                            [home]="true"
+                            [nuevo]="usuariojson?.nuevo"
+                          ></app-modal>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- end row componente 2-->
+          <!-- Componente lateral -->
+          <div *ngIf="usuariojson?.role != 'ADMIN'" class="col-xl-7">
+            <div class="card">
+              <div class="card-body">
+                <h1>ROL: {{ usuariojson?.role }}</h1>
+              </div>
+            </div>
+          </div>
+
+          <!-- Componente lateral -->
+          <div *ngIf="usuariojson?.role == 'ADMIN'" class="col-xl-7">
+            <div class="card">
+              <div class="card-body">
+                <h1>ROL ADMIN: {{ usuariojson?.role }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comonente 3 -->
+        <div class="card">
+          <div class="card-body">
+            <h1>ROL: {{ usuariojson?.role }}</h1>
+          </div>
+        </div>
+
+        <!-- Componente 4 y 5 -->
+        <div class="row">
+          <!-- Componente 4 -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h1>ROL: {{ usuariojson?.role }}</h1>
+              </div>
+            </div>
+          </div>
+          <!-- Componente 5 -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h1>ROL: {{ usuariojson?.role }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</ng-container>

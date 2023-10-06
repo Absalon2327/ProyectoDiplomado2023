@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Consulta, Decano } from "../Interfaces/CompraVale/Consulta";
+import { Consulta, Decano, UsuarioDto } from "../Interfaces/CompraVale/Consulta";
 import { ExcelService } from "../Service/Excel/excel.service";
 import { ConsultaService } from "../Service/Excel/consulta.service";
 import {
@@ -41,7 +41,7 @@ export class SolicitudvComponent implements OnInit {
   dataExcelC: IConsultaExcelTablaC;
   dataExcelConsulta: IConsultaExcelTablaDto;
   dataExcelCompra: IConsultaExcelTablaCompraDto;
-  decano: Decano[];
+  decano: UsuarioDto[];
   usuario: Usuario;
   veri: boolean = false;
   alerts = [
@@ -100,8 +100,8 @@ export class SolicitudvComponent implements OnInit {
     ];
   }
   cacultaDecano() {
-    this.consultaService.getConsultaDecano().subscribe({
-      next: (response) => {
+    this.consultaService.getConsuUsuarioDto(this.fechaDesde,this.fechaAsta).subscribe({
+      next: (response:UsuarioDto[]) => {
         this.decano = response;
       },
     });
@@ -116,9 +116,62 @@ export class SolicitudvComponent implements OnInit {
       .getConsultaCompraValeGDto(this.fechaDesde, this.fechaAsta)
       .subscribe((consulta) => {
         this.dataExcelCompra = consulta;
+      },
+      (error) => {
+        this.dataExcelCompra = null;
       });
   }
+  cargarConsultaDtoc(){
+    this.consultaService
+    .getConsultaValeGDto(this.fechaDesde, this.fechaAsta)
+    .subscribe((consulta: IConsultaExcelTablaDto) => {
+      this.cargarCompraDtoc(consulta);
+    },
+    (error) => {
+      this.mensajesService.mensajesSweet(
+        "warning",
+        "Ups...",
+        "No hay datos para mostrar"
+      );
+    });
+  }
 
+  cargarCompraDtoc(dataExcelConsulta: IConsultaExcelTablaDto){
+    this.consultaService
+      .getConsultaCompraValeGDto(this.fechaDesde, this.fechaAsta)
+      .subscribe((consulta: IConsultaExcelTablaCompraDto) => {
+        this.obtnerExistenciaValesc(dataExcelConsulta,consulta);
+      },
+      (error) => {
+        this.obtnerExistenciaValesc(dataExcelConsulta,null);
+      });
+  }
+  obtnerExistenciaValesc(dataExcelConsulta: IConsultaExcelTablaDto, dataExcelCompra: IConsultaExcelTablaCompraDto){
+    this.existenciaService.getCantidadVales().subscribe((response: IExistenciaVales) => {
+      this.cacultaDecanoc(dataExcelConsulta,dataExcelCompra,response);
+      },
+    (error) => {
+      this.cacultaDecanoc(dataExcelConsulta,dataExcelCompra,null);
+    });
+  }
+  cacultaDecanoc(dataExcelConsulta: IConsultaExcelTablaDto, dataExcelCompra: IConsultaExcelTablaCompraDto,existenciaI: IExistenciaVales) {
+    this.consultaService.getConsuUsuarioDto(this.fechaDesde,this.fechaAsta).subscribe((response:UsuarioDto[]) => {
+      this.downloadc(dataExcelConsulta,dataExcelCompra,existenciaI,response);
+      },
+      (error) => {
+        this.downloadc(dataExcelConsulta,dataExcelCompra,existenciaI,null);
+      });
+  }
+  downloadc(dataExcelConsulta: IConsultaExcelTablaDto, dataExcelCompra: IConsultaExcelTablaCompraDto,existenciaI: IExistenciaVales,decano:UsuarioDto[]): void {
+    this.excelService.dowloadExcel(
+      existenciaI,
+      dataExcelConsulta,
+      dataExcelCompra,
+      this.fechaDesde,
+      this.fechaAsta,
+      decano
+    );
+  }
   cargarConsultaDto() {
     this.consultaService
       .getConsultaValeGDto(this.fechaDesde, this.fechaAsta)
@@ -134,12 +187,13 @@ export class SolicitudvComponent implements OnInit {
   }
 
   obtnerExistenciaVales() {
-    this.existenciaService.getCantidadVales().subscribe({
-      next: (response) => {
+    this.existenciaService.getCantidadVales().subscribe((response) => {
         this.existenciaI = response;
         // console.log(this.existenciaI);
       },
-    });
+      (error) => {
+        this.existenciaI = null;
+      });
   }
   limpiarCamposFechas() {
     this.formularioGeneral.reset();
@@ -172,9 +226,9 @@ export class SolicitudvComponent implements OnInit {
                 // Aquí puedes colocar la lógica para realizar la acción
                 // por ejemplo, eliminar un elemento o realizar alguna operación
                 if (
-                  this.dataExcelConsulta != null &&
-                  this.dataExcelCompra != null
+                  this.dataExcelConsulta != null 
                 ) {
+                //  this.cargarConsultaDtoc();
                   this.download();
                   this.limpiarCamposFechas();
                 } else {
