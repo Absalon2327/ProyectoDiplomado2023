@@ -1,6 +1,11 @@
 <app-loader></app-loader>
 
-<ng-container *ngIf="usuariojson?.role == 'ASIS_FINANCIERO' || usuariojson?.role == 'JEFE_FINANACIERO'">
+<ng-container
+  *ngIf="
+    usuariojson?.role == 'ASIS_FINANCIERO' ||
+    usuariojson?.role == 'JEFE_FINANACIERO'
+  "
+>
   <app-mostrar></app-mostrar>
 </ng-container>
 
@@ -185,5 +190,3 @@
     </div>
   </div>
 </ng-container>
-
-
