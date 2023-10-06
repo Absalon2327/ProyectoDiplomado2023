@@ -210,7 +210,7 @@ export class ModalSecretariaComponent implements OnInit {
                 return false;
               });
 
-              if (!todosLlenos) {
+              if (!todosLlenos && solicitudVehiculo.cantidadPersonas<6) {
                 this.mensajesService.mensajesToast(
                   "warning",
                   "Por favor, completa todos los nombres de los pasajeros."
@@ -362,9 +362,9 @@ export class ModalSecretariaComponent implements OnInit {
             // enviar pdf
             const formData = new FormData();
             let obj = {
-              codigoDocumento:documentosFiltrados[0].codigoDocumento,
-              nombreDocumento:documentosFiltrados[0].nombreDocumento,
-              urlDocumento:documentosFiltrados[0].urlDocumento,
+              codigoDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].codigoDocumento : '',
+              nombreDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].nombreDocumento : '',
+              urlDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].urlDocumento : '',
               tipoDocumento:'Lista de pasajeros',
               fecha: this.obtenerFechaActual(new Date()),
               codigoSolicitudVehiculo: {
@@ -581,7 +581,10 @@ export class ModalSecretariaComponent implements OnInit {
   actualizarPasajeros() {
     this.cantidadPersonas = this.formularioSoliVe.get('cantidadPersonas').value;
 
-    if (this.cantidadPersonas > 5) {
+    if(this.cantidadPersonas == this.soliVeOd.cantidadPersonas){
+      this.mostrarTabla=false;
+      this.mostrarArchivoAdjunto = false;
+    } else if (this.cantidadPersonas > 5 ) {
       this.mostrarTabla = false; // Ocultar la tabla
       this.mostrarArchivoAdjunto = true; // Mostrar el campo de entrada de archivo
     } else if (this.cantidadPersonas <=1 ) {
@@ -606,10 +609,8 @@ export class ModalSecretariaComponent implements OnInit {
         const control = new FormControl('', Validators.required);
         this.pasajeroFormControls.push(control);
       }
-    } else if(this.cantidadPersonas < 2) {
-      while (this.pasajeroFormControls.length > 0) {
-        this.pasajeroFormControls.pop();
-      }
+    } else {
+      this.pasajeroFormControls = [];
     }
   }
 
