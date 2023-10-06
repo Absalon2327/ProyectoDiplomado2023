@@ -774,7 +774,7 @@ export class SolicitanteComponent implements OnInit {
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio Unitario: ", bold: true }, vale.valor],
+            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor],
           },
           {
             text: [

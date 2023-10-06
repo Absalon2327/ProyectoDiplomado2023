@@ -69,7 +69,7 @@ export class MovimientosvalesComponent implements OnInit {
     this.userService.getUsuario();
     this.breadCrumbItems = [
       { label: "Compra" },
-      { label: "Mostrar / Reportes", active: true },
+      { label: "Mis compras / Reportes", active: true },
     ]; // miga de pan
     // this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado);
     this.getEstados();
@@ -227,7 +227,7 @@ loadingAlert.close();
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio Unitario: ", bold: true }, vale.valor],
+            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor],
           },
           {
             text: [
