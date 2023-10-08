@@ -85,7 +85,7 @@ export class SolicitanteComponent implements OnInit {
     this.userService.getUsuario();
     this.breadCrumbItems = [
       { label: "Solicitud de transporte" },
-      { label: "Mis Solicitudes", active: true },
+      { label: "Mis Solicitudes / Reportes", active: true },
     ]; // miga de pan
     this.getEstados();
     this.obtenerUsuarioActivo();
@@ -160,29 +160,97 @@ export class SolicitanteComponent implements OnInit {
     this.cargarDocValeID(soliVehi.codigoSolicitudVehiculo, largeDataModal);
   }
   cargarDocSoliCar(id: string) {
-    this.consultaService
-      .getConsultaDocumnetoSoliCa(id)
-      .subscribe((response: DocumetSoliC[]) => {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    this.consultaService.getConsultaDocumnetoSoliCa(id).subscribe(
+      (response: DocumetSoliC[]) => {
+        loadingAlert.close();
         const tipoBuscado = "Lista de pasajeros";
         this.documentSoliCard = response;
-      });
+      },
+      (err) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.mensajesService.mensajesSweet(
+          "error",
+          "Ups... Algo salió mal",
+          err.error.message
+        );
+      }
+    );
   }
   cargarDocValeID(id: string, largeDataModal: any) {
-    this.consultaService
-      .getConsultaDocumnetoValeId(id)
-      .subscribe((response: DocumetValeId[]) => {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    this.consultaService.getConsultaDocumnetoValeId(id).subscribe(
+      (response: DocumetValeId[]) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
         this.cargarDocVale(response[0].idsolicitudvale, largeDataModal);
-      });
+      },
+      (err) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.mensajesService.mensajesSweet(
+          "error",
+          "Ups... Algo salió mal",
+          err.error.message
+        );
+      }
+    );
   }
   cargarDocVale(id: string, largeDataModal: any) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.consultaService.getConsultaDocumnetoVale(id).subscribe(
       (response: DocumetVale[]) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
         this.documentVale = response;
         this.modalService.open(largeDataModal, { size: "xl", centered: true });
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error
-        //  loadingAlert.close();
+        loadingAlert.close();
 
         // Manejar el error de alguna manera, como mostrar un mensaje de error
         this.mensajesService.mensajesSweet(
@@ -194,20 +262,63 @@ export class SolicitanteComponent implements OnInit {
     );
   }
   descargarver(doc: DocumetSoliC) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     const tipoBuscado = "Lista de pasajeros";
-    this.soliVeService
-      .obtenerDocumentPdf(doc.nombredocment)
-      .subscribe((resp: any) => {
+    this.soliVeService.obtenerDocumentPdf(doc.nombredocment).subscribe(
+      (resp: any) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
         let file = new Blob([resp], { type: "application/pdf" });
         let fileUrl = URL.createObjectURL(file);
         window.open(fileUrl);
-      });
+      },
+      (err) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.mensajesService.mensajesSweet(
+          "error",
+          "Ups... Algo salió mal",
+          err.error.message
+        );
+      }
+    );
   }
   descarver(doc: DocumetVale) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     const nombreDocumento = doc.foto; // Reemplaza con el nombre del documento que desees descargar
 
     this.consultaService.descargarDocumento(nombreDocumento).subscribe(
       (data: Blob) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
         // Crear un objeto URL a partir del Blob
         const url = window.URL.createObjectURL(data);
 
@@ -223,6 +334,8 @@ export class SolicitanteComponent implements OnInit {
         document.body.removeChild(a);
       },
       (error) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
         this.mensajesService.mensajesSweet(
           "warning",
           "Ups... ",
@@ -232,17 +345,34 @@ export class SolicitanteComponent implements OnInit {
     );
   }
   generarPDFLOGsoli(soliVehi: ISolicitudVehiculo) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     this.consultaService
       .getLogSoliVehi(soliVehi.codigoSolicitudVehiculo)
       .subscribe(
         (response: LogSoliVehi[]) => {
-        //  this.crearPDFLog(response, soliVehi);
-          this.obtenerIDvale(soliVehi,response);
+          // Cerrar SweetAlert de carga en caso de error
+          loadingAlert.close();
+          this.obtenerIDvale(soliVehi, response);
           //   console.log(response);
         },
         (error) => {
           // Cerrar SweetAlert de carga en caso de error
-          //  loadingAlert.close();
+          loadingAlert.close();
 
           // Manejar el error de alguna manera, como mostrar un mensaje de error
           this.mensajesService.mensajesSweet(
@@ -254,37 +384,100 @@ export class SolicitanteComponent implements OnInit {
       );
   }
 
-  obtenerIDvale(soliVehi: ISolicitudVehiculo,response: LogSoliVehi[]){
+  obtenerIDvale(soliVehi: ISolicitudVehiculo, response: LogSoliVehi[]) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.consultaService
       .getConsultaDocumnetoValeId(soliVehi.codigoSolicitudVehiculo)
-      .subscribe((respon: DocumetValeId[]) => {
-         this.genrarVlogVhi(soliVehi,response,respon);
-      },
-      (error) => {
-        this.crearPDFLog(response,soliVehi,null);
-      });
+      .subscribe(
+        (respon: DocumetValeId[]) => {
+          // Cerrar SweetAlert de carga
+          loadingAlert.close();
+          this.genrarVlogVhi(soliVehi, response, respon);
+        },
+        (error) => {
+          // Cerrar SweetAlert de carga
+          loadingAlert.close();
+          this.crearPDFLog(response, soliVehi, null);
+        }
+      );
   }
 
-  genrarVlogVhi(soliVehi: ISolicitudVehiculo,response: LogSoliVehi[],respon: DocumetValeId[]){
-      this.consultaService.getLogSoliVehiID(respon[0].idsolicitudvale).subscribe((res: LogSoliVehiID[]) => {
+  genrarVlogVhi(
+    soliVehi: ISolicitudVehiculo,
+    response: LogSoliVehi[],
+    respon: DocumetValeId[]
+  ) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    this.consultaService.getLogSoliVehiID(respon[0].idsolicitudvale).subscribe(
+      (res: LogSoliVehiID[]) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
         this.crearPDFLog(response, soliVehi, res);
       },
       (error) => {
-        this.crearPDFLog(response,soliVehi,null);
-      });
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.crearPDFLog(response, soliVehi, null);
+      }
+    );
 
   }
 
   generarPdfLogVale(soliVehi: ISolicitudVehiculo, content: any) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.consultaService
       .getConsultaDocumnetoValeId(soliVehi.codigoSolicitudVehiculo)
       .subscribe(
         (response: DocumetValeId[]) => {
+          // Cerrar SweetAlert de carga
+          loadingAlert.close();
           this.cargarvales(response[0].idsolicitudvale, content, soliVehi);
         },
         (error) => {
           // Cerrar SweetAlert de carga en caso de error
-          //  loadingAlert.close();
+          loadingAlert.close();
 
           // Manejar el error de alguna manera, como mostrar un mensaje de error
           this.mensajesService.mensajesSweet(
@@ -297,9 +490,26 @@ export class SolicitanteComponent implements OnInit {
     //this.compra = compra;
   }
   cargarvales(id: string, content: any, soliVehi: ISolicitudVehiculo) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     this.consultaService.getIdVale(id).subscribe(
       (response: IdVale[]) => {
-        //  this.idVales = response;
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
         this.cargarCompraVale(
           response,
           response[0].codigocompra,
@@ -309,7 +519,7 @@ export class SolicitanteComponent implements OnInit {
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error
-        //  loadingAlert.close();
+        loadingAlert.close();
 
         // Manejar el error de alguna manera, como mostrar un mensaje de error
         this.mensajesService.mensajesSweet(
@@ -326,8 +536,26 @@ export class SolicitanteComponent implements OnInit {
     content: any,
     soliVehi: ISolicitudVehiculo
   ) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.consultaService.getIdCompraV(id).subscribe(
       (response: ICompra) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+
         this.compra = response;
         this.idVales = vale;
         this.solicitudesV = soliVehi;
@@ -343,7 +571,7 @@ export class SolicitanteComponent implements OnInit {
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error
-        //  loadingAlert.close();
+        loadingAlert.close();
 
         // Manejar el error de alguna manera, como mostrar un mensaje de error
         this.mensajesService.mensajesSweet(
@@ -360,13 +588,30 @@ export class SolicitanteComponent implements OnInit {
     estado: number,
     soliVehi: ISolicitudVehiculo
   ) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.consultaService.getLogVale(listVale.idvale).subscribe(
       (response: LogVale[]) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
         this.crearPDFLogVa(compr, listVale, estado, response, soliVehi);
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error
-        //  loadingAlert.close();
+        loadingAlert.close();
 
         // Manejar el error de alguna manera, como mostrar un mensaje de error
         this.mensajesService.mensajesSweet(
@@ -468,6 +713,17 @@ export class SolicitanteComponent implements OnInit {
             text: [
               { text: "Objetivo de la Misión: ", bold: true },
               soliVehi.objetivoMision,
+            ],
+          },
+        ],
+      },
+      { text: "\n" },
+      {
+        columns: [
+          {
+            text: [
+              { text: "Lugar de la Misión: ", bold: true },
+              soliVehi.lugarMision,
             ],
           },
         ],
@@ -620,7 +876,11 @@ export class SolicitanteComponent implements OnInit {
 
     pdfMake.createPdf(pdfDefinicionl).open();
   }
-  crearPDFLog(log: LogSoliVehi[], soliVehi: ISolicitudVehiculo, logv: LogSoliVehiID[]) {
+  crearPDFLog(
+    log: LogSoliVehi[],
+    soliVehi: ISolicitudVehiculo,
+    logv: LogSoliVehiID[]
+  ) {
 
     const pdfDefinicionl: any = {
       content: [],
@@ -706,6 +966,17 @@ export class SolicitanteComponent implements OnInit {
             text: [
               { text: "Objetivo de la Misión: ", bold: true },
               soliVehi.objetivoMision,
+            ],
+          },
+        ],
+      },
+      { text: "\n" },
+      {
+        columns: [
+          {
+            text: [
+              { text: "Lugar de la Misión: ", bold: true },
+              soliVehi.lugarMision,
             ],
           },
         ],
@@ -810,7 +1081,7 @@ export class SolicitanteComponent implements OnInit {
       } else if (persona.estadosolive == 15) {
         this.estado = "Anulada";
       }
-
+ 
       tableRow.push([
         { text: `${j + 1}`, alignment: "center" },
         { text: `${persona.actividad}`, alignment: "center" },
@@ -828,62 +1099,62 @@ export class SolicitanteComponent implements OnInit {
       ]);
       j++;
     }
-    if(logv != null){
-    for (const persona of logv) {
-      // console.log(persona.nombrePasajero);
-      if (persona.estadosolive == 1) {
-        this.estado = "En espera por jefe";
-      } else if (persona.estadosolive == 2) {
-        this.estado = "Aprobado por jefe";
-      } else if (persona.estadosolive == 3) {
-        this.estado = "En espera por decano";
-      } else if (persona.estadosolive == 4) {
-        this.estado = "Aprobada";
-      } else if (persona.estadosolive == 5) {
-        this.estado = "Asignado";
-      } else if (persona.estadosolive == 6) {
-        this.estado = "Revisión";
-      } else if (persona.estadosolive == 7) {
-        this.estado = "Finalizada";
-      } else if (persona.estadosolive == 8) {
-        this.estado = "Activo";
-      } else if (persona.estadosolive == 9) {
-        this.estado = "Inactivo";
-      } else if (persona.estadosolive == 10) {
-        this.estado = "Caducado";
-      } else if (persona.estadosolive == 11) {
-        this.estado = "Consumido";
-      } else if (persona.estadosolive == 12) {
-        this.estado = "Devuelto";
-      } else if (persona.estadosolive == 13) {
-        this.estado = "Gasolinera";
-      } else if (persona.estadosolive == 14) {
-        this.estado = "UES";
-      } else if (persona.estadosolive == 15) {
-        this.estado = "Anulada";
+    if (logv != null) {
+      for (const persona of logv) {
+        // console.log(persona.nombrePasajero);
+        if (persona.estadosolive == 1) {
+          this.estado = "En espera por jefe";
+        } else if (persona.estadosolive == 2) {
+          this.estado = "Aprobado por jefe";
+        } else if (persona.estadosolive == 3) {
+          this.estado = "En espera por decano";
+        } else if (persona.estadosolive == 4) {
+          this.estado = "Aprobada";
+        } else if (persona.estadosolive == 5) {
+          this.estado = "Asignado";
+        } else if (persona.estadosolive == 6) {
+          this.estado = "Revisión";
+        } else if (persona.estadosolive == 7) {
+          this.estado = "Finalizada";
+        } else if (persona.estadosolive == 8) {
+          this.estado = "Activo";
+        } else if (persona.estadosolive == 9) {
+          this.estado = "Inactivo";
+        } else if (persona.estadosolive == 10) {
+          this.estado = "Caducado";
+        } else if (persona.estadosolive == 11) {
+          this.estado = "Consumido";
+        } else if (persona.estadosolive == 12) {
+          this.estado = "Devuelto";
+        } else if (persona.estadosolive == 13) {
+          this.estado = "Gasolinera";
+        } else if (persona.estadosolive == 14) {
+          this.estado = "UES";
+        } else if (persona.estadosolive == 15) {
+          this.estado = "Anulada";
+        }
+        console.log(this.estado);
+        tableRow.push([
+          { text: `${j + 1}`, alignment: "center" },
+          { text: `${persona.actividad}`, alignment: "center" },
+          {
+            text: `${this.datePipe.transform(
+              persona.fechalogsolive,
+              "dd/MM/yyyy HH:mm:ss a"
+            )}`,
+            alignment: "center",
+          },
+          { text: `${persona.usuario}`, alignment: "center" },
+          { text: `${persona.cargo}`, alignment: "center" },
+          { text: `${this.estado}`, alignment: "center" },
+        ]);
+        j++;
       }
-      console.log(this.estado);
-      tableRow.push([
-        { text: `${j + 1}`, alignment: "center" },
-        { text: `${persona.actividad}`, alignment: "center" },
-        {
-          text: `${this.datePipe.transform(
-            persona.fechalogsolive,
-            "dd/MM/yyyy HH:mm:ss a"
-          )}`,
-          alignment: "center",
-        },
-        { text: `${persona.usuario}`, alignment: "center" },
-        { text: `${persona.cargo}`, alignment: "center" },
-        { text: `${this.estado}`, alignment: "center" },
-      ]);
-      j++;
     }
-  }
     pdfDefinicionl.content.push({
       style: "tableExample",
       table: {
-        widths: ["auto", "auto", "auto", "auto", "auto","auto"],
+        widths: ["auto", "auto", "auto", "auto", "auto", "auto"],
         headerRows: 1,
         body: tableRow,
       },
@@ -891,8 +1162,12 @@ export class SolicitanteComponent implements OnInit {
 
     pdfMake.createPdf(pdfDefinicionl).open();
   }
-  async cerarPDF(soliVehi: ISolicitudVehiculo, vales: IConsultaDelAl[],u: UsuarioDto[]) {
-   // const decano = await this.consultaService.getDecano();
+  async cerarPDF(
+    soliVehi: ISolicitudVehiculo,
+    vales: IConsultaDelAl[],
+    u: UsuarioDto[]
+  ) {
+    // const decano = await this.consultaService.getDecano();
     // Continúa con cualquier otra lógica después de obtener el valor
     const pdfDefinicion: any = {
       content: [],
@@ -1040,6 +1315,17 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
+              { text: "Lugar de la Misión: ", bold: true },
+              soliVehi.lugarMision,
+            ],
+          },
+        ],
+      },
+      { text: "\n" },
+      {
+        columns: [
+          {
+            text: [
               { text: "Lugar que visitará: ", bold: true },
               soliVehi.direccion,
             ],
@@ -1101,57 +1387,56 @@ export class SolicitanteComponent implements OnInit {
 
     const tableRow = [];
     let j = 0;
-    if(soliVehi.cantidadPersonas < 6 ){
-    tableRow.push([
-      { text: "N.", alignment: "center", style: "tableHeader" },
-      { text: "NOMBRE", alignment: "center", style: "tableHeader" },
-    ]);
-    for (const persona of soliVehi.listaPasajeros) {
-      //  console.log(persona.nombrePasajero);
+    if (soliVehi.cantidadPersonas < 6) {
       tableRow.push([
-        { text: `${j + 1}`, alignment: "center" },
-        { text: `${persona.nombrePasajero}`, alignment: "center" },
+        { text: "N.", alignment: "center", style: "tableHeader" },
+        { text: "NOMBRE", alignment: "center", style: "tableHeader" },
       ]);
-      j++;
-    }
-    pdfDefinicion.content.push(
-      {
-        style: "tableExample",
-        table: {
-          widths: ["auto", "*"],
-          headerRows: 1,
-          body: tableRow,
+      for (const persona of soliVehi.listaPasajeros) {
+        //  console.log(persona.nombrePasajero);
+        tableRow.push([
+          { text: `${j + 1}`, alignment: "center" },
+          { text: `${persona.nombrePasajero}`, alignment: "center" },
+        ]);
+        j++;
+      }
+      pdfDefinicion.content.push(
+        {
+          style: "tableExample",
+          table: {
+            widths: ["auto", "*"],
+            headerRows: 1,
+            body: tableRow,
+          },
         },
-      },
-      "Nota: Si el número de persona es mayor a cuatro, anexar listado"
-    );
-   }else{
-    tableRow.push([
-      { text: "", alignment: "center", style: "tableHeader" },
-      { text: "", alignment: "center", style: "tableHeader" },
-    ]);
-    for (const persona of soliVehi.listaPasajeros) {
-      //  console.log(persona.nombrePasajero);
+        "Nota: Si el número de persona es mayor a cuatro, anexar listado"
+      );
+    } else {
       tableRow.push([
-        { text: `${j + 1}`, alignment: "center" },
-        { text: `${persona.nombrePasajero}`, alignment: "center" },
+        { text: "", alignment: "center", style: "tableHeader" },
+        { text: "", alignment: "center", style: "tableHeader" },
       ]);
-      j++;
-    }
-    pdfDefinicion.content.push(
-      {
-        style: "tableExample",
-        table: {
-          widths: ["auto", "*"],
-          headerRows: 1,
-          body: tableRow,
+      for (const persona of soliVehi.listaPasajeros) {
+        //  console.log(persona.nombrePasajero);
+        tableRow.push([
+          { text: `${j + 1}`, alignment: "center" },
+          { text: `${persona.nombrePasajero}`, alignment: "center" },
+        ]);
+        j++;
+      }
+      pdfDefinicion.content.push(
+        {
+          style: "tableExample",
+          table: {
+            widths: ["auto", "*"],
+            headerRows: 1,
+            body: tableRow,
+          },
+          layout: "noBorders",
         },
-        layout: "noBorders",
-      },
-      "Nota: Si el número de persona es mayor a cuatro, anexar listado"
-    );
-   }
-   
+        "Nota: Si el número de persona es mayor a cuatro, anexar listado"
+      );
+    }
 
     pdfDefinicion.content.push(
       { text: "\n" },
@@ -1215,47 +1500,46 @@ export class SolicitanteComponent implements OnInit {
             text: [{ text: "Placa: ", bold: true }, soliVehi.vehiculo.placa],
           },
         ],
-      },
+      }
     );
-    if(vales != null){
-    pdfDefinicion.content.push({ text: "\n" },
-    {
-      columns: [
+    if (vales != null) {
+      pdfDefinicion.content.push(
+        { text: "\n" },
         {
-          text: [{ text: "N. de Vales: ", bold: true }, vales.length],
-        },
-        {
-          text: [{ text: "Del: ", bold: true }, vales[0].correlativo],
-        },
-        {
-          text: [
-            { text: "AL: ", bold: true },
-            vales[this.valeDelAl.length - 1].correlativo,
+          columns: [
+            {
+              text: [{ text: "N. de Vales: ", bold: true }, vales.length],
+            },
+            {
+              text: [{ text: "Del: ", bold: true }, vales[0].correlativo],
+            },
+            {
+              text: [
+                { text: "AL: ", bold: true },
+                vales[this.valeDelAl.length - 1].correlativo,
+              ],
+            },
           ],
-        },
-      ],
-    },
-   );
-  }else{
-    pdfDefinicion.content.push({ text: "\n" },
-    {
-      columns: [
+        }
+      );
+    } else {
+      pdfDefinicion.content.push(
+        { text: "\n" },
         {
-          text: [{ text: "N. de Vales: ", bold: true }, '0'],
-        },
-        {
-          text: [{ text: "Del: ", bold: true }, ''],
-        },
-        {
-          text: [
-            { text: "AL: ", bold: true },
-            '',
+          columns: [
+            {
+              text: [{ text: "N. de Vales: ", bold: true }, "0"],
+            },
+            {
+              text: [{ text: "Del: ", bold: true }, ""],
+            },
+            {
+              text: [{ text: "AL: ", bold: true }, ""],
+            },
           ],
-        },
-      ],
-    },
-   );
-  }
+        }
+      );
+    }
     pdfDefinicion.content.push(
       { text: "\n" },
       {
@@ -1296,21 +1580,68 @@ export class SolicitanteComponent implements OnInit {
   }
 
   cargarConsultaValeDelAl(soli: ISolicitudVehiculo) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     this.consultaService
       .getConsultaSolicitudVDelAl(soli.codigoSolicitudVehiculo)
-      .subscribe((response: IConsultaDelAl[]) => {
-        this.valeDelAl = response;
+      .subscribe(
+        (response: IConsultaDelAl[]) => {
+          // Cerrar SweetAlert de carga
+          loadingAlert.close();
+          this.valeDelAl = response;
           this.cargarUsuarioDecano(soli, response);
-      },
-      (error) => {
-        this.cargarUsuarioDecano(soli, null);
-      });
+        },
+        (error) => {
+          // Cerrar SweetAlert de carga
+          loadingAlert.close();
+          this.cargarUsuarioDecano(soli, null);
+        }
+      );
   }
 
-  cargarUsuarioDecano(soli: ISolicitudVehiculo,response: IConsultaDelAl[]){
-    this.consultaService.getConsuUsuarioDto(soli.fechaSolicitud,soli.fechaEntrada).subscribe((resp: UsuarioDto[])=>{
-      this.cerarPDF(soli, response,resp);
+  cargarUsuarioDecano(soli: ISolicitudVehiculo, response: IConsultaDelAl[]) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
+    this.consultaService
+      .getConsuUsuarioDto(soli.fechaSolicitud, soli.fechaEntrada)
+      .subscribe(
+        (resp: UsuarioDto[]) => {
+          // Cerrar SweetAlert de carga
+          loadingAlert.close();
+          this.cerarPDF(soli, response, resp);
+        },
+        (err) => {
+          // Cerrar SweetAlert de carga
+          loadingAlert.close();
+        }
+      );
   }
   formatoFecha(fecha: Date): string {
     const options: Intl.DateTimeFormatOptions = {

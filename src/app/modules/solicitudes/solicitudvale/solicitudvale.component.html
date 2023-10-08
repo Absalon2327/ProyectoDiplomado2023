@@ -223,7 +223,6 @@
                 class="form-control"
                 id="horizontal-firstname-input"
                 min="1"
-                max="20"
                 placeholder="0"
                 formControlName="cantidadVales"
                 [class]="esCampoValido('cantidadVales')"
@@ -234,6 +233,7 @@
                 [cantidadVales]="formularioSolicitudVale"
               ></app-vales-asignar>
             </div>
+            <input type="hidden" formControlName="existencia">
           </div>
           <div *ngIf="estadoSoli == 'Aprobada'" class="row mb-4">
             <label for="formrow-firstname-input">Cantidad de vales</label>
@@ -252,8 +252,9 @@
             </div>
             <div class="col-sm-2">
               <app-vales-asignar
-                [cantidadVales]="formularioSolicitudVale"
+                [cantidadVales]="formularioSolicitudVale" [valesExistentes]="existencia"
               ></app-vales-asignar>
+
             </div>
 
           </div>

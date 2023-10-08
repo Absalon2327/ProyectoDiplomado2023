@@ -35,15 +35,28 @@ export class ValesAsignarComponent implements OnInit {
   }
 
   @Input() cantidadVales!: any;
+  @Input() valesExistentes!: any;
   ngOnInit(): void {}
 
   valesAsignar(valesAsignarModal: any) {
+    const existencia = this.cantidadVales.get("existencia")?.value;
     const cantidadVales = this.cantidadVales.get("cantidadVales")?.value;
     if (cantidadVales == 0) {
       this.mensajesService.mensajesToast(
         "warning",
         "Ingrese una cantidad válida"
       );
+    } else if (cantidadVales > existencia) {
+      Swal.fire({
+        icon: "error",
+        title: "Error de Solicitud",
+        text: "No hay en existencia la cantidad de vales que desea verificar",
+        showCancelButton: false,
+        confirmButtonColor: "#972727",
+        confirmButtonText: "Aceptar",
+        cancelButtonColor: "#2c3136",
+        cancelButtonText: "Cancelar",
+      });
     } else {
       let alert: any;
       alert = Swal.fire({
