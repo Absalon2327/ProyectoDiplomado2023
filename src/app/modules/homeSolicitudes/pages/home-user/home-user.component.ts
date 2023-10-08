@@ -1,32 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { emailSentBarChart, monthlyEarningChart } from './data';
-import { ChartType } from './dashboard.model';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EventService } from '../../../core/services/event.service';
-
-import { ConfigService } from '../../../core/services/config.service';
-import { UsuarioService } from 'src/app/account/auth/services/usuario.service';
-import { IEmpleado } from 'src/app/modules/empleado/interface/empleado.interface';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { ServiceService } from 'src/app/modules/solicitudes/Service/service.service';
-import { IExistenciaVales } from 'src/app/modules/solicitudes/Interfaces/existenciavales.interface';
+import { Component, OnInit } from '@angular/core';
 import { DataCards, Empleado } from 'src/app/account/auth/models/usuario.models';
-import { SolicitudVehiculoService } from 'src/app/modules/solicitud-vehiculo/services/solicitud-vehiculo.service';
-import { ISolicitudVehiculo } from 'src/app/modules/solicitud-vehiculo/interfaces/data.interface';
+import { UsuarioService } from 'src/app/account/auth/services/usuario.service';
 import { ServicioService } from 'src/app/modules/calendario/servicio/servicio.service';
-import { Console } from 'console';
+import { ISolicitudVehiculo } from 'src/app/modules/solicitud-vehiculo/interfaces/data.interface';
+import { IExistenciaVales } from 'src/app/modules/solicitudes/Interfaces/existenciavales.interface';
+
 
 @Component({
-  selector: 'app-default',
-  templateUrl: './default.component.html',
-  styleUrls: ['./default.component.scss']
+  selector: 'app-home-user',
+  templateUrl: './home-user.component.html',
+  styleUrls: ['./home-user.component.scss']
 })
-export class DefaultComponent implements OnInit {
+export class HomeUserComponent implements OnInit {
 
   isVisible: string;
   storage: Storage = window.localStorage;
-  emailSentBarChart: ChartType;
-  monthlyEarningChart: ChartType;
+  //emailSentBarChart: ChartType;
+  //monthlyEarningChart: ChartType;
   transactions: Array<[]>;
   statData: Array<[]>;
 
@@ -56,7 +46,9 @@ export class DefaultComponent implements OnInit {
     console.log("usuario role:",this.usuariojson.role);
 
 
-   
+
+      this.cargarSolicitudesUSER();
+
      // aqui optengo las cards del admin
 
   }
@@ -93,8 +85,9 @@ export class DefaultComponent implements OnInit {
     this.solicitud = data;
       console.log("dasd",this.solicitud)
       this.solicitud.forEach(element => {
-        const date = new Date(element.fechaSolicitud);
+        const date = new Date(element.fechaSalida);
         if(date.getMonth() == new Date().getMonth()){
+          console.log("fecha",new Date().getMonth())
           this.cargaRevision.push(element);
         }
         console.log("carga",this.cargaRevision)
@@ -106,7 +99,7 @@ export class DefaultComponent implements OnInit {
       this.solicitud = data;
         console.log("dasd",this.solicitud)
         this.solicitud.forEach(element => {
-          const date = new Date(element.fechaSolicitud);
+          const date = new Date(element.fechaSalida);
           if(date.getMonth() == new Date().getMonth()){
             this.cargaAprobadas.push(element);
           }
@@ -118,7 +111,7 @@ export class DefaultComponent implements OnInit {
       this.solicitud = data;
         console.log("dasd",this.solicitud)
         this.solicitud.forEach(element => {
-          const date = new Date(element.fechaSolicitud);
+          const date = new Date(element.fechaSalida);
           if(date.getMonth() == new Date().getMonth()){
             this.cargaRealizadas.push(element);
           }
@@ -166,5 +159,4 @@ export class DefaultComponent implements OnInit {
     }
     return "./../../../assets/images/Default-Avatar.png";
   }
-  /* Metodos para optener datos de cards */
 }
