@@ -46,6 +46,7 @@ export class HomeDecanoComponent implements OnInit {
 
 
       this.cargarSolicitudesUSER();
+      this.cargaSoliporAprobar();
   }
 
   get listSoliVeData(){

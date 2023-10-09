@@ -9,6 +9,7 @@ import { WidgetModule } from 'src/app/shared/widget/widget.module';
 import { HomeJefeComponent } from './pages/home-jefe/home-jefe.component';
 import { HomeSecreComponent } from './pages/home-secre/home-secre.component';
 import { HomeDecanoComponent } from './pages/home-decano/home-decano.component';
+import { UIModule } from 'src/app/shared/ui/ui.module';
 
 
 
@@ -26,8 +27,8 @@ import { HomeDecanoComponent } from './pages/home-decano/home-decano.component';
     LayoutsModule,
     ChartsModule,
     SharedModule,
-    WidgetModule
-  ],
+    WidgetModule,
+    UIModule,],
   exports: [
     HomeUserComponent,
     HomeJefeComponent,

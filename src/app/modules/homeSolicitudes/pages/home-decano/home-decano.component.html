@@ -1,4 +1,4 @@
-<p>home-decano works!</p>
+<app-loader></app-loader>
 <div class="container-fluid">
   <!-- start page title -->
   <div class="row">
@@ -27,13 +27,13 @@
           <app-stat
             [title]="'Misiones por aprobar'"
             [value]="this.cargaAprobar.length"
-            [icon]="'mdi mdi-check'"
+            [icon]="'bx bx-task'"
           ></app-stat>
         </div>
         <div class="col-md-3">
           <app-stat
-            [title]="'Misiones en Revisión'"
-            [value]="this.cargaRevision.length"
+            [title]="'Misiones Ecurso'"
+            [value]="cards?.misiones"
             [icon]="'mdi mdi-bus'"
           ></app-stat>
         </div>
