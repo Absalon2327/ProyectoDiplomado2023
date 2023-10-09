@@ -48,7 +48,7 @@ export class TopbarComponent implements OnInit {
   fotoEmpleado!: string;
   formUsuario !: FormGroup;
   leyenda !: string;
-  
+
   alerts = [
     {
       id: 1,
@@ -150,7 +150,9 @@ export class TopbarComponent implements OnInit {
       title: "¿Deseas cerrar la sesión?",
       showDenyButton: true,
       confirmButtonText: "Cerrar la sesión",
+      confirmButtonColor: "#972727",
       denyButtonText: `Cancelar`,
+      denyButtonColor: "#2c3136",
     }).then((result) => {
       if (result.isConfirmed) {
         this.usuarioService.logout();
@@ -183,7 +185,7 @@ Email(){
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
       });
-      
+
       Toast.fire({
         icon: 'success',
         text: '¡Email enviado!'
@@ -223,7 +225,7 @@ Email(){
 
   registrando() {
 
-    /* 
+    /*
         this.cargoService.saveCargos(data).subscribe({
           next: (resp) => {
             this.modalService.dismissAll();
@@ -231,7 +233,7 @@ Email(){
             this.mostrar();
           },
           error: (error) => {
-    
+
             this.mensajesService.mensajesSweet(
               'error',
               "Ups... Algo salió mal",
@@ -239,7 +241,7 @@ Email(){
             )
           },
           complete: () => {
-    
+
             const Toast = Swal.mixin({
               toast: true,
               position: 'top-end',
@@ -254,14 +256,14 @@ Email(){
               icon: 'success',
               text: 'Datos Guardados con exito'
             });
-    
+
           }
         }); */
 
   }
 
   editando() {
-    /* 
+    /*
         this.cargoService.editCargo(data.id, data).subscribe({
           next: (resp) => {
             this.formUsuario.reset();
@@ -274,7 +276,7 @@ Email(){
               "Ups... Algo salió mal",
               error
             )
-    
+
           },
           complete: () => {
             const Toast = Swal.mixin({
