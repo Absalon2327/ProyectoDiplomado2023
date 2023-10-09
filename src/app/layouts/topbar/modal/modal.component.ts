@@ -439,4 +439,8 @@ export class ModalComponent implements OnInit {
   public togglePasswordVisibility2(): void {
     this.showPassword2 = !this.showPassword2;
   }
+  
+  AcercaDe(){
+    this.usuarioService.logoutAcercaDe();
+  }
 }
