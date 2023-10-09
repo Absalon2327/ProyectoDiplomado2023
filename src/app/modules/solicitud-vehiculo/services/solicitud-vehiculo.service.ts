@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {
   IActualizarSoliVe,
   IEstados,
   IPais,
   ISolicitudVehiculo,
   IMotorista,
-  ILogSoliVe
+  ILogSoliVe, IEmail
 } from "../interfaces/data.interface";
 import {environment} from "../../../../environments/environment";
-import {map} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 import {IVehiculos} from "../../vehiculo/interfaces/vehiculo-interface";
 import {Usuario} from "../../../account/auth/models/usuario.models";
 import {ISolicitudvalep} from "../../solicitud-vale-paginacion/interface/solicitudvalep.interface";

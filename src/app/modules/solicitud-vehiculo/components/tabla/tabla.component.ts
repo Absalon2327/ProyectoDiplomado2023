@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ILogSoliVe, ISolicitudVehiculo} from "../../interfaces/data.interface";
+import {IEmail, ILogSoliVe, ISolicitudVehiculo} from "../../interfaces/data.interface";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ModalComponent} from "../modal/modal.component";
 import { ModalSecretariaComponent } from '../modal-secretaria/modal-secretaria.component';
@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import {Usuario} from "../../../../account/auth/models/usuario.models";
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
 import {ModalLogComponent} from "../modal-log/modal-log.component";
+import {EmailService} from "../../services/email.service";
 
 @Component({
   selector: 'app-tabla',
@@ -27,7 +28,8 @@ export class TablaComponent implements OnInit {
   logSoli: ILogSoliVe[];
   constructor(private modalService: NgbModal,
               private mensajesService: MensajesService,
-              private soliService: SolicitudVehiculoService) {
+              private soliService: SolicitudVehiculoService,
+              private emailService: EmailService) {
     this.solicitudVale = {
       idSolicitudVale: '',
       cantidadVale: 0,
@@ -130,6 +132,8 @@ export class TablaComponent implements OnInit {
           }else {
             this.soliService.getSolicitudesRol(this.userAcivo.role);
           }
+          this.enviarEmailAprob('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+            'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           resolve();
         },
@@ -165,6 +169,8 @@ export class TablaComponent implements OnInit {
               }else {
                 this.soliService.getSolicitudesRol(this.userAcivo.role);
               }
+              this.enviarEmailAprob('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+                'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               resolve();
             },
@@ -212,4 +218,28 @@ export class TablaComponent implements OnInit {
       }
     }
   }
+
+  /* correo */
+
+  enviarEmailAprob(rol: any, titulo: string, mensaje: string){
+    this.emailService.getEmailNameRol(rol).subscribe(
+      (datos) => {
+        const email: IEmail = {
+          asunto: titulo,
+          titulo: titulo,
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: mensaje,
+          centro: 'Por favor ingrese al sistema para ver más detalles tabla',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  /* fin correo */
 }

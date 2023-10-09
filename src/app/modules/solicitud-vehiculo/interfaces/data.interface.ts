@@ -131,3 +131,13 @@ export interface  ILogSoliVe {
     "soliVe": string,
     "soliVale": string
 }
+
+export interface IEmail {
+  asunto: string;
+  titulo: string;
+  email: string;
+  receptor: string;
+  mensaje: string;
+  centro: string;
+  abajo: string;
+}
