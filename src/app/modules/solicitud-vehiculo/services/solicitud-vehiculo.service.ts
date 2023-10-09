@@ -214,6 +214,10 @@ export class SolicitudVehiculoService {
     return this.http.put<ISolicitudVehiculo>( `${this.url}/solicitudvehiculo/estadoupdate`, data);
   }
 
+  updateSolciitudVehiculoSinVale(data: IActualizarSoliVe){
+    return this.http.put<ISolicitudVehiculo>( `${this.url}/solicitudvehiculo/updatesinvale`, data);
+  }
+
   registrarSolicitudVale(solicitudVale: ISolicitudvalep){
     return this.http.post<ISolicitudvalep>( `${this.url}/solicitudvale/insertar`, solicitudVale);
   }

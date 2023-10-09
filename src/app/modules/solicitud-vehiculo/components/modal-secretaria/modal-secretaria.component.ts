@@ -136,9 +136,13 @@ export class ModalSecretariaComponent implements OnInit {
       this.formularioSoliVe.get('solicitante')
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
-      // poner atributo para verificar si tiene vales
-      // this.formularioSoliVe.get('tieneVale')
-      //   .setValue(this.soliVeOd.tieneVale ? 'SI' : 'NO');
+      // para input radio
+      if(this.usuarioActivo.role == 'DECANO'){
+        this.formularioSoliVe.get('tieneVale')
+        .setValue(this.soliVeOd.tieneVale ? 'true':'false');
+        this.formularioSoliVe.get('tieneVale').disable();
+      }
+
 
       // por estado revision
       if(this.soliVeOd.motorista != null){
@@ -713,9 +717,17 @@ export class ModalSecretariaComponent implements OnInit {
 
   async aprobarSolicitud(){
     console.log(this.soliVeOd);
-    if ((await this.mensajesService.mensajeAprobar()) == true) {
-      await this.actualizarSolicitudDec(this.soliVeOd);
+    if(this.soliVeOd.tieneVale){
+      if ((await this.mensajesService.mensajeAprobar()) == true) {
+        await this.actualizarSolicitudDec(this.soliVeOd);
+      }
+    }else{
+      if ((await this.mensajesService.mensajeAprobar()) == true) {
+        this.soliVeOd.estado = 5;
+        await this.actualizarSolicitudSinVa(this.soliVeOd);
+      }
     }
+
   }
 
   actualizarSolicitudDec(data: any):Promise <void>{
@@ -749,6 +761,29 @@ export class ModalSecretariaComponent implements OnInit {
               reject (errorSoli);
             },
           })
+        },
+        error: (error) => {
+          Swal.close();
+          this.mensajesService.mensajesSweet(
+            'error',
+            'Ups... Algo salió mal',
+            error.error.message
+          );
+          reject (error);
+        },
+      });
+    });
+  }
+
+  actualizarSolicitudSinVa(data: any):Promise <void>{
+    return new Promise<void>((resolve, reject) => {
+      this.soliVeService.updateSolciitudVehiculoSinVale(data).subscribe({
+        next: () => {
+          // resp: any
+          this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
+          this.modalService.dismissAll();
+          resolve();
         },
         error: (error) => {
           Swal.close();
