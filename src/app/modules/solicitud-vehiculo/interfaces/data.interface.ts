@@ -21,6 +21,7 @@ export interface ISolicitudVehiculo {
   motorista: IMotorista;
   listDocumentos: IDocumento[];
   observaciones:string;
+  tieneVale:boolean;
 }
 
 interface ISolicitante {

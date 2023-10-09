@@ -137,8 +137,15 @@ export class ModalSecretariaComponent implements OnInit {
       this.formularioSoliVe.get('solicitante')
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
-      // por estado revision
+      // para input radio
+      if(this.usuarioActivo.role == 'DECANO'){
+        this.formularioSoliVe.get('tieneVale')
+        .setValue(this.soliVeOd.tieneVale ? 'true':'false');
+        this.formularioSoliVe.get('tieneVale').disable();
+      }
 
+
+      // por estado revision
       if(this.soliVeOd.motorista != null){
         this.formularioSoliVe.get('motorista')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
@@ -211,7 +218,7 @@ export class ModalSecretariaComponent implements OnInit {
                 return false;
               });
 
-              if (!todosLlenos) {
+              if (!todosLlenos && solicitudVehiculo.cantidadPersonas<6) {
                 this.mensajesService.mensajesToast(
                   "warning",
                   "Por favor, completa todos los nombres de los pasajeros."
@@ -274,6 +281,7 @@ export class ModalSecretariaComponent implements OnInit {
     //solicitudVehiculo.motorista = this.soliVeOd.motorista.codigoEmpleado;
     solicitudVehiculo.solicitante = this.soliVeOd.solicitante.codigoUsuario;
     solicitudVehiculo.nombreJefeDepto = this.soliVeOd.nombreJefeDepto;
+
     let nombreMotoristaExistente;
     if(this.soliVeOd.motorista != null) {
       nombreMotoristaExistente =  this.soliVeOd.motorista.nombre + ' ' +
@@ -363,9 +371,9 @@ export class ModalSecretariaComponent implements OnInit {
             // enviar pdf
             const formData = new FormData();
             let obj = {
-              codigoDocumento:documentosFiltrados[0].codigoDocumento,
-              nombreDocumento:documentosFiltrados[0].nombreDocumento,
-              urlDocumento:documentosFiltrados[0].urlDocumento,
+              codigoDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].codigoDocumento : '',
+              nombreDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].nombreDocumento : '',
+              urlDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].urlDocumento : '',
               tipoDocumento:'Lista de pasajeros',
               fecha: this.obtenerFechaActual(new Date()),
               codigoSolicitudVehiculo: {
@@ -427,17 +435,24 @@ export class ModalSecretariaComponent implements OnInit {
   editarSoliVe(){
   }
 
-  cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
-    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
+  cargarPlacas(tipoVehiculo: string, fechaSalida:string) {
+    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida).subscribe(
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
+          this.formularioSoliVe.get('vehiculo').setValue('');
+          if(this.soliVeOd.vehiculo.clase == tipoVehiculo){
+            this.placas.push(this.soliVeOd.vehiculo);
+            this.formularioSoliVe.get('vehiculo').setValue(this.soliVeOd.vehiculo.placa);
+          }
         }else if(tipoVehiculo != '') {
+          this.placas = [];
+          this.formularioSoliVe.get('vehiculo').setValue('');
           this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
         }
       },
       (error: any) => {
-        console.error('Error al obtener opciones de vehículos desde el backend:', error);
+        //console.error('Error al obtener opciones de vehículos desde el backend:', error);
       }
     );
   }
@@ -485,6 +500,7 @@ export class ModalSecretariaComponent implements OnInit {
       motorista:['',[Validators.required]],
       observaciones:['',[]],
       file: ['',],
+      tieneVale:['',[Validators.required]],
     });
   }
 
@@ -583,7 +599,10 @@ export class ModalSecretariaComponent implements OnInit {
   actualizarPasajeros() {
     this.cantidadPersonas = this.formularioSoliVe.get('cantidadPersonas').value;
 
-    if (this.cantidadPersonas > 5) {
+    if(this.cantidadPersonas == this.soliVeOd.cantidadPersonas){
+      this.mostrarTabla=false;
+      this.mostrarArchivoAdjunto = false;
+    } else if (this.cantidadPersonas > 5 ) {
       this.mostrarTabla = false; // Ocultar la tabla
       this.mostrarArchivoAdjunto = true; // Mostrar el campo de entrada de archivo
     } else if (this.cantidadPersonas <=1 ) {
@@ -608,10 +627,8 @@ export class ModalSecretariaComponent implements OnInit {
         const control = new FormControl('', Validators.required);
         this.pasajeroFormControls.push(control);
       }
-    } else if(this.cantidadPersonas < 2) {
-      while (this.pasajeroFormControls.length > 0) {
-        this.pasajeroFormControls.pop();
-      }
+    } else {
+      this.pasajeroFormControls = [];
     }
   }
 
@@ -715,10 +732,17 @@ export class ModalSecretariaComponent implements OnInit {
 
   async aprobarSolicitud(){
     console.log(this.soliVeOd);
-    if ((await this.mensajesService.mensajeAprobar()) == true) {
-      this.soliVeOd.observaciones =  this.formularioSoliVe.get('observaciones').value;
-      await this.actualizarSolicitudDec(this.soliVeOd);
+    if(this.soliVeOd.tieneVale){
+      if ((await this.mensajesService.mensajeAprobar()) == true) {
+        await this.actualizarSolicitudDec(this.soliVeOd);
+      }
+    }else{
+      if ((await this.mensajesService.mensajeAprobar()) == true) {
+        this.soliVeOd.estado = 5;
+        await this.actualizarSolicitudSinVa(this.soliVeOd);
+      }
     }
+
   }
 
   actualizarSolicitudDec(data: any):Promise <void>{
@@ -756,6 +780,29 @@ export class ModalSecretariaComponent implements OnInit {
               reject (errorSoli);
             },
           })
+        },
+        error: (error) => {
+          Swal.close();
+          this.mensajesService.mensajesSweet(
+            'error',
+            'Ups... Algo salió mal',
+            error.error.message
+          );
+          reject (error);
+        },
+      });
+    });
+  }
+
+  actualizarSolicitudSinVa(data: any):Promise <void>{
+    return new Promise<void>((resolve, reject) => {
+      this.soliVeService.updateSolciitudVehiculoSinVale(data).subscribe({
+        next: () => {
+          // resp: any
+          this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
+          this.modalService.dismissAll();
+          resolve();
         },
         error: (error) => {
           Swal.close();

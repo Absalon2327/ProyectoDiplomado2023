@@ -144,9 +144,9 @@ export class SolicitudVehiculoService {
       );
     }
 
-  filtroPlacasVehiculo(clase: string,fechaSalida:string,fechaEntrada:string): Observable<IVehiculos[]> {
+  filtroPlacasVehiculo(clase: string,fechaSalida:string): Observable<IVehiculos[]> {
     return this.http
-      .get(`${this.url}/vehiculo/disponibilidad?claseName=${clase}&fechaSalida=${fechaSalida}&fechaEntrada=${fechaEntrada}`)
+      .get(`${this.url}/vehiculo/disponibilidad?claseName=${clase}&fechaSalida=${fechaSalida}`)
       .pipe(map((resp: any) => resp as IVehiculos[]));
   }
 
@@ -212,6 +212,10 @@ export class SolicitudVehiculoService {
 
   updateSolciitudVehiculo(data: IActualizarSoliVe){
     return this.http.put<ISolicitudVehiculo>( `${this.url}/solicitudvehiculo/estadoupdate`, data);
+  }
+
+  updateSolciitudVehiculoSinVale(data: IActualizarSoliVe){
+    return this.http.put<ISolicitudVehiculo>( `${this.url}/solicitudvehiculo/updatesinvale`, data);
   }
 
   registrarSolicitudVale(solicitudVale: ISolicitudvalep){
