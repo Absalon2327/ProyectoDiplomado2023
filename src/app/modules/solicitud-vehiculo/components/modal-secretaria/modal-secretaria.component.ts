@@ -8,7 +8,7 @@ import {
   Validators
 } from "@angular/forms";
 import {Router} from "@angular/router";
-import {IDocumento, IDocumentoSoliVe, IMotorista, IPais, IPasajero, ISolicitudVehiculo} from "../../interfaces/data.interface";
+import {IDocumento, IDocumentoSoliVe, IEmail, IMotorista, IPais, IPasajero, ISolicitudVehiculo} from "../../interfaces/data.interface";
 import {SolicitudVehiculoService} from "../../services/solicitud-vehiculo.service";
 
 import {map} from "rxjs/operators";
@@ -19,6 +19,7 @@ import {INTEGER_VALIDATE} from "../../../../constants/constants";
 import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import { log } from 'console';
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
+import { EmailService } from '../../services/email.service';
 
 @Component({
   selector: 'app-modal-secretaria',
@@ -78,7 +79,7 @@ export class ModalSecretariaComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private router: Router,
               private soliVeService: SolicitudVehiculoService, public activeModal: NgbActiveModal,
-              private mensajesService: MensajesService,
+              private mensajesService: MensajesService, private emailService: EmailService
   ) { }
 
   ngOnInit(): void {
@@ -385,7 +386,11 @@ export class ModalSecretariaComponent implements OnInit {
             this.soliVeService.enviarPdfPasajeros(formData).subscribe({
               next: (pdfResp: any) => {
                 //console.log(pdfResp);
-                this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+                if (this.usuarioActivo.role == 'ADMIN'){
+                  this.soliVeService.getSolicitudesVehiculo(2);
+                }else{
+                  this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+                }
                 this.mensajesService.mensajesToast("success", "Registro agregado");
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
@@ -402,7 +407,11 @@ export class ModalSecretariaComponent implements OnInit {
               },
             });
           } else {
-            this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+            if (this.usuarioActivo.role == 'ADMIN'){
+              this.soliVeService.getSolicitudesVehiculo(2);
+            }else{
+              this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+            }
             this.mensajesService.mensajesToast("success", "Asignacion exitosa");
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
@@ -681,8 +690,14 @@ export class ModalSecretariaComponent implements OnInit {
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
-          //resp:any
-          this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          //resp:any this.usuarioActivo.role == 'ADMIN' && data.estado == 15 && this.leyenda == 'Edicion'
+          if (this.usuarioActivo.role == 'ADMIN' && data.estado == 15 && this.leyenda == 'Edicion'){
+            this.soliVeService.getSolicitudesVehiculo(2);
+          }else if(this.usuarioActivo.role == 'ADMIN' && (data.estado == 6 ||  data.estado == 15)){
+            this.soliVeService.getSolicitudesVehiculo(3);
+          }else {
+            this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          }
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           this.modalService.dismissAll();
           resolve();
@@ -746,7 +761,11 @@ export class ModalSecretariaComponent implements OnInit {
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
               // valeResp: any
-              this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+              if (this.usuarioActivo.role == 'ADMIN'){
+                this.soliVeService.getSolicitudesVehiculo(3);
+              }else {
+                this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+              }
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               this.modalService.dismissAll();
               resolve();
@@ -797,4 +816,78 @@ export class ModalSecretariaComponent implements OnInit {
       });
     });
   }
+
+  /** correos */
+
+  enviarEmailSD(rol: any, titulo: string, mensaje: string){
+    this.emailService.getEmailNameRol(rol).subscribe(
+      (datos) => {
+        const email: IEmail = {
+          asunto: titulo,
+          titulo: titulo,
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: mensaje,
+          centro: 'Por favor ingrese al sistema para ver más detalles',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  enviarEmailAnulacion(id: any, obsevacion: any){
+    if (obsevacion ==  null){
+      obsevacion = 'SIN NINGUNA OBSERVACIÓN';
+    }
+    this.emailService.getSolicitante(id).subscribe(
+      (datos) => {
+        const nombreUserAccion = this.usuarioActivo.empleado.nombre + " "+
+          this.usuarioActivo.empleado.apellido;
+        const email: IEmail = {
+          asunto: 'Solicitud de vehículo ANULADA',
+          titulo: 'Solicitud de vehículo ANULADA',
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: "Su solicitud ha sido anulada por "+nombreUserAccion+". "+obsevacion,
+          centro: 'Por favor ingrese al sistema para ver más detalles',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  enviarEmailAprobacionASolicitante(id: any, obsevacion: any){
+    if (obsevacion ==  null){
+      obsevacion = 'SIN NINGUNA OBSERVACIÓN';
+    }
+    this.emailService.getSolicitante(id).subscribe(
+      (datos) => {
+        const nombreUserAccion = this.usuarioActivo.empleado.nombre + " "+
+          this.usuarioActivo.empleado.apellido;
+        const email: IEmail = {
+          asunto: 'Solicitud de vehículo APROBADA',
+          titulo: 'Solicitud de vehículo APROBADA',
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". "+obsevacion+". Y está a la espera de asignación de vales",
+          centro: '',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  /** fin correos */
 }

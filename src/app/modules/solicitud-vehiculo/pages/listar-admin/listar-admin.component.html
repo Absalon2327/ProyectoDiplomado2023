@@ -1,0 +1,60 @@
+<app-loader></app-loader>
+<div class="container-fluid">
+  <app-page-title title="Solicitudes de Vehículos" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-2 align-items-end">
+            <div class="col-sm-4 col-md-4">
+              <div class="search-box me-2 mb-2 d-inline-block">
+                <div class="position-relative">
+                  <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="term">
+                  <i class="bx bx-search-alt search-icon"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-4 col-md-3">
+
+              <div class="form-group me-2 mb-2">
+                <label for="">Filtro por estado</label>
+                <select
+                  class="form-control"
+                  id="exampleCombobox"
+                  (change)="filtrar($event)"
+                  aria-label="Filtro por estado"
+                >
+                  <option value="" disabled selected>Seleccione...</option>
+                  <option value="1">En espera por jefe</option>
+                  <option value="2">Aprobado por jefe</option>
+                  <option value="3">En espera por decano</option>
+                  <option value="4">Aprobada</option>
+                  <option value="5">Vales Asignados</option>
+                  <option value="6">Revisión</option>
+                  <option value="7">Finalizadas</option>
+                  <option value="15">Anuladas</option>
+                </select>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!-- Table data -->
+          <app-tabla
+            *ngIf="usuario"
+            [solicitudesVehiculo]="listSoliVeData"
+            [userAcivo]="usuario"
+            [vista]="'listar'"
+            [term]="term"
+            aria-label="Tabla de solicitudes de vehículos"
+          ></app-tabla>
+          <!-- end table -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
