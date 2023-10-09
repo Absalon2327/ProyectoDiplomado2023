@@ -391,7 +391,8 @@ export class ModalSecretariaComponent implements OnInit {
                 }else{
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
-                this.mensajesService.mensajesToast("success", "Registro agregado");
+                this.mensajesService.mensajesToast("success", "Asignación exitosa");
+                this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar de la información');
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
                 resolve();
@@ -412,7 +413,8 @@ export class ModalSecretariaComponent implements OnInit {
             }else{
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
-            this.mensajesService.mensajesToast("success", "Asignacion exitosa");
+            this.mensajesService.mensajesToast("success", "Asignación exitosa");
+            this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar de la información');
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
             resolve();
@@ -699,6 +701,12 @@ export class ModalSecretariaComponent implements OnInit {
             this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           }
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
+          if (data.estado == 6) {
+            this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo pendiente de revisión',
+            `Tiene una solicitud vehículo pendiente de revisión. ${data.observaciones}.`);
+          } else if( data.estada == 15 ){
+            this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
+          }
           this.modalService.dismissAll();
           resolve();
         },
@@ -748,7 +756,7 @@ export class ModalSecretariaComponent implements OnInit {
   actualizarSolicitudDec(data: any):Promise <void>{
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
-        next: () => {
+        next: (resp: any) => {
           // resp: any
           this.solicitudVale = {
             idSolicitudVale: null,
@@ -757,6 +765,8 @@ export class ModalSecretariaComponent implements OnInit {
             estado: 8,
             solicitudVehiculo: data.codigoSolicitudVehiculo
           };
+
+          this.enviarEmailAprobacionASolicitante(data.codigoUsuario, data.observaciones);
 
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
@@ -801,6 +811,7 @@ export class ModalSecretariaComponent implements OnInit {
           // resp: any
           this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
+          this.enviarEmailAprobacionASolicitante(data.codigoUsuario, data.observaciones);
           this.modalService.dismissAll();
           resolve();
         },
