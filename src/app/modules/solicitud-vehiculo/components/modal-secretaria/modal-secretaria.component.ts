@@ -392,7 +392,8 @@ export class ModalSecretariaComponent implements OnInit {
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
                 this.mensajesService.mensajesToast("success", "Asignación exitosa");
-                this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar de la información');
+                console.log("entro al enviar pdf");
+                this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
                 resolve();
@@ -414,7 +415,8 @@ export class ModalSecretariaComponent implements OnInit {
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
             this.mensajesService.mensajesToast("success", "Asignación exitosa");
-            this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar de la información');
+            console.log("entro al asignar ssin docs");
+            this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
             resolve();
@@ -693,6 +695,7 @@ export class ModalSecretariaComponent implements OnInit {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
           //resp:any this.usuarioActivo.role == 'ADMIN' && data.estado == 15 && this.leyenda == 'Edicion'
+          console.log("DATA",data);
           if (this.usuarioActivo.role == 'ADMIN' && data.estado == 15 && this.leyenda == 'Edicion'){
             this.soliVeService.getSolicitudesVehiculo(2);
           }else if(this.usuarioActivo.role == 'ADMIN' && (data.estado == 6 ||  data.estado == 15)){
@@ -704,7 +707,9 @@ export class ModalSecretariaComponent implements OnInit {
           if (data.estado == 6) {
             this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo pendiente de revisión',
             `Tiene una solicitud vehículo pendiente de revisión. ${data.observaciones}.`);
-          } else if( data.estada == 15 ){
+            console.log("entro data6")
+          } else if( data.estado == 15 ){
+            console.log("entro data15")
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
           }
           this.modalService.dismissAll();
@@ -766,7 +771,7 @@ export class ModalSecretariaComponent implements OnInit {
             solicitudVehiculo: data.codigoSolicitudVehiculo
           };
 
-          this.enviarEmailAprobacionASolicitante(data.codigoUsuario, data.observaciones);
+          this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
 
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
@@ -811,7 +816,7 @@ export class ModalSecretariaComponent implements OnInit {
           // resp: any
           this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
-          this.enviarEmailAprobacionASolicitante(data.codigoUsuario, data.observaciones);
+          this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
           this.modalService.dismissAll();
           resolve();
         },
@@ -833,6 +838,7 @@ export class ModalSecretariaComponent implements OnInit {
   enviarEmailSD(rol: any, titulo: string, mensaje: string){
     this.emailService.getEmailNameRol(rol).subscribe(
       (datos) => {
+        console.log("datosEmailSD:",datos);
         const email: IEmail = {
           asunto: titulo,
           titulo: titulo,
@@ -842,6 +848,8 @@ export class ModalSecretariaComponent implements OnInit {
           centro: 'Por favor ingrese al sistema para ver más detalles',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
+
+        console.log("datosCorreo:", email);
         this.emailService.notificarEmail(email);
       },
       (error) => {
