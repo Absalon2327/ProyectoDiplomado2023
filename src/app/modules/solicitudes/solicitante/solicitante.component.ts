@@ -290,8 +290,8 @@ export class SolicitanteComponent implements OnInit {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
         this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
+          "info",
+          "?...",
           err.error.message
         );
       }
@@ -337,9 +337,9 @@ export class SolicitanteComponent implements OnInit {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
         this.mensajesService.mensajesSweet(
-          "warning",
-          "Ups... ",
-          "No se puede descargar el documentos " + error
+          "info",
+          "?...",
+          "Datos almacenados exitosamente.."
         );
       }
     );
@@ -774,7 +774,7 @@ export class SolicitanteComponent implements OnInit {
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio Unitario: ", bold: true }, vale.valor],
+            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor],
           },
           {
             text: [

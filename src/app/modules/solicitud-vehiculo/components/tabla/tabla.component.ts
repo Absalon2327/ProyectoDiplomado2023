@@ -55,6 +55,19 @@ export class TablaComponent implements OnInit {
     }
   }
 
+  abrirModalParaAdmin(leyenda: string, data: any) {
+    if (this.userAcivo.role == 'ADMIN' && data.estado == 1 && this.vista == 'listar'){
+      this.selectedData = data; // Almacena los datos del registro seleccionado
+      const modalRef = this.modalService.open(ModalComponent, {size: 'xl', backdrop: 'static'});
+      modalRef.componentInstance.leyenda = leyenda; // Pasa la leyenda al componente modal
+      modalRef.componentInstance.soliVeOd = data;
+      modalRef.componentInstance.vista = this.vista;
+      modalRef.componentInstance.usuarioActivo = this.userAcivo;
+    }else if (this.userAcivo.role == 'ADMIN' && data.estado != 1) {
+      this.abrirModalSecre(leyenda, data);
+    }
+  }
+
   abrirModalSecre(leyenda: string, data: any) {
     const modalRef = this.modalService.open(ModalSecretariaComponent, {size:'xl', backdrop: 'static'});
     modalRef.componentInstance.leyenda = leyenda;
@@ -112,7 +125,11 @@ export class TablaComponent implements OnInit {
       this.soliService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
           //resp: any
-          this.soliService.getSolicitudesRol(this.userAcivo.role);
+          if (this.userAcivo.role == 'ADMIN'){
+            this.soliService.getSolicitudesVehiculo(1);
+          }else {
+            this.soliService.getSolicitudesRol(this.userAcivo.role);
+          }
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           resolve();
         },
@@ -143,7 +160,11 @@ export class TablaComponent implements OnInit {
           this.soliService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
               // valeResp: any
-              this.soliService.getSolicitudesRol(this.userAcivo.role);
+              if (this.userAcivo.role == 'ADMIN'){
+                this.soliService.getSolicitudesVehiculo(3);
+              }else {
+                this.soliService.getSolicitudesRol(this.userAcivo.role);
+              }
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               resolve();
             },
@@ -176,6 +197,19 @@ export class TablaComponent implements OnInit {
       return (this.p - 1) * 10 + index + 1;
     } else {
       return index + 1; // Si no es numérico, solo regresamos el índice + 1
+    }
+  }
+
+  /* Metodos del administrador */
+
+  async aprobarSolicitudAdmin(data: any){
+    if ((await this.mensajesService.mensajeAprobar()) == true) {
+      //await this.actualizarSolicitud(data);
+      if (data.estado == 1){
+        await this.actualizarSolicitud(data);
+      }else if(data.estado == 3){
+        await this.actualizarSolicitudDec(data);
+      }
     }
   }
 }

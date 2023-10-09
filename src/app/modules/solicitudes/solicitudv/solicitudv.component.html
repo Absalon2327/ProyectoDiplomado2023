@@ -7,7 +7,7 @@
           <h1 class="card-title">
             Reporte consumo y compra de vales de combustible
           </h1>
-          <p class="card-title-desc">Informes por fechas</p>
+          <p class="card-title-desc">Rango de fechas / Excel / Informe mensual </p>
           <div class="btn-alerta" *ngIf="alerts">
             <i
               class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor"
@@ -69,18 +69,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="row mb-4">
-                  <div class="col-sm-12">
-                    <button
-                      type="submit"
-                      (click)="obtenerUsuarioActivo()"
-                      class="btn btn-primary w-sm me-2"
-                      form="formConsulta"
-                    >
-                      <i class="bi bi-arrow-right-circle-fill"></i>Generar Excel
-                    </button>
-                  </div>
-                </div>
               </div>
               <div class="col-lg-6">
                 <div class="row mb-4">
@@ -111,6 +99,26 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col-sm-12">
+                  <div class="text-right mt-3">
+                    <button
+                      type="submit"
+                      (click)="obtenerUsuarioActivo()"
+                      class="btn btn-primary w-sm me-2"
+                      form="formConsulta"
+                    >
+                      <i class="bi bi-arrow-right-circle-fill"></i>Generar Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <img
+                  src="../../../../assets/images/excel.jpg"
+                  class="img-fluid"
+                />
               </div>
             </div>
           </form>

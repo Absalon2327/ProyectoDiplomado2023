@@ -377,7 +377,11 @@ export class ModalSecretariaComponent implements OnInit {
             this.soliVeService.enviarPdfPasajeros(formData).subscribe({
               next: (pdfResp: any) => {
                 //console.log(pdfResp);
-                this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+                if (this.usuarioActivo.role == 'ADMIN'){
+                  this.soliVeService.getSolicitudesVehiculo(2);
+                }else{
+                  this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+                }
                 this.mensajesService.mensajesToast("success", "Registro agregado");
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
@@ -394,7 +398,11 @@ export class ModalSecretariaComponent implements OnInit {
               },
             });
           } else {
-            this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+            if (this.usuarioActivo.role == 'ADMIN'){
+              this.soliVeService.getSolicitudesVehiculo(2);
+            }else{
+              this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+            }
             this.mensajesService.mensajesToast("success", "Asignacion exitosa");
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
@@ -664,8 +672,14 @@ export class ModalSecretariaComponent implements OnInit {
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
-          //resp:any
-          this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          //resp:any this.usuarioActivo.role == 'ADMIN' && data.estado == 15 && this.leyenda == 'Edicion'
+          if (this.usuarioActivo.role == 'ADMIN' && data.estado == 15 && this.leyenda == 'Edicion'){
+            this.soliVeService.getSolicitudesVehiculo(2);
+          }else if(this.usuarioActivo.role == 'ADMIN' && (data.estado == 6 ||  data.estado == 15)){
+            this.soliVeService.getSolicitudesVehiculo(3);
+          }else {
+            this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          }
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           this.modalService.dismissAll();
           resolve();
@@ -701,6 +715,7 @@ export class ModalSecretariaComponent implements OnInit {
   async aprobarSolicitud(){
     console.log(this.soliVeOd);
     if ((await this.mensajesService.mensajeAprobar()) == true) {
+      this.soliVeOd.observaciones =  this.formularioSoliVe.get('observaciones').value;
       await this.actualizarSolicitudDec(this.soliVeOd);
     }
   }
@@ -721,7 +736,11 @@ export class ModalSecretariaComponent implements OnInit {
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
               // valeResp: any
-              this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+              if (this.usuarioActivo.role == 'ADMIN'){
+                this.soliVeService.getSolicitudesVehiculo(3);
+              }else {
+                this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+              }
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               this.modalService.dismissAll();
               resolve();
