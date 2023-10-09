@@ -5,6 +5,7 @@ import { Component, OnInit } from "@angular/core";
 import { Empleado } from "src/app/account/auth/models/usuario.models";
 import { ICompra } from "src/app/modules/compra/interfaces/compra.interface";
 import Swal from "sweetalert2";
+import { LogVale } from "../../interfaces/LogVale.interface";
 
 @Component({
   selector: "app-mostrar",
@@ -28,6 +29,9 @@ export class MostrarComponent implements OnInit {
   soliNuevas: number;
   soliPorAprobar: number;
 
+  logVales: LogVale[] = [];
+  cantidadLogVale: number;
+
   //grafica Compra
   chartData: any[] = [];
 
@@ -41,6 +45,7 @@ export class MostrarComponent implements OnInit {
     this.cargarComprasPorRangoDeFechas();
     this.getcatidadValesPorEstado();
     this.getcatidadSolicitudesPorEstado();
+    this.obtenerLogValesPorEstado(5);
     this.texto = "Este Mes";
   }
 
@@ -166,6 +171,15 @@ export class MostrarComponent implements OnInit {
       .getCantidadValesPorEstado(5)
       .subscribe((cantidad: number) => {
         this.ValesAsignados = cantidad;
+      });
+  }
+
+  obtenerLogValesPorEstado(estado: number): void {
+    this.homeFinancieroService
+      .obtenerLogValesPorEstadoYMes(estado)
+      .subscribe((logvales: LogVale[]) => {
+        this.logVales = logvales;
+        this.cantidadLogVale = this.logVales.length;
       });
   }
 

@@ -1,24 +1,28 @@
-import { Injectable } from '@angular/core';
-import { ICompra } from '../../compra/interfaces/compra.interface';
-import { environment } from 'src/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { ICompra } from "../../compra/interfaces/compra.interface";
+import { environment } from "src/environments/environment";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { IVale } from "../../devolucion-vale/interfaces/vale.interface";
+import { LogVale } from "../interfaces/LogVale.interface";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class HomeFinancieroService {
   private baseUrl: string = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-
-  getListarPorRangoDeFechas(fechaInicial: string, fechaFinal: string): Observable<ICompra[]> {
+  getListarPorRangoDeFechas(
+    fechaInicial: string,
+    fechaFinal: string
+  ): Observable<ICompra[]> {
     // Crear un objeto HttpParams para agregar los parámetros en la solicitud
     const params = new HttpParams()
-      .set('fechaInicial', fechaInicial)
-      .set('fechaFinal', fechaFinal);
+      .set("fechaInicial", fechaInicial)
+      .set("fechaFinal", fechaFinal);
 
     return this.http
       .get(`${this.baseUrl}/compra/listarPorRangoDeFechas`, { params })
@@ -35,5 +39,11 @@ export class HomeFinancieroService {
     return this.http
       .get(`${this.baseUrl}/asignacionvale/solicivaleEstado/${estado}`)
       .pipe(map((resp: any) => resp as number));
+  }
+
+  obtenerLogValesPorEstadoYMes(estado: number): Observable<LogVale[]> {
+    return this.http.get<LogVale[]>(
+      `${this.baseUrl}/logVale/montovalesconsumidosporestado/${estado}`
+    );
   }
 }
