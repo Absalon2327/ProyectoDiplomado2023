@@ -10,6 +10,12 @@
     </a>
 </div>
 
+<div *ngIf="leyenda == 'AcercaDe' && home == false">
+    <a class="dropdown-item" style="cursor: pointer;" (click)="AcercaDe()">
+        <i class="dripicons-information font-size-13 align-middle me-1"></i> Acerca De
+    </a>
+</div>
+
 <div *ngIf="leyenda == 'Datos' && home == true">
   <a style="cursor: pointer;" class="btn btn-primary btn-sm" (click)="openModal(content)" >Ver Perfil
     <i
@@ -21,6 +27,12 @@
       <i
               class="mdi mdi-arrow-right ms-1"></i></a>
   </div>
+
+  <div *ngIf="leyenda == 'AcercaDe' && home == true">
+    <a class="dropdown-item" style="cursor: pointer;" (click)="AcercaDe()">
+        <i class="dripicons-information font-size-13 align-middle me-1"></i> Acerca De
+    </a>
+</div>
 
 <!-- Modal-->
 <div class="modal modal-fullscreen-xl-down fade" id="modalEmpleado" name="modalEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel"

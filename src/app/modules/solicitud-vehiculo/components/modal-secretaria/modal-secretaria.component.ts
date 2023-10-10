@@ -83,8 +83,6 @@ export class ModalSecretariaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //console.log(this.usuarioActivo);
-    //console.log("data",this.soliVeOd);
     this.iniciarFormulario();
     this.llenarSelectDepartamentos();
     this.soliVeService.obtenerVehiculos();
@@ -172,7 +170,7 @@ export class ModalSecretariaComponent implements OnInit {
         this.pasajeroFormControls.push(control);
       }
 
-      console.log(this.pasajeros);
+      //console.log(this.pasajeros);
 
     }
   }
@@ -181,7 +179,7 @@ export class ModalSecretariaComponent implements OnInit {
     //this.formularioSoliVe.value.unidadSolicitante = this.usuarioActivo.empleado.departamento.nombre;
 
     const solicitudVehiculo = this.formularioSoliVe.value;
-    console.log("formularo: ",this.formularioSoliVe);
+    //console.log("formularo: ",this.formularioSoliVe);
     if (this.formularioSoliVe.valid){
       if(this.validarfecha(solicitudVehiculo.fechaSolicitud)){
         if (this.validarfecha(solicitudVehiculo.fechaSalida)){
@@ -255,9 +253,9 @@ export class ModalSecretariaComponent implements OnInit {
       }
     } else {
       // Mostrar nombres de campos inválidos por consola
-      console.log('Campos inválidos:',
+      /*console.log('Campos inválidos:',
         Object.keys(this.formularioSoliVe.controls).filter((controlName) =>
-          this.formularioSoliVe.get(controlName)?.invalid));
+          this.formularioSoliVe.get(controlName)?.invalid));*/
 
       this.mensajesService.mensajesToast(
         "warning",
@@ -288,23 +286,18 @@ export class ModalSecretariaComponent implements OnInit {
         this.soliVeOd.motorista.apellido;
 
       if (nombreMotoristaExistente.toString() == this.formularioSoliVe.get('motorista').value){
-        console.log("entro al if motorista");
         solicitudVehiculo.motorista = this.soliVeOd.motorista.codigoEmpleado;
       }
     }
 
     if(this.soliVeOd.vehiculo.placa == this.formularioSoliVe.get('vehiculo').value){
-      console.log("entro al if vehiculo");
       solicitudVehiculo.vehiculo = this.soliVeOd.vehiculo.codigoVehiculo;
     }
-
-    console.log("vehiculo",solicitudVehiculo.vehiculo);
-    console.log("motorista", solicitudVehiculo.motorista);
     const tipoBuscado = "Lista de pasajeros";
     const documentosFiltrados = this.soliVeOd.listDocumentos.filter((documento) => {
       return documento.tipoDocumento === tipoBuscado;
     });
-    console.log(documentosFiltrados);
+    //console.log(documentosFiltrados);
 
 
     /* para la direccion */
@@ -391,7 +384,8 @@ export class ModalSecretariaComponent implements OnInit {
                 }else{
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
-                this.mensajesService.mensajesToast("success", "Registro agregado");
+                this.mensajesService.mensajesToast("success", "Asignación exitosa");
+                this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
                 resolve();
@@ -412,7 +406,8 @@ export class ModalSecretariaComponent implements OnInit {
             }else{
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
-            this.mensajesService.mensajesToast("success", "Asignacion exitosa");
+            this.mensajesService.mensajesToast("success", "Asignación exitosa");
+            this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
             resolve();
@@ -662,7 +657,7 @@ export class ModalSecretariaComponent implements OnInit {
 
   actualizarEstadoCheckbox() {
     this.isChecked = !this.isChecked;
-    console.log(this.isChecked);
+    //console.log(this.isChecked);
 
   }
 
@@ -699,6 +694,12 @@ export class ModalSecretariaComponent implements OnInit {
             this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           }
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
+          if (data.estado == 6) {
+            this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo pendiente de revisión',
+            `Tiene una solicitud vehículo pendiente de revisión. ${data.observaciones}.`);
+          } else if( data.estado == 15 ){
+            this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
+          }
           this.modalService.dismissAll();
           resolve();
         },
@@ -731,7 +732,6 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   async aprobarSolicitud(){
-    console.log(this.soliVeOd);
     if(this.soliVeOd.tieneVale){
       if ((await this.mensajesService.mensajeAprobar()) == true) {
         await this.actualizarSolicitudDec(this.soliVeOd);
@@ -748,7 +748,7 @@ export class ModalSecretariaComponent implements OnInit {
   actualizarSolicitudDec(data: any):Promise <void>{
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
-        next: () => {
+        next: (resp: any) => {
           // resp: any
           this.solicitudVale = {
             idSolicitudVale: null,
@@ -757,6 +757,8 @@ export class ModalSecretariaComponent implements OnInit {
             estado: 8,
             solicitudVehiculo: data.codigoSolicitudVehiculo
           };
+
+          this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
 
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
@@ -801,6 +803,7 @@ export class ModalSecretariaComponent implements OnInit {
           // resp: any
           this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
+          this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
           this.modalService.dismissAll();
           resolve();
         },
