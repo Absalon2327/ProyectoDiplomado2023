@@ -3,6 +3,7 @@ import {SolicitudVehiculoService} from "../../services/solicitud-vehiculo.servic
 import {ISolicitudVehiculo} from "../../interfaces/data.interface";
 import {UsuarioService} from 'src/app/account/auth/services/usuario.service';
 import {Usuario} from "../../../../account/auth/models/usuario.models";
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-listar',
@@ -55,7 +56,13 @@ export class ListarComponent implements OnInit {
 
   filtrar(event: any) {
     this.estadoSeleccionado = event.target.value ? event.target.value : null;
-    this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado);
+
+    from(this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado))
+      .subscribe((data: ISolicitudVehiculo[]) => {
+        this.listSoliVeData.length = 0;
+        this.listSoliVeData.push(...data);
+      });
   }
+
 
 }
