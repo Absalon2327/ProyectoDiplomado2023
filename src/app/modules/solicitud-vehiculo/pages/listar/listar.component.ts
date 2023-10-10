@@ -18,6 +18,7 @@ export class ListarComponent implements OnInit {
 
   solicitudesVehiculo: ISolicitudVehiculo [] = [];
   usuario!: Usuario;
+  estadoSeleccionado: number;
 
   constructor( private soliVeService: SolicitudVehiculoService,
     private userService: UsuarioService) {
@@ -50,6 +51,11 @@ export class ListarComponent implements OnInit {
     } else {
       return index + 1; // Si no es numérico, solo regresamos el índice + 1
     }
+  }
+
+  filtrar(event: any) {
+    this.estadoSeleccionado = event.target.value ? event.target.value : null;
+    this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado);
   }
 
 }
