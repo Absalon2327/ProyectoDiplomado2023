@@ -40,8 +40,16 @@
   <app-home-decano></app-home-decano>
 </ng-container>
 
+<ng-container
+  *ngIf="
+    usuariojson?.role == 'ADMIN'
+  "
+>
+  <app-home-admin></app-home-admin>
+</ng-container>
 
-<ng-container *ngIf="usuariojson?.role == 'ADMIN'">
+
+<ng-container *ngIf="usuariojson?.role == 'OTRO'">
   <div class="container-fluid">
     <!-- start page title -->
     <div class="row">
