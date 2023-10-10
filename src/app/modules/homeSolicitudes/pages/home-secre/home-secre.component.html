@@ -1,3 +1,4 @@
+<app-loader></app-loader>
 <div class="container-fluid">
   <!-- start page title -->
   <div class="row">
@@ -46,7 +47,7 @@
 
         <div class="col-md-3">
           <app-stat
-            [title]="'Misiones del mes'"
+            [title]="'Misiones en curso'"
             [value]="cards?.misiones"
             [icon]="'mdi mdi-calendar'"
           ></app-stat>
@@ -164,7 +165,7 @@
                     <h5 class="text-black"> {{ this.empleado.nombre }}   {{ this.empleado.apellido }}</h5>
                   </div>
                   <div class="col-sm-4">
-                    <p class="text-muted mb-0">Departamento</p>
+                    <p class="text-muted mb-0">Departamento - Unidad</p>
                      <h5>{{ this.empleado.departamento.nombre }} - {{this.empleado.departamento.tipo}}</h5>
                   </div>
                 </div>

@@ -10,6 +10,7 @@ import { HomeJefeComponent } from './pages/home-jefe/home-jefe.component';
 import { HomeSecreComponent } from './pages/home-secre/home-secre.component';
 import { HomeDecanoComponent } from './pages/home-decano/home-decano.component';
 import { UIModule } from 'src/app/shared/ui/ui.module';
+import { HomeAdminComponent } from './pages/home-admin/home-admin.component';
 
 
 
@@ -19,7 +20,8 @@ import { UIModule } from 'src/app/shared/ui/ui.module';
     HomeUserComponent,
     HomeJefeComponent,
     HomeSecreComponent,
-    HomeDecanoComponent
+    HomeDecanoComponent,
+    HomeAdminComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { UIModule } from 'src/app/shared/ui/ui.module';
     HomeUserComponent,
     HomeJefeComponent,
     HomeSecreComponent,
-    HomeDecanoComponent
+    HomeDecanoComponent,
+    HomeAdminComponent
   ]
 })
 export class HomeSoliModule { }
