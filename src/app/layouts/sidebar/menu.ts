@@ -54,13 +54,7 @@ export const MENU: MenuItem[] = [
         role: ["ADMIN","JEFE_DEPTO","SECR_DECANATO","DECANO"],
         parentId: 9,
       },
-      {
-        id: 11,
-        label: "Mis solicitudes",
-        link: "/solicitud-vehiculo/mis-solicitudes",
-        role: ["ADMIN", "USER","JEFE_DEPTO","SECR_DECANATO","DECANO","ASIS_FINANCIERO","JEFE_FINANACIERO"],
-        parentId: 9,
-      },
+   
     ],
   },
   {
