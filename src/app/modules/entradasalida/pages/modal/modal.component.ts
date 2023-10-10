@@ -20,6 +20,9 @@ import { ListaentradasalidaService } from "../../service/listaentradasalida.serv
 import { MensajesService } from "src/app/shared/global/mensajes.service";
 import { IsolicitudVehiculo } from "../../interface/VehiculoEntradasalida";
 import { ISolicitudvalep } from "src/app/modules/solicitud-vale-paginacion/interface/solicitudvalep.interface";
+import { IEmail } from "src/app/account/auth/interfaces/usuario";
+import { UsuarioService } from "src/app/account/auth/services/usuario.service";
+import { ICorreos } from "src/app/modules/solicitudes/Interfaces/correos.interface";
 
 @Component({
   selector: "app-modal",
@@ -48,6 +51,7 @@ export class ModalComponent implements OnInit {
   fechaActual: string;
   modoEdicion = false;
   kilomet: IEntradaSalida;
+  correos!: ICorreos[];
 
   /////esto para enviar el objetivo a la modal
   //objetivoMision: IsolicitudVehiculo;
@@ -68,7 +72,7 @@ export class ModalComponent implements OnInit {
     private mensajesService: MensajesService,
     private fb: FormBuilder,
     private router: Router,
-    private listaentradasalidaservice: ListaentradasalidaService
+    private listaentradasalidaservice: ListaentradasalidaService, private usuarios: UsuarioService
   ) {}
 
   ngOnInit(): void {
@@ -308,6 +312,13 @@ export class ModalComponent implements OnInit {
                     );
                     this.obtenerLista();
                     this.recargar();
+                    // Inicia mensaje dirigido hacia el correo institucional
+                    this.EmailE(
+                      "!Aviso importante!",
+                      "Se ha detectado un registro de entrada",
+                      "EL Auto detectado ha completado con su mision: " + this.objetivoMision.objetivoMision,
+                      "Se solicita continuar con los procesos para poder liquidar"
+                    );// Termina mensaje dirigido hacia el correo institucional
                   }
                 );
             });
@@ -366,5 +377,51 @@ export class ModalComponent implements OnInit {
 
   siMuestraAlertas() {
     return this.alerts.every((alert) => alert.show);
+  }
+
+  EmailE(asunto: string, titulo: string, mensaje: string, centro: string) {
+    const nombre = this.correos[1].nombre;
+    const correo = this.correos[1].correo;
+
+    const email: IEmail = {
+      asunto: asunto,
+      titulo: titulo,
+      email: correo,
+      receptor: "Estimad@ : " + nombre,
+      mensaje: mensaje,
+      centro: centro,
+      codigo: '',
+      abajo: "Gracias por su atención a este importante mensaje.",
+    };
+
+    this.usuarios.SendEmail(email).subscribe(
+      (resp) => {
+        console.log("resp: ", resp);
+
+        Swal.close();
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2500,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          text: "¡Se ha enviando un mensaje al correo institucional!",
+        }).then(() => {});
+      },
+      (err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Algo salió mal",
+          text: err,
+        });
+      }
+    );
   }
 }

@@ -24,6 +24,10 @@
   <app-home-jefe></app-home-jefe>
 </ng-container>
 
+<ng-container *ngIf="usuariojson?.role == 'VIGILANTE'">
+  <app-listar></app-listar>
+</ng-container>
+
 <ng-container
   *ngIf="
     usuariojson?.role == 'SECR_DECANATO'

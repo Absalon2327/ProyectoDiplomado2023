@@ -115,8 +115,9 @@ export const MENU: MenuItem[] = [
     id: 19,
     label: "Entradas y Salidas",
     icon: "dripicons-document-edit",
+    link: "/entrasalida/listar",
     role: ["ADMIN","VIGILANTE"],
-    subItems: [
+    /*subItems: [
       {
         id: 20,
         label: "Listado",
@@ -124,7 +125,7 @@ export const MENU: MenuItem[] = [
         role: ["ADMIN","VIGILANTE"],
         parent: 19,
       },
-    ],
+    ],*/
   },
   {
     id: 21,
@@ -585,8 +586,9 @@ export const MENU_VIGILANTE: MenuItem[] = [
     id: 10,
     label: "Entradas y Salidas",
     icon: "dripicons-document-edit",
+    link: "/entrasalida/listar",
     role: ["ADMIN","VIGILANTE"],
-    subItems: [
+    /*subItems: [
       {
         id: 11,
         label: "Listado",
@@ -594,7 +596,7 @@ export const MENU_VIGILANTE: MenuItem[] = [
         role: ["ADMIN","VIGILANTE"],
         parent: 10,
       },
-    ],
+    ],*/
   },
 
 
