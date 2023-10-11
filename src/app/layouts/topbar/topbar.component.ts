@@ -172,7 +172,6 @@ export class TopbarComponent implements OnInit {
     });
   }
 
-  /* Enviar email */
 
   //// metodo par abrir la modal ////
   openModal(content: any) {
