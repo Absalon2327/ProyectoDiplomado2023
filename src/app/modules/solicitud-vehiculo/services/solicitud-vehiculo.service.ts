@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {
   IActualizarSoliVe,
   IEstados,
   IPais,
   ISolicitudVehiculo,
   IMotorista,
-  ILogSoliVe
+  ILogSoliVe, IEmail
 } from "../interfaces/data.interface";
 import {environment} from "../../../../environments/environment";
-import {map} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 import {IVehiculos} from "../../vehiculo/interfaces/vehiculo-interface";
 import {Usuario} from "../../../account/auth/models/usuario.models";
 import {ISolicitudvalep} from "../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
@@ -144,9 +144,9 @@ export class SolicitudVehiculoService {
       );
     }
 
-  filtroPlacasVehiculo(clase: string,fechaSalida:string,fechaEntrada:string): Observable<IVehiculos[]> {
+  filtroPlacasVehiculo(clase: string,fechaSalida:string): Observable<IVehiculos[]> {
     return this.http
-      .get(`${this.url}/vehiculo/disponibilidad?claseName=${clase}&fechaSalida=${fechaSalida}&fechaEntrada=${fechaEntrada}`)
+      .get(`${this.url}/vehiculo/disponibilidad?claseName=${clase}&fechaSalida=${fechaSalida}`)
       .pipe(map((resp: any) => resp as IVehiculos[]));
   }
 
@@ -212,6 +212,10 @@ export class SolicitudVehiculoService {
 
   updateSolciitudVehiculo(data: IActualizarSoliVe){
     return this.http.put<ISolicitudVehiculo>( `${this.url}/solicitudvehiculo/estadoupdate`, data);
+  }
+
+  updateSolciitudVehiculoSinVale(data: IActualizarSoliVe){
+    return this.http.put<ISolicitudVehiculo>( `${this.url}/solicitudvehiculo/updatesinvale`, data);
   }
 
   registrarSolicitudVale(solicitudVale: ISolicitudvalep){

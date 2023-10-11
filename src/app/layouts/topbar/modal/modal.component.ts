@@ -456,4 +456,8 @@ export class ModalComponent implements OnInit {
       }
     });
   }
+  
+  AcercaDe(){
+    this.usuarioService.logoutAcercaDe();
+  }
 }

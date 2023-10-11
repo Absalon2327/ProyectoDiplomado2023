@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { MensajesService } from 'src/app/shared/global/mensajes.service';
+import { NAME_TILDES_VALIDATE } from 'src/app/constants/constants';
+
 
 @Component({
   selector: 'app-modal',
@@ -17,6 +19,8 @@ export class ModalComponent implements OnInit {
   formDepto !: FormGroup;
   @Input() deptos !: IDepto;
   @Input() leyenda !: string;
+  private isText : string =  NAME_TILDES_VALIDATE;
+
   alerts = [
     {
       id: 1,
@@ -45,7 +49,7 @@ export class ModalComponent implements OnInit {
   private iniciarFormulario(){
     return this.fb.group({
       nombre : ['',Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]*')])],
-      descripcion : ['',Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]*')])],
+      descripcion : ['',Validators.compose([Validators.required, Validators.pattern(this.isText)])],
       tipo : ['',Validators.compose([Validators.required])]
     })
   }

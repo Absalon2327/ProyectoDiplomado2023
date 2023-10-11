@@ -78,8 +78,7 @@
                    formControlName="fechaSalida"
                    [class]="esCampoValido('fechaSalida')"
                    (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                   formularioSoliVe.get('fechaSalida').value,
-                   formularioSoliVe.get('fechaEntrada').value)"
+                   formularioSoliVe.get('fechaSalida').value)"
                    [readonly]="soliVeOd != null && leyenda === 'Detalle'"/>
             <div class="invalid-feedback">
               <span
@@ -287,13 +286,25 @@
           </div>
           <!-- fin hora de salida -->
         </div>
+        <div class="row"*ngIf="leyenda == 'Detalle' && soliVeOd.motorista != null">
+          <div class="mt-2">
+            <div class="form-group">
+              <label for="motoristaid">Motorista:</label>
+              <input type="text"
+                     class="form-control"
+                     id="motoristaid"
+                     formControlName="motorista"
+                     readonly />
+            </div>
+          </div>
+        </div>
         <div class="row" *ngIf="leyenda != 'Nueva'">
           <div class="mt-2">
             <div class="form-group">
               <label for="observa-id">Observaciones:</label>
               <textarea cols="30" rows="2" class="form-control"
                         id="observa-id"
-                        [placeholder]="soliVeOd.observaciones != '' ? '' : 'Ingrese observaciones'"
+                        [placeholder]="(leyenda === 'Detalle' && soliVeOd.observaciones === '') ? '' : 'Ingrese observaciones'"
                         formControlName="observaciones"
                         [class]="esCampoValido('observaciones')"
                         [readonly] = "(leyenda == 'Detalle' &&
@@ -320,8 +331,7 @@
                    formControlName="fechaEntrada"
                    [class]="esCampoValido('fechaEntrada')"
                    (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                   formularioSoliVe.get('fechaSalida').value,
-                   formularioSoliVe.get('fechaEntrada').value)"
+                   formularioSoliVe.get('fechaSalida').value)"
                    [readOnly]="leyenda == 'Detalle' && soliVeOd != null"/>
             <div class="invalid-feedback">
               <span
@@ -350,8 +360,7 @@
                 labelForId="tipoVehiculo"
                  [class]="esCampoValido('tipoVehiculo')"
                 (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                formularioSoliVe.get('fechaSalida').value,
-                formularioSoliVe.get('fechaEntrada').value)"
+                formularioSoliVe.get('fechaSalida').value)"
               >
                 <ng-option
                   *ngFor="let car of listVehiculos"
@@ -617,6 +626,21 @@
       </div>
     </div>
     <div class="d-flex justify-content-end mt-4">
+<!--      botones administrador-->
+      <div *ngIf="usuarioActivo.role == 'ADMIN'">
+
+        <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save-admin" name="btn-save"
+                (click)="aprobarSolicitudAdministrador()">
+          Aprobar
+        </button>
+
+        <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-anu" name="btn-save"
+                (click)="anularSolicitud()">
+          Anular
+        </button>
+
+      </div>
+<!--      fin de botones administrador-->
       <button type="submit" class="btn btn-primary w-sm me-2" id="btn-save" name="btn-save"
               *ngIf="leyenda == 'Nueva'">
         Enviar

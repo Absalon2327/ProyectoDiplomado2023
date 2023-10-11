@@ -21,6 +21,7 @@ import { Observable } from "rxjs";
 import { Usuario } from "src/app/account/auth/models/usuario.models";
 import { IPaginacion } from "src/app/shared/models/IPaginacion.interface";
 import { UsuarioService } from "src/app/account/auth/services/usuario.service";
+import { ICorreos } from "../Interfaces/correos.interface";
 
 @Injectable({
   providedIn: "root",
@@ -94,14 +95,19 @@ export class ServiceService {
     );
   }
 
-  insertar(asignacionVale: IAsignacionVale, idUsuario: string, empleado: string, cargo: string) {
+  insertar(
+    asignacionVale: IAsignacionVale,
+    idUsuario: string,
+    empleado: string,
+    cargo: string
+  ) {
     console.log("en el servicio:", asignacionVale);
     console.log("suario en el servicio:", this.usuario);
     const data = {
       asignacionValeInDto: asignacionVale,
       idUsuarioLogueado: idUsuario,
       empleado: empleado,
-      cargo: cargo
+      cargo: cargo,
     };
     console.log("data en el servicio:", data);
 
@@ -147,11 +153,15 @@ export class ServiceService {
   }
 
   //Cambia el estado, minserta la cantidad y añade observaciones a la solicitud de vale
-  solicitarAprobacion(solicitud: ISolcitudAprobar, usuario: string, cargo: string) {
+  solicitarAprobacion(
+    solicitud: ISolcitudAprobar,
+    usuario: string,
+    cargo: string
+  ) {
     const data = {
       solicitudValeAprobarDto: solicitud,
       idUsuarioLogueado: usuario,
-      cargo: cargo
+      cargo: cargo,
     };
 
     return this.http.post(
@@ -227,4 +237,10 @@ export class ServiceService {
         }
       );
   }
+
+  getCorreosFinanciero(){
+    return this.http.get<ICorreos[]>(`${this.baseUrl}/asignacionvale/correosfinanciero`);
+  }
+
+
 }

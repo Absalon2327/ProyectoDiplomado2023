@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-grafica-compra',
-  templateUrl: './grafica-compra.component.html',
-  styleUrls: ['./grafica-compra.component.scss']
+  selector: "app-grafica-compra",
+  templateUrl: "./grafica-compra.component.html",
+  styleUrls: ["./grafica-compra.component.scss"],
 })
 export class GraficaCompraComponent implements OnInit {
   @Input() chartData: any[] = [];
-  chartLabels = ['Total Compra ($)'];
+  chartLabels = ["Total Compra ($)"];
   chartLegend = true;
   chartPlugins = [];
 
@@ -24,7 +24,7 @@ export class GraficaCompraComponent implements OnInit {
             beginAtZero: true,
             callback: function (value, index, values) {
               // Formatear el valor como moneda
-              return '$' + value.toFixed(2);
+              return "$" + value.toFixed(2);
             },
           },
         },
@@ -32,9 +32,7 @@ export class GraficaCompraComponent implements OnInit {
     },
   };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

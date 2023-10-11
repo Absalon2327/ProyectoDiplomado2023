@@ -14,6 +14,7 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {NgbActiveModal, NgbModule, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 import { ModalSecretariaComponent } from './components/modal-secretaria/modal-secretaria.component';
 import { ModalLogComponent } from './components/modal-log/modal-log.component';
+import { ListarAdminComponent } from './pages/listar-admin/listar-admin.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ModalLogComponent } from './components/modal-log/modal-log.component';
     ModalComponent,
     TablaComponent,
     ModalSecretariaComponent,
-    ModalLogComponent
+    ModalLogComponent,
+    ListarAdminComponent
   ],
   imports: [
     CommonModule,

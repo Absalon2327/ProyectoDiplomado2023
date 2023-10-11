@@ -15,6 +15,9 @@ import { ServiceService } from "../Service/service.service";
 import { log } from "console";
 import { NUMBER_VALIDATE } from "src/app/constants/constants";
 import Swal from "sweetalert2";
+import { UsuarioService } from "src/app/account/auth/services/usuario.service";
+import { IEmail } from "src/app/account/auth/interfaces/usuario";
+import { ICorreos } from '../Interfaces/correos.interface';
 
 @Component({
   selector: "app-solicitud-vale-aprobar",
@@ -26,6 +29,8 @@ export class SolicitudValeAprobarComponent implements OnInit {
   solicitudesVales!: ISolicitudValeAprobar[];
 
   storage: Storage = window.localStorage;
+
+  correos!: ICorreos[];
 
   //para las migas de pan
   breadCrumbItems: Array<{}>;
@@ -71,7 +76,8 @@ export class SolicitudValeAprobarComponent implements OnInit {
     private service: ServiceService,
     private mensajesService: MensajesService,
     private modalService: NgbModal,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public usuarios: UsuarioService
   ) {
     this.iniciarFormulario();
   }
@@ -99,6 +105,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
       { label: "Solicitudes por Aprobar", active: true },
     ]; // miga de pan
     this.getSolicitudesVale(1);
+    this.obtenerCorreos();
   }
 
   getSolicitudesVale(estado: number) {
@@ -108,12 +115,11 @@ export class SolicitudValeAprobarComponent implements OnInit {
         this.obtenerFechaFormateada(data);
         this.asignacionEstados(estado);
       },
-      error: (error) =>{
-        this.mensajeTabla = "No hay datos para mostrar"
-        this.solicitudesVales = undefined
+      error: (error) => {
+        this.mensajeTabla = "No hay datos para mostrar";
+        this.solicitudesVales = undefined;
         console.log("solicitudes: ", this.solicitudesVales);
-
-      }
+      },
     });
   }
 
@@ -219,7 +225,9 @@ export class SolicitudValeAprobarComponent implements OnInit {
     this.formularioSolicitudVale
       .get("unidadSolicitante")
       ?.setValue(String(unidadSolicitante));
-      this.formularioSolicitudVale.get("observacionRevision")?.setValue(String(observacionRevision));
+    this.formularioSolicitudVale
+      .get("observacionRevision")
+      ?.setValue(String(observacionRevision));
   }
 
   async guardar() {
@@ -242,9 +250,10 @@ export class SolicitudValeAprobarComponent implements OnInit {
   }
 
   revision() {
-
+    const mision = this.solicitudesVales[0].mision;
     const usuarioLogueado = JSON.parse(this.storage.getItem("usuario" || ""));
-    const empleado = usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
+    const empleado =
+      usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
     const cargo = usuarioLogueado.empleado.cargo.nombreCargo;
     this.observaciones = this.formularioSolicitudVale.get(
       "observacionRevision"
@@ -258,7 +267,6 @@ export class SolicitudValeAprobarComponent implements OnInit {
       estadoSolicitudVale: estadoSolicitud,
       observaciones: this.observaciones,
     };
-
 
     Swal.fire({
       title: "Espere",
@@ -278,6 +286,12 @@ export class SolicitudValeAprobarComponent implements OnInit {
           this.modalService.dismissAll();
           this.limpiarCampos();
           this.mensajesService.mensajesToast("warning", "Enviada para Revisar");
+          this.Email(
+            "¡Revisar!",
+            "Solicitud de Vale",
+            "La Solicitud de Vales para la misión: " + mision + ", tiene observaciones, por favor revisarla.",
+            "Solicitud de Vale"
+          );
           resolve(); // Resuelve la promesa sin argumentos
         },
         error: (err) => {
@@ -295,10 +309,15 @@ export class SolicitudValeAprobarComponent implements OnInit {
   }
 
   async aprobar() {
+    const mision = this.solicitudesVales[0].mision;
     const usuarioLogueado = JSON.parse(this.storage.getItem("usuario" || ""));
-    const empleado = usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
+    const empleado =
+      usuarioLogueado.empleado.nombre + " " + usuarioLogueado.empleado.apellido;
     const cargo = usuarioLogueado.empleado.cargo.nombreCargo;
-    if ((await this.mensajesService.mensajeSolicitudAprobada(this.cantVales)) == true) {
+    if (
+      (await this.mensajesService.mensajeSolicitudAprobada(this.cantVales)) ==
+      true
+    ) {
       this.observaciones = this.formularioSolicitudVale.get(
         "observacionRevision"
       )?.value;
@@ -330,7 +349,16 @@ export class SolicitudValeAprobarComponent implements OnInit {
             this.getSolicitudesVale(1);
             this.modalService.dismissAll();
             this.limpiarCampos();
-            this.mensajesService.mensajesToast("success", "Solicitud de Vale Aprobada");
+            this.mensajesService.mensajesToast(
+              "success",
+              "Solicitud de Vale Aprobada"
+            );
+            this.Email(
+              "!Aprobada!",
+              "Solicitud de Vales",
+              "La Solicitud de Vales para la misión: " + mision + ", ha sido aprobada.",
+              "Solicitud de Vales"
+            );
             resolve(); // Resuelve la promesa sin argumentos
           },
           error: (err) => {
@@ -371,5 +399,60 @@ export class SolicitudValeAprobarComponent implements OnInit {
     this.alerts.forEach((alert) => {
       alert.show = true;
     });
+  }
+
+  obtenerCorreos(){
+    this.service.getCorreosFinanciero().subscribe({
+      next: (data)=>{
+        console.log("data: ", data);
+        this.correos = data;
+      }
+    })
+  }
+
+  Email(asunto: string, titulo: string, mensaje: string, centro: string) {
+    const nombre = this.correos[0].nombre;
+    const correo = this.correos[0].correo;
+
+    const email: IEmail = {
+      asunto: asunto,
+      titulo: titulo,
+      email: correo,
+      receptor: "Estimad@ : " + nombre,
+      mensaje: mensaje,
+      centro: centro,
+      codigo: '',
+      abajo: "Gracias por su atención a este importante mensaje.",
+    };
+
+    this.usuarios.SendEmail(email).subscribe(
+      (resp) => {
+        console.log("resp: ", resp);
+
+        Swal.close();
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2500,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          text: "¡Se ha enviando un mensaje al correo institucional!",
+        }).then(() => {});
+      },
+      (err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Algo salió mal",
+          text: err,
+        });
+      }
+    );
   }
 }

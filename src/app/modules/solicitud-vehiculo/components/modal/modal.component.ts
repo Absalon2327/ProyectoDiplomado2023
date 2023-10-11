@@ -8,7 +8,7 @@ import {
   Validators
 } from "@angular/forms";
 import {Router} from "@angular/router";
-import {IDocumento, IPais, IPasajero, ISolicitudVehiculo} from "../../interfaces/data.interface";
+import {IDocumento, IEmail, IPais, IPasajero, ISolicitudVehiculo} from "../../interfaces/data.interface";
 import {SolicitudVehiculoService} from "../../services/solicitud-vehiculo.service";
 
 import {map} from "rxjs/operators";
@@ -18,6 +18,7 @@ import {IVehiculos} from "../../../vehiculo/interfaces/vehiculo-interface";
 import {INTEGER_VALIDATE} from "../../../../constants/constants";
 import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
+import {EmailService} from "../../services/email.service";
 
 @Component({
   selector: 'app-modal',
@@ -75,7 +76,7 @@ export class ModalComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private router: Router,
               private soliVeService: SolicitudVehiculoService, public activeModal: NgbActiveModal,
-              private mensajesService: MensajesService,
+              private mensajesService: MensajesService, private emailService: EmailService
   ) {
     this.solicitudVale = {
       idSolicitudVale: '',
@@ -137,6 +138,12 @@ export class ModalComponent implements OnInit {
           .setValue(this.soliVeOd != null ? this.soliVeOd.observaciones: '');
       }
 
+      if(this.soliVeOd.motorista != null){
+        this.formularioSoliVe.get('motorista')
+          .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
+            + this.soliVeOd.motorista.apellido: '');
+      }
+
 
       if (solicitudVehiculo.cantidadPersonas > 5){
         this.mostrarTabla = false;
@@ -162,54 +169,71 @@ export class ModalComponent implements OnInit {
         if(this.validarfecha(solicitudVehiculo.fechaSolicitud)){
           if (this.validarfecha(solicitudVehiculo.fechaSalida)){
             if(this.validarfecha(solicitudVehiculo.fechaEntrada)){
-              if(this.file  != null
-                || solicitudVehiculo.cantidadPersonas < 6){
-                //  vacío para almacenar los datos de los pasajeros
-                const pasajerosData = [];
-
-                // Recorrer los controles de los pasajeros
-                for (const control of this.pasajeroFormControls) {
-                  // Obtener el valor del control
-                  const nombrePasajero = control.value;
-
-                  // objeto con el valor del control y un ID vacío
-                  const pasajero = { id: '', nombrePasajero };
-
-                  // Agregar el objeto al arreglo de pasajerosData
-                  pasajerosData.push(pasajero);
-                }
-
-                solicitudVehiculo.listaPasajeros = pasajerosData;
-
-                //console.log("dataPas: ",pasajerosData);
-
-                // validacion lista de pasajeros
-                const todosLlenos = pasajerosData.every((pasajero) => {
-                  const value = pasajero.nombrePasajero;
-
-                  return typeof value === 'string' && value.trim() !== '';
-
-
-                });
-
-                if (!todosLlenos) {
+              if (solicitudVehiculo.fechaEntrada >= solicitudVehiculo.fechaSalida){
+                if (solicitudVehiculo.horaEntrada <= solicitudVehiculo.horaSalida &&
+                  solicitudVehiculo.fechaSalida == solicitudVehiculo.fechaEntrada){
                   this.mensajesService.mensajesToast(
                     "warning",
-                    "Por favor, completa todos los nombres de los pasajeros."
+                    "La hora de regreso debe ser mayor a la hora de salida en una misión de un día"
                   );
-                  // fin validacion de lista de pasajeros
-                } else {
-                  // Todos los nombres de los pasajeros están llenos, continuar con el envío de la solicitud.
-                  if ((await this.mensajesService.mensajesConfirmar()) == true) {
-                    await this.registrarSoliVe();
+                }else {
+                  if(this.file  != null
+                    || solicitudVehiculo.cantidadPersonas < 6){
+                    //  vacío para almacenar los datos de los pasajeros
+                    const pasajerosData = [];
+
+                    // Recorrer los controles de los pasajeros
+                    for (const control of this.pasajeroFormControls) {
+                      // Obtener el valor del control
+                      const nombrePasajero = control.value;
+
+                      // objeto con el valor del control y un ID vacío
+                      const pasajero = { id: '', nombrePasajero };
+
+                      // Agregar el objeto al arreglo de pasajerosData
+                      pasajerosData.push(pasajero);
+                    }
+
+                    solicitudVehiculo.listaPasajeros = pasajerosData;
+
+                    //console.log("dataPas: ",pasajerosData);
+
+                    // validacion lista de pasajeros
+                    const todosLlenos = pasajerosData.every((pasajero) => {
+                      const value = pasajero.nombrePasajero;
+
+                      return typeof value === 'string' && value.trim() !== '';
+
+
+                    });
+
+                    if (!todosLlenos) {
+                      this.mensajesService.mensajesToast(
+                        "warning",
+                        "Por favor, completa todos los nombres de los pasajeros."
+                      );
+                      // fin validacion de lista de pasajeros
+                    } else {
+                      // Todos los nombres de los pasajeros están llenos, continuar con el envío de la solicitud.
+                      if ((await this.mensajesService.mensajesConfirmar()) == true) {
+                        await this.registrarSoliVe();
+                      }
+                    }
+                  } else {
+                    this.mensajesService.mensajesToast(
+                      "warning",
+                      "Debe subir pdf de la lista de pasajeros"
+                    );
                   }
                 }
-              } else {
+
+              }else{
                 this.mensajesService.mensajesToast(
                   "warning",
-                  "Debe subir pdf de la lista de pasajeros"
+                  "La fecha de misión  debe ser mayor o igual a la fecha de salida"
                 );
               }
+
             } else {
               this.mensajesService.mensajesToast(
                 "warning",
@@ -334,6 +358,11 @@ export class ModalComponent implements OnInit {
               next: () => {
                 //console.log(pdfResp:any);
                 this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
+                /*Correo*/
+                if (this.usuarioActivo.role != ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
+                  this.enviarEmail(this.usuarioActivo.empleado.departamento.nombre);
+                }
+                /*Fin correo*/
                 this.mensajesService.mensajesToast("success", "Registro agregado");
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
@@ -351,6 +380,11 @@ export class ModalComponent implements OnInit {
             });
           } else {
             this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
+            /*Correo*/
+            if (this.usuarioActivo.role != ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
+              this.enviarEmail(this.usuarioActivo.empleado.departamento.nombre);
+            }
+            /*Fin correo*/
             this.mensajesService.mensajesToast("success", "Registro agregado");
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
@@ -373,12 +407,14 @@ export class ModalComponent implements OnInit {
 
   editarSoliVe(){}
 
-  cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
-    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
+  cargarPlacas(tipoVehiculo: string, fechaSalida:string) {
+    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida).subscribe(
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
         } else if(tipoVehiculo != '') {
+          this.placas = [];
+          this.formularioSoliVe.get('vehiculo').setValue('');
           this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
         }
       },
@@ -434,6 +470,7 @@ export class ModalComponent implements OnInit {
       file: ['',],
       isChecked: [false],
       observaciones: ['',[]],
+      motorista: ['', []]
     });
 
     this.formularioSoliVe.get('isChecked').valueChanges.subscribe((isChecked) => {
@@ -628,7 +665,11 @@ export class ModalComponent implements OnInit {
       if (await this.mensajesService.mensajeAnular() == true){
         this.soliVeOd.observaciones =  this.formularioSoliVe.get('observaciones').value;
         this.soliVeOd.estado = 15;
-        await this.actualizarSolicitud(this.soliVeOd, 'anulada');
+        if (this.usuarioActivo.role == 'ADMIN'){
+          await this.actualizarSolicitudAdmin(this.soliVeOd, 'anulada');
+        }else{
+          await this.actualizarSolicitud(this.soliVeOd, 'anulada');
+        }
       }
     }
 
@@ -642,6 +683,13 @@ export class ModalComponent implements OnInit {
 
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           this.modalService.dismissAll();
+          if (accion == 'anulada'){
+            this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
+          }else if(accion=='aprobada'){
+            this.enviarEmailSecre('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+              'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
+          }
+
           setTimeout(() => {
             this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           }, 3025);
@@ -720,4 +768,121 @@ export class ModalComponent implements OnInit {
         window.open(fileUrl);
       });
   }
+
+  /* administrador */
+  async aprobarSolicitudAdministrador(){
+    if ((await this.mensajesService.mensajeAprobar()) == true) {
+      //await this.actualizarSolicitud(data);
+      this.soliVeOd.observaciones =  this.formularioSoliVe.get('observaciones').value;
+
+       if (this.soliVeOd.estado == 1 && this.usuarioActivo.role == 'ADMIN'){
+        await this.actualizarSolicitudAdmin(this.soliVeOd, 'aprobada');
+      }
+    }
+  }
+
+  actualizarSolicitudAdmin(data: any, accion: string ):Promise <void>{
+    return new Promise<void>((resolve, reject) => {
+      this.soliVeService.updateSolciitudVehiculo(data).subscribe({
+        next: () => {
+          //resp:any
+
+          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
+          this.modalService.dismissAll();
+          if (accion == 'aprobada'){
+            this.enviarEmailSecre('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+              'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
+          }else if (accion == 'anulada'){
+            this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
+          }
+          setTimeout(() => {
+            this.soliVeService.getSolicitudesVehiculo(1);
+          }, 3025);
+          resolve();
+        },
+        error: (error) => {
+          Swal.close();
+          this.mensajesService.mensajesSweet(
+            'error',
+            'Ups... Algo salió mal',
+            error.error.message
+          );
+          reject (error);
+        },
+      });
+    });
+  }
+  /*fin administrador*/
+
+
+  /*Correo*/
+  enviarEmail(departamento: any){
+    this.emailService.getCorreoJefeDepto(departamento).subscribe(
+      (datos) => {
+        const nombreCompletoSolicitante = this.usuarioActivo.empleado.nombre + " "+
+          this.usuarioActivo.empleado.apellido;
+        const email: IEmail = {
+          asunto: 'Solicitud de vehículo pendiente de aprobación',
+          titulo: 'Solicitud de vehículo pendiente de aprobación',
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: nombreCompletoSolicitante+" ha realizado una solicitud de vehículo para una misión y esta a la espera de su aprobación.",
+          centro: 'Por favor ingrese al sistema para ver más detalles',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  enviarEmailAnulacion(id: any, obsevacion: any){
+    if (obsevacion ==  null){
+      obsevacion = 'SIN NINGUNA OBSERVACIÓN';
+    }
+    this.emailService.getSolicitante(id).subscribe(
+      (datos) => {
+        const nombreUserAccion = this.usuarioActivo.empleado.nombre + " "+
+          this.usuarioActivo.empleado.apellido;
+        const email: IEmail = {
+          asunto: 'Solicitud de vehículo ANULADA',
+          titulo: 'Solicitud de vehículo ANULADA',
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: "Su solicitud ha sido anulada por "+nombreUserAccion+". "+obsevacion,
+          centro: 'Por favor ingrese al sistema para ver más detalles',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  enviarEmailSecre(rol: any, titulo: string, mensaje: string){
+    this.emailService.getEmailNameRol(rol).subscribe(
+      (datos) => {
+        const email: IEmail = {
+          asunto: titulo,
+          titulo: titulo,
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: mensaje,
+          centro: 'Por favor ingrese al sistema para ver más detalles',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  /* fin correo */
+
 }

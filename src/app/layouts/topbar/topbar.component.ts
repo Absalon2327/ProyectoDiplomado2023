@@ -162,7 +162,9 @@ export class TopbarComponent implements OnInit {
       title: "¿Deseas cerrar la sesión?",
       showDenyButton: true,
       confirmButtonText: "Cerrar la sesión",
+      confirmButtonColor: "#972727",
       denyButtonText: `Cancelar`,
+      denyButtonColor: "#2c3136",
     }).then((result) => {
       if (result.isConfirmed) {
         this.usuarioService.logout();
@@ -195,7 +197,7 @@ export class TopbarComponent implements OnInit {
 
   registrando() {
 
-    /* 
+    /*
         this.cargoService.saveCargos(data).subscribe({
           next: (resp) => {
             this.modalService.dismissAll();
@@ -203,7 +205,7 @@ export class TopbarComponent implements OnInit {
             this.mostrar();
           },
           error: (error) => {
-    
+
             this.mensajesService.mensajesSweet(
               'error',
               "Ups... Algo salió mal",
@@ -211,7 +213,7 @@ export class TopbarComponent implements OnInit {
             )
           },
           complete: () => {
-    
+
             const Toast = Swal.mixin({
               toast: true,
               position: 'top-end',
@@ -226,14 +228,14 @@ export class TopbarComponent implements OnInit {
               icon: 'success',
               text: 'Datos Guardados con exito'
             });
-    
+
           }
         }); */
 
   }
 
   editando() {
-    /* 
+    /*
         this.cargoService.editCargo(data.id, data).subscribe({
           next: (resp) => {
             this.formUsuario.reset();
@@ -246,7 +248,7 @@ export class TopbarComponent implements OnInit {
               "Ups... Algo salió mal",
               error
             )
-    
+
           },
           complete: () => {
             const Toast = Swal.mixin({

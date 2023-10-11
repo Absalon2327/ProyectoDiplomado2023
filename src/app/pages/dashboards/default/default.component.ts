@@ -11,6 +11,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ServiceService } from 'src/app/modules/solicitudes/Service/service.service';
 import { IExistenciaVales } from 'src/app/modules/solicitudes/Interfaces/existenciavales.interface';
 import { DataCards, Empleado } from 'src/app/account/auth/models/usuario.models';
+import { SolicitudVehiculoService } from 'src/app/modules/solicitud-vehiculo/services/solicitud-vehiculo.service';
+import { ISolicitudVehiculo } from 'src/app/modules/solicitud-vehiculo/interfaces/data.interface';
+import { ServicioService } from 'src/app/modules/calendario/servicio/servicio.service';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-default',
@@ -34,19 +38,112 @@ export class DefaultComponent implements OnInit {
   imagenURL: any; // Variable para almacenar la URL de la imagen
   existenciaI!: IExistenciaVales; //para vales disponibles
   usuariojson: any;
+  solicitud : ISolicitudVehiculo[] = [];
+
+  cargaRevision : any[] = [];
+  cargaAprobadas : any[] = [];
+  cargaRealizadas : any[] = [];
 
   constructor(
     private usuarioService: UsuarioService,
+    private solicitudService : ServicioService,
     ) {}
 
   ngOnInit() {
     this.fotoEmpleado =  this.usuarioService.empleadofoto;
     this.usuariojson = this.usuarioService.usuarioJSON;
-    this.usuarioService.getCards(); // aqui optengo las cards del admin 
+    this.usuarioService.getCards();
+    console.log("usuario role:",this.usuariojson.role);
+
+
+   
+     // aqui optengo las cards del admin
+
   }
 
+  get listSoliVeData(){
+   // this.solicitudService.getSolicitudesVehiculo(2);
+    return this.solicitudService.listSoliVehiculo;
+  }
 
+  get listSoliVeData2(){
+    // this.solicitudService.getSolicitudesVehiculo(2);
+     return this.solicitudService.listSoliVehiculo2;
+   }
 
+   get listSoliVeData3(){
+    // this.solicitudService.getSolicitudesVehiculo(2);
+     return this.solicitudService.listSoliVehiculo3;
+   }
+
+   cargarSolicitudesUSER(){
+
+    //this.listSoliVeData2.forEach(element => {
+    //  const fecha = new Date(element.fechaSolicitud);
+    //  const fecha2 = new Date();
+
+   //   if(fecha.getMonth()==fecha2.getMonth()){
+    //      this.carga.push(element);
+    //  }
+
+   // });
+
+   //inicio de carga de solicitudes en revision
+   this.solicitudService.getSolicitudesVehiculo2(6).then((data) => {
+    this.solicitud = data;
+      console.log("dasd",this.solicitud)
+      this.solicitud.forEach(element => {
+        const date = new Date(element.fechaSolicitud);
+        if(date.getMonth() == new Date().getMonth()){
+          this.cargaRevision.push(element);
+        }
+        console.log("carga",this.cargaRevision)
+      })
+  });// carga las solicitudes de vehiculo para el usuario
+
+     //inicio de carga de solicitudes
+     this.solicitudService.getSolicitudesVehiculo1(4).then((data) => {
+      this.solicitud = data;
+        console.log("dasd",this.solicitud)
+        this.solicitud.forEach(element => {
+          const date = new Date(element.fechaSolicitud);
+          if(date.getMonth() == new Date().getMonth()){
+            this.cargaAprobadas.push(element);
+          }
+          console.log("carga",this.cargaAprobadas)
+        })
+    });// carga las solicitudes de vehiculo para el usuario
+    //inicio de carga de solicitudes
+    this.solicitudService.getSolicitudesVehiculo3(null).then((data) => {
+      this.solicitud = data;
+        console.log("dasd",this.solicitud)
+        this.solicitud.forEach(element => {
+          const date = new Date(element.fechaSolicitud);
+          if(date.getMonth() == new Date().getMonth()){
+            this.cargaRealizadas.push(element);
+          }
+          console.log("carga",this.cargaRealizadas)
+        })
+    });// carga las solicitudes de vehiculo para el usuario
+
+   }
+
+   cargaSoliporAprobar(){
+
+    //inicio de carga de solicitudes por aprobar
+    this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
+      this.solicitud = data;
+        console.log("dasd",this.solicitud)
+        this.solicitud.forEach(element => {
+          const date = new Date(element.fechaSolicitud);
+          if(date.getMonth() == new Date().getMonth()){
+            this.cargaRevision.push(element);
+          }
+          console.log("carga revision",this.cargaRevision)
+        })
+    });
+    //fin de la carga
+   }
 
   /* Metodos para optener datos de cards */
   get cards(): DataCards | null {

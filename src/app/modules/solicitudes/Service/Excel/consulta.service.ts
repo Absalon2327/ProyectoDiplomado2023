@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CompraDto, Consulta, ConsultaDto, Decano, DocumetSoliC, DocumetVale, DocumetValeId, IConsultaDelAl, IdVale, LogSoliVehi, LogVale } from '../../Interfaces/CompraVale/Consulta';
+import { CompraDto, Consulta, ConsultaDto, Decano, DocumetSoliC, DocumetVale, DocumetValeId, IConsultaDelAl, IdVale, LogSoliVehi, LogSoliVehiID, LogVale, UsuarioDto } from '../../Interfaces/CompraVale/Consulta';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { IConsultaExcelTabla, IConsultaExcelTablaC, IConsultaExcelTablaCompraDto, IConsultaExcelTablaDto, ITablaConsulta, ITablaConsultaC, ITablaConsultaCompraDto, ITablaConsultaDto } from '../../Interfaces/CompraVale/excel';
@@ -239,6 +239,10 @@ export class ConsultaService {
     return this.http.get<LogSoliVehi[]>(this.urlbase+'/consulta/logsolivhe/'+id);
   }
 
+  getLogSoliVehiID(id:string){
+    return this.http.get<LogSoliVehiID[]>(this.urlbase+'/consulta/logsolivheid/'+id);
+  }
+
   getCompraMovimientos(){
     return this.http.get<ICompra[]>(this.urlbase+'/compra/listasinpagina');
   }
@@ -253,5 +257,9 @@ export class ConsultaService {
   
   getIdCompraV(id:string){
     return this.http.get<ICompra>(this.urlbase+'/compra/lista/'+id);
+  }
+
+  getConsuUsuarioDto(fechaI:Date, fechaF:Date){
+    return this.http.get<UsuarioDto[]>(this.urlbase+'/consulta/usuario?fechaI='+fechaI+'&fechaF='+fechaF);
   }
 }
