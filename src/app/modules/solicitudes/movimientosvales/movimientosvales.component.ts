@@ -138,7 +138,7 @@ loadingAlert.close();
         columns: [
           {
             text:
-              "Fecha y Hora de impresión: " +
+              "Fecha y hora de impresión: " +
               this.datePipe.transform(
                 this.fechaActual,
                 "dd/MM/yyyy HH:mm:ss a"
@@ -214,7 +214,7 @@ loadingAlert.close();
           },
           {
             text: [
-              { text: "Fecha de Vencimiento: ", bold: true },
+              { text: "Fecha de vencimiento: ", bold: true },
               this.datePipe.transform(vale.fechaVencimiento, "dd/MM/yyyy"),
             ],
           },
@@ -227,7 +227,7 @@ loadingAlert.close();
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor],
+            text: [{ text: "Precio unitario: $ ", bold: true }, vale.valor],
           },
           {
             text: [
