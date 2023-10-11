@@ -284,6 +284,7 @@ export class ModalComponent implements OnInit {
           });
         }
       }, (err: any) => {
+        Swal.close();
         this.mensajesService.mensajesSweet(
           "error",
           "Ups... Algo salió mal",
@@ -320,6 +321,7 @@ export class ModalComponent implements OnInit {
           this.modalService.dismissAll();
         }
       }, (err: any) => {
+        Swal.close();
         this.mensajesService.mensajesSweet(
           "error",
           "Ups... Algo salió mal",
