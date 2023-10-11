@@ -32,6 +32,7 @@ export class ServiceService {
   listSolicitudes: ISolicitudValeAprobar;
   listSolicitudesValeRol: ISolicitudValeAprobar[];
   storage: Storage = window.localStorage;
+  correos!: ICorreos[];
 
   public usuario!: Usuario;
   constructor(private http: HttpClient, usuarios: UsuarioService) {}
@@ -241,6 +242,6 @@ export class ServiceService {
   getCorreosFinanciero(){
     return this.http.get<ICorreos[]>(`${this.baseUrl}/asignacionvale/correosfinanciero`);
   }
-
+  
 
 }
