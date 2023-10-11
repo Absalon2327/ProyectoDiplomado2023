@@ -147,6 +147,7 @@ export class ModalComponent implements OnInit {
 
   guardar() {
     if (this.formEmpleado.valid || this.formUsuario.valid) {
+      this.cargando();
       if (this.leyenda == "Datos") {
         this.registrandoE();
       } else {
@@ -179,6 +180,7 @@ export class ModalComponent implements OnInit {
       this.empleadoService.putEmpleado(empleado).subscribe(
         (resp: any) => {
           if (resp) {
+            Swal.close();
             if (this.usuarioService.validarToken()) {
               const Toast = Swal.mixin({
                 toast: true,
@@ -206,6 +208,7 @@ export class ModalComponent implements OnInit {
           }
         },
         (err: any) => {
+          Swal.close();
           this.mensajesService.mensajesSweet(
             "error",
             "Ups... Algo salió mal",
@@ -217,6 +220,7 @@ export class ModalComponent implements OnInit {
       this.empleadoService.putEmpleadoImagen(empleado, this.file).subscribe(
         (resp: any) => {
           if (resp) {
+            Swal.close();
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
@@ -242,6 +246,7 @@ export class ModalComponent implements OnInit {
           }
         },
         (err: string) => {
+          Swal.close();
           this.mensajesService.mensajesSweet(
             "error",
             "Ups... Algo salió mal",
@@ -279,6 +284,7 @@ export class ModalComponent implements OnInit {
     this.usuarioService.Credenciales(usuario).subscribe(
       (resp: any) => {
         if (resp) {
+          Swal.close();
           if (this.usuarioService.validarToken()) {
             const Toast = Swal.mixin({
               toast: true,
@@ -304,6 +310,7 @@ export class ModalComponent implements OnInit {
         }
       },
       (err: any) => {
+        Swal.close();
         this.mensajesService.mensajesSweet(
           "error",
           "Ups... Algo salió mal",
@@ -438,5 +445,15 @@ export class ModalComponent implements OnInit {
 
   public togglePasswordVisibility2(): void {
     this.showPassword2 = !this.showPassword2;
+  }
+
+  cargando() {
+    Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la petición...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
   }
 }
