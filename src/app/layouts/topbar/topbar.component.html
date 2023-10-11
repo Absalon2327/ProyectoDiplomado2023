@@ -51,19 +51,20 @@
         </div>
       </div>
 
-      <div class="dropdown d-inline-block" ngbDropdown>
+      <div class="dropdown d-inline-block" (click)="toggleMobileMenu2($event)" ngbDropdown>
         <div class="content">
           <img class="rounded-circle header-profile-user"
             [src]="fotoEmpleado !== '' ? fotoEmpleado : './../../../assets/images/Default-Avatar.png'"
             alt="Header Avatar">
           <div class="vertical-line"></div>
-          <button  type="button" class="btn header-item header-profile-name" ngbDropdownToggle
+          <button type="button" class="btn header-item header-profile-name" ngbDropdownToggle
             id="page-header-user-dropdown">
             <span class="user-text-name">{{empleado?.nombre | slice:0:10}}{{ empleado?.nombre.length > 10? '...' : ''
               }}</span>
-            <i class="mdi mdi-chevron-down ms-1"></i>
-            <p class="user-text">{{ empleado?.cargo.nombreCargo | slice:0:15}}{{ empleado?.cargo.nombreCargo.length > 15? '...' : ''}}</p>
-          <!--   <span class="user-text-2" *ngIf="empleado?.jefe">Jefe Dpto</span> -->
+            <i class="{{icono2}}"></i>
+            <p class="user-text">{{ empleado?.cargo.nombreCargo | slice:0:15}}{{ empleado?.cargo.nombreCargo.length >
+              15? '...' : ''}}</p>
+            <!--   <span class="user-text-2" *ngIf="empleado?.jefe">Jefe Dpto</span> -->
           </button>
         </div>
 
@@ -73,7 +74,7 @@
           <app-modal [leyenda]="'Datos'"></app-modal>
 
           <app-modal [leyenda]="'Credenciales'" [nuevo]="usuario?.nuevo"></app-modal>
-          
+
           <a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()"><i
               class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>
             {{ 'Cerrar Sesión' | translate}}</a>
