@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ["decanato@ues.edu.sv", [Validators.required]],
+      email: ["decanato", [Validators.required]],
       password: ["12345678", [Validators.required]],
     });
   }
@@ -142,30 +142,11 @@ export class LoginComponent implements OnInit {
   }
 
   cargando() {
-    let timerInterval;
     Swal.fire({
-      title: "Espere un momento!",
-      html: "Se esta procesando la solicitud.",
-      timer: 5000,
-
+      title: 'Espere un momento!',
+      html: 'Se está procesando la petición...',
       didOpen: () => {
         Swal.showLoading();
-        timerInterval = setInterval(() => {
-          const content = Swal.getHtmlContainer();
-          if (content) {
-            const b = content.querySelector("b");
-            if (b) {
-              b.textContent = Swal.getTimerLeft() + "";
-            }
-          }
-        }, 100);
-      },
-      willClose: () => {
-        clearInterval(timerInterval);
-      },
-    }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.timer) {
-        console.log("I was closed by the timer");
       }
     });
   }

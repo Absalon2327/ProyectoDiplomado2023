@@ -372,6 +372,18 @@ body[data-layout="horizontal"] {
   }
 }
 
+
+@media screen and (max-width: 1100px) {
+  .constainer {
+    width: 17%;
+  }
+
+  .content {
+    padding-right: 140px !important;
+  }
+}
+
+
 @media screen and (max-width: 995px) {
   .constainer {
     padding: 10px;
@@ -384,9 +396,8 @@ body[data-layout="horizontal"] {
   }
 }
 
-@media screen and (max-width: 970px) {
+@media screen and (max-width: 991.99px) {
   .constainer {
-    padding: 10px;
     width: 27%;
   }
 
@@ -395,102 +406,123 @@ body[data-layout="horizontal"] {
   }
 }
 
-@media screen and (max-width: 920px) {
+@media screen and (max-width: 970px) {
   .constainer {
     padding: 10px;
-    width: 30%;
+    width: 28%;
+  }
+
+  .content {
+    padding-right: 155px !important;
   }
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 955px) {
   .constainer {
-    width: 34%;
+    width: 30% !important;
   }
 
+  .content {
+    padding-right: 165px !important;
+  }
 }
 
-@media screen and (max-width: 730px) {
+@media screen and (max-width: 890px) {
   .constainer {
-    width: 37%;
+    width: 32% !important;
+  }
+
+  .content {
+    padding-right: 170px !important;
   }
 }
 
-@media screen and (max-width: 665px) {
+@media screen and (max-width: 825px) {
   .constainer {
-    width: 39%;
+    width: 34% !important;
   }
 }
 
-@media screen and (max-width: 635px) {
+@media screen and (max-width: 765px) {
   .constainer {
-    width: 40%;
+    width: 36% !important;
   }
 }
 
-@media screen and (max-width: 620px) {
+@media screen and (max-width: 735px) {
   .constainer {
-    width: 42%;
+    width: 38% !important;
   }
 }
 
-@media screen and (max-width: 600px) {
-  .search {
-    padding-top: 7px !important;
-  }
-}
-
-@media screen and (max-width: 590px) {
+@media screen and (max-width: 690px) {
   .constainer {
-    width: 44%;
+    width: 39% !important;
   }
 }
 
-@media screen and (max-width: 555px) {
+@media screen and (max-width: 675px) {
   .constainer {
-    width: 47%;
+    width: 41% !important;
   }
 }
 
-@media screen and (max-width: 525px) {
+@media screen and (max-width: 645px) {
   .constainer {
-    width: 49%;
+    width: 43% !important;
+  }
+}
+
+@media screen and (max-width: 615px) {
+  .constainer {
+    width: 45% !important;
+  }
+}
+
+@media screen and (max-width: 595px) {
+  .constainer {
+    width: 49% !important;
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .constainer {
+    width: 53% !important;
   }
 }
 
 @media screen and (max-width: 510px) {
   .constainer {
-    width: 51%;
+    width: 57% !important;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 475px) {
   .constainer {
-    width: 53%;
+    width: 60% !important;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .constainer {
+    width: 65% !important;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .constainer {
+    width: 73% !important;
+  }
+
+  .content {
+    padding-right: 195px !important;
   }
 }
 
 
-@media screen and (max-width: 460px) {
-  .constainer {
-    width: 55%;
-  }
-}
-
-@media screen and (max-width: 440px) {
-  .constainer {
-    width: 57%;
-  }
-}
-
-@media screen and (max-width: 425px) {
-  .constainer {
-    width: 60%;
-  }
-}
-
-@media screen and (max-width: 410px) {
-  .constainer {
-    width: 62%;
+@media screen and (max-width: 600px) {
+  .search {
+    padding-top: 7px !important;
   }
 }
 
@@ -522,21 +554,34 @@ body[data-layout="horizontal"] {
   }
 }
 
-@media screen and (max-width: 350px) {
-  .constainer {
-    width: 65%;
+@media (max-width: 1200px) {
+  .dropdown-menu {
+   padding-right: 13vh;
   }
 }
 
-@media screen and (max-width: 335px) {
-  .constainer {
-    width: 67%;
+@media (max-width: 1100px) {
+  .dropdown-menu {
+   padding-right: 15vh;
   }
 }
 
-@media screen and (max-width: 325px) {
-  .constainer {
-    width: 71%;
+@media (max-width: 1055px) {
+  .dropdown-menu {
+   padding-right: 17vh;
   }
 }
+
+@media (max-width: 992px) {
+  .dropdown-menu {
+   padding-right: 20vh;
+  }
+}
+
+@media (max-width: 795px) {
+  .dropdown-menu {
+   padding-right: 23vh;
+  }
+}
+
 ////// Variables usuario info & imagen superior/////////////
