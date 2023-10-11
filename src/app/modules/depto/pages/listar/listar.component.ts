@@ -52,7 +52,13 @@ export class ListarComponent implements OnInit {
 
   cambiarEstado(data: IDepto, estado: number) {
 
+    if(estado == 8){
 
+      this.cambio = 'Inactivo';
+    }else{
+
+      this.cambio = 'Activo';
+    }
 
 
     Swal.fire({
@@ -67,10 +73,10 @@ export class ListarComponent implements OnInit {
 
         if(estado == 8){
           data.estado = 9;
-          this.cambio = 'Inactivo';
+
         }else{
           data.estado = 8;
-          this.cambio = 'Activo';
+          
         }
 
         this.deptoService.editDepto(data.codigoDepto, data).subscribe({
@@ -110,7 +116,7 @@ export class ListarComponent implements OnInit {
         });
       } else if (result.isDenied) {
         Swal.fire("Cambios no aplicados", "", "info");
-        
+
       }
 
 

@@ -12,7 +12,10 @@ import { IVale } from "src/app/modules/devolucion-vale/interfaces/vale.interface
 export class ModalValeComponent implements OnInit {
   @Input() compra!: ICompra;
   listVale: IVale[] = [];
+  listValeAux: IVale[] = [];
+  listEstado: number[] = [8, 5, 9, 10, 11, 12];
   queryVale!: string;
+  valorSeleccionado: number;
 
   constructor(
     private modalService: NgbModal,
@@ -28,7 +31,22 @@ export class ModalValeComponent implements OnInit {
       .getValesPorCompra(compra.id)
       .subscribe((vales: IVale[]) => {
         this.listVale = vales;
+        this.listValeAux = vales;
       });
+  }
+
+  getValesSelect() {
+    console.log(this.valorSeleccionado);
+    this.listValeAux = [];
+    if (this.valorSeleccionado != null) {
+      this.listVale.forEach((x) => {
+        if (this.valorSeleccionado == x.estado) {
+          this.listValeAux.push(x);
+        }
+      });
+    } else {
+      this.listValeAux = this.listVale;
+    }
   }
 
   estadoNombre(estado: number): string {
@@ -74,6 +92,8 @@ export class ModalValeComponent implements OnInit {
   openModal(content: any, compra: ICompra) {
     this.compra = compra;
     this.queryVale = "";
+    this.valorSeleccionado = null;
+    this.listValeAux = this.listVale;
     const modalOptions = {
       centered: true,
       size: "lg", // 'lg' para modal grande, 'sm' para modal pequeño

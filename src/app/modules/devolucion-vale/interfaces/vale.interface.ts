@@ -5,8 +5,9 @@ export interface IVale {
   id:                 string;
   valor:              number;
   compra:             ICompra;
-  fechaVencimiento:  string;
+  fechaVencimiento:   string;
   correlativo:        number;
+  estado:             number;
 }
 
 export interface IUsuarioMandarDto {

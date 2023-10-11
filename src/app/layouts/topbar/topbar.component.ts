@@ -162,7 +162,9 @@ export class TopbarComponent implements OnInit {
       title: "¿Deseas cerrar la sesión?",
       showDenyButton: true,
       confirmButtonText: "Cerrar la sesión",
+      confirmButtonColor: "#972727",
       denyButtonText: `Cancelar`,
+      denyButtonColor: "#2c3136",
     }).then((result) => {
       if (result.isConfirmed) {
         this.usuarioService.logout();
@@ -171,45 +173,6 @@ export class TopbarComponent implements OnInit {
   }
 
   /* Enviar email */
-  Email() {
-    const email: IEmail = {
-      asunto: 'Cambio de credenciales',
-      titulo: 'Cambio de credenciales',
-      email: 'kevineliasmejia@gmail.com',
-      receptor: "Estimad@ : " + 'Kevin Elias Mejia Martinez',
-      mensaje: 'Para mejorar la seguridad de nuestros sistemas, estamos implementando un cambio obligatorio de contraseñas. A continuación, te proporciono las instrucciones para completar este proceso de manera sencilla y segura',
-      centro: 'Utilice este codigo para continuar con el proceso :',
-      codigo: '99023992',
-      abajo: 'Gracias por tu atención a este importante asunto.',
-    }
-
-    this.usuarioService.SendEmail(email).subscribe(
-      (resp) => {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 2500,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        });
-
-        Toast.fire({
-          icon: 'success',
-          text: '¡Email enviado!'
-        });
-      },
-      (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err,
-        });
-      }
-    );
-  }
 
   //// metodo par abrir la modal ////
   openModal(content: any) {
@@ -235,7 +198,7 @@ export class TopbarComponent implements OnInit {
 
   registrando() {
 
-    /* 
+    /*
         this.cargoService.saveCargos(data).subscribe({
           next: (resp) => {
             this.modalService.dismissAll();
@@ -243,7 +206,7 @@ export class TopbarComponent implements OnInit {
             this.mostrar();
           },
           error: (error) => {
-    
+
             this.mensajesService.mensajesSweet(
               'error',
               "Ups... Algo salió mal",
@@ -251,7 +214,7 @@ export class TopbarComponent implements OnInit {
             )
           },
           complete: () => {
-    
+
             const Toast = Swal.mixin({
               toast: true,
               position: 'top-end',
@@ -266,14 +229,14 @@ export class TopbarComponent implements OnInit {
               icon: 'success',
               text: 'Datos Guardados con exito'
             });
-    
+
           }
         }); */
 
   }
 
   editando() {
-    /* 
+    /*
         this.cargoService.editCargo(data.id, data).subscribe({
           next: (resp) => {
             this.formUsuario.reset();
@@ -286,7 +249,7 @@ export class TopbarComponent implements OnInit {
               "Ups... Algo salió mal",
               error
             )
-    
+
           },
           complete: () => {
             const Toast = Swal.mixin({
