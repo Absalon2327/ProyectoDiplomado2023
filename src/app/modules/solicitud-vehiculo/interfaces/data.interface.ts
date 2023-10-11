@@ -21,6 +21,7 @@ export interface ISolicitudVehiculo {
   motorista: IMotorista;
   listDocumentos: IDocumento[];
   observaciones:string;
+  tieneVale:boolean;
 }
 
 interface ISolicitante {
@@ -130,4 +131,14 @@ export interface  ILogSoliVe {
     "cargo": string,
     "soliVe": string,
     "soliVale": string
+}
+
+export interface IEmail {
+  asunto: string;
+  titulo: string;
+  email: string;
+  receptor: string;
+  mensaje: string;
+  centro: string;
+  abajo: string;
 }

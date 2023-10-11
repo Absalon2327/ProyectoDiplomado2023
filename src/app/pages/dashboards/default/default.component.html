@@ -9,7 +9,51 @@
   <app-mostrar></app-mostrar>
 </ng-container>
 
-<ng-container *ngIf="usuariojson?.role == 'ADMIN'">
+<ng-container
+  *ngIf="
+    usuariojson?.role == 'USER'
+  "
+>
+  <app-home-user></app-home-user>
+</ng-container>
+<ng-container
+  *ngIf="
+    usuariojson?.role == 'JEFE_DEPTO'
+  "
+>
+  <app-home-jefe></app-home-jefe>
+</ng-container>
+
+<ng-container *ngIf="usuariojson?.role == 'VIGILANTE'">
+  <app-listar></app-listar>
+</ng-container>
+
+<ng-container
+  *ngIf="
+    usuariojson?.role == 'SECR_DECANATO'
+  "
+>
+  <app-home-secre></app-home-secre>
+</ng-container>
+
+<ng-container
+  *ngIf="
+    usuariojson?.role == 'DECANO'
+  "
+>
+  <app-home-decano></app-home-decano>
+</ng-container>
+
+<ng-container
+  *ngIf="
+    usuariojson?.role == 'ADMIN'
+  "
+>
+  <app-home-admin></app-home-admin>
+</ng-container>
+
+
+<ng-container *ngIf="usuariojson?.role == 'OTRO'">
   <div class="container-fluid">
     <!-- start page title -->
     <div class="row">

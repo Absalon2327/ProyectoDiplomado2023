@@ -236,4 +236,10 @@ export class UsuarioService {
     //return this.usuario.role;
   } */
 
+  logoutAcercaDe() {
+    this.ngZone.run(() => {
+      this.router.navigateByUrl('/AcercaDeAyuda/acercade');
+    });
+  }
+
 }

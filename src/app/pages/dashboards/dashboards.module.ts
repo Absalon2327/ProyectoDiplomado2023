@@ -18,6 +18,7 @@ import { BlogComponent } from './blog/blog.component';
 import { EntradasalidaModule } from 'src/app/modules/entradasalida/entradasalida.module';
 import { LayoutsModule } from 'src/app/layouts/layouts.module';
 import { HomeFinancieroModule } from 'src/app/modules/home-financiero/home-financiero.module';
+import { HomeSoliModule } from 'src/app/modules/homeSolicitudes/home-soli.module';
 
 
 @NgModule({
@@ -37,7 +38,9 @@ import { HomeFinancieroModule } from 'src/app/modules/home-financiero/home-finan
     SimplebarAngularModule
     ,EntradasalidaModule,
     LayoutsModule,
-    HomeFinancieroModule
+    HomeFinancieroModule,
+    HomeSoliModule
+
   ]
 })
 export class DashboardsModule { }

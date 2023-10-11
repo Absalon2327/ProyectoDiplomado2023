@@ -8,7 +8,7 @@ import {
   Validators
 } from "@angular/forms";
 import {Router} from "@angular/router";
-import {IDocumento, IDocumentoSoliVe, IMotorista, IPais, IPasajero, ISolicitudVehiculo} from "../../interfaces/data.interface";
+import {IDocumento, IDocumentoSoliVe, IEmail, IMotorista, IPais, IPasajero, ISolicitudVehiculo} from "../../interfaces/data.interface";
 import {SolicitudVehiculoService} from "../../services/solicitud-vehiculo.service";
 
 import {map} from "rxjs/operators";
@@ -19,6 +19,7 @@ import {INTEGER_VALIDATE} from "../../../../constants/constants";
 import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import { log } from 'console';
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
+import { EmailService } from '../../services/email.service';
 
 @Component({
   selector: 'app-modal-secretaria',
@@ -78,12 +79,10 @@ export class ModalSecretariaComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private router: Router,
               private soliVeService: SolicitudVehiculoService, public activeModal: NgbActiveModal,
-              private mensajesService: MensajesService,
+              private mensajesService: MensajesService, private emailService: EmailService
   ) { }
 
   ngOnInit(): void {
-    //console.log(this.usuarioActivo);
-    //console.log("data",this.soliVeOd);
     this.iniciarFormulario();
     this.llenarSelectDepartamentos();
     this.soliVeService.obtenerVehiculos();
@@ -136,8 +135,15 @@ export class ModalSecretariaComponent implements OnInit {
       this.formularioSoliVe.get('solicitante')
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
-      // por estado revision
+      // para input radio
+      if(this.usuarioActivo.role == 'DECANO'){
+        this.formularioSoliVe.get('tieneVale')
+        .setValue(this.soliVeOd.tieneVale ? 'true':'false');
+        this.formularioSoliVe.get('tieneVale').disable();
+      }
 
+
+      // por estado revision
       if(this.soliVeOd.motorista != null){
         this.formularioSoliVe.get('motorista')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
@@ -164,7 +170,7 @@ export class ModalSecretariaComponent implements OnInit {
         this.pasajeroFormControls.push(control);
       }
 
-      console.log(this.pasajeros);
+      //console.log(this.pasajeros);
 
     }
   }
@@ -173,7 +179,7 @@ export class ModalSecretariaComponent implements OnInit {
     //this.formularioSoliVe.value.unidadSolicitante = this.usuarioActivo.empleado.departamento.nombre;
 
     const solicitudVehiculo = this.formularioSoliVe.value;
-    console.log("formularo: ",this.formularioSoliVe);
+    //console.log("formularo: ",this.formularioSoliVe);
     if (this.formularioSoliVe.valid){
       if(this.validarfecha(solicitudVehiculo.fechaSolicitud)){
         if (this.validarfecha(solicitudVehiculo.fechaSalida)){
@@ -210,7 +216,7 @@ export class ModalSecretariaComponent implements OnInit {
                 return false;
               });
 
-              if (!todosLlenos) {
+              if (!todosLlenos && solicitudVehiculo.cantidadPersonas<6) {
                 this.mensajesService.mensajesToast(
                   "warning",
                   "Por favor, completa todos los nombres de los pasajeros."
@@ -247,9 +253,9 @@ export class ModalSecretariaComponent implements OnInit {
       }
     } else {
       // Mostrar nombres de campos inválidos por consola
-      console.log('Campos inválidos:',
+      /*console.log('Campos inválidos:',
         Object.keys(this.formularioSoliVe.controls).filter((controlName) =>
-          this.formularioSoliVe.get(controlName)?.invalid));
+          this.formularioSoliVe.get(controlName)?.invalid));*/
 
       this.mensajesService.mensajesToast(
         "warning",
@@ -273,29 +279,25 @@ export class ModalSecretariaComponent implements OnInit {
     //solicitudVehiculo.motorista = this.soliVeOd.motorista.codigoEmpleado;
     solicitudVehiculo.solicitante = this.soliVeOd.solicitante.codigoUsuario;
     solicitudVehiculo.nombreJefeDepto = this.soliVeOd.nombreJefeDepto;
+
     let nombreMotoristaExistente;
     if(this.soliVeOd.motorista != null) {
       nombreMotoristaExistente =  this.soliVeOd.motorista.nombre + ' ' +
         this.soliVeOd.motorista.apellido;
 
       if (nombreMotoristaExistente.toString() == this.formularioSoliVe.get('motorista').value){
-        console.log("entro al if motorista");
         solicitudVehiculo.motorista = this.soliVeOd.motorista.codigoEmpleado;
       }
     }
 
     if(this.soliVeOd.vehiculo.placa == this.formularioSoliVe.get('vehiculo').value){
-      console.log("entro al if vehiculo");
       solicitudVehiculo.vehiculo = this.soliVeOd.vehiculo.codigoVehiculo;
     }
-
-    console.log("vehiculo",solicitudVehiculo.vehiculo);
-    console.log("motorista", solicitudVehiculo.motorista);
     const tipoBuscado = "Lista de pasajeros";
     const documentosFiltrados = this.soliVeOd.listDocumentos.filter((documento) => {
       return documento.tipoDocumento === tipoBuscado;
     });
-    console.log(documentosFiltrados);
+    //console.log(documentosFiltrados);
 
 
     /* para la direccion */
@@ -362,9 +364,9 @@ export class ModalSecretariaComponent implements OnInit {
             // enviar pdf
             const formData = new FormData();
             let obj = {
-              codigoDocumento:documentosFiltrados[0].codigoDocumento,
-              nombreDocumento:documentosFiltrados[0].nombreDocumento,
-              urlDocumento:documentosFiltrados[0].urlDocumento,
+              codigoDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].codigoDocumento : '',
+              nombreDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].nombreDocumento : '',
+              urlDocumento:documentosFiltrados.length>0 ? documentosFiltrados[0].urlDocumento : '',
               tipoDocumento:'Lista de pasajeros',
               fecha: this.obtenerFechaActual(new Date()),
               codigoSolicitudVehiculo: {
@@ -382,7 +384,8 @@ export class ModalSecretariaComponent implements OnInit {
                 }else{
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
-                this.mensajesService.mensajesToast("success", "Registro agregado");
+                this.mensajesService.mensajesToast("success", "Asignación exitosa");
+                this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
                 resolve();
@@ -403,7 +406,8 @@ export class ModalSecretariaComponent implements OnInit {
             }else{
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
-            this.mensajesService.mensajesToast("success", "Asignacion exitosa");
+            this.mensajesService.mensajesToast("success", "Asignación exitosa");
+            this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
             resolve();
@@ -426,17 +430,24 @@ export class ModalSecretariaComponent implements OnInit {
   editarSoliVe(){
   }
 
-  cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
-    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
+  cargarPlacas(tipoVehiculo: string, fechaSalida:string) {
+    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida).subscribe(
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
+          this.formularioSoliVe.get('vehiculo').setValue('');
+          if(this.soliVeOd.vehiculo.clase == tipoVehiculo){
+            this.placas.push(this.soliVeOd.vehiculo);
+            this.formularioSoliVe.get('vehiculo').setValue(this.soliVeOd.vehiculo.placa);
+          }
         }else if(tipoVehiculo != '') {
+          this.placas = [];
+          this.formularioSoliVe.get('vehiculo').setValue('');
           this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
         }
       },
       (error: any) => {
-        console.error('Error al obtener opciones de vehículos desde el backend:', error);
+        //console.error('Error al obtener opciones de vehículos desde el backend:', error);
       }
     );
   }
@@ -484,6 +495,7 @@ export class ModalSecretariaComponent implements OnInit {
       motorista:['',[Validators.required]],
       observaciones:['',[]],
       file: ['',],
+      tieneVale:['',[Validators.required]],
     });
   }
 
@@ -582,7 +594,10 @@ export class ModalSecretariaComponent implements OnInit {
   actualizarPasajeros() {
     this.cantidadPersonas = this.formularioSoliVe.get('cantidadPersonas').value;
 
-    if (this.cantidadPersonas > 5) {
+    if(this.cantidadPersonas == this.soliVeOd.cantidadPersonas){
+      this.mostrarTabla=false;
+      this.mostrarArchivoAdjunto = false;
+    } else if (this.cantidadPersonas > 5 ) {
       this.mostrarTabla = false; // Ocultar la tabla
       this.mostrarArchivoAdjunto = true; // Mostrar el campo de entrada de archivo
     } else if (this.cantidadPersonas <=1 ) {
@@ -607,10 +622,8 @@ export class ModalSecretariaComponent implements OnInit {
         const control = new FormControl('', Validators.required);
         this.pasajeroFormControls.push(control);
       }
-    } else if(this.cantidadPersonas < 2) {
-      while (this.pasajeroFormControls.length > 0) {
-        this.pasajeroFormControls.pop();
-      }
+    } else {
+      this.pasajeroFormControls = [];
     }
   }
 
@@ -644,7 +657,7 @@ export class ModalSecretariaComponent implements OnInit {
 
   actualizarEstadoCheckbox() {
     this.isChecked = !this.isChecked;
-    console.log(this.isChecked);
+    //console.log(this.isChecked);
 
   }
 
@@ -681,6 +694,12 @@ export class ModalSecretariaComponent implements OnInit {
             this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           }
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
+          if (data.estado == 6) {
+            this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo pendiente de revisión',
+            `Tiene una solicitud vehículo pendiente de revisión. ${data.observaciones}.`);
+          } else if( data.estado == 15 ){
+            this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
+          }
           this.modalService.dismissAll();
           resolve();
         },
@@ -713,17 +732,23 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   async aprobarSolicitud(){
-    console.log(this.soliVeOd);
-    if ((await this.mensajesService.mensajeAprobar()) == true) {
-      this.soliVeOd.observaciones =  this.formularioSoliVe.get('observaciones').value;
-      await this.actualizarSolicitudDec(this.soliVeOd);
+    if(this.soliVeOd.tieneVale){
+      if ((await this.mensajesService.mensajeAprobar()) == true) {
+        await this.actualizarSolicitudDec(this.soliVeOd);
+      }
+    }else{
+      if ((await this.mensajesService.mensajeAprobar()) == true) {
+        this.soliVeOd.estado = 5;
+        await this.actualizarSolicitudSinVa(this.soliVeOd);
+      }
     }
+
   }
 
   actualizarSolicitudDec(data: any):Promise <void>{
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
-        next: () => {
+        next: (resp: any) => {
           // resp: any
           this.solicitudVale = {
             idSolicitudVale: null,
@@ -732,6 +757,8 @@ export class ModalSecretariaComponent implements OnInit {
             estado: 8,
             solicitudVehiculo: data.codigoSolicitudVehiculo
           };
+
+          this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
 
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
@@ -768,4 +795,102 @@ export class ModalSecretariaComponent implements OnInit {
       });
     });
   }
+
+  actualizarSolicitudSinVa(data: any):Promise <void>{
+    return new Promise<void>((resolve, reject) => {
+      this.soliVeService.updateSolciitudVehiculoSinVale(data).subscribe({
+        next: () => {
+          // resp: any
+          this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
+          this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
+          this.modalService.dismissAll();
+          resolve();
+        },
+        error: (error) => {
+          Swal.close();
+          this.mensajesService.mensajesSweet(
+            'error',
+            'Ups... Algo salió mal',
+            error.error.message
+          );
+          reject (error);
+        },
+      });
+    });
+  }
+
+  /** correos */
+
+  enviarEmailSD(rol: any, titulo: string, mensaje: string){
+    this.emailService.getEmailNameRol(rol).subscribe(
+      (datos) => {
+        const email: IEmail = {
+          asunto: titulo,
+          titulo: titulo,
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: mensaje,
+          centro: 'Por favor ingrese al sistema para ver más detalles',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  enviarEmailAnulacion(id: any, obsevacion: any){
+    if (obsevacion ==  null){
+      obsevacion = 'SIN NINGUNA OBSERVACIÓN';
+    }
+    this.emailService.getSolicitante(id).subscribe(
+      (datos) => {
+        const nombreUserAccion = this.usuarioActivo.empleado.nombre + " "+
+          this.usuarioActivo.empleado.apellido;
+        const email: IEmail = {
+          asunto: 'Solicitud de vehículo ANULADA',
+          titulo: 'Solicitud de vehículo ANULADA',
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: "Su solicitud ha sido anulada por "+nombreUserAccion+". "+obsevacion,
+          centro: 'Por favor ingrese al sistema para ver más detalles',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  enviarEmailAprobacionASolicitante(id: any, obsevacion: any){
+    if (obsevacion ==  null){
+      obsevacion = 'SIN NINGUNA OBSERVACIÓN';
+    }
+    this.emailService.getSolicitante(id).subscribe(
+      (datos) => {
+        const nombreUserAccion = this.usuarioActivo.empleado.nombre + " "+
+          this.usuarioActivo.empleado.apellido;
+        const email: IEmail = {
+          asunto: 'Solicitud de vehículo APROBADA',
+          titulo: 'Solicitud de vehículo APROBADA',
+          email: datos.correo,
+          receptor: "Estimad@ "+datos.nombreCompleto+".",
+          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". "+obsevacion+". Y está a la espera de asignación de vales",
+          centro: '',
+          abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
+        }
+        this.emailService.notificarEmail(email);
+      },
+      (error) => {
+        console.error('Error al obtener el correo:', error);
+      }
+    );
+  }
+
+  /** fin correos */
 }

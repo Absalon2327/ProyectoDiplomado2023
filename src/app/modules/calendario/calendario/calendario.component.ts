@@ -203,9 +203,7 @@ export class CalendarioComponent implements OnInit {
   }
 
 
-get listSoliVeData(){
-  return this.soliService.getSoli2();
-}
+
 
 
   constructor( private soliService: ServicioService, private modalService: NgbModal, private usuarioService: UsuarioService) {
