@@ -392,7 +392,9 @@ export class ModalSecretariaComponent implements OnInit {
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
                 this.mensajesService.mensajesToast("success", "Asignación exitosa");
-                this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+                if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 15){
+                  this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+                }
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
                 resolve();
@@ -414,7 +416,9 @@ export class ModalSecretariaComponent implements OnInit {
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
             this.mensajesService.mensajesToast("success", "Asignación exitosa");
-            this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+            if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 15) {
+              this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación', 'Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+            }
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
             resolve();
