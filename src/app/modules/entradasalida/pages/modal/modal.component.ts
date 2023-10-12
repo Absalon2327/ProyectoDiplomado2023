@@ -335,13 +335,13 @@ export class ModalComponent implements OnInit {
                             },
                           });
                            // Inicia mensaje dirigido hacia el correo institucional
-                           /*this.EmailE(
+                           this.EmailE(
                             "!Aviso importante!",
                             "Se ha detectado un registro de entrada",
                             "EL Auto detectado ha completado con su mision: " +
                               this.objetivoMision.objetivoMision,
                             "Se solicita continuar con los procesos para poder liquidar"
-                          ); */// Termina mensaje dirigido hacia el correo institucional
+                          ); // Termina mensaje dirigido hacia el correo institucional
                           Toast.fire({
                             icon: "success",
                             text: "Almacenamiento exitoso",
