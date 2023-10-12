@@ -230,7 +230,7 @@ export class TablaComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: mensaje,
-          centro: 'Por favor ingrese al sistema para ver más detalles tabla',
+          centro: 'Por favor ingrese al sistema para ver más detalles.',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
