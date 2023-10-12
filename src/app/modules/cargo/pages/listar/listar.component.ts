@@ -50,6 +50,13 @@ export class ListarComponent implements OnInit {
 
   cambiarEstado(data: ICargo, estado: number) {
 
+    if(estado == 8){
+
+      this.cambio = 'Inactivo';
+    }else{
+
+      this.cambio = 'Activo';
+    }
 
 
       Swal.fire({
@@ -64,10 +71,10 @@ export class ListarComponent implements OnInit {
 
           if(estado == 8){
             data.estado = 9;
-            this.cambio = 'Inactivo';
+
           }else{
             data.estado = 8;
-            this.cambio = 'Activo';
+           
           }
 
           this.cargoService.editCargo(data.id, data).subscribe({

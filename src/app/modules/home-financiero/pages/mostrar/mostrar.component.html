@@ -18,23 +18,38 @@
   <!-- end page title -->
 
   <div class="row">
-
     <div class="col-xl-12">
       <div class="row">
-          <div class="col-md-3">
-              <app-stat [title]="'Vales disponibles'" [value]="valesActivos" [icon]="'mdi mdi-checkbook'"></app-stat>
-          </div>
-          <div class="col-md-3">
-              <app-stat [title]="'Vales asignados'" [value]="ValesAsignados" [icon]="'dripicons-pulse'"></app-stat>
-          </div>
-          <div class="col-md-3">
-              <app-stat [title]="'Solicitudes nuevas'" [value]="soliNuevas" [icon]="'mdi mdi-plus'"></app-stat>
-          </div>
-          <div class="col-md-3">
-              <app-stat [title]="'Solicitudes por aprobar'" [value]="soliPorAprobar" [icon]="'mdi mdi-check'"></app-stat>
-          </div>
+        <div class="col-md-3">
+          <app-stat
+            [title]="'Vales disponibles'"
+            [value]="valesActivos"
+            [icon]="'mdi mdi-checkbook'"
+          ></app-stat>
+        </div>
+        <div class="col-md-3">
+          <app-stat
+            [title]="'Vales asignados'"
+            [value]="ValesAsignados"
+            [icon]="'dripicons-pulse'"
+          ></app-stat>
+        </div>
+        <div class="col-md-3">
+          <app-stat
+            [title]="'Solicitudes nuevas'"
+            [value]="soliNuevas"
+            [icon]="'mdi mdi-plus'"
+          ></app-stat>
+        </div>
+        <div class="col-md-3">
+          <app-stat
+            [title]="'Solicitudes por aprobar'"
+            [value]="soliPorAprobar"
+            [icon]="'mdi mdi-check'"
+          ></app-stat>
+        </div>
       </div>
-  </div>
+    </div>
   </div>
 
   <div class="row">
@@ -104,6 +119,11 @@
           </div>
         </div>
       </div>
+      <app-stat
+        [title]="'Vales consumidos este mes'"
+        [value]="cantidadLogVale"
+        [icon]="'mdi mdi-credit-card-check'"
+      ></app-stat>
     </div>
 
     <div class="col-xl-8">
@@ -111,10 +131,11 @@
       <div class="card">
         <div class="card-body">
           <div class="d-sm-flex flex-wrap">
-            <h4 class="card-title mb-4">Total de Compras en {{texto}}</h4>
+            <h4 class="card-title mb-4">Total de Compras en {{ texto }}</h4>
           </div>
           <app-grafica-compra [chartData]="chartData"></app-grafica-compra>
         </div>
       </div>
+    </div>
   </div>
 </div>

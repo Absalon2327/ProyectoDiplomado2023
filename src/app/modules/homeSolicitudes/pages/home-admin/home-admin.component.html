@@ -23,28 +23,36 @@
     <div class="col-xl-12">
       <!-- Componente 0 -->
       <div class="row">
+        <div class="col-md-3">
+          <app-stat
+              [title]="'Vales disponibles'"
+              [value]="cards?.vales"
+              [icon]="'mdi mdi-checkbook'"
+            ></app-stat>
+          </div>
+          <div class="col-md-3">
+            <app-stat
+              [title]="'Misiones en proceso'"
+              [value]="cards?.misiones"
+              [icon]="'dripicons-pulse'"
+            ></app-stat>
+          </div>
+          <div class="col-md-3">
+            <app-stat
+              [title]="'Misiones del dia'"
+              [value]="cards?.misioneshoy"
+              [icon]="'mdi mdi-bus'"
+            ></app-stat>
+          </div>
+          <div class="col-md-3">
+            <app-stat
+              [title]="'Misiones del mes'"
+              [value]="cards?.misionesmes"
+              [icon]="'mdi mdi-bus-multiple'"
+            ></app-stat>
+        </div>
 
-        <div class="col-md-4">
-          <app-stat
-            [title]="'Misiones aprobadas'"
-            [value]="this.cargaAprobadas.length"
-            [icon]="'mdi mdi-check'"
-          ></app-stat>
-        </div>
-        <div class="col-md-4">
-          <app-stat
-            [title]="'Misiones en Revisión'"
-            [value]="this.cargaRevision.length"
-            [icon]="'mdi mdi-bus'"
-          ></app-stat>
-        </div>
-        <div class="col-md-4">
-          <app-stat
-            [title]="'Misiones del mes'"
-            [value]="this.cargaRealizadas.length"
-            [icon]="'mdi mdi-calendar'"
-          ></app-stat>
-        </div>
+       
       </div>
 
       <div class="row">
@@ -228,3 +236,4 @@
     </div>
   </div>
 </div>
+

@@ -80,3 +80,12 @@ button.btn-close{
   margin-left: 5px;
 }
 
+
+
+@media (max-width: 767.77px) {
+  .img-emp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

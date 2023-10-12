@@ -220,13 +220,15 @@ export class SolicitudvComponent implements OnInit {
               icon: "question",
               showCancelButton: true,
               confirmButtonText: "Sí, realizar",
+              confirmButtonColor: "#972727",
               cancelButtonText: "Cancelar",
+              cancelButtonColor: "#2c3136",
             }).then((result) => {
               if (result.isConfirmed) {
                 // Aquí puedes colocar la lógica para realizar la acción
                 // por ejemplo, eliminar un elemento o realizar alguna operación
                 if (
-                  this.dataExcelConsulta != null 
+                  this.dataExcelConsulta != null
                 ) {
                 //  this.cargarConsultaDtoc();
                   this.download();

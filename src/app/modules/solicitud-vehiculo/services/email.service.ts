@@ -41,7 +41,6 @@ export class EmailService {
 
   /*correo*/
   notificarEmail(email: IEmail) {
-    console.log("data a enviar al backend" , email);
     this.enviarNotificacionCorreo(email).subscribe(
       (resp) => {
       },

@@ -136,7 +136,7 @@ export class MostrarComponent implements OnInit {
     if (nombre == null || nombre == "") {
       this.correoCompleto = null;
     } else {
-      this.correoCompleto = nombre + "@ues.edu.sv";
+      this.correoCompleto = nombre;
     }
   }
 
