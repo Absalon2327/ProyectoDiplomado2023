@@ -782,6 +782,8 @@ export class ModalSecretariaComponent implements OnInit {
               }else {
                 this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
               }
+              this.enviarEmailSD("ASIS_FINANCIERO",
+                "Solicitud de vales", "Tiene una nueva solicitud de vales para la misión: "+data.objetivoMision);
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               this.modalService.dismissAll();
               resolve();

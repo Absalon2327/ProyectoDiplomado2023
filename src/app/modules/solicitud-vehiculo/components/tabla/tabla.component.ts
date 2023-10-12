@@ -166,6 +166,7 @@ export class TablaComponent implements OnInit {
           this.solicitudVale.estado = 8;
           this.solicitudVale.solicitudVehiculo = data.codigoSolicitudVehiculo;
 
+          this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
 
           this.soliService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
@@ -175,7 +176,11 @@ export class TablaComponent implements OnInit {
               }else {
                 this.soliService.getSolicitudesRol(this.userAcivo.role);
               }
-              this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
+
+              this.enviarEmailAprob("ASIS_FINANCIERO",
+                "Solicitud de vales", "Tiene una nueva solicitud de vales para la misión: "+data.objetivoMision);
+              this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
+
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               resolve();
             },
