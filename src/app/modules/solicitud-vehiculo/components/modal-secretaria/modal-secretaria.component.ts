@@ -136,10 +136,17 @@ export class ModalSecretariaComponent implements OnInit {
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
       // para input radio
-      if(this.usuarioActivo.role == 'DECANO'){
+      if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle'){
         this.formularioSoliVe.get('tieneVale')
         .setValue(this.soliVeOd.tieneVale ? 'true':'false');
         this.formularioSoliVe.get('tieneVale').disable();
+      }
+
+      if (this.soliVeOd.estado == 2){
+
+      }else {
+        this.formularioSoliVe.get('tieneVale')
+        .setValue(this.soliVeOd.tieneVale ? 'true':'false');
       }
 
 
