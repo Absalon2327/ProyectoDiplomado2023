@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UsuarioService } from 'src/app/account/auth/services/usuario.service';
-import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -40,6 +40,7 @@ export class TopbarComponent implements OnInit {
   countryName;
   valueset;
   icono: string = 'fa fa-fw fa-bars';
+  icono2: string = 'mdi mdi-chevron-down ms-1';
 
   empleadO!: IEmpleado;
   usuariO!: Usuario;
@@ -68,7 +69,7 @@ export class TopbarComponent implements OnInit {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private mensajesService: MensajesService) {
-      //this.usuarioJSON =  this.usuarioService.usuarioJSON;
+    //this.usuarioJSON =  this.usuarioService.usuarioJSON;
   }
 
   listLang = [
@@ -83,6 +84,7 @@ export class TopbarComponent implements OnInit {
 
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
+  @Output() mobileMenuButtonClicked2 = new EventEmitter();
 
   ngOnInit() {
     this.fotoEmpleado = this.usuarioService.empleadofoto;
@@ -141,6 +143,16 @@ export class TopbarComponent implements OnInit {
     }
   }
 
+  toggleMobileMenu2(event: any) {
+    event.preventDefault();
+    this.mobileMenuButtonClicked2.emit();
+    if (this.icono2 == 'mdi mdi-chevron-down ms-1') {
+      this.icono2 = 'mdi mdi-chevron-up ms-1';
+    } else if (this.icono2 == 'mdi mdi-chevron-up ms-1') {
+      this.icono2 = 'mdi mdi-chevron-down ms-1';
+    }
+  }
+
   /**
    * Logout the user
    */
@@ -160,46 +172,6 @@ export class TopbarComponent implements OnInit {
     });
   }
 
-  /* Enviar email */
-Email(){
-  const email: IEmail = {
-    asunto: 'Cambio de credenciales',
-    titulo: 'Cambio de credenciales',
-    email: 'kevineliasmejia@gmail.com',
-    receptor: "Estimad@ : " + 'Kevin Elias Mejia Martinez',
-    mensaje: 'Para mejorar la seguridad de nuestros sistemas, estamos implementando un cambio obligatorio de contraseñas. A continuación, te proporciono las instrucciones para completar este proceso de manera sencilla y segura',
-    centro: 'Utilice este codigo para continuar con el proceso :',
-    codigo: '99023992',
-    abajo: 'Gracias por tu atención a este importante asunto.',
-  }
-
-  this.usuarioService.SendEmail(email).subscribe(
-    (resp) => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2500,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      });
-
-      Toast.fire({
-        icon: 'success',
-        text: '¡Email enviado!'
-      });
-    },
-    (err) => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: err,
-      });
-    }
-  );
-}
 
   //// metodo par abrir la modal ////
   openModal(content: any) {
