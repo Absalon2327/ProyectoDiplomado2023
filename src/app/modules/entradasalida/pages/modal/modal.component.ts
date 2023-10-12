@@ -23,7 +23,9 @@ import { ISolicitudvalep } from "src/app/modules/solicitud-vale-paginacion/inter
 import { IEmail } from "src/app/account/auth/interfaces/usuario";
 import { UsuarioService } from "src/app/account/auth/services/usuario.service";
 import { ICorreos } from "src/app/modules/solicitudes/Interfaces/correos.interface";
+
 import { ServiceService } from "src/app/modules/solicitudes/Service/service.service";
+
 
 @Component({
   selector: "app-modal",
@@ -75,6 +77,7 @@ export class ModalComponent implements OnInit {
     private listaentradasalidaservice: ListaentradasalidaService,
     private usuarios: UsuarioService,
     private service: ServiceService
+
   ) {}
 
   ngOnInit(): void {
@@ -423,6 +426,7 @@ export class ModalComponent implements OnInit {
     const nombre = this.correos[0].nombre;
     const correo = this.correos[0].correo;
     console.log("EMAIL:",this.correos)
+
     const email: IEmail = {
       asunto: asunto,
       titulo: titulo,
