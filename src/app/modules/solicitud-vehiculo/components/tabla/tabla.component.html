@@ -122,7 +122,9 @@
             <button type="button"
                     *ngIf="userAcivo.role == 'SECR_DECANATO' &&
                     (solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 2 ||
-                        solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 6) && vista == 'listado'"
+                        solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 6 ||
+                        solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 4 ||
+                        solicitudesVehiculo.length>0 && solicitudesVehiculo[0].estado == 5) && vista == 'listado'"
                     class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
                   (click)="abrirModalSecre('Edicion', data)"
                   ngbTooltip="Asignar">
