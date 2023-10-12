@@ -45,8 +45,9 @@ export class TablaComponent implements OnInit {
   abrirModal(leyenda: string, data: any) {
     if (this.userAcivo.role == 'DECANO' && data.estado == 3 && this.vista == 'listado'){
       this.abrirModalSecre(leyenda, data)
-    } else if (this.userAcivo.role == 'SECR_DECANATO' && (data.estado == 2 || data.estado == 6) && this.vista == 'listado'){
+    } else if (this.userAcivo.role == 'SECR_DECANATO' && (data.estado == 2 || data.estado == 4 || data.estado == 5 || data.estado == 6) && this.vista == 'listado'){
       this.abrirModalSecre(leyenda, data);
+      console.log("entro");
     }else {
       this.selectedData = data; // Almacena los datos del registro seleccionado
       const modalRef = this.modalService.open(ModalComponent, {size: 'xl', backdrop: 'static'});
@@ -101,7 +102,12 @@ export class TablaComponent implements OnInit {
       if (this.userAcivo.role=="JEFE_DEPTO"){
         await this.actualizarSolicitud(data);
       }else{
-        await this.actualizarSolicitudDec(data);
+        if(data.tieneVale){
+          await this.actualizarSolicitudDec(data);
+        }else {
+          data.estado = 5;
+          await this.actualizarSolicitudSinVa(data);
+        }
       }
     }
   }
@@ -184,6 +190,30 @@ export class TablaComponent implements OnInit {
               reject (errorSoli);
             },
           })
+        },
+        error: (error) => {
+          Swal.close();
+          this.mensajesService.mensajesSweet(
+            'error',
+            'Ups... Algo salió mal',
+            error.error.message
+          );
+          reject (error);
+        },
+      });
+    });
+  }
+
+  actualizarSolicitudSinVa(data: any):Promise <void>{
+    return new Promise<void>((resolve, reject) => {
+      this.soliService.updateSolciitudVehiculoSinVale(data).subscribe({
+        next: () => {
+          // resp: any
+          this.soliService.getSolicitudesRol(this.userAcivo.role);
+          this.enviarEmailAprob('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+                'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
+          this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
+          resolve();
         },
         error: (error) => {
           Swal.close();
