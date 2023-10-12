@@ -894,7 +894,7 @@ export class ModalSecretariaComponent implements OnInit {
           titulo: 'Solicitud de vehículo APROBADA',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
-          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". "+obsevacion+". Y está a la espera de asignación de vales",
+          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales",
           centro: '',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
