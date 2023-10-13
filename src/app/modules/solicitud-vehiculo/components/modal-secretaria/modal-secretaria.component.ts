@@ -387,7 +387,9 @@ export class ModalSecretariaComponent implements OnInit {
                 //console.log(pdfResp);
                 if (this.usuarioActivo.role == 'ADMIN'){
                   this.soliVeService.getSolicitudesVehiculo(2);
-                }else{
+                }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
+                  this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
+                } else{
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
                 this.mensajesService.mensajesToast("success", "Asignación exitosa");
@@ -411,7 +413,9 @@ export class ModalSecretariaComponent implements OnInit {
           } else {
             if (this.usuarioActivo.role == 'ADMIN'){
               this.soliVeService.getSolicitudesVehiculo(2);
-            }else{
+            }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
+              this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
+            } else{
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
             this.mensajesService.mensajesToast("success", "Asignación exitosa");
