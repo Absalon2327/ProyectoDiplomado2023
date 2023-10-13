@@ -31,9 +31,10 @@
 
         &.pagination-previous,
         &.pagination-next {
+
             a,
             span {
-                width:50%;
+                width: 50%;
                 height: 50%;
                 border-radius: 50%;
                 overflow: hidden;
@@ -62,7 +63,7 @@
         pointer-events: none;
     }
 
-    .ngx-pagination .pagination-next::before{
+    .ngx-pagination .pagination-next::before {
         content: '\bb'; //para colocarla icono
     }
 
@@ -85,3 +86,7 @@
     }
 
 }
+
+
+
+

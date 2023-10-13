@@ -48,7 +48,7 @@ export class ModalComponent implements OnInit {
 
   private iniciarFormulario(){
     return this.fb.group({
-      nombre : ['',Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]*')])],
+      nombre : ['',Validators.compose([Validators.required, Validators.pattern(this.isText)])],
       descripcion : ['',Validators.compose([Validators.required, Validators.pattern(this.isText)])],
       tipo : ['',Validators.compose([Validators.required])]
     })

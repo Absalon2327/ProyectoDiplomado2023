@@ -52,7 +52,7 @@
         <tr *ngFor="let data of log;
                             let i = index">
           <td>{{calcularNumeroCorrelativo(i)}}</td>
-          <td>{{data.actividad}}</td>
+          <td class="text-wrap" >{{data.actividad}}</td>
           <td>{{data.fechaLogSoliVe | date: "dd/MM/yyyy HH:mm:ss"}}</td>
           <td>{{data.usuario}}</td>
           <td>{{data.cargo}}</td>

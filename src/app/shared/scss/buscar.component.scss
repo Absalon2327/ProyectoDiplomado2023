@@ -1,0 +1,154 @@
+// para el buscar adaptable de las tablas
+.btn-table {
+    display: grid;
+    position: relative;
+    justify-content: right;
+    align-items: flex-start;
+}
+
+.search-2 {
+    display: none;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: -75px !important;
+    width: 400px;
+    /* Cambia este valor según tus necesidades */
+}
+
+.btn-search-2 {
+    position: absolute;
+    top: -25px !important;
+    left: -25px !important;
+    padding: 20px;
+}
+
+.form-control {
+    width: 80%;
+    /* Esto hará que el input ocupe todo el ancho disponible */
+}
+
+@media (max-width: 560px) {
+    .search-1 {
+        display: none;
+    }
+
+
+    .search-2 {
+        display: grid;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .dropdown-menu {
+        left: -17px !important;
+    }
+
+}
+
+
+@media (max-width: 475px) {
+
+    .dropdown-menu {
+        left: -25px !important;
+    }
+}
+
+@media (max-width: 455px) {
+
+    .dropdown-menu {
+        left: -35px !important;
+    }
+}
+
+
+@media (max-width: 445px) {
+
+    .dropdown-menu {
+        left: -45px !important;
+    }
+}
+
+
+@media (max-width: 430px) {
+
+    .dropdown-menu {
+        left: 0px !important;
+        width: 300px;
+        /* Cambia este valor según tus necesidades */
+    }
+
+    .form-control {
+        width: 70%;
+        /* Esto hará que el input ocupe todo el ancho disponible */
+    }
+
+}
+
+@media (max-width: 405px) {
+
+    .dropdown-menu {
+        left: -15px !important;
+    }
+}
+
+@media (max-width: 385px) {
+
+    .dropdown-menu {
+        left: -20px !important;
+    }
+}
+
+@media (max-width: 375px) {
+
+    .dropdown-menu {
+        left: -25px !important;
+    }
+}
+
+@media (max-width: 365px) {
+
+    .dropdown-menu {
+        left: -30px !important;
+    }
+}
+
+@media (max-width: 355px) {
+
+    .dropdown-menu {
+        left: -35px !important;
+    }
+}
+
+@media (max-width: 345px) {
+
+    .dropdown-menu {
+        left: -40px !important;
+    }
+}
+
+@media (max-width: 335px) {
+
+    .dropdown-menu {
+        left: -25px !important;
+        width: 250px;
+        /* Cambia este valor según tus necesidades */
+    }
+
+    .form-control {
+        width: 65%;
+        /* Esto hará que el input ocupe todo el ancho disponible */
+    }
+}
+
+
+@media (max-width: 315px) {
+    .dropdown-menu {
+        left: -35px !important;
+    }
+}
+
+
+// para el buscar adaptable de las tablas
