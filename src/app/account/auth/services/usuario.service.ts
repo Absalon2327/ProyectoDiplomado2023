@@ -67,8 +67,8 @@ export class UsuarioService {
       .subscribe(
         (datacards: any) => {
           this.cards = datacards; // guarda cards
-          const { vales, misiones, misioneshoy, misionesmes } = datacards;
-          this.cards = new DataCards(vales, misiones, misioneshoy, misionesmes);
+          const { vales, misiones, misioneshoy, misionesmes, motoristas } = datacards;
+          this.cards = new DataCards(vales, misiones, misioneshoy, misionesmes, motoristas);
         },
         (error) => {
           console.error("Error al obtener las cards:", error);
