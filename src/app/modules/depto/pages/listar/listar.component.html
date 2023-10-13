@@ -2,19 +2,48 @@
   <app-page-title title="Listado de Departamentos disponibles" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
-      <div class="col-12">
-          <div class="card">
-              <div class="card-body">
-                  <div class="row mb-2" >
-                      <div class="col-sm-6">
-                           <div class="search-box me-2 mb-2 d-inline-block">
-                            <div class="position-relative">
-                              <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="term">
-                              <i class="bx bx-search-alt search-icon"></i>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row p-3">
+            <div class="col-4">
+              <div class="search-box me-2 mb-2 d-inline-block">
+
+                <div class="position-relative search-1">
+                  <input type="text" class="form-control" id="input-search-1" name="input-search-1"
+                    placeholder="Buscar..." [(ngModel)]="term">
+                  <i class="bx bx-search-alt search-icon"></i>
+                </div>
+
+                <div class="search-2">
+                  <div class="dropdown search" ngbDropdown>
+                    <button type="button" class="btn header-item noti-icon btn-search-2"
+                      id="page-header-search-dropdown" data-toggle="dropdown" aria-haspopup="true" ngbDropdownToggle
+                      aria-expanded="false">
+                      <i class="mdi mdi-magnify" style="color: black;"></i>
+                    </button>
+                    <div class="dropdown-menu p-0" ngbDropdownMenu aria-labelledby="page-header-search-dropdown">
+                      <form class="p-2">
+                        <div class="m-0">
+
+                          <div class="position-relative  input-group ">
+                            <input type="text" class="form-control" id="input-search-2" name="input-search-2"
+                              placeholder="Buscar ..." [(ngModel)]="term" aria-label="Recipient's username">
+                            <div class="input-group-append">
+                              <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
                             </div>
                           </div>
-                      </div>
-                      <!--
+
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+            <!--
                      <div class="col-sm-4">
                       <div class="text-sm-center">
                         <select class="form-select" aria-label="Default select example" (change)="cargaDeptos($event)">
@@ -25,77 +54,75 @@
                       </div>
                      </div>
                      -->
-                      <div class="col-sm-6">
-                        <div class="text-sm-end">
-                          <button type="button" class="btn btn-primary btn-rounded" (click)="abrirModal('Nuevo')">Agregar
-                          </button>
-                        </div>
-                      </div>
-                  </div>
-                  <!-- Contenido de la tabla data -->
-
-                  <div class="table-responsive mb-0">
-                      <table class="table table-centered table-nowrap">
-                          <thead class="table-light">
-                              <tr>
-                              <!--  <th class="border-0 rounded-start">#</th>-->
-                                  <th class="align-middle text-center">#</th>
-                                  <th class="align-middle text-center">Departamento</th>
-                                  <th class="align-middle text-center">Tipo</th>
-                                  <th class="align-middle text-center">Estado</th>
-                                  <th class="align-middle text-center">Acciones</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr  *ngFor="let data of lstDeptos  | filter : term | paginate : { itemsPerPage: 10, currentPage: p };let i = index">
-                                  <td class="align-middle text-center">{{ (i + 1) }}</td>
-                                  <td class="align-middle text-center">{{ data.nombre }}</td>
-                                  <td class="align-middle text-center">{{ data.tipo }}</td>
-                                  <td class="align-middle text-center">
-                                    <h5>
-                                      <span
-                                          class="{{ data.estado  === 8 ? 'badge rounded-pill bg-success' : 'badge rounded-pill bg-danger' }}">
-                                          {{ data.estado  === 8 ? 'Activo' : 'Inactivo' }}
-                                      </span>
-                                  </h5>
-                                   </td>
-                                  <td class="align-middle text-center text-center">
-                                      <!-- <div class="btn-group"> -->
-                                        <button type="button" class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
-                                        (click)="abrirModal2('Detalle', data)"
-                                        ngbTooltip="Modificar Cargo">
-                                  <i class="mdi mdi-18px mdi-eye-outline"></i></button>
-
-                                        <button type="button" class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
-                                          (click)="abrirModal2('Editar', data)"
-                                          ngbTooltip="Modificar Cargo">
-                                    <i class="mdi mdi-18px mdi-book-edit-outline"></i></button>
-
-                                    <button type="button" class="btn btn-warning btn-sm btn-rounded mx-1"
-                                    (click)="cambiarEstado(data, data.estado)"
-                                    ngbTooltip="Cambiar a {{data.estado === 9 ? 'Activo' : 'Inactivo'}}">
-                                    <i
-                                        [ngClass]="data.estado === 8 ? 'mdi mdi-18px mdi-lock-outline' : 'mdi mdi-18px mdi-key-outline'"></i>
-                                    <!-- <i class="mdi mdi-account-lock-outline"></i>
-                                     mdi-account-check-outline -->
-                                </button>
-                                      <!--</div>-->
-
-                                  </td>
-                              </tr>
-
-                              </tbody>
-                      </table>
-                      <!-- ! PAGINACION -->
-  <div class="pagination pagination-rounded justify-content-end mb-2">
-    <pagination-controls (pageChange)="p = $event" [nextLabel]="''" [previousLabel]="''"></pagination-controls>
-  </div>
+            <div class="col-8 btn-table">
+              <div class="text-sm-end">
+                <button type="button" class="btn btn-primary btn-rounded" (click)="abrirModal('Nuevo')">Agregar
+                </button>
               </div>
+            </div>
           </div>
+          <!-- Contenido de la tabla data -->
+
+          <div class="table-responsive mb-0">
+            <table class="table table-centered table-nowrap">
+              <thead class="table-light">
+                <tr>
+                  <!--  <th class="border-0 rounded-start">#</th>-->
+                  <th class="align-middle text-center">#</th>
+                  <th class="align-middle text-center">Departamento</th>
+                  <th class="align-middle text-center">Tipo</th>
+                  <th class="align-middle text-center">Estado</th>
+                  <th class="align-middle text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let data of lstDeptos  | filter : term | paginate : { itemsPerPage: 10, currentPage: p };let i = index">
+                  <td class="align-middle text-center">{{ (i + 1) }}</td>
+                  <td class="align-middle text-center">{{ data.nombre }}</td>
+                  <td class="align-middle text-center">{{ data.tipo }}</td>
+                  <td class="align-middle text-center">
+                    <h5>
+                      <span
+                        class="{{ data.estado  === 8 ? 'badge rounded-pill bg-success' : 'badge rounded-pill bg-danger' }}">
+                        {{ data.estado === 8 ? 'Activo' : 'Inactivo' }}
+                      </span>
+                    </h5>
+                  </td>
+                  <td class="align-middle text-center text-center">
+                    <!-- <div class="btn-group"> -->
+                    <button type="button" class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+                      (click)="abrirModal2('Detalle', data)" ngbTooltip="Modificar Cargo">
+                      <i class="mdi mdi-18px mdi-eye-outline"></i></button>
+
+                    <button type="button" class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
+                      (click)="abrirModal2('Editar', data)" ngbTooltip="Modificar Cargo">
+                      <i class="mdi mdi-18px mdi-book-edit-outline"></i></button>
+
+                    <button type="button" class="btn btn-warning btn-sm btn-rounded mx-1"
+                      (click)="cambiarEstado(data, data.estado)"
+                      ngbTooltip="Cambiar a {{data.estado === 9 ? 'Activo' : 'Inactivo'}}">
+                      <i
+                        [ngClass]="data.estado === 8 ? 'mdi mdi-18px mdi-lock-outline' : 'mdi mdi-18px mdi-key-outline'"></i>
+                      <!-- <i class="mdi mdi-account-lock-outline"></i>
+                                     mdi-account-check-outline -->
+                    </button>
+                    <!--</div>-->
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <!-- ! PAGINACION -->
+            <div class="pagination pagination-rounded justify-content-end mb-2">
+              <pagination-controls (pageChange)="p = $event" [nextLabel]="''"
+                [previousLabel]="''"></pagination-controls>
+            </div>
+          </div>
+        </div>
       </div>
 
+    </div>
   </div>
 </div>
-</div>
-
-

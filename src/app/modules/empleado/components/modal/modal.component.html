@@ -120,6 +120,7 @@
                             </label>
                             <input type="text" formControlName="nombre" class="form-control" id="nombre" name="nombre"
                                 placeholder="Ingrese nombre" [readonly]="empleadOd != null && titulo == 'Detalle'"
+                                maxlength="25"
                                 [class]="titulo != 'Detalle' ? esCampoValido('nombre') : ''"
                                 [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" />
                             <div class="invalid-feedback">
@@ -138,6 +139,7 @@
                             </label>
                             <input type="text" formControlName="apellido" class="form-control" id="apellido"
                                 name="apellido" placeholder="Ingrese apellido"
+                                maxlength="25"
                                 [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 [class]="titulo != 'Detalle' ? esCampoValido('apellido') : ''"
                                 [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" />
@@ -221,7 +223,7 @@
                             <select class="form-control form-select"
                                 (change)="SelectCargo(formBuilder.get('telefono').value)" id="selectCargo"
                                 name="selectCargo" formControlName="cargo"
-                                [ngClass]="{'select-readonly': empleadOd != null && titulo == 'Detalle'}"
+                                [ngClass]="{'select-readonly': empleadOd != null && titulo == 'Detalle' || (empleadOd != null && empleadOd.cargo.nombreCargo == 'MOTORISTA')}"
                                 [ngModel]="empleadOd != null ? empleadOd.cargo.id : ''"
                                 [class]="titulo != 'Detalle' ? esCampoValido('cargo') : ''">
                                 <option value="">Seleccione Cargo</option>
@@ -296,7 +298,7 @@
                         <!-- fin de tipo_licencia & fecha de expiracion Empleado -->
 
 
-                        <!-- inicio de departamento & es jefe Empleado -->
+                        <!-- inicio de departamento -->
                         <!--   <div class="form-group row m-3 align-items-center"> -->
                         <div class="form-group row m-4">
                             <!-- <div class="col-md-6"> -->
@@ -319,17 +321,7 @@
                             </div>
                         </div>
 
-                        <!--  <div class="col-md-6 form-check form-switch form-switch-md" style="top: 15px;">
-                                <input class="form-check-input" type="checkbox" formControlName="jefe" id="jefe"
-                                    name="jefe"
-                                    [ngClass]="{'select-readonly-check': empleadOd != null && titulo == 'Detalle'}"
-                                    [ngModel]="empleadOd!=null ? empleadOd.jefe : false">
-                                <label class="form-check-label" for="jefe">Es Jefe de
-                                    Departamento</label>
-                            </div> -->
-                        <!--   </div> -->
-
-                        <!-- fin de departamento & es jefe Empleado -->
+                        <!-- fin de departamento -->
 
                     </div>
                 </div>

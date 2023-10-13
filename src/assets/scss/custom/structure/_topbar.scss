@@ -308,7 +308,7 @@ body[data-layout="horizontal"] {
 
 
 
-////// Variables usuario info & imagen superior Decanato/////////////
+////// Variables usuario info & imagen superior Decanato /////////////
 .container {
   display: flex;
   align-items: center;
@@ -387,7 +387,11 @@ body[data-layout="horizontal"] {
 @media screen and (max-width: 995px) {
   .constainer {
     padding: 10px;
-    width: 25%;
+    width: 20%;
+  }
+
+  .content {
+    padding-right: 80px !important;
   }
 
   .search {
@@ -396,20 +400,20 @@ body[data-layout="horizontal"] {
   }
 }
 
-@media screen and (max-width: 991.99px) {
+/* @media screen and (max-width: 991.99px) {
   .constainer {
-    width: 27%;
+    width: 20%;
   }
 
   .content {
-    padding-right: 150px !important;
+    padding-right: 100px !important;
   }
-}
+} */
 
-@media screen and (max-width: 970px) {
+/* @media screen and (max-width: 970px) {
   .constainer {
     padding: 10px;
-    width: 28%;
+    width: 20%;
   }
 
   .content {
@@ -425,97 +429,125 @@ body[data-layout="horizontal"] {
   .content {
     padding-right: 165px !important;
   }
-}
+} */
 
-@media screen and (max-width: 890px) {
+ @media screen and (max-width: 860px) {
   .constainer {
-    width: 32% !important;
+    width: 25% !important;
   }
+} 
 
-  .content {
-    padding-right: 170px !important;
-  }
-}
-
-@media screen and (max-width: 825px) {
+/* @media screen and (max-width: 825px) {
   .constainer {
     width: 34% !important;
   }
-}
+} */
 
-@media screen and (max-width: 765px) {
+/* @media screen and (max-width: 765px) {
   .constainer {
     width: 36% !important;
   }
-}
+} */
 
 @media screen and (max-width: 735px) {
   .constainer {
-    width: 38% !important;
+    width: 27% !important;
   }
 }
 
 @media screen and (max-width: 690px) {
   .constainer {
-    width: 39% !important;
+    width: 30% !important;
   }
 }
 
-@media screen and (max-width: 675px) {
+/* @media screen and (max-width: 675px) {
   .constainer {
     width: 41% !important;
   }
-}
+} */
 
 @media screen and (max-width: 645px) {
   .constainer {
-    width: 43% !important;
+    width: 33% !important;
   }
 }
 
-@media screen and (max-width: 615px) {
+/* @media screen and (max-width: 615px) {
   .constainer {
     width: 45% !important;
   }
-}
+} */
 
-@media screen and (max-width: 595px) {
+/* @media screen and (max-width: 595px) {
   .constainer {
     width: 49% !important;
   }
 }
-
+ */
 @media screen and (max-width: 545px) {
   .constainer {
-    width: 53% !important;
+    width: 35% !important;
   }
 }
 
 @media screen and (max-width: 510px) {
   .constainer {
-    width: 57% !important;
+    width: 37% !important;
   }
 }
 
 @media screen and (max-width: 475px) {
   .constainer {
-    width: 60% !important;
+    width: 40% !important;
   }
 }
 
 @media screen and (max-width: 450px) {
   .constainer {
-    width: 65% !important;
+    width: 43% !important;
   }
 }
 
 @media screen and (max-width: 415px) {
   .constainer {
-    width: 73% !important;
+    width: 45% !important;
   }
+}
 
-  .content {
-    padding-right: 195px !important;
+@media screen and (max-width: 395px) {
+  .constainer {
+    width: 48% !important;
+  }
+}
+
+@media screen and (max-width: 385px) {
+  .constainer {
+    width: 40% !important;
+  }
+}
+
+@media screen and (max-width: 365px) {
+  .constainer {
+    width: 43% !important;
+  }
+}
+
+@media screen and (max-width: 355px) {
+  .constainer {
+    width: 45% !important;
+  }
+}
+
+@media screen and (max-width: 335px) {
+  .constainer {
+    width: 47% !important;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .constainer {
+    width: 49% !important;
   }
 }
 

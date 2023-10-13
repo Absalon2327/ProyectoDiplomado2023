@@ -136,12 +136,18 @@ export class ModalSecretariaComponent implements OnInit {
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
       // para input radio
-      if(this.usuarioActivo.role == 'DECANO'){
-        this.formularioSoliVe.get('tieneVale')
-        .setValue(this.soliVeOd.tieneVale ? 'true':'false');
+      if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle'){
         this.formularioSoliVe.get('tieneVale').disable();
       }
 
+    if(this.soliVeOd.estado == 5){
+      this.formularioSoliVe.get('tieneVale').disable();
+      }
+
+      if (this.soliVeOd.estado > 2){
+        this.formularioSoliVe.get('tieneVale')
+        .setValue(this.soliVeOd.tieneVale ? 'true':'false');
+      }
 
       // por estado revision
       if(this.soliVeOd.motorista != null){
@@ -385,7 +391,9 @@ export class ModalSecretariaComponent implements OnInit {
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
                 this.mensajesService.mensajesToast("success", "Asignación exitosa");
-                this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+                if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 15){
+                  this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+                }
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
                 resolve();
@@ -407,7 +415,9 @@ export class ModalSecretariaComponent implements OnInit {
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
             this.mensajesService.mensajesToast("success", "Asignación exitosa");
-            this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+            if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 15) {
+              this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación', 'Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+            }
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
             resolve();
@@ -440,7 +450,11 @@ export class ModalSecretariaComponent implements OnInit {
             this.placas.push(this.soliVeOd.vehiculo);
             this.formularioSoliVe.get('vehiculo').setValue(this.soliVeOd.vehiculo.placa);
           }
-        }else if(tipoVehiculo != '') {
+        }else if(tipoVehiculo == this.soliVeOd.vehiculo.clase){
+          this.placas = [];
+          this.placas.push(this.soliVeOd.vehiculo);
+          this.formularioSoliVe.get('vehiculo').setValue(this.soliVeOd.vehiculo.placa);
+        }else if(tipoVehiculo != '' && tipoVehiculo != this.soliVeOd.vehiculo.clase) {
           this.placas = [];
           this.formularioSoliVe.get('vehiculo').setValue('');
           this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
