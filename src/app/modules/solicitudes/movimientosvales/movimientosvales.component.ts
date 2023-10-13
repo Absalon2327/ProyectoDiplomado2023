@@ -418,6 +418,7 @@ loadingAlert.close();
         loadingAlert.close();
         // Asignar los vales a la lista
         this.listVale = vales;
+        //para el filtro de estados
         this.listValeAux = this.listVale;
         //  console.log(vales);
       },
