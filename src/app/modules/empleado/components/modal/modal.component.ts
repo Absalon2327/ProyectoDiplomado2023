@@ -46,7 +46,7 @@ export class ModalComponent implements OnInit {
       id: 1,
       type: "info",
       message:
-        "Por favor, asegúrese de completar todos los campos obligatorios (*) y de cumplir con los formatos correspondientes. Además, le recomendamos prestar atención a los mensajes de alerta. En cuanto a la foto del empleado no es obligatoria; Indicar que el empleado sera jefe del área o departamento correspondiente solamente cuando sea acorde a sus responsabilidades laborales.",
+        "Por favor, asegúrese de completar todos los campos obligatorios (*) y de cumplir con los formatos correspondientes. Además, le recomendamos prestar atención a los mensajes de alerta. En cuanto a la foto del empleado no es obligatoria; Indicar que el empleado sera jefe de la unidad o departamento correspondiente solamente cuando sea acorde a sus responsabilidades laborales. el cargo JEFE DEPARTAMENTO aplica tanto para unidad como departamento ya que en apartado de departamento se encuentran todas unificadas.",
       show: false,
     },
   ];
