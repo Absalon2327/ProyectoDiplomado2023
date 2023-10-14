@@ -86,7 +86,11 @@ export class ModalSecretariaComponent implements OnInit {
     this.iniciarFormulario();
     this.llenarSelectDepartamentos();
     this.soliVeService.obtenerVehiculos();
-    this.soliVeService.obtenerMotoristas();
+
+   // const fechasSalida =   this.soliVeOd.fechaSalida.  //new Date(this.soliVeOd.fechaSalida);
+
+
+    this.soliVeService.obtenerMotoristas(this.soliVeOd.fechaSalida,this.soliVeOd.fechaEntrada);
     this.detalle(this.leyenda);
   }
 
