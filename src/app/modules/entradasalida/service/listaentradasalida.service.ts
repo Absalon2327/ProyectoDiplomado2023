@@ -16,7 +16,7 @@ export class ListaentradasalidaService {
   private baseUrl: string = environment.baseUrl;///base url
   // Declarar requestOptions como una variable global
   private requestOptions: any;
-  
+
   correos!: ICorreos[];
 
   listDeMisiones: IsolicitudVehiculo[] = [];
@@ -150,7 +150,7 @@ export class ListaentradasalidaService {
   }
 
   /*obtenerImagenes(): Observable<IVehiculoentradaSalida[]> {
- 
+
      const token = localStorage.getItem('token');
      const headers = new HttpHeaders({
        Authorization: `Bearer ${token}`
@@ -194,7 +194,7 @@ export class ListaentradasalidaService {
     return this.http.get<ISolicitudvalep>(`${this.baseUrl}/solicitudvale/buscarcodigosolicitudvale?codigo=${id}`, requestOptions);
   }
   getCorreosFinanciero(){
-    return this.http.get<ICorreos[]>(`${this.baseUrl}/asignacionvale/correosfinanciero`).subscribe({
+    return this.http.get<ICorreos[]>(`${this.baseUrl}/entradasalida/correosfinanciero`).subscribe({
       next:(value)=>{
         this.correos=value;
       }
