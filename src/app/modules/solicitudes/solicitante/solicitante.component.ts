@@ -607,7 +607,7 @@ export class SolicitanteComponent implements OnInit {
       (response: LogVale[]) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.crearPDFLogVa(compr, listVale, estado, response, soliVehi);
+        this.cargarCompra(compr, listVale, estado, response, soliVehi);
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error
@@ -619,6 +619,41 @@ export class SolicitanteComponent implements OnInit {
           "Ups... Algo salió mal",
           "No hay datos para mostrar"
         );
+      }
+    );
+  }
+  cargarCompra(
+    compr: ICompra,
+    vale: IdVale,
+    estado: number,
+    log: LogVale[],
+    soliVehi: ISolicitudVehiculo
+  ){
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    this.consultaService.getIdCompraV(vale.codigocompra).subscribe(
+      (response: ICompra) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.crearPDFLogVa(response, vale, estado, log, soliVehi);
+      },
+      (error) => {
+        // Cerrar SweetAlert de carga en caso de error
+        loadingAlert.close();
+        this.crearPDFLogVa(null, vale, estado, log, soliVehi);
+        // Manejar el error de alguna manera, como mostrar un mensaje de error
       }
     );
   }
