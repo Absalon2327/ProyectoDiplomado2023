@@ -78,7 +78,7 @@
                    formControlName="fechaSalida"
                    [class]="esCampoValido('fechaSalida')"
                    (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                   formularioSoliVe.get('fechaSalida').value)"
+                   formularioSoliVe.get('fechaSalida').value, formularioSoliVe.get('fechaEntrada').value)"
                    [readonly]="soliVeOd != null && leyenda === 'Detalle'"/>
             <div class="invalid-feedback">
               <span
@@ -331,7 +331,7 @@
                    formControlName="fechaEntrada"
                    [class]="esCampoValido('fechaEntrada')"
                    (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                   formularioSoliVe.get('fechaSalida').value)"
+                   formularioSoliVe.get('fechaSalida').value, formularioSoliVe.get('fechaEntrada').value)"
                    [readOnly]="leyenda == 'Detalle' && soliVeOd != null"/>
             <div class="invalid-feedback">
               <span
@@ -359,8 +359,9 @@
                 [selectOnTab]="true"
                 labelForId="tipoVehiculo"
                  [class]="esCampoValido('tipoVehiculo')"
+                 [notFoundText]="'Datos no econtrados'"
                 (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                formularioSoliVe.get('fechaSalida').value)"
+                formularioSoliVe.get('fechaSalida').value , formularioSoliVe.get('fechaEntrada').value)"
               >
                 <ng-option
                   *ngFor="let car of listVehiculos"
@@ -397,6 +398,7 @@
                            [selectOnTab]="true"
                            labelForId="vehiculo"
                            [class]="esCampoValido('vehiculo')"
+                           [notFoundText]="'Datos no econtrados'"
                 >
                   <ng-option *ngFor="let vehiculo of placas"
                              [value]="vehiculo.codigoVehiculo">{{vehiculo.placa}}</ng-option>
