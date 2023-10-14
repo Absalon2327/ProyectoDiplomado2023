@@ -130,9 +130,9 @@ export class SolicitudVehiculoService {
         );
   }
 
-  obtenerMotoristas() {
+  obtenerMotoristas(fechaSalida:Date,fechaEntarada:Date) {
     this.http
-      .get(`${this.url}/empleado/motoristas`)
+      .get(`${this.url}/empleado/motoristas?fechaSalida=${fechaSalida}&fechaEntrada=${fechaEntarada}`)
       .pipe(map((resp: any) => resp as IMotorista[]))
       .subscribe(
         (empleados: IMotorista[]) => {

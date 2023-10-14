@@ -82,7 +82,7 @@ export class HomeSecreComponent implements OnInit {
      //inicio de carga de solicitudes
      this.solicitudService.getSolicitudesVehiculo3(null).then((data) => {
        this.solicitud = data;
-         console.log("dasd",this.solicitud)
+        // console.log("dasd",this.solicitud)
          this.solicitud.forEach(element => {
            const date = new Date(element.fechaSalida);
            if(date.getMonth() == new Date().getMonth()){
@@ -106,27 +106,30 @@ export class HomeSecreComponent implements OnInit {
               if(element.estado == 2){
                 this.cargaAsignar.push(element);
               }
+              if(element.estado == 6){
+                this.cargaRevision.push(element);
+              }
 
            }
            console.log("carga asignar",this.cargaAsignar)
+           console.log("carga revision",this.cargaRevision)
          })
      });
      //fin de la carga
      //inicio de carga de solicitudes en revision
+     /*
     this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
       this.solicitud = data;
         console.log("dasd",this.solicitud)
         this.solicitud.forEach(element => {
           const date = new Date(element.fechaSalida);
           if(date.getMonth() == new Date().getMonth()){
-            if(element.estado == 6){
-              this.cargaRevision.push(element);
-            }
+
 
           }
           console.log("carga",this.cargaRevision)
         })
-    });// carga las solicitudes de vehiculo para el usuario
+    }); */// carga las solicitudes de vehiculo para el usuario
     }
 
    /* Metodos para optener datos de cards */
