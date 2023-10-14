@@ -225,11 +225,9 @@ export class EncabezadoComponent implements OnInit {
   }
   obtenerSolicitud(id: string) {
     this.service.getSolicitudVale(id).subscribe({
-      next: (data) => {
-        console.log("resp: ", data);
+      next: (data) => {        this
         this.estadoEntrada = data[0].estadoEntradaSolicitudVale;
         this.liquidar();
-        console.log("estado entrada", this.estadoEntrada);
       },
     });
   }

@@ -206,7 +206,7 @@
                                 placeholder="Ingrese correo" [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 maxlength="35"
                                 [class]="titulo != 'Detalle' ? esCampoValido('correo') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.correo : ''" 
+                                [ngModel]="empleadOd!=null ? empleadOd.correo : ''"
                                 (input)="autocompletarCorreo($event)"/>
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('correo')?.errors?.['required']">
