@@ -387,7 +387,9 @@ export class ModalSecretariaComponent implements OnInit {
                 //console.log(pdfResp);
                 if (this.usuarioActivo.role == 'ADMIN'){
                   this.soliVeService.getSolicitudesVehiculo(2);
-                }else{
+                }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
+                  this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
+                } else{
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
                 this.mensajesService.mensajesToast("success", "Asignación exitosa");
@@ -411,7 +413,9 @@ export class ModalSecretariaComponent implements OnInit {
           } else {
             if (this.usuarioActivo.role == 'ADMIN'){
               this.soliVeService.getSolicitudesVehiculo(2);
-            }else{
+            }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
+              this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
+            } else{
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
             this.mensajesService.mensajesToast("success", "Asignación exitosa");
@@ -782,6 +786,8 @@ export class ModalSecretariaComponent implements OnInit {
               }else {
                 this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
               }
+              this.enviarEmailSD("ASIS_FINANCIERO",
+                "Solicitud de vales", "Tiene una nueva solicitud de vales para la misión: "+data.objetivoMision);
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               this.modalService.dismissAll();
               resolve();
@@ -894,7 +900,7 @@ export class ModalSecretariaComponent implements OnInit {
           titulo: 'Solicitud de vehículo APROBADA',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
-          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". "+obsevacion+". Y está a la espera de asignación de vales",
+          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales",
           centro: '',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }

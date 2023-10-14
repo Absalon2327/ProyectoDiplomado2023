@@ -12,6 +12,7 @@ export class ListarComponent implements OnInit {
   // bread crumb items
   breadCrumbItems: Array<{}>;
   term: string = '';
+  term2: string = '';
 
   constructor(private empleadoService: EmpleadoService) { }
 

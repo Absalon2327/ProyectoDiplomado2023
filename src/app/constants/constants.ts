@@ -5,7 +5,7 @@ export const EMAIL_VALIDATE = '^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9
 export const EMAIL_VALIDATE_UES ='^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@ues.edu.sv';
 
 // Para nombres con tildes
-export const NAME_VALIDATE = '^(?!\\s)(?!.*\\s$)[A-Za-zÁáÉéÍíÓóÚúÜüÑñÀàÈèÌìÒòÙùÂâÊêÎîÔôÛûÄäËëÏïÖöŸÿ]+( [A-Za-zÁáÉéÍíÓóÚúÜüÑñÀàÈèÌìÒòÙùÂâÊêÎîÔôÛûÄäËëÏïÖöŸÿ]+){1,3}$';
+export const NAME_VALIDATE = '^((?!\\s)(?!.*\\s$)[A-Za-zÁáÉéÍíÓóÚúÜüÑñÀàÈèÌìÒòÙùÂâÊêÎîÔôÛûÄäËëÏïÖöŸÿ]+( [A-Za-zÁáÉéÍíÓóÚúÜüÑñÀàÈèÌìÒòÙùÂâÊêÎîÔôÛûÄäËëÏïÖöŸÿ]+)*)$';
 
 // Para números
 export const NUMBER_VALIDATE = '^[0-9]+([\\.,][0-9]+)?$';

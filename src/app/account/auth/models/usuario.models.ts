@@ -18,6 +18,7 @@ export class DataCards {
     public misiones: string,
     public misioneshoy: string,
     public misionesmes: string,
+    public motoristas: string,
   ) {}
 }
 
