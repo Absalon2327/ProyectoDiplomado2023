@@ -1,5 +1,9 @@
 @media (max-width: 600px) {
-    .img{
-        display: none;
+    
+}
+@media (min-width: 600px) {
+    .ccc{
+        display: flex; 
+        align-items: center;
     }
 }
