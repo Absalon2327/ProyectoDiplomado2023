@@ -448,8 +448,8 @@ export class ModalSecretariaComponent implements OnInit {
   editarSoliVe(){
   }
 
-  cargarPlacas(tipoVehiculo: string, fechaSalida:string) {
-    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida).subscribe(
+  cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
+    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
