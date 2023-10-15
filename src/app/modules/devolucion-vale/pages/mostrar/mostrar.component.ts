@@ -54,7 +54,7 @@ export class MostrarComponent implements OnInit {
       id: 2,
       type: "warning",
       message:
-        " Tenga en cuenta que una vez registrada la devolución de los vales no podrá revertir la operación.",
+        " Tenga en cuenta que una vez registrada la transacción de los vales no podrá revertir la operación.",
       show: false,
     },
   ];
@@ -64,7 +64,7 @@ export class MostrarComponent implements OnInit {
       id: 1,
       type: "info",
       message:
-        " Al ingresar las credenciales pertenecientes a Jefe Financiera, clic en botón 'Registrar', se realizará el ajuste y los datos no se podrán revertir.",
+        " Al ingresar las credenciales pertenecientes al JEFE FINANCIERO, clic en botón 'Registrar', se realizará la transacción y los datos no se podrán revertir.",
       show: true,
     },
   ];
@@ -83,7 +83,7 @@ export class MostrarComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: "Ajuste de Vale" },
+      { label: "Ajuste de Vales" },
       { label: "Mostrar", active: true },
     ];
     this.devolucionValeService.getProveedor();

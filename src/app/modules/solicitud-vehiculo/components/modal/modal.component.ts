@@ -449,8 +449,8 @@ export class ModalComponent implements OnInit {
         unidadSolicitante,
         [Validators.required]
       ],
-      tipoVehiculo: ['', [Validators.required]],
-      vehiculo: ['', [Validators.required]],
+      tipoVehiculo: [null, [Validators.required]],
+      vehiculo: [null, [Validators.required]],
       objetivoMision: ['', [Validators.required]],
       lugarMision: ['', [Validators.required]],
       direccion: [null,[]],

@@ -1,3 +1,4 @@
+import { MensajesService } from 'src/app/shared/global/mensajes.service';
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -43,7 +44,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private mensajesService: MensajesService
   ) {}
 
   ngOnInit() {
@@ -123,6 +125,10 @@ export class LoginComponent implements OnInit {
       backdrop: "static",
       keyboard: false,
     });
+  }
+
+  mostrarAyuda(){
+    this.mensajesService.mensajesSweet("info", "¡Importante!", "Ingrese su nombre de usuario y contraseña. Si es la primera vez que inicia sesión, su contraseña será el número de su DUI.","Entiendo");
   }
 
   //////   metodos para la ayuda ///////
