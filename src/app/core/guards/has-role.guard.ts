@@ -10,8 +10,9 @@ import Swal from 'sweetalert2';
 })
 export class HasRoleGuard implements CanActivate, CanLoad {
   usuariojson: any;
+  storage: Storage = window.localStorage;
   constructor(private usuarioService: UsuarioService, private router: Router) {
-    this.usuariojson = this.usuarioService.usuarioJSON;
+    //this.usuariojson = this.usuarioService.usuarioJSON;
   }
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (this.hasRol(route)) {
@@ -43,7 +44,9 @@ export class HasRoleGuard implements CanActivate, CanLoad {
   }
 
   private hasRol(route: Route | ActivatedRouteSnapshot) {
+    const usuarioJson = JSON.parse(this.storage.getItem("usuario" || ""));
     const allowedRoles = route.data?.['allowedRoles'];
-    return Boolean(this.usuariojson && allowedRoles.includes(this.usuariojson.role));
+    //return Boolean(this.usuariojson && allowedRoles.includes(this.usuariojson.role));
+    return Boolean(usuarioJson && allowedRoles.includes(usuarioJson.role))
   }
 }
