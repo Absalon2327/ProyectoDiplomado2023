@@ -318,7 +318,9 @@ export class ModalComponent implements OnInit {
 
     if (this.isChecked != true){
       solicitudVehiculo.direccion = nombreDepartamento+', '+nombreMunicipio+', '+
-        nombreDistrito+', '+nombreCanton;
+        nombreDistrito+', '+nombreCanton+' - NACIONAL';
+    } else {
+      solicitudVehiculo.direccion = solicitudVehiculo.direccion + ' - INTERNACIONAL';
     }
     /* fin de la direccion */
 
