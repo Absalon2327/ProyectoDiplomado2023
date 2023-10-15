@@ -53,7 +53,7 @@ export class ModalComponent implements OnInit {
   fechaActual: string;
   modoEdicion = false;
   kilomet: IEntradaSalida;
-  correos!: ICorreos[];
+  correos!: any;
 
   /////esto para enviar el objetivo a la modal
   //objetivoMision: IsolicitudVehiculo;
@@ -90,7 +90,7 @@ export class ModalComponent implements OnInit {
     this.listaentradasalidaservice.getMisiones();
     this.obtenerCorreos();
 
-    console.log("EMAIL:", this.correos);
+    //console.log("EMAIL:", this.correos);
   }
   combustible: string[] = [
     "Un tanque",
@@ -333,7 +333,7 @@ export class ModalComponent implements OnInit {
                           this.Email(
                             "!Aviso importante!",
                             "Se ha Registrado la entrada del vehículo",
-                            "El Vehículo a regresado mision: " +
+                            "El Vehículo a regresado de la misión mision: " +
                               this.objetivoMision.objetivoMision,
                             "Puede continuar con el proceso de liquidación de la misión"
                           ); // Termina mensaje dirigido hacia el correo institucional
@@ -463,10 +463,10 @@ export class ModalComponent implements OnInit {
     );
   }
   obtenerCorreos() {
-    this.service.getCorreosFinanciero().subscribe({
+    this.listaentradasalidaservice.getCorreosFinanciero().subscribe({
       next: (data) => {
-        console.log("data2: ", data);
         this.correos = data;
+        console.log("correos: ", this.correos);
       },
     });
   }
