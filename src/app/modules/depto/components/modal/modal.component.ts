@@ -67,12 +67,8 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     }else{
-      Swal.fire({
-        position: 'center',
-        title: 'Faltan datos en el formuario',
-        text: 'Complete todos los campos requeridos',
-        icon: 'warning',
-      });
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
     }
 
@@ -118,7 +114,7 @@ export class ModalComponent implements OnInit {
           });
           Toast.fire({
             icon: 'success',
-            text: 'Datos Guardados con exito'
+            text: 'Datos guardados con exito'
           });
 
         }
@@ -166,7 +162,7 @@ export class ModalComponent implements OnInit {
           });
           Toast.fire({
             icon: 'success',
-            text: 'Datos Guardados con exito'
+            text: 'Datos guardados con exito'
           });
         }
       });

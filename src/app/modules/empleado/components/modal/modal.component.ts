@@ -152,12 +152,8 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     } else {
-      Swal.fire({
-        position: 'center',
-        title: 'Faltan datos en el formuario',
-        html: 'Complete todos los campos requeridos (<span style="color: red;">*</span>)',
-        icon: 'warning',
-      });
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
 
     }
   }
