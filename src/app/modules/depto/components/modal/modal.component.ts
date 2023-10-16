@@ -61,9 +61,9 @@ export class ModalComponent implements OnInit {
     if(this.formDepto.valid){
       if(this.deptos != null){
         this.editando();
-      console.log("editando");
+
       } else {
-        console.log("registrando");
+
         this.registrando();
       }
     }else{
@@ -88,8 +88,7 @@ export class ModalComponent implements OnInit {
 
       data.nombre = data.nombre.toUpperCase();
 
-      console.log(data);
-      console.log(this.formDepto.value);
+
 
       this.deptopService.saveDepto(data).subscribe({
         next : (resp) => {

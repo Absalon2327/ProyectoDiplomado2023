@@ -132,7 +132,7 @@ export class SolicitudVehiculoService {
   }
 
   obtenerMotoristas(fechaSalida:string,fechaEntarada:string) {
-    console.log(fechaSalida,fechaEntarada);
+    
     this.http
       .get(`${this.url}/empleado/motoristas?fechaSalida=${fechaSalida}&fechaEntrada=${fechaEntarada}`)
       .pipe(map((resp: any) => resp as IMotorista[]))

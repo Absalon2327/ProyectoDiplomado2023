@@ -482,7 +482,7 @@ export class ModalSecretariaComponent implements OnInit {
 
     // inicio de carga motirista
     this.formularioSoliVe.get('motorista').setValue(null);
-     console.log("fechaSalida: ",fechaSalida);
+     
     this.soliVeService.obtenerMotoristas(fechaSalida,fechaEntrada);
     // fin
 
