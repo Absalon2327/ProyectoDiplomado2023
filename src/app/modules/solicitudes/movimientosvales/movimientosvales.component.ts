@@ -33,6 +33,10 @@ export class MovimientosvalesComponent implements OnInit {
   compra!: ICompra;
   listVale: IVale[] = [];
   queryVale!: string;
+  listValeAux: IVale[] = [];
+  listEstado: number[] = [8, 5, 9, 10, 11, 12];
+  valorSeleccionado: number;
+
 
   offset = 0;
 
@@ -138,7 +142,7 @@ loadingAlert.close();
         columns: [
           {
             text:
-              "Fecha y Hora de impresión: " +
+              "Fecha y hora de impresión: " +
               this.datePipe.transform(
                 this.fechaActual,
                 "dd/MM/yyyy HH:mm:ss a"
@@ -214,7 +218,7 @@ loadingAlert.close();
           },
           {
             text: [
-              { text: "Fecha de Vencimiento: ", bold: true },
+              { text: "Fecha de vencimiento: ", bold: true },
               this.datePipe.transform(vale.fechaVencimiento, "dd/MM/yyyy"),
             ],
           },
@@ -227,7 +231,7 @@ loadingAlert.close();
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor],
+            text: [{ text: "Precio unitario: $ ", bold: true }, vale.valor],
           },
           {
             text: [
@@ -342,6 +346,20 @@ loadingAlert.close();
     return this.soliVeService.listSoliVehiculo;
   }
 
+  getValesSelect() {
+    console.log(this.valorSeleccionado);
+    this.listValeAux = [];
+    if (this.valorSeleccionado != null) {
+      this.listVale.forEach((x) => {
+        if (this.valorSeleccionado == x.estado) {
+          this.listValeAux.push(x);
+        }
+      });
+    } else {
+      this.listValeAux = this.listVale;
+    }
+  }
+
   onEstadoSeleccionado(event: any) {
     this.estadoSeleccionado = event.target.value;
     if (this.estadoSeleccionado == 0) {
@@ -368,6 +386,8 @@ loadingAlert.close();
   cargarValesD(compras: ICompra, content: any) {
     this.compra = compras;
     this.getValesPorCompra(compras);
+    this.queryVale = "";
+    this.valorSeleccionado = null;
     const modalOptions = {
       centered: true,
       size: "lg", // 'lg' para modal grande, 'sm' para modal pequeño
@@ -398,6 +418,8 @@ loadingAlert.close();
         loadingAlert.close();
         // Asignar los vales a la lista
         this.listVale = vales;
+        //para el filtro de estados
+        this.listValeAux = this.listVale;
         //  console.log(vales);
       },
       (error) => {

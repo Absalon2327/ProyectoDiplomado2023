@@ -7,6 +7,7 @@ import {Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ISolicitudvalep } from '../../solicitud-vale-paginacion/interface/solicitudvalep.interface';
+import { ICorreos } from '../../solicitudes/Interfaces/correos.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class ListaentradasalidaService {
   private baseUrl: string = environment.baseUrl;///base url
   // Declarar requestOptions como una variable global
   private requestOptions: any;
+
+  correos!: ICorreos[];
 
   listDeMisiones: IsolicitudVehiculo[] = [];
   constructor(private http: HttpClient) {
@@ -147,7 +150,7 @@ export class ListaentradasalidaService {
   }
 
   /*obtenerImagenes(): Observable<IVehiculoentradaSalida[]> {
- 
+
      const token = localStorage.getItem('token');
      const headers = new HttpHeaders({
        Authorization: `Bearer ${token}`
@@ -190,5 +193,16 @@ export class ListaentradasalidaService {
     };
     return this.http.get<ISolicitudvalep>(`${this.baseUrl}/solicitudvale/buscarcodigosolicitudvale?codigo=${id}`, requestOptions);
   }
+  getCorreosFinanciero(){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    this.requestOptions = {
+      headers: headers
+    };
+    return this.http.get<ICorreos[]>(`${this.baseUrl}/entradasalida/correos`, this.requestOptions);
+  }
+
 
 }

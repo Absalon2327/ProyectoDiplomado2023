@@ -607,7 +607,7 @@ export class SolicitanteComponent implements OnInit {
       (response: LogVale[]) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.crearPDFLogVa(compr, listVale, estado, response, soliVehi);
+        this.cargarCompra(compr, listVale, estado, response, soliVehi);
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error
@@ -619,6 +619,41 @@ export class SolicitanteComponent implements OnInit {
           "Ups... Algo salió mal",
           "No hay datos para mostrar"
         );
+      }
+    );
+  }
+  cargarCompra(
+    compr: ICompra,
+    vale: IdVale,
+    estado: number,
+    log: LogVale[],
+    soliVehi: ISolicitudVehiculo
+  ){
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    this.consultaService.getIdCompraV(vale.codigocompra).subscribe(
+      (response: ICompra) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.crearPDFLogVa(response, vale, estado, log, soliVehi);
+      },
+      (error) => {
+        // Cerrar SweetAlert de carga en caso de error
+        loadingAlert.close();
+        this.crearPDFLogVa(null, vale, estado, log, soliVehi);
+        // Manejar el error de alguna manera, como mostrar un mensaje de error
       }
     );
   }
@@ -694,13 +729,13 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Fecha de Solicitud: ", bold: true },
+              { text: "Fecha de solicitud: ", bold: true },
               this.formatDate(`${soliVehi.fechaSolicitud}`),
             ],
           },
           {
             text: [
-              { text: "Fecha de Misión: ", bold: true },
+              { text: "Fecha de misión: ", bold: true },
               this.formatDate(`${soliVehi.fechaSalida}`),
             ],
           },
@@ -711,7 +746,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Objetivo de la Misión: ", bold: true },
+              { text: "Objetivo de la misión: ", bold: true },
               soliVehi.objetivoMision,
             ],
           },
@@ -722,7 +757,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar de la Misión: ", bold: true },
+              { text: "Lugar de la misión: ", bold: true },
               soliVehi.lugarMision,
             ],
           },
@@ -736,6 +771,41 @@ export class SolicitanteComponent implements OnInit {
               { text: "Lugar que visitará: ", bold: true },
               soliVehi.direccion,
             ],
+          },
+        ],
+      },
+      { text: "\n" },
+      {
+        columns: [
+          {
+            text: [
+              { text: "Lugar que visitará: ", bold: true },
+              soliVehi.direccion,
+            ],
+          },
+        ],
+      },
+      { text: "\n" },
+      {
+        columns: [
+          {
+            text: [
+              { text: "Vehículo: ", bold: true },
+              soliVehi.vehiculo.marca +
+                ", " +
+                soliVehi.vehiculo.modelo +
+                ", " +
+                soliVehi.vehiculo.clase +
+                ", " +
+                soliVehi.vehiculo.tipo_gas +
+                ", " +
+                soliVehi.vehiculo.color +
+                ", " +
+                soliVehi.vehiculo.year,
+            ],
+          },
+          {
+            text: [{ text: "Placa: ", bold: true }, soliVehi.vehiculo.placa],
           },
         ],
       },
@@ -761,7 +831,7 @@ export class SolicitanteComponent implements OnInit {
           },
           {
             text: [
-              { text: "Fecha de Vencimiento: ", bold: true },
+              { text: "Fecha de vencimiento: ", bold: true },
               this.datePipe.transform(vale.fechavencimiento, "dd/MM/yyyy"),
             ],
           },
@@ -774,7 +844,7 @@ export class SolicitanteComponent implements OnInit {
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor],
+            text: [{ text: "Precio unitario: $ ", bold: true }, vale.valor],
           },
           {
             text: [
@@ -947,13 +1017,13 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Fecha de Solicitud: ", bold: true },
+              { text: "Fecha de solicitud: ", bold: true },
               this.formatDate(`${soliVehi.fechaSolicitud}`),
             ],
           },
           {
             text: [
-              { text: "Fecha de Misión: ", bold: true },
+              { text: "Fecha de misión: ", bold: true },
               this.formatDate(`${soliVehi.fechaSalida}`),
             ],
           },
@@ -964,7 +1034,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Objetivo de la Misión: ", bold: true },
+              { text: "Objetivo de la misión: ", bold: true },
               soliVehi.objetivoMision,
             ],
           },
@@ -975,7 +1045,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar de la Misión: ", bold: true },
+              { text: "Lugar de la misión: ", bold: true },
               soliVehi.lugarMision,
             ],
           },
@@ -1252,13 +1322,13 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Fecha de Solicitud: ", bold: true },
+              { text: "Fecha de solicitud: ", bold: true },
               this.formatDate(`${soliVehi.fechaSolicitud}`),
             ],
           },
           {
             text: [
-              { text: "Fecha de Misión: ", bold: true },
+              { text: "Fecha de misión: ", bold: true },
               this.formatDate(`${soliVehi.fechaSalida}`),
             ],
           },
@@ -1269,7 +1339,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Unidad Solicitud: ", bold: true },
+              { text: "Unidad solicitante: ", bold: true },
               soliVehi.unidadSolicitante,
             ],
           },
@@ -1304,7 +1374,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Objetivo de la Misión: ", bold: true },
+              { text: "Objetivo de la misión: ", bold: true },
               soliVehi.objetivoMision,
             ],
           },
@@ -1315,7 +1385,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar de la Misión: ", bold: true },
+              { text: "Lugar de la misión: ", bold: true },
               soliVehi.lugarMision,
             ],
           },
@@ -1337,19 +1407,19 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "N. de Personas que viajan: ", bold: true },
+              { text: "N. de personas que viajan: ", bold: true },
               soliVehi.cantidadPersonas,
             ],
           },
           {
             text: [
-              { text: "Hora de Salida: ", bold: true },
+              { text: "Hora de salida: ", bold: true },
               soliVehi.horaSalida,
             ],
           },
           {
             text: [
-              { text: "Hora de Regreso: ", bold: true },
+              { text: "Hora de regreso: ", bold: true },
               soliVehi.horaEntrada,
             ],
           },
@@ -1456,7 +1526,7 @@ export class SolicitanteComponent implements OnInit {
           body: [
             [
               {
-                text: "AUTORIZACION",
+                text: "AUTORIZACIÓN",
                 style: "tableHeader",
                 alignment: "center",
               },
@@ -1471,7 +1541,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Nombre de Motorista: ", bold: true },
+              { text: "Nombre de motorista: ", bold: true },
               soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido,
             ],
           },
@@ -1508,7 +1578,7 @@ export class SolicitanteComponent implements OnInit {
         {
           columns: [
             {
-              text: [{ text: "N. de Vales: ", bold: true }, vales.length],
+              text: [{ text: "N. de vales: ", bold: true }, vales.length],
             },
             {
               text: [{ text: "Del: ", bold: true }, vales[0].correlativo],
@@ -1528,7 +1598,7 @@ export class SolicitanteComponent implements OnInit {
         {
           columns: [
             {
-              text: [{ text: "N. de Vales: ", bold: true }, "0"],
+              text: [{ text: "N. de vales: ", bold: true }, "0"],
             },
             {
               text: [{ text: "Del: ", bold: true }, ""],

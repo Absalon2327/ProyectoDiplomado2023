@@ -733,7 +733,7 @@ export class SolicitudvaleComponent implements OnInit {
 
   Email(asunto: string, titulo: string, mensaje: string, centro: string) {
     const nombre = this.correos[1].nombre;
-    const correo = this.correos[1].correo;
+    const correo = this.correos[1].correo;  
 
     const email: IEmail = {
       asunto: asunto,

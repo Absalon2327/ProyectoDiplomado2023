@@ -6,11 +6,11 @@
   ></app-page-title>
 
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <div class="row mb-2">
-            <div class="col-sm-4">
+          <div class="row mb-2 align-items-end">
+            <div class="col-sm-4 col-md-4">
               <div class="search-box me-2 mb-2 d-inline-block">
                 <div class="position-relative">
                   <input
@@ -23,7 +23,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-4 col-md-3">
               <div class="form-group">
                 <label for="">Filtro por estado</label>
                 <select
@@ -40,82 +40,84 @@
             </div>
           </div>
 
-          <table class="table">
-            <thead  class="table-light">
-              <tr>
-                <th>Solicitante</th>
-                <th>Mision</th>
-                <th>Motorista</th>
-                <th>Fecha de Uso</th>
-                <th>Estado</th>
-                <th style="text-align: center">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container
-                *ngIf="solicitudesVales != undefined; else noDataTemplate"
-              >
-                <tr
-                  *ngFor="
-                    let item of solicitudesVales
-                      | filter : term
-                      | paginate : { itemsPerPage: 10, currentPage: p };
-                    let i = index
-                  "
-                >
-                  <td>
-                    {{ item.nombreSolicitante }}
-                  </td>
-                  <td>{{ item.mision }}</td>
-
-                  <td>{{ item.nombreMotorista }}</td>
-                  <td>
-                    {{ fechaformateada[i] }}
-                  </td>
-                  <td>
-                    <h5>
-                      <span
-                        [class]="
-                          item.estadoSolicitud == 1
-                            ? 'badge rounded-pill bg-info'
-                            : item.estadoSolicitud == 6
-                            ? 'badge rounded-pill bg-warning'
-                            : item.estadoSolicitud == 4
-                            ? 'badge rounded-pill bg-success'
-                            : ''
-                        "
-                      >
-                        {{ estadoSoli }}
-                      </span>
-                    </h5>
-                  </td>
-                  <td style="text-align: center">
-                    <button
-                      pe="button"
-                      class="btn btn-primary btn-sm btn-rounded mx-1"
-                      (click)="verDetalle(mdDetalleSolicitudVale, item)"
-                      ngbTooltip="Detalle"
-                    >
-                      <i class="mdi mdi-18px mdi-eye-outline"></i>
-                    </button>
-                  </td>
-                </tr>
-              </ng-container>
-              <ng-template #noDataTemplate>
+          <div class="table-responsive mb-0">
+            <table class="table table-centered table-nowrap">
+              <thead class="table-light">
                 <tr>
-                  <td colspan="6" style="text-align: center">
-                    {{mensajeTabla}}
-                  </td>
+                  <th>Solicitante</th>
+                  <th>Mision</th>
+                  <th>Motorista</th>
+                  <th>Fecha de Uso</th>
+                  <th>Estado</th>
+                  <th style="text-align: center">Acciones</th>
                 </tr>
-              </ng-template>
-            </tbody>
-          </table>
-          <div class="pagination pagination-rounded justify-content-end mb-2">
-            <pagination-controls
-              (pageChange)="p = $event"
-              [nextLabel]="''"
-              [previousLabel]="''"
-            ></pagination-controls>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngIf="solicitudesVales != undefined; else noDataTemplate"
+                >
+                  <tr
+                    *ngFor="
+                      let item of solicitudesVales
+                        | filter : term
+                        | paginate : { itemsPerPage: 10, currentPage: p };
+                      let i = index
+                    "
+                  >
+                    <td>
+                      {{ item.nombreSolicitante }}
+                    </td>
+                    <td>{{ item.mision }}</td>
+
+                    <td>{{ item.nombreMotorista }}</td>
+                    <td>
+                      {{ fechaformateada[i] }}
+                    </td>
+                    <td>
+                      <h5>
+                        <span
+                          [class]="
+                            item.estadoSolicitud == 1
+                              ? 'badge rounded-pill bg-info'
+                              : item.estadoSolicitud == 6
+                              ? 'badge rounded-pill bg-warning'
+                              : item.estadoSolicitud == 4
+                              ? 'badge rounded-pill bg-success'
+                              : ''
+                          "
+                        >
+                          {{ estadoSoli }}
+                        </span>
+                      </h5>
+                    </td>
+                    <td style="text-align: center">
+                      <button
+                        pe="button"
+                        class="btn btn-primary btn-sm btn-rounded mx-1"
+                        (click)="verDetalle(mdDetalleSolicitudVale, item)"
+                        ngbTooltip="Detalle"
+                      >
+                        <i class="mdi mdi-18px mdi-eye-outline"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-template #noDataTemplate>
+                  <tr>
+                    <td colspan="6" style="text-align: center">
+                      {{ mensajeTabla }}
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+            <div class="pagination pagination-rounded justify-content-end mb-2">
+              <pagination-controls
+                (pageChange)="p = $event"
+                [nextLabel]="''"
+                [previousLabel]="''"
+              ></pagination-controls>
+            </div>
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ import { ListarComponent } from './pages/listar/listar.component';
 import { TablaComponent } from './pages/tabla/tabla.component';
 import { ModalComponent } from './pages/modal/modal.component';
 import { CardComponent } from './components/card/card.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -41,6 +42,7 @@ import { CardComponent } from './components/card/card.component';
     NgbModalModule,
     NgxPaginationModule,
     Ng2SearchPipeModule,
+    NgSelectModule
     //BrowserModule
   ],exports:[ListarComponent],
   providers:[

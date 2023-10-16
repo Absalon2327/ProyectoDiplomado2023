@@ -159,7 +159,7 @@ export class TopbarComponent implements OnInit {
   logout() {
     Swal.fire({
       icon: 'question',
-      title: "¿Deseas cerrar la sesión?",
+      title: "¿Desea cerrar la sesión?",
       showDenyButton: true,
       confirmButtonText: "Cerrar la",
       confirmButtonColor: "#972727",
