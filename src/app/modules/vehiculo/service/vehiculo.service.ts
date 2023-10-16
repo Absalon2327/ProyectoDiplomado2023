@@ -29,7 +29,7 @@ export class VehiculoService {
           this.listVehiclos = automovil; // Actualiza la propiedad listEmpleados
         },
         (error) => {
-          console.error("Error al obtener las vehiculos:", error);
+          console.error("Error al obtener las vehículos:", error);
         }
       );
   }

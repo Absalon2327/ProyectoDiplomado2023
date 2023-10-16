@@ -6,11 +6,11 @@
   ></app-page-title>
 
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <div class="row mb-2">
-            <div class="col-sm-4">
+          <div class="row mb-2 align-items-end">
+            <div class="col-sm-4 col-md-4">
               <div class="search-box me-2 mb-2 d-inline-block">
                 <div class="position-relative">
                   <input
@@ -23,7 +23,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-4 col-md-3">
               <div class="form-group">
                 <label for="">Filtro por estado</label>
                 <select
@@ -43,406 +43,403 @@
               </div>
             </div>
           </div>
-
-          <table class="table">
-            <thead class="table-light">
-              <tr>
-                <th>Solicitante</th>
-                <th>Mision</th>
-                <th>Motorista</th>
-                <th>Fecha de Uso</th>
-                <th>Estado</th>
-                <th style="text-align: center">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container
-                *ngIf="solicitudesVales != undefined; else noDataTemplate"
-              >
-                <tr
-                  *ngFor="
-                    let item of solicitudesVales
-                      | filter : term
-                      | paginate : { itemsPerPage: 10, currentPage: p };
-                    let i = index
-                  "
-                >
-                  <td>
-                    {{ item.nombreSolicitante }}
-                  </td>
-                  <td>{{ item.mision }}</td>
-
-                  <td>{{ item.nombreMotorista }}</td>
-                  <td>
-                    {{ fechaformateada[i] }}
-                  </td>
-                  <td>
-                    <h5>
-                      <span
-                        [class]="
-                          item.estadoSolicitud == 1
-                            ? 'badge rounded-pill bg-info'
-                            : item.estadoSolicitud == 6
-                            ? 'badge rounded-pill bg-warning'
-                            : item.estadoSolicitud == 4
-                            ? 'badge rounded-pill bg-success'
-                            : item.estadoSolicitud == 5
-                            ? 'badge rounded-pill bg-primary'
-                            : item.estadoSolicitud == 7
-                            ? 'badge rounded-pill bg-info'
-                            : item.estadoSolicitud == 16
-                            ? 'badge rounded-pill bg-secondary'
-                            : item.estadoSolicitud == 8
-                            ? 'badge rounded-pill bg-success'
-                            : ''
-                        "
-                      >
-                        {{ estadoSoli }}
-                      </span>
-                    </h5>
-                  </td>
-                  <td style="text-align: center">
-                    <button
-                      *ngIf="estadoSoli == 'Nueva'"
-                      type="button"
-                      class="btn btn-info btn-sm btn-rounded mx-1"
-                      (click)="mdAsignarVales(mdDetalleSolicitudVale, item)"
-                      ngbTooltip="Solicitar Asignar Vales"
-                    >
-                      <i class="mdi mdi-18px mdi-book-plus-outline"></i>
-                    </button>
-                    <button
-                      *ngIf="estadoSoli == 'Aprobada'"
-                      type="button"
-                      class="btn btn-info btn-sm btn-rounded mx-1"
-                      (click)="mdAsignarVales(mdDetalleSolicitudVale, item)"
-                      ngbTooltip="Asignar Vales"
-                    >
-                      <i class="mdi mdi-18px mdi-book-plus-outline"></i>
-                    </button>
-
-                    <button
-                      *ngIf="estadoSoli == 'Asignado'"
-                      type="button"
-                      class="btn btn-info btn-sm btn-rounded mx-1"
-                      (click)="liquidarVales(item)"
-                      ngbTooltip="Liquidar"
-                    >
-                      <i class="mdi mdi-18px mdi-application-import"></i>
-                    </button>
-                    <button
-                      *ngIf="estadoSoli == 'Activo'"
-                      type="button"
-                      class="btn btn-primary btn-sm btn-rounded mx-1"
-                      (click)="mdAsignarVales(mdDetalleSolicitudVale, item)"
-                      ngbTooltip="Detalle"
-                    >
-                      <i class="mdi mdi-18px mdi-eye-outline"></i>
-                    </button>
-                    <button
-                      *ngIf="estadoSoli == 'Revisión'"
-                      type="button"
-                      class="btn btn-warning btn-sm btn-rounded mx-1"
-                      (click)="mdAsignarVales(mdDetalleSolicitudVale, item)"
-                      ngbTooltip="Editar Solicitud"
-                    >
-                      <i class="mdi mdi-18px mdi-book-edit-outline"></i>
-                    </button>
-                  </td>
-                </tr>
-              </ng-container>
-              <ng-template #noDataTemplate>
+          <div class="table-responsive mb-0">
+            <table class="table table-centered table-nowrap">
+              <thead class="table-light">
                 <tr>
-                  <td colspan="6" style="text-align: center">
-                    {{mensajeTabla}}
-                  </td>
+                  <th>Solicitante</th>
+                  <th>Misión</th>
+                  <th>Motorista</th>
+                  <th>Fecha de Uso</th>
+                  <th>Estado</th>
+                  <th style="text-align: center">Acciones</th>
                 </tr>
-              </ng-template>
-            </tbody>
-          </table>
-          <div class="pagination pagination-rounded justify-content-end mb-2">
-            <pagination-controls
-              (pageChange)="p = $event"
-              [nextLabel]="''"
-              [previousLabel]="''"
-            ></pagination-controls>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngIf="solicitudesVales != undefined; else noDataTemplate"
+                >
+                  <tr
+                    *ngFor="
+                      let item of solicitudesVales
+                        | filter : term
+                        | paginate : { itemsPerPage: 10, currentPage: p };
+                      let i = index
+                    "
+                  >
+                    <td>
+                      {{ item.nombreSolicitante }}
+                    </td>
+                    <td>{{ item.mision }}</td>
+
+                    <td>{{ item.nombreMotorista }}</td>
+                    <td>
+                      {{ fechaformateada[i] }}
+                    </td>
+                    <td>
+                      <h5>
+                        <span
+                          [class]="
+                            item.estadoSolicitud == 1
+                              ? 'badge rounded-pill bg-info'
+                              : item.estadoSolicitud == 6
+                              ? 'badge rounded-pill bg-warning'
+                              : item.estadoSolicitud == 4
+                              ? 'badge rounded-pill bg-success'
+                              : item.estadoSolicitud == 5
+                              ? 'badge rounded-pill bg-primary'
+                              : item.estadoSolicitud == 7
+                              ? 'badge rounded-pill bg-info'
+                              : item.estadoSolicitud == 16
+                              ? 'badge rounded-pill bg-secondary'
+                              : item.estadoSolicitud == 8
+                              ? 'badge rounded-pill bg-success'
+                              : ''
+                          "
+                        >
+                          {{ estadoSoli }}
+                        </span>
+                      </h5>
+                    </td>
+                    <td style="text-align: center">
+                      <button
+                        *ngIf="estadoSoli == 'Nueva'"
+                        type="button"
+                        class="btn btn-info btn-sm btn-rounded mx-1"
+                        (click)="mdAsignarVales(mdDetalleSolicitudVale, item)"
+                        ngbTooltip="Solicitar Asignar Vales"
+                      >
+                        <i class="mdi mdi-18px mdi-book-plus-outline"></i>
+                      </button>
+                      <button
+                        *ngIf="estadoSoli == 'Aprobada'"
+                        type="button"
+                        class="btn btn-info btn-sm btn-rounded mx-1"
+                        (click)="mdAsignarVales(mdDetalleSolicitudVale, item)"
+                        ngbTooltip="Asignar Vales"
+                      >
+                        <i class="mdi mdi-18px mdi-book-plus-outline"></i>
+                      </button>
+
+                      <button
+                        *ngIf="estadoSoli == 'Asignado'"
+                        type="button"
+                        class="btn btn-info btn-sm btn-rounded mx-1"
+                        (click)="liquidarVales(item)"
+                        ngbTooltip="Liquidar"
+                      >
+                        <i class="mdi mdi-18px mdi-application-import"></i>
+                      </button>
+                      <button
+                        *ngIf="estadoSoli == 'Activo'"
+                        type="button"
+                        class="btn btn-primary btn-sm btn-rounded mx-1"
+                        (click)="mdAsignarVales(mdDetalleSolicitudVale, item)"
+                        ngbTooltip="Detalle"
+                      >
+                        <i class="mdi mdi-18px mdi-eye-outline"></i>
+                      </button>
+                      <button
+                        *ngIf="estadoSoli == 'Revisión'"
+                        type="button"
+                        class="btn btn-warning btn-sm btn-rounded mx-1"
+                        (click)="mdAsignarVales(mdDetalleSolicitudVale, item)"
+                        ngbTooltip="Editar Solicitud"
+                      >
+                        <i class="mdi mdi-18px mdi-book-edit-outline"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-template #noDataTemplate>
+                  <tr>
+                    <td colspan="6" style="text-align: center">
+                      {{ mensajeTabla }}
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+            <div class="pagination pagination-rounded justify-content-end mb-2">
+              <pagination-controls
+                (pageChange)="p = $event"
+                [nextLabel]="''"
+                [previousLabel]="''"
+              ></pagination-controls>
+            </div>
           </div>
-          <!-- <div class="col-sm-12 col-md-5">
-            <button
-              type="submit"
-              (click)="exportToExcel()"
-              class="btn btn-primary w-md"
-            >
-              Generar Excel
-            </button>
-          </div> -->
         </div>
       </div>
     </div>
+    <!-- end row -->
   </div>
-  <!-- end row -->
-</div>
 
-<!-- Large Modal -->
-<ng-template #mdDetalleSolicitudVale let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title mt-0">Detalle de la solicitud de Vales</h5>
-    <button
-      type="button"
-      class="btn-close"
-      (click)="modal.dismiss('Cross click')"
-      aria-hidden="true"
-    ></button>
-  </div>
-  <div class="modal-body">
-    <form
-      action=""
-      [formGroup]="formularioSolicitudVale"
-      id="formSoliVale"
-      name="formSoliVale"
-      (ngSubmit)="guardar()"
-    >
-      <div class="row mt-2">
-        <div class="col-lg-6">
-          <div *ngIf="estadoSoli != 'Aprobada'" class="row mb-4">
-            <label for="formrow-firstname-input"
-              >Cantidad de vales
-              <span
-                [class]="
-                  existenciaI.valesDisponibles <= 5
-                    ? 'text-danger'
-                    : 'text-info'
-                "
-                >Vales Disponibles: {{ existenciaI.valesDisponibles }}
-              </span></label
-            >
+  <!-- Large Modal -->
+  <ng-template #mdDetalleSolicitudVale let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title mt-0">Detalle de la solicitud de Vales</h5>
+      <button
+        type="button"
+        class="btn-close"
+        (click)="modal.dismiss('Cross click')"
+        aria-hidden="true"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form
+        action=""
+        [formGroup]="formularioSolicitudVale"
+        id="formSoliVale"
+        name="formSoliVale"
+        (ngSubmit)="guardar()"
+      >
+        <div class="row mt-2">
+          <div class="col-lg-6">
+            <div *ngIf="estadoSoli != 'Aprobada'" class="row mb-4">
+              <label for="formrow-firstname-input"
+                >Cantidad de vales
+                <span
+                  [class]="
+                    existenciaI.valesDisponibles <= 5
+                      ? 'text-danger'
+                      : 'text-info'
+                  "
+                  >Vales Disponibles: {{ existenciaI.valesDisponibles }}
+                </span></label
+              >
+              <div class="d-flex">
+                <div class="col-sm-10">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="horizontal-firstname-input"
+                    min="1"
+                    placeholder="0"
+                    formControlName="cantidadVales"
+                    [class]="esCampoValido('cantidadVales')"
+                  />
+                </div>
+                <div>
+                  <app-vales-asignar
+                    [cantidadVales]="formularioSolicitudVale"
+                  ></app-vales-asignar>
+                </div>
+              </div>
+              <input type="hidden" formControlName="existencia" />
+            </div>
+            <div *ngIf="estadoSoli == 'Aprobada'" class="row mb-4">
+              <label for="formrow-firstname-input">Cantidad de vales</label>
 
-            <div class="col-sm-6">
-              <input
-                type="number"
-                class="form-control"
-                id="horizontal-firstname-input"
-                min="1"
-                placeholder="0"
-                formControlName="cantidadVales"
-                [class]="esCampoValido('cantidadVales')"
-              />
-            </div>
-            <div class="col-sm-4">
-              <app-vales-asignar
-                [cantidadVales]="formularioSolicitudVale"
-              ></app-vales-asignar>
-            </div>
-            <input type="hidden" formControlName="existencia">
-          </div>
-          <div *ngIf="estadoSoli == 'Aprobada'" class="row mb-4">
-            <label for="formrow-firstname-input">Cantidad de vales</label>
+              <div class="d-flex">
+                <div class="col-sm-10">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="horizontal-firstname-input"
+                    min="1"
+                    max="20"
+                    placeholder="0"
+                    formControlName="cantidadVales"
+                    disabled
+                  />
+                </div>
+                <div>
+                  <app-vales-asignar
+                    [cantidadVales]="formularioSolicitudVale"
+                    [valesExistentes]="existencia"
+                  ></app-vales-asignar>
+                </div>
+              </div>
+              </div>
 
-            <div class="col-sm-10">
-              <input
-                type="number"
-                class="form-control"
-                id="horizontal-firstname-input"
-                min="1"
-                max="20"
-                placeholder="0"
-                formControlName="cantidadVales"
-                disabled
-              />
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Fecha de Solicitud</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-firstname-input"
+                  placeholder=""
+                  disabled
+                  formControlName="fechaSolicitud"
+                />
+              </div>
             </div>
-            <div class="col-sm-2">
-              <app-vales-asignar
-                [cantidadVales]="formularioSolicitudVale" [valesExistentes]="existencia"
-              ></app-vales-asignar>
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Fecha de entrada</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-firstname-input"
+                  placeholder=""
+                  disabled
+                  formControlName="fechaEntrada"
+                />
+              </div>
+            </div>
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Fecha de salida:</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-email-input"
+                  placeholder=""
+                  disabled
+                  formControlName="fechaSalida"
+                />
+              </div>
+            </div>
+            <!-- CANTIDAD DE PERSONAS -->
 
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Cantidad de Personas:</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-password-input"
+                  placeholder=""
+                  disabled
+                  formControlName="cantidadPersonas"
+                />
+              </div>
+            </div>
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Motorista:</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-password-input"
+                  placeholder=""
+                  disabled
+                  formControlName="motorista"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Unidad Solicitante:</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-password-input"
+                  placeholder=""
+                  disabled
+                  formControlName="unidadSolicitante"
+                />
+              </div>
+            </div>
+            <div class="row mb-4">
+              <label for="formrow-firstname-input"
+                >Nombre de solicitante:</label
+              >
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-firstname-input"
+                  placeholder=""
+                  disabled
+                  formControlName="solicitante"
+                />
+              </div>
             </div>
 
-          </div>
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Fecha de Solicitud</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-firstname-input"
-                placeholder=""
-                disabled
-                formControlName="fechaSolicitud"
-              />
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Misión:</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-password-input"
+                  placeholder=""
+                  disabled
+                  formControlName="mision"
+                />
+              </div>
             </div>
-          </div>
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Fecha de entrada</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-firstname-input"
-                placeholder=""
-                disabled
-                formControlName="fechaEntrada"
-              />
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Direccion:</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-password-input"
+                  placeholder=""
+                  disabled
+                  formControlName="direccion"
+                />
+              </div>
             </div>
-          </div>
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Fecha de salida:</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-email-input"
-                placeholder=""
-                disabled
-                formControlName="fechaSalida"
-              />
+            <!-- PLACA EL VAHICULO -->
+            <div class="row mb-4">
+              <label for="formrow-firstname-input">Placa de vehiculo:</label>
+              <div class="col-sm-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="horizontal-password-input"
+                  placeholder=""
+                  disabled
+                  formControlName="placa"
+                />
+              </div>
             </div>
-          </div>
-          <!-- CANTIDAD DE PERSONAS -->
-
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Cantidad de Personas:</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-password-input"
-                placeholder=""
-                disabled
-                formControlName="cantidadPersonas"
-              />
-            </div>
-          </div>
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Motorista:</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-password-input"
-                placeholder=""
-                disabled
-                formControlName="motorista"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Unidad Solicitante:</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-password-input"
-                placeholder=""
-                disabled
-                formControlName="unidadSolicitante"
-              />
-            </div>
-          </div>
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Nombre de solicitante:</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-firstname-input"
-                placeholder=""
-                disabled
-                formControlName="solicitante"
-              />
-            </div>
-          </div>
-
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Misión:</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-password-input"
-                placeholder=""
-                disabled
-                formControlName="mision"
-              />
-            </div>
-          </div>
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Direccion:</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-password-input"
-                placeholder=""
-                disabled
-                formControlName="direccion"
-              />
-            </div>
-          </div>
-          <!-- PLACA EL VAHICULO -->
-          <div class="row mb-4">
-            <label for="formrow-firstname-input">Placa de vehiculo:</label>
-            <div class="col-sm-12">
-              <input
-                type="text"
-                class="form-control"
-                id="horizontal-password-input"
-                placeholder=""
-                disabled
-                formControlName="placa"
-              />
-            </div>
-          </div>
-          <div class="row mb-4">
-            <label
-              *ngIf="estadoSoli != 'Aprobada'"
-              for="formrow-firstname-input"
-              >Observación</label
-            >
-            <div class="col-sm-12">
-              <textarea
+            <div class="row mb-4">
+              <label
                 *ngIf="estadoSoli != 'Aprobada'"
-                row="3"
-                maxlength="750"
-                class="form-control"
-                placeholder="Comentario"
-                formControlName="observacionRevision"
-                disabled
-              ></textarea>
+                for="formrow-firstname-input"
+                >Observación</label
+              >
+              <div class="col-sm-12">
+                <textarea
+                  *ngIf="estadoSoli != 'Aprobada'"
+                  row="3"
+                  maxlength="750"
+                  class="form-control"
+                  placeholder="Comentario"
+                  formControlName="observacionRevision"
+                  disabled
+                ></textarea>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      *ngIf="estadoSoli == 'Aprobada'"
-      type="submit"
-      class="btn btn-primary"
-      form="formSoliVale"
-    >
-      Asignar
-    </button>
-    <button
-      *ngIf="estadoSoli == 'Nueva' || estadoSoli == 'Revisión'"
-      type="submit"
-      class="btn btn-primary"
-      form="formSoliVale"
-    >
-      Solicitar Asignación
-    </button>
-    <button
-      type="button"
-      class="btn btn-light"
-      (click)="modal.close('Close click')"
-    >
-      Cancelar
-    </button>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        *ngIf="estadoSoli == 'Aprobada'"
+        type="submit"
+        class="btn btn-primary"
+        form="formSoliVale"
+      >
+        Asignar
+      </button>
+      <button
+        *ngIf="estadoSoli == 'Nueva' || estadoSoli == 'Revisión'"
+        type="submit"
+        class="btn btn-primary"
+        form="formSoliVale"
+      >
+        Solicitar Asignación
+      </button>
+      <button
+        type="button"
+        class="btn btn-dark"
+        (click)="modal.close('Close click')"
+      >
+        Cancelar
+      </button>
 
-    <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-  </div>
-</ng-template>
+      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+    </div>
+  </ng-template>
 
-<!-- este modal me permite ver los vales que asignaré -->
+  <!-- este modal me permite ver los vales que asignaré -->
+</div>

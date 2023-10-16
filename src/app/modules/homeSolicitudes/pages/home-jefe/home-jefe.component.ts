@@ -41,7 +41,7 @@ export class HomeJefeComponent implements OnInit {
     this.fotoEmpleado =  this.usuarioService.empleadofoto;
     this.usuariojson = this.usuarioService.usuarioJSON;
     this.usuarioService.getCards();
-    console.log("usuario role:",this.usuariojson.role);
+    
 
 
 
@@ -81,38 +81,38 @@ export class HomeJefeComponent implements OnInit {
     //inicio de carga de solicitudes en revision
     this.solicitudService.getSolicitudesVehiculo2(6).then((data) => {
      this.solicitud = data;
-       console.log("dasd",this.solicitud)
+
        this.solicitud.forEach(element => {
          const date = new Date(element.fechaSolicitud);
          if(date.getMonth() == new Date().getMonth()){
            this.cargaRevision.push(element);
          }
-         console.log("carga1",this.cargaRevision)
+
        })
    });// carga las solicitudes de vehiculo para el usuario
 
       //inicio de carga de solicitudes
       this.solicitudService.getSolicitudesVehiculo1(4).then((data) => {
        this.solicitud = data;
-         console.log("dasd",this.solicitud)
+
          this.solicitud.forEach(element => {
            const date = new Date(element.fechaSolicitud);
            if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobadas.push(element);
            }
-           console.log("carga2",this.cargaAprobadas)
+
          })
      });// carga las solicitudes de vehiculo para el usuario
      //inicio de carga de solicitudes
      this.solicitudService.getSolicitudesVehiculo3(null).then((data) => {
        this.solicitud = data;
-         console.log("dasd",this.solicitud)
+
          this.solicitud.forEach(element => {
            const date = new Date(element.fechaSolicitud);
            if(date.getMonth() == new Date().getMonth()){
              this.cargaRealizadas.push(element);
            }
-           console.log("carga3",this.cargaRealizadas)
+
          })
      });// carga las solicitudes de vehiculo para el usuario
 
@@ -123,13 +123,13 @@ export class HomeJefeComponent implements OnInit {
      //inicio de carga de solicitudes por aprobar
      this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
        this.solicitud = data;
-         console.log("dasd123",this.solicitud)
+
          this.solicitud.forEach(element => {
            const date = new Date(element.fechaSolicitud);
            if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobar.push(element);
            }
-           console.log("carga revision",this.cargaRevision)
+
          })
      });
      //fin de la carga

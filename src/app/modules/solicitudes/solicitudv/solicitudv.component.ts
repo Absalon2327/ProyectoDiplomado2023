@@ -219,7 +219,7 @@ export class SolicitudvComponent implements OnInit {
               text: "¿Quieres general el excel?",
               icon: "question",
               showCancelButton: true,
-              confirmButtonText: "Sí, realizar",
+              confirmButtonText: "Realizar",
               confirmButtonColor: "#972727",
               cancelButtonText: "Cancelar",
               cancelButtonColor: "#2c3136",

@@ -42,7 +42,7 @@ export class HomeSecreComponent implements OnInit {
     this.fotoEmpleado =  this.usuarioService.empleadofoto;
     this.usuariojson = this.usuarioService.usuarioJSON;
     this.usuarioService.getCards();
-    console.log("usuario role:",this.usuariojson.role);
+   
     this.cargarSolicitudesUSER();
     this.cargaSoliporAprobar();
   }
@@ -70,25 +70,25 @@ export class HomeSecreComponent implements OnInit {
       //inicio de carga de solicitudes
       this.solicitudService.getSolicitudesVehiculo1(4).then((data) => {
        this.solicitud = data;
-         console.log("dasd",this.solicitud)
+
          this.solicitud.forEach(element => {
            const date = new Date(element.fechaSalida);
            if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobadas.push(element);
            }
-           console.log("carga",this.cargaAprobadas)
+
          })
      });// carga las solicitudes de vehiculo para el usuario
      //inicio de carga de solicitudes
      this.solicitudService.getSolicitudesVehiculo3(null).then((data) => {
        this.solicitud = data;
-         console.log("dasd",this.solicitud)
+
          this.solicitud.forEach(element => {
            const date = new Date(element.fechaSalida);
            if(date.getMonth() == new Date().getMonth()){
              this.cargaRealizadas.push(element);
            }
-           console.log("carga",this.cargaRealizadas)
+
          })
      });// carga las solicitudes de vehiculo para el usuario
 
@@ -99,34 +99,36 @@ export class HomeSecreComponent implements OnInit {
      //inicio de carga de solicitudes por aprobar
      this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
        this.solicitud = data;
-         console.log("dasd",this.solicitud)
+
          this.solicitud.forEach(element => {
            const date = new Date(element.fechaSalida);
            if(date.getMonth() == new Date().getMonth()){
               if(element.estado == 2){
                 this.cargaAsignar.push(element);
               }
+              if(element.estado == 6){
+                this.cargaRevision.push(element);
+              }
 
            }
-           console.log("carga asignar",this.cargaAsignar)
+
          })
      });
      //fin de la carga
      //inicio de carga de solicitudes en revision
+     /*
     this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
       this.solicitud = data;
         console.log("dasd",this.solicitud)
         this.solicitud.forEach(element => {
           const date = new Date(element.fechaSalida);
           if(date.getMonth() == new Date().getMonth()){
-            if(element.estado == 6){
-              this.cargaRevision.push(element);
-            }
+
 
           }
           console.log("carga",this.cargaRevision)
         })
-    });// carga las solicitudes de vehiculo para el usuario
+    }); */// carga las solicitudes de vehiculo para el usuario
     }
 
    /* Metodos para optener datos de cards */

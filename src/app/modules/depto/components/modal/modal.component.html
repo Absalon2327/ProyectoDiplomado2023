@@ -55,7 +55,7 @@
         <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Nombre es obligatorio</span>
         </div>
         <div *ngIf="nombre?.errors?.['pattern'] && nombre?.touched">
-          <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras y espacios</span>
+          <span [ngStyle]="{color:'tomato', 'font-size': '12'}">Solamente letras y respecte los espacios </span>
           </div>
     </div>
 
@@ -74,7 +74,7 @@
       <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Descripcion es obligatorio</span>
       </div>
       <div *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
-        <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras y espacio</span>
+        <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras, espacio y numeros</span>
         </div>
   </div>
 
@@ -92,7 +92,7 @@
           [readonly]="leyenda == 'Detalle'"
           [class]="esCampoValido('tipo')"
         />
-        <label class="form-check-lable">Academico</label>
+        <label class="form-check-lable">Académico</label>
       </div>
       <!-- Fin del input mujer-->
       <div class="form-check form-check-inline m-3" >

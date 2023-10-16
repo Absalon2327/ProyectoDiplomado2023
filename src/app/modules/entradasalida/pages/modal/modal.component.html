@@ -25,7 +25,7 @@
                     *ngIf="!siMuestraAlertas()" (click)="restaurarAlerts()"></i>
                     <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
             </div>
-            
+
         </div>
         <div class="modal-body">
             <div *ngFor="let alert of alerts">
@@ -35,7 +35,7 @@
                     <button type="button" class="btn-close" (click)="CambiarAlert(alert)" aria-label="Close"></button>
                 </div>
             </div>
-            <form (ngSubmit)="guardar()" [formGroup]="formBuilder" enctype="multipart/form-data">              
+            <form (ngSubmit)="guardar()" [formGroup]="formBuilder" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-3">
@@ -45,9 +45,9 @@
                             <option [value]="objetivoMision.codigoSolicitudVehiculo" selected>{{objetivoMision.objetivoMision}}</option>
                             </select>
                         </div>
-                        
+
                     </div>
-                    
+
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label>Fecha</label><span class="text-danger"> *</span>
@@ -57,7 +57,7 @@
                                 <!-- aqui la validación-->
                                 <span *ngIf="formBuilder.get('fecha')?.errors?.['required']">Requiere un fecha</span>
                             </div>
-                                
+
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -74,38 +74,38 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label>Kilometraje</label><span class="text-danger"> *</span>
-                            <input type="text" class="form-control" id="kilometraje" name="kilometraje" 
+                            <input type="text" class="form-control" id="kilometraje" name="kilometraje"
                             formControlName="kilometraje" autocomplete="off" [class]="esCampoValido('kilometraje')" pattern="" (keypress)="OnlyNumbersAllowed($event)" placeholder="Escribe el kilometraje"/>
                             <div class="invalid-feedback">
                                 <!-- aqui la validación-->
                                 <span *ngIf="formBuilder.get('kilometraje')?.errors?.['required']">Requiere datos en el campo</span>
-                                  
+
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label>Combustible</label><span class="text-danger"> *</span>
                             <ng-select [class]="esCampoValido('combustible')" [items]="combustible" id="combustible" name="combustible" [ngModel]="entradasalidaOd?.combustible" placeholder="Selecciona una opción"
                                 formControlName="combustible" autocomplete="off" >
-                                <ng-option [value]="">Selecciona una opción</ng-option> 
+                                <ng-option [value]="">Selecciona una opción</ng-option>
                                 <ng-option *ngFor="let combu of combustible" [value]="combu">{{combu}}</ng-option>
                             </ng-select>
                             <div class="invalid-feedback">
                                 <!-- aqui la validación-->
                                 <span *ngIf="formBuilder.get('combustible')?.errors?.['required']">Seleccione una opción del campo</span>
                             </div>
-                        </div>    
+                        </div>
                     </div>
-                </div>  
-                
+                </div>
+
                 <div class="d-flex justify-content-end mt-4">
-                    <button type="submit" class="btn btn-primary me-2" id="btn-save" name="btn-save">
+                    <button type="submit" class="btn btn-primary w-sm me-2" id="btn-save" name="btn-save">
                      {{ titulo !== 'Editar' ? 'Guardar' : 'Modificar' }}
                     </button>
 
-                    <button type="button" class="btn btn-dark" id="btn-cancel" name="btn-cancel" aria-hidden="true"
+                    <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel" aria-hidden="true"
                         (click)="modal.dismiss('Cross click')">
                         Cancelar
                     </button>

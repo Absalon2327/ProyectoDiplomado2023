@@ -15,6 +15,7 @@ import {IVehiculos} from "../../vehiculo/interfaces/vehiculo-interface";
 import {Usuario} from "../../../account/auth/models/usuario.models";
 import {ISolicitudvalep} from "../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
 import Swal from "sweetalert2";
+import { MensajesService } from 'src/app/shared/global/mensajes.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class SolicitudVehiculoService {
   listLogSoliVe: ILogSoliVe [] = [];
   public usuario!: Usuario;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private mensajesService: MensajesService) { }
 
   get codUsuario(): string {
     return localStorage.getItem("codUsuario" || "");
@@ -125,18 +126,22 @@ export class SolicitudVehiculoService {
           this.listVehiculos = vehiculo;
         },
         (error) => {
-          console.log("Error al obtener los vehiculos", error);
+          console.log("Error al obtener los vehículos", error);
           }
         );
   }
 
-  obtenerMotoristas() {
+  obtenerMotoristas(fechaSalida:string,fechaEntarada:string) {
+    
     this.http
-      .get(`${this.url}/empleado/motoristas`)
+      .get(`${this.url}/empleado/motoristas?fechaSalida=${fechaSalida}&fechaEntrada=${fechaEntarada}`)
       .pipe(map((resp: any) => resp as IMotorista[]))
       .subscribe(
         (empleados: IMotorista[]) => {
           this.listMotorista = empleados; // Actualiza la propiedad listEmpleados
+          if(empleados.length === 0){
+            this.mensajesService.mensajesToast("warning", "En estas fechas, no hay motoristas disponibles.");
+          }
         },
         (error) => {
           console.error("Error al obtener los empleados:", error);
@@ -144,9 +149,9 @@ export class SolicitudVehiculoService {
       );
     }
 
-  filtroPlacasVehiculo(clase: string,fechaSalida:string): Observable<IVehiculos[]> {
+  filtroPlacasVehiculo(clase: string,fechaSalida:string,fechaEntrada:string): Observable<IVehiculos[]> {
     return this.http
-      .get(`${this.url}/vehiculo/disponibilidad?claseName=${clase}&fechaSalida=${fechaSalida}`)
+      .get(`${this.url}/vehiculo/disponibilidad?claseName=${clase}&fechaSalida=${fechaSalida}&fechaEntrada=${fechaEntrada}`)
       .pipe(map((resp: any) => resp as IVehiculos[]));
   }
 
