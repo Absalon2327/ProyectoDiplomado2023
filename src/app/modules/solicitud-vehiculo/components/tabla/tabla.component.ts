@@ -50,7 +50,7 @@ export class TablaComponent implements OnInit {
       console.log("entro");
     }else {
       this.selectedData = data; // Almacena los datos del registro seleccionado
-      const modalRef = this.modalService.open(ModalComponent, {size: 'xl', backdrop: 'static'});
+      const modalRef = this.modalService.open(ModalComponent, {size: 'xl', backdrop: 'static' , scrollable: true});
       modalRef.componentInstance.leyenda = leyenda; // Pasa la leyenda al componente modal
       modalRef.componentInstance.soliVeOd = data;
       modalRef.componentInstance.vista = this.vista;
