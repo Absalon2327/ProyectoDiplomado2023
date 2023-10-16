@@ -652,43 +652,44 @@
 
     </div>
 
-    <div class="d-flex justify-content-end mt-4">
-<!--      botones administrador-->
-      <div *ngIf="usuarioActivo.role == 'ADMIN'">
 
-        <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save-admin" name="btn-save"
-                (click)="aprobarSolicitudAdministrador()">
+  </form>
+</div>
+<div class="modal-footer">
+  <!--      botones administrador-->
+        <div *ngIf="usuarioActivo.role == 'ADMIN'">
+
+          <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save-admin" name="btn-save"
+                  (click)="aprobarSolicitudAdministrador()">
+            Aprobar
+          </button>
+
+          <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-anu" name="btn-save"
+                  (click)="anularSolicitud()">
+            Anular
+          </button>
+
+        </div>
+  <!--      fin de botones administrador-->
+        <button type="submit" class="btn btn-primary w-sm me-2" id="btn-save" name="btn-save"
+                *ngIf="leyenda == 'Nueva'">
+          Enviar
+        </button>
+        <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save" name="btn-save"
+                (click)="aprobarSolicitud()"
+                *ngIf="(usuarioActivo.role == 'JEFE_DEPTO' ||
+                usuarioActivo.role == 'JEFE_FINANACIERO' ||
+                usuarioActivo.role == 'DECANO') && vista === 'listado'">
           Aprobar
         </button>
 
-        <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-anu" name="btn-save"
-                (click)="anularSolicitud()">
+        <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-ave" name="btn-save"
+                (click)="anularSolicitud()"
+                *ngIf="(usuarioActivo.role == 'DECANO' || usuarioActivo.role == 'JEFE_DEPTO' ||
+                usuarioActivo.role == 'JEFE_FINANACIERO') && vista === 'listado'">
           Anular
         </button>
-
+        <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
+                aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
       </div>
-<!--      fin de botones administrador-->
-      <button type="submit" class="btn btn-primary w-sm me-2" id="btn-save" name="btn-save"
-              *ngIf="leyenda == 'Nueva'">
-        Enviar
-      </button>
-      <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save" name="btn-save"
-              (click)="aprobarSolicitud()"
-              *ngIf="(usuarioActivo.role == 'JEFE_DEPTO' ||
-              usuarioActivo.role == 'JEFE_FINANACIERO' ||
-              usuarioActivo.role == 'DECANO') && vista === 'listado'">
-        Aprobar
-      </button>
-
-      <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-ave" name="btn-save"
-              (click)="anularSolicitud()"
-              *ngIf="(usuarioActivo.role == 'DECANO' || usuarioActivo.role == 'JEFE_DEPTO' ||
-              usuarioActivo.role == 'JEFE_FINANACIERO') && vista === 'listado'">
-        Anular
-      </button>
-      <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
-              aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
-    </div>
-  </form>
-</div>
 <!-- Modal -->
