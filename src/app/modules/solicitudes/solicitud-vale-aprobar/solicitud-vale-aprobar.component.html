@@ -45,7 +45,7 @@
               <thead class="table-light">
                 <tr>
                   <th>Solicitante</th>
-                  <th>Mision</th>
+                  <th>Misión</th>
                   <th>Motorista</th>
                   <th>Fecha de Uso</th>
                   <th>Estado</th>
@@ -129,6 +129,14 @@
 <ng-template #mdDetalleSolicitudVale let-modal>
   <div class="modal-header">
     <h5 class="modal-title mt-0">Detalle solicitud de vehiculo</h5>
+    <div class="btn-alerta" *ngIf="alerts">
+      <i
+        class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor float-md-end "
+        ngbTooltip="Mostrar Ayuda"
+        *ngIf="!siMuestraAlertas()"
+        (click)="restaurarAlerts()"
+      ></i>
+    </div>
 
     <button
       type="button"
@@ -335,14 +343,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <div class="btn-alerta miDiv" *ngIf="alerts">
-      <i
-        class="mdi mdi-lightbulb-on-outline custom-cursor"
-        ngbTooltip="Mostrar Ayuda"
-        *ngIf="!siMuestraAlertas()"
-        (click)="restaurarAlerts()"
-      ></i>
-    </div>
+
     <button type="button" class="btn btn-success btn-dca" (click)="aprobar()">
       Aprobar
     </button>
@@ -351,7 +352,7 @@
     </button>
     <button
       type="button"
-      class="btn btn-light btn-dca"
+      class="btn btn-dark btn-dca"
       (click)="modal.close('Close click')"
     >
       Cerrar

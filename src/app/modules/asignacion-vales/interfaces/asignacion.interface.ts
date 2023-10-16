@@ -1,4 +1,5 @@
-import { SortDirection } from "src/app/pages/crypto/orders/orders-sortable.directive";
+//import { SortDirection } from "src/app/pages/crypto/orders/orders-sortable.directive";
+export type SortDirection = 'asc' | 'desc' | '';
 import { SolicitudVale } from "../interface/IsolicitudvaleDocument";
 
 export interface IAsignacionDetalle {

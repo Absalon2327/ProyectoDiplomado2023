@@ -54,7 +54,7 @@ export const MENU: MenuItem[] = [
         role: ["ADMIN","JEFE_DEPTO","SECR_DECANATO","DECANO"],
         parentId: 9,
       },
-   
+
     ],
   },
   {
@@ -165,7 +165,7 @@ export const MENU: MenuItem[] = [
   },
   {
     id: 26,
-    label: "Vehiculos",
+    label: "Vehículos",
     icon: "mdi mdi-car-outline",
     role: ["ADMIN","ASIS_FINANCIERO"],
     link: "/vehiculo/listar"

@@ -61,18 +61,14 @@ export class ModalComponent implements OnInit {
     if(this.formDepto.valid){
       if(this.deptos != null){
         this.editando();
-      console.log("editando");
+
       } else {
-        console.log("registrando");
+
         this.registrando();
       }
     }else{
-      Swal.fire({
-        position: 'center',
-        title: 'Faltan datos en el formuario',
-        text: 'Complete todos los campos requeridos',
-        icon: 'warning',
-      });
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
     }
 
@@ -88,8 +84,7 @@ export class ModalComponent implements OnInit {
 
       data.nombre = data.nombre.toUpperCase();
 
-      console.log(data);
-      console.log(this.formDepto.value);
+
 
       this.deptopService.saveDepto(data).subscribe({
         next : (resp) => {
@@ -118,7 +113,7 @@ export class ModalComponent implements OnInit {
           });
           Toast.fire({
             icon: 'success',
-            text: 'Datos Guardados con exito'
+            text: 'Datos guardados con exito'
           });
 
         }
@@ -166,7 +161,7 @@ export class ModalComponent implements OnInit {
           });
           Toast.fire({
             icon: 'success',
-            text: 'Datos Guardados con exito'
+            text: 'Datos guardados con exito'
           });
         }
       });

@@ -1,3 +1,4 @@
+import { MensajesService } from 'src/app/shared/global/mensajes.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { EntradaSalidaI, IEntradaSalida } from '../../interface/EntSalinterface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -46,10 +47,10 @@ export class VistaentradasalidaComponent implements OnInit {
   formsubmit: boolean;
   typesubmit: boolean;
   rangesubmit: boolean;
-  validationform: FormGroup; 
+  validationform: FormGroup;
   //public myForm: FormGroup;
-  
-  constructor(private modalService: NgbModal, private fb: FormBuilder, private listaentradasalidaservice: ListaentradasalidaService, private router: Router) { 
+
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private listaentradasalidaservice: ListaentradasalidaService, private router: Router, private mensajesService: MensajesService) {
     this.breadCrumbItems = [{ label: 'Entradas y Salidas' }, { label: 'Vista', active: true }];//Migas de pan
   }
 
@@ -64,8 +65,8 @@ export class VistaentradasalidaComponent implements OnInit {
     //this.fechamaxima= new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+1)
     //this.fechaStrMaxima=this.pd.transform(this.fechamaxima, "yyyy-MM-dd", 'UTC');
   }
-  
- 
+
+
   OnlyNumbersAllowed(event):boolean{
     const charCode= (event.wich)? event.wich: event.keyCode;
     if(charCode > 31 && (charCode < 48 || charCode >75))
@@ -75,7 +76,7 @@ export class VistaentradasalidaComponent implements OnInit {
     }
     return true;
   }
-  
+
   guardar() {
     if (this.formBuilder.valid) {
       if (this.entradasalidaOd != null) {
@@ -85,18 +86,14 @@ export class VistaentradasalidaComponent implements OnInit {
        this.registrando();
       }
     } else {
-      Swal.fire({
-        position: 'center',
-        title: 'Faltan datos en el formuario',
-        text: 'submit disparado, formulario no valido',
-        icon: 'warning',
-      });
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
   }
 
   registrando() {
     const listando = this.formBuilder.value;
-  
+
 
       const entsali: EntradaSalidaI = new EntradaSalidaI(listando.tipo, listando.fecha, listando.hora, listando.combustible, listando.kilometraje);
       console.log(entsali);
@@ -123,7 +120,7 @@ export class VistaentradasalidaComponent implements OnInit {
         this.obtenerLista();
           this.recargar();
       });
-    
+
   }
   recargar() {
     let currentUrl = this.router.url;
