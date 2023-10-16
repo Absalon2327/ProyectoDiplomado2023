@@ -83,7 +83,7 @@ export class ModalComponent implements OnInit {
       cantidadVale: 0,
       estadoEntrada: 1,
       estado: 8,
-      solicitudVehiculo: '' // Otra inicialización si es necesario
+      solicitudVehiculo: ''
     };
   }
 
@@ -339,7 +339,6 @@ export class ModalComponent implements OnInit {
       this.soliVeService.registrarSoliVe(solicitudVehiculo).subscribe({
         next: (resp: any) => {
           this.soliSave = resp;
-          Swal.close();
 
           if (solicitudVehiculo.file != null && solicitudVehiculo.cantidadPersonas > 5) {
             // enviar pdf
@@ -392,6 +391,7 @@ export class ModalComponent implements OnInit {
             this.formularioSoliVe.reset();
             resolve();
           }
+          Swal.close();
         },
         error : (err) => {
           // Cerrar SweetAlert de carga
@@ -412,11 +412,11 @@ export class ModalComponent implements OnInit {
   cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
     this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
       (vehiculosData: IVehiculos[]) => {
+        this.placas = [];
+        this.formularioSoliVe.get('vehiculo').setValue(null);
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
-        } else if(tipoVehiculo != '') {
-          this.placas = [];
-          this.formularioSoliVe.get('vehiculo').setValue('');
+        } else if(tipoVehiculo != null) {
           this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
         }
       },
@@ -451,8 +451,8 @@ export class ModalComponent implements OnInit {
         unidadSolicitante,
         [Validators.required]
       ],
-      tipoVehiculo: ['', [Validators.required]],
-      vehiculo: ['', [Validators.required]],
+      tipoVehiculo: [null, [Validators.required]],
+      vehiculo: [null, [Validators.required]],
       objetivoMision: ['', [Validators.required]],
       lugarMision: ['', [Validators.required]],
       direccion: [null,[]],

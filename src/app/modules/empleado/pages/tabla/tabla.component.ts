@@ -25,7 +25,8 @@ export class TablaComponent implements OnInit {
   constructor(
     private empleadosService: EmpleadoService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private mensajesService: MensajesService
   ) {
     this.formularioEmpleado = this.Iniciarformulario();
   }
@@ -76,34 +77,23 @@ export class TablaComponent implements OnInit {
     const empleado = this.formularioEmpleado.value;
 
     Swal.fire({
-      icon: 'question',
+      icon: "question",
       title: "¿Cambiar el estado a " + this.cambio + "?",
       showDenyButton: true,
-      showCancelButton: true,
+      denyButtonColor: "#2c3136",
+      denyButtonText: "No cambiar",
+      confirmButtonColor: "#972727",
       confirmButtonText: "Cambiar",
-      denyButtonText: `No cambiar`,
     }).then((result) => {
       if (result.isConfirmed) {
         this.empleadosService.putEmpleado(empleado).subscribe((resp: any) => {
           if (resp) {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              //timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
+            this.mensajesService.mensajesToast("success", "Registro modificado");
+            setTimeout(() => {
+              this.empleadosService.getEmpleados();
+              this.empleados = this.empleadosService.listEmpleados;
+            }, 2000);
 
-            Toast.fire({
-              icon: 'success',
-              text: 'Modificación exitosa'
-            })
-
-            this.recargar();
           }
         }, (err: any) => {
           Swal.fire({
@@ -113,16 +103,9 @@ export class TablaComponent implements OnInit {
           });
         });
       } else if (result.isDenied) {
-        Swal.fire("Cambios no aplicados", "", "info");
+        this.mensajesService.mensajesToast("info", "Acción Cancelada!");
       }
     });
-  }
-
-  recargar() {
-    let currentUrl = this.router.url;
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = "reload";
-    this.router.navigate([currentUrl]);
   }
 
   // Método para agregar guion al número del DUI

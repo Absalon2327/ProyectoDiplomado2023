@@ -1,107 +1,116 @@
 /* Estilo para el contenedor de los botones */
 .d-flex.justify-content-between {
-    gap: 12px; /* Ajusta el espacio horizontal entre los botones */
+  gap: 12px;
+  /* Ajusta el espacio horizontal entre los botones */
+}
+
+/* Estilo opcional para los botones */
+.btn {
+  white-space: nowrap;
+  /* Evita que los botones se envuelvan al siguiente renglón */
+}
+
+
+.bordered-card {
+  border: 4px solid #ccc;
+  /* Establece el ancho y el color del borde según tus preferencias */
+  border-radius: 10px;
+  /* Agrega esquinas redondeadas */
+  padding: 15px;
+  /* Agrega espacio interno alrededor del contenido de la tarjeta */
+}
+
+.image-margin {
+  margin-right: 30px;
+  /* Ajusta el valor según lo necesites */
+}
+
+
+.card-body {
+  padding: 12px;
+}
+
+/* Contenedor de las tarjetas */
+.card-container {
+  display: flex; /* Establece el contenedor como un contenedor flexible */
+  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan cuando el espacio es insuficiente */
+  justify-content: center; /* Centra las tarjetas dentro del contenedor */
+}
+
+.card {
+  position: relative;
+  width: 205px; //180
+  height: 350px; //350
+  border-radius: 14px;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}
+
+.card2 {
+  position: center;
+  width: 200px;
+  height: 140px; //160
+}
+
+.card3 {
+  position: center;
+  padding: 5px;
+  width: 180px;
+  height: 130px;
+}
+
+.bg {
+  position: center;
+  top: 5px;
+  left: 5px;
+  width: 195px; //170
+  height: 340px; //para lo alto del margen normal
+  z-index: 1;
+  background: rgba(255, 255, 255, .95);
+  backdrop-filter: blur(24px);
+  border-radius: 10px;
+  overflow: hidden;
+  outline: 2px solid white;
+}
+
+.blob {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 250px;
+  border-radius: 50%;
+  background-color: #972727;
+  opacity: 1;
+  filter: blur(12px);
+  animation: blob-bounce 5s infinite ease;
+}
+
+@keyframes blob-bounce {
+  0% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
   }
 
-  /* Estilo opcional para los botones */
-  .btn {
-    white-space: nowrap; /* Evita que los botones se envuelvan al siguiente renglón */
+  25% {
+    transform: translate(-100%, -100%) translate3d(100%, 0, 0);
   }
 
-
-  .bordered-card {
-    border: 4px solid #ccc; /* Establece el ancho y el color del borde según tus preferencias */
-    border-radius: 10px; /* Agrega esquinas redondeadas */
-    padding: 15px; /* Agrega espacio interno alrededor del contenido de la tarjeta */
-  }
-  .image-margin {
-    margin-right: 30px; /* Ajusta el valor según lo necesites */
+  50% {
+    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
   }
 
-
-  .card-body{
-    padding: 10px;
+  75% {
+    transform: translate(-100%, -100%) translate3d(0, 100%, 0);
   }
 
-  .card {
-    position: center;
-    width: 205px;//180
-    height: 360px;//350
-    border-radius: 14px;
-    z-index: 11;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
-    ;
+  100% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
   }
-
-  .card2 {
-    position: center;
-    width: 200px;
-    height: 140px;//160
-  }
-  .card3 {
-    position: center;
-    width: 180px;
-    height: 130px;
-  }
-
-  .bg {
-    position: center;
-    top: 5px;
-    left: 5px;
-    width: 195px;//170
-    height: 600px;//para lo alto del margen normal
-    z-index: 2;
-    background: rgba(255, 255, 255, .95);
-    backdrop-filter: blur(24px);
-    border-radius: 10px;
-    overflow: hidden;
-    outline: 2px solid white;
-  }
-
-  .blob {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    width: 150px;
-    height: 250px;
-    border-radius: 50%;
-    background-color: #972727;
-    opacity: 1;
-    filter: blur(12px);
-    animation: blob-bounce 5s infinite ease;
-  }
-
-  @keyframes blob-bounce {
-    0% {
-      transform: translate(-100%, -100%) translate3d(0, 0, 0);
-    }
-
-    25% {
-      transform: translate(-100%, -100%) translate3d(100%, 0, 0);
-    }
-
-    50% {
-      transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
-    }
-
-    75% {
-      transform: translate(-100%, -100%) translate3d(0, 100%, 0);
-    }
-
-    100% {
-      transform: translate(-100%, -100%) translate3d(0, 0, 0);
-    }
-  }
-
-
-  .modal {
-    z-index: 9999; /* Un valor alto para asegurarse de que esté en la parte superior */
-    /* Otras propiedades de estilo para la modal */
-  }
-
+}

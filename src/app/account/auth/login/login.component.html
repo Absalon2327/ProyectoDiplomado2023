@@ -7,8 +7,8 @@
             <div class="row" id="background-image">
               <div class="col-7">
                 <div class="text-primary p-4">
-                  <h5 class="text-primary">¡ Bienvenido !</h5>
-                  <p>Inicia Sesión para continuar.</p>
+                  <h5 class="text-primary">¡Bienvenid@!</h5>
+                  <p>Inicie sesión para continuar.</p>
                 </div>
               </div>
               <!-- La columna de la imagen ha sido eliminada -->
@@ -26,8 +26,8 @@
             </div>
 
             <div class="btn-alerta" style="position: absolute; top: 150px; right: 10px; z-index: 1;">
-              <i class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor" *ngIf="!siMuestraAlertas()"
-                (click)="restaurarAlerts()" (click)="openModal(msjayuda)" [ngbTooltip]="' Ayuda '" [placement]="'left'"></i>
+              <i class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor"
+                (click)="mostrarAyuda()" [ngbTooltip]="' Ayuda '" [placement]="'left'"></i>
             </div>
 
 
@@ -38,7 +38,7 @@
 
                 <div class="mb-3">
                   <label for="email">Usuario :</label>
-                  <input type="email" formControlName="email" class="form-control" id="email" placeholder="Email"
+                  <input type="email" formControlName="email" class="form-control" id="email" placeholder="Omita @ues.edu.sv"
                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                   <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors.required">El usuario es requerido</div>
@@ -50,12 +50,24 @@
                   <label for="password">Contraseña :</label>
                   <div class="input-group auth-pass-inputgroup">
                     <input [type]="showPassword ? 'text' : 'password'" type="password" class="form-control"
-                      formControlName="password" placeholder="Enter password"
+                      formControlName="password" placeholder="Digite contraseña"
                       [ngClass]="{ 'is-invalid': submitted && f.password.errors }" aria-label="Password"
                       aria-describedby="password-addon">
 
-                    <button class="btn btn-light ms-0" type="button" id="password-addon"
-                      (click)="togglePasswordVisibility()"><i class="mdi mdi-eye-outline"></i></button>
+                      <button
+                      class="btn btn-light ms-0"
+                      type="button"
+                      id="password-addon"
+                      (click)="togglePasswordVisibility()"
+                    >
+                      <i
+                        [class]="
+                          showPassword
+                            ? 'mdi mdi-eye-off-outline'
+                            : 'mdi mdi-eye-outline'
+                        "
+                      ></i>
+                    </button>
                     <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                       <span *ngIf="f.password.errors.required">La clave es requerida</span>
                     </div>
@@ -70,7 +82,7 @@
                 </div>
 
                 <div class="mt-3 d-grid">
-                  <button class="btn btn-primary" type="submit">Iniciar sesión</button>
+                  <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
                 </div>
                 <div class="mt-4 text-center">
                   <a routerLink="/account/reset-password" class="text-muted"><i class="mdi mdi-lock mr-1"></i> ¿Olvidó

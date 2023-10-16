@@ -140,128 +140,8 @@
       <!--fin unidad que hace la solicitud-->
     </div>
 
-    <!-- direccion nacional -->
-    <div class="row" *ngIf="!isChecked">
-      <ng-container [ngSwitch]="leyenda">
-          <div *ngSwitchCase="'Nueva'" class="col-md-3">
-            <!--Departamento-->
-            <div class="mt-2">
-              <label for="detpto">Departamento: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                      class="text-danger">*</span></label>
-                                                      <ng-select
-                id="detpto"
-                formControlName="depto"
-                placeholder="Escriba o seleccione"
-                [selectOnTab]="true"
-                labelForId="depto"
-                [class]="esCampoValido('depto')"
-                (ngModelChange)="deptoChange($event)"
-                [notFoundText]="'Datos no econtrados'"
-              >
-                <ng-option *ngFor="let dpt of departamentos" [value]="dpt.codigo">
-                  {{dpt.na2}}
-                </ng-option>
-              </ng-select>
-              <div class="invalid-feedback">
-                <span
-                  *ngIf="formularioSoliVe.get('depto')?.errors?.['required']">
-                  Requiere seleccionar un departamento
-                </span>
-              </div>
-            </div>
-          </div>
-          <!--fin departamento-->
-          <div *ngSwitchCase="'Nueva'" class="col-md-3">
-            <!--municipio-->
-            <div class="mt-2">
-              <label for="municipio">Municipio: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                class="text-danger">*</span></label>
-                <ng-select
-                  id="municipio"
-                  formControlName="municipio"
-                  placeholder="Escriba o seleccione"
-                  [selectOnTab]="true"
-                  labelForId="municipio"
-                  [class]="esCampoValido('municipio')"
-                  (ngModelChange)="distChange($event)"
-                >
-                <ng-option *ngFor="let muni of municipios" [value]="muni.codigo">
-                  {{muni.nam}}
-                </ng-option>
-                </ng-select>
-                <div class="invalid-feedback">
-                  <span
-                  *ngIf="formularioSoliVe.get('municipio')?.errors?.['required']">
-                    Requiere seleccionar un municipio
-                  </span>
-                </div>
-              </div>
-            </div>
-            <!-- fin municipio -->
-            <div *ngSwitchCase="'Nueva'" class="col-md-3">
-              <!-- distrito -->
-              <div class="mt-2">
-                <label for="distrito">Distrito: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                  class="text-danger">*</span></label>
-                  <ng-select
-                    id="distrito"
-                    formControlName="distrito"
-                    placeholder="Escriba o seleccione"
-                    [selectOnTab]="true"
-                    labelForId="distrito"
-                    [class]="esCampoValido('distrito')"
-                    (ngModelChange)="muniChange($event)"
-                  >
-                    <ng-option *ngFor="let dist of distritos" [value]="dist.codigo">
-                      {{dist.nam}}
-                    </ng-option>
-                  </ng-select>
-                  <div class="invalid-feedback">
-                    <span
-                    *ngIf="formularioSoliVe.get('distrito')?.errors?.['required']">
-                      Requiere seleccionar un distrito
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <!-- fin distrito -->
-
-              <div *ngSwitchCase="'Nueva'" class="col-md-3">
-                <!--canton-->
-                <div class="mt-2">
-                  <label for="canton">Cantón: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                    class="text-danger">*</span></label>
-
-                  <ng-select
-                    id="canton"
-                    formControlName="canton"
-                    placeholder="Escriba o seleccione"
-                    [selectOnTab]="true"
-                    labelForId="canton"
-                    [class]="esCampoValido('canton')"
-                  >
-                    <ng-option *ngFor="let cton of cantones" [value]="cton.codigo">
-                      {{cton.nam}}
-                    </ng-option>
-                  </ng-select>
-                  <div class="invalid-feedback">
-                    <span
-                      *ngIf="formularioSoliVe.get('canton')?.errors?.['required']">
-                      Requiere seleccionar un cantón
-                    </span>
-                  </div>
-              </div>
-            </div>
-          <!-- fin canton -->
-          <div *ngSwitchDefault>
-            <!-- Contenido predeterminado -->
-          </div>
-        </ng-container>
-    </div>
-    <!-- fin direccion nacional -->
-
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-3">
           <!-- hora de salida -->
           <div class="mt-3">
             <label for="hora-salida">Hora de salida: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
@@ -281,7 +161,7 @@
         <!-- fin hora de salida -->
 
         <!-- hora de regreso -->
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="mt-3">
             <label for="hora-regreso">Hora de regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                              class="text-danger">*</span></label>
@@ -337,7 +217,7 @@
         <!-- fin tipo de vehiculo -->
 
         <!-- placa -->
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="mt-3">
             <label for="vehiculo">Placa: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                class="text-danger">*</span></label>
@@ -381,40 +261,131 @@
           </div>
         </div>
 
-        <div class="col-md-3">
-          <div class="mt-3">
-            <!-- cantidad de personas que viajaran -->
-            <label for="cantidad-pasajeros">No. de personas que viajarán:<span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                                                class="text-danger">*</span></label>
-            <div class="col-md-12">
+    </div>
 
-              <input type="number" id="cantidad-pasajeros"
-                     [value]="formularioSoliVe.get('cantidadPersonas').value"
-                     class="form-control"
-                     formControlName="cantidadPersonas" min="1"
-                     [class]="esCampoValido('cantidadPersonas')"
-                     [readonly]="leyenda == 'Detalle' && soliVeOd != null"
-                     (change)="actualizarFilas()" (input)="actualizarFilas()"/>
+    <!-- direccion nacional -->
+    <div class="row" *ngIf="!isChecked">
+      <ng-container [ngSwitch]="leyenda">
+          <div *ngSwitchCase="'Nueva'" class="col-md-3">
+            <!--Departamento-->
+            <div class="mt-2">
+              <label for="detpto">Departamento: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                      class="text-danger">*</span></label>
+                                                      <ng-select
+                id="detpto"
+                formControlName="depto"
+                placeholder="Escriba o seleccione"
+                [selectOnTab]="true"
+                labelForId="depto"
+                [notFoundText]="'Datos no econtrados'"
+                [class]="esCampoValido('depto')"
+                (ngModelChange)="deptoChange($event)"
+                [notFoundText]="'Datos no econtrados'"
+              >
+                <ng-option *ngFor="let dpt of departamentos" [value]="dpt.codigo">
+                  {{dpt.na2}}
+                </ng-option>
+              </ng-select>
               <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['required']">
-                    Requiere la cantidad de pasajeros en la misión
-                  </span>
                 <span
-                  *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['min']">
-                    La cantidad de personas debe ser al menos 1
-                  </span>
-                <span
-                  *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['pattern']">
-                    Solamente se permiten números enteros
-                  </span>
+                  *ngIf="formularioSoliVe.get('depto')?.errors?.['required']">
+                  Requiere seleccionar un departamento
+                </span>
               </div>
             </div>
-            <!-- fin cantidad de personas que viajaran -->
           </div>
-        </div>
+          <!--fin departamento-->
+          <div *ngSwitchCase="'Nueva'" class="col-md-3">
+            <!--municipio-->
+            <div class="mt-2">
+              <label for="municipio">Municipio: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                class="text-danger">*</span></label>
+                <ng-select
+                  id="municipio"
+                  formControlName="municipio"
+                  placeholder="Escriba o seleccione"
+                  [selectOnTab]="true"
+                  labelForId="municipio"
+                  [notFoundText]="'Datos no econtrados'"
+                  [class]="esCampoValido('municipio')"
+                  (ngModelChange)="distChange($event)"
+                >
+                <ng-option *ngFor="let muni of municipios" [value]="muni.codigo">
+                  {{muni.nam}}
+                </ng-option>
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span
+                  *ngIf="formularioSoliVe.get('municipio')?.errors?.['required']">
+                    Requiere seleccionar un municipio
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- fin municipio -->
+            <div *ngSwitchCase="'Nueva'" class="col-md-3">
+              <!-- distrito -->
+              <div class="mt-2">
+                <label for="distrito">Distrito: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                  class="text-danger">*</span></label>
+                  <ng-select
+                    id="distrito"
+                    formControlName="distrito"
+                    placeholder="Escriba o seleccione"
+                    [selectOnTab]="true"
+                    labelForId="distrito"
+                    [notFoundText]="'Datos no econtrados'"
+                    [class]="esCampoValido('distrito')"
+                    (ngModelChange)="muniChange($event)"
+                  >
+                    <ng-option *ngFor="let dist of distritos" [value]="dist.codigo">
+                      {{dist.nam}}
+                    </ng-option>
+                  </ng-select>
+                  <div class="invalid-feedback">
+                    <span
+                    *ngIf="formularioSoliVe.get('distrito')?.errors?.['required']">
+                      Requiere seleccionar un distrito
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- fin distrito -->
 
+              <div *ngSwitchCase="'Nueva'" class="col-md-3">
+                <!--canton-->
+                <div class="mt-2">
+                  <label for="canton">Cantón: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                    class="text-danger">*</span></label>
+
+                  <ng-select
+                    id="canton"
+                    formControlName="canton"
+                    placeholder="Escriba o seleccione"
+                    [selectOnTab]="true"
+                    labelForId="canton"
+                    [notFoundText]="'Datos no econtrados'"
+                    [class]="esCampoValido('canton')"
+                  >
+                    <ng-option *ngFor="let cton of cantones" [value]="cton.codigo">
+                      {{cton.nam}}
+                    </ng-option>
+                  </ng-select>
+                  <div class="invalid-feedback">
+                    <span
+                      *ngIf="formularioSoliVe.get('canton')?.errors?.['required']">
+                      Requiere seleccionar un cantón
+                    </span>
+                  </div>
+              </div>
+            </div>
+          <!-- fin canton -->
+          <div *ngSwitchDefault>
+            <!-- Contenido predeterminado -->
+          </div>
+        </ng-container>
     </div>
+    <!-- fin direccion nacional -->
 
     <div class="row">
 
@@ -570,6 +541,41 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="mt-3">
+          <!-- cantidad de personas que viajaran -->
+          <label for="cantidad-pasajeros">No. de personas que viajarán:<span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                                              class="text-danger">*</span></label>
+
+              <div class="col-md-6">
+
+                <input type="number" id="cantidad-pasajeros"
+                      [value]="formularioSoliVe.get('cantidadPersonas').value"
+                      class="form-control"
+                      formControlName="cantidadPersonas" min="1"
+                      [class]="esCampoValido('cantidadPersonas')"
+                      [readonly]="leyenda == 'Detalle' && soliVeOd != null"
+                      (change)="actualizarFilas()" (input)="actualizarFilas()"/>
+                <div class="invalid-feedback">
+                    <span
+                      *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['required']">
+                      Requiere la cantidad de pasajeros en la misión
+                    </span>
+                  <span
+                    *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['min']">
+                      La cantidad de personas debe ser al menos 1
+                    </span>
+                  <span
+                    *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['pattern']">
+                      Solamente se permiten números enteros
+                    </span>
+                </div>
+              </div>
+              <!-- fin cantidad de personas que viajaran -->
+            </div>
+
+        </div>
+
                <!-- tabla de personas -->
        <div class="row" *ngIf="cantidadPersonas >= 2 || leyenda=='Detalle' &&
         soliVeOd != null && soliVeOd.cantidadPersonas >= 2">
@@ -646,43 +652,44 @@
 
     </div>
 
-    <div class="d-flex justify-content-end mt-4">
-<!--      botones administrador-->
-      <div *ngIf="usuarioActivo.role == 'ADMIN'">
 
-        <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save-admin" name="btn-save"
-                (click)="aprobarSolicitudAdministrador()">
+  </form>
+</div>
+<div class="modal-footer">
+  <!--      botones administrador-->
+        <div *ngIf="usuarioActivo.role == 'ADMIN'">
+
+          <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save-admin" name="btn-save"
+                  (click)="aprobarSolicitudAdministrador()">
+            Aprobar
+          </button>
+
+          <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-anu" name="btn-save"
+                  (click)="anularSolicitud()">
+            Anular
+          </button>
+
+        </div>
+  <!--      fin de botones administrador-->
+        <button type="button" (click)="guardar()" class="btn btn-primary w-sm me-2" id="btn-save" name="btn-save"
+                *ngIf="leyenda == 'Nueva'">
+          Enviar
+        </button>
+        <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save" name="btn-save"
+                (click)="aprobarSolicitud()"
+                *ngIf="(usuarioActivo.role == 'JEFE_DEPTO' ||
+                usuarioActivo.role == 'JEFE_FINANACIERO' ||
+                usuarioActivo.role == 'DECANO') && vista === 'listado'">
           Aprobar
         </button>
 
-        <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-anu" name="btn-save"
-                (click)="anularSolicitud()">
+        <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-ave" name="btn-save"
+                (click)="anularSolicitud()"
+                *ngIf="(usuarioActivo.role == 'DECANO' || usuarioActivo.role == 'JEFE_DEPTO' ||
+                usuarioActivo.role == 'JEFE_FINANACIERO') && vista === 'listado'">
           Anular
         </button>
-
+        <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
+                aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
       </div>
-<!--      fin de botones administrador-->
-      <button type="submit" class="btn btn-primary w-sm me-2" id="btn-save" name="btn-save"
-              *ngIf="leyenda == 'Nueva'">
-        Enviar
-      </button>
-      <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save" name="btn-save"
-              (click)="aprobarSolicitud()"
-              *ngIf="(usuarioActivo.role == 'JEFE_DEPTO' ||
-              usuarioActivo.role == 'JEFE_FINANACIERO' ||
-              usuarioActivo.role == 'DECANO') && vista === 'listado'">
-        Aprobar
-      </button>
-
-      <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-ave" name="btn-save"
-              (click)="anularSolicitud()"
-              *ngIf="(usuarioActivo.role == 'DECANO' || usuarioActivo.role == 'JEFE_DEPTO' ||
-              usuarioActivo.role == 'JEFE_FINANACIERO') && vista === 'listado'">
-        Anular
-      </button>
-      <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
-              aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
-    </div>
-  </form>
-</div>
 <!-- Modal -->

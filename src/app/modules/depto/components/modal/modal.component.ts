@@ -28,7 +28,7 @@ export class ModalComponent implements OnInit {
       id: 1,
       type: "info",
       message:
-        " Ingrese un Cargo en mayusculas y complete los campos obligatorios (*)",
+        " Ingrese el nombre del departamento y complete los campos obligatorios (*)",
       show: false,
     },
   ];

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { ModalComponent } from '../../components/modal/modal.component';
+import { MensajesService } from 'src/app/shared/global/mensajes.service';
 
 @Component({
   selector: 'app-listar',
@@ -22,9 +23,10 @@ export class ListarComponent implements OnInit {
   term: string = '';
   p: any;
 
-  constructor(private deptoService : DeptoService,
+  constructor(private deptoService: DeptoService,
     private modalService: NgbModal,
-    private router : Router) { }
+    private mensajesService: MensajesService,
+    private router: Router) { }
 
 
   ngOnInit(): void {
@@ -32,19 +34,19 @@ export class ListarComponent implements OnInit {
     this.getDeptosAll();
   }
 
-  cargaDeptos(event : any){
+  cargaDeptos(event: any) {
     const estado = event.target.value;
     //this.getDeptos(Number(estado));
     this.getDeptosAll();
   }
 
-  getDeptos(estado : number){
+  getDeptos(estado: number) {
     this.deptoService.getDeptos(estado).subscribe((data: IDepto[]) => {
       this.lstDeptos = data;
     });
   }
 
-  getDeptosAll(){
+  getDeptosAll() {
     this.deptoService.getDeptosAll().subscribe((data: IDepto[]) => {
       this.lstDeptos = data;
     });
@@ -52,31 +54,32 @@ export class ListarComponent implements OnInit {
 
   cambiarEstado(data: IDepto, estado: number) {
 
-    if(estado == 8){
+    if (estado == 8) {
 
       this.cambio = 'Inactivo';
-    }else{
+    } else {
 
       this.cambio = 'Activo';
     }
 
 
     Swal.fire({
-      icon: 'question',
-    title: "¿Cambiar el estado a " + this.cambio + "?",
-    showDenyButton: true,
-    showCancelButton: true,
-    confirmButtonText: "Cambiar",
-    denyButtonText: `No cambiar`,
+      icon: "question",
+      title: "¿Cambiar el estado a " + this.cambio + "?",
+      showDenyButton: true,
+      denyButtonColor: "#2c3136",
+      denyButtonText: "No cambiar",
+      confirmButtonColor: "#972727",
+      confirmButtonText: "Cambiar",
     }).then((result) => {
       if (result.isConfirmed) {
 
-        if(estado == 8){
+        if (estado == 8) {
           data.estado = 9;
 
-        }else{
+        } else {
           data.estado = 8;
-          
+
         }
 
         this.deptoService.editDepto(data.codigoDepto, data).subscribe({
@@ -93,8 +96,6 @@ export class ListarComponent implements OnInit {
 
           },
           complete: () => {
-
-
 
             const Toast = Swal.mixin({
               toast: true,
@@ -115,35 +116,34 @@ export class ListarComponent implements OnInit {
           },
         });
       } else if (result.isDenied) {
-        Swal.fire("Cambios no aplicados", "", "info");
-
+        this.mensajesService.mensajesToast("info", "Acción Cancelada!");
       }
 
 
     });
 
-   // this.cargoService.editCargo(data.id, { estado: estado }).subscribe((data: ICargo) => {
-   //   this.getCargos(8);
-   // });
-}
+    // this.cargoService.editCargo(data.id, { estado: estado }).subscribe((data: ICargo) => {
+    //   this.getCargos(8);
+    // });
+  }
 
-abrirModal(leyenda: string) {
-  const modalRef = this.modalService.open(ModalComponent);
-  modalRef.componentInstance.leyenda = leyenda;
-}
+  abrirModal(leyenda: string) {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.leyenda = leyenda;
+  }
 
-abrirModal2(leyenda: string, data: IDepto) {
+  abrirModal2(leyenda: string, data: IDepto) {
 
-const modalRef = this.modalService.open(ModalComponent);
-modalRef.componentInstance.leyenda = leyenda; // Pasa la leyenda al componente modal
-modalRef.componentInstance.deptos = data; // Pasa la data al componente modal
-}
-mostrar(){
-  let currentUrl = this.router.url;
-  this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-  this.router.onSameUrlNavigation = 'reload';
-  this.router.navigate([currentUrl]);
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.leyenda = leyenda; // Pasa la leyenda al componente modal
+    modalRef.componentInstance.deptos = data; // Pasa la data al componente modal
+  }
+  mostrar() {
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
 
-}
+  }
 
 }
