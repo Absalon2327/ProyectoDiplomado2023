@@ -18,6 +18,8 @@ import { IEmail } from 'src/app/account/auth/interfaces/usuario';
 })
 export class ModalComponent implements OnInit {
 
+
+
   @Input() empleadOd!: IEmpleado;
   @Input() motoristaOd!: boolean;
   @Input() leyenda!: string;
@@ -40,6 +42,8 @@ export class ModalComponent implements OnInit {
   imagen: string = 'no hay';
 
   hovered: boolean = false; // Inicializamos hovered como falso
+
+  arroba: boolean = false; // Inicializamos
 
   alerts = [
     {
@@ -167,9 +171,9 @@ export class ModalComponent implements OnInit {
       email: correo,
       receptor: "Estimad@ : " + nombre,
       mensaje: 'Se han registrado sus datos en el sistema de Misiones de la Universidad de El Salvador - Facultad Multidisciplinaria Paracentral. Para iniciar sesión por primera vez, utilice como nombre de usuario el habitual que son los parámetros de su correo electrónico antes de "@", y su clave por defecto será su número de DUI, la cual deberá cambiar una vez haya iniciado sesión.',
-      centro: 'Gracias por su atención a este importante mensaje.',
+      centro: 'Para acceder, haz clic aquí: https://orellana2023.me/',
       codigo: '',
-      abajo: 'Pagina principal : ' + 'http://localhost:4200/',
+      abajo: 'Gracias por su atención a este importante mensaje.',
     }
 
     this.usuarioService.SendEmail(email).subscribe(
@@ -240,7 +244,33 @@ export class ModalComponent implements OnInit {
     } else {
       this.empleadoService.postEmpleadoImagen(empleado, this.file).subscribe((resp: any) => {
         if (resp) {
-          this.Email(this.formBuilder.get('correo').value, this.formBuilder.get('nombre').value + ' ' + this.formBuilder.get('apellido').value);
+          if (this.esMotorista) {
+            console.log("No se envio correo");
+            Swal.close();
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000,
+              //timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });
+
+            Toast.fire({
+              icon: 'success',
+              text: 'Almacenamiento exitoso'
+            }).then(() => {
+              this.formBuilder.reset();
+              this.recargar();
+              this.modalService.dismissAll();
+            });
+          } else {
+            console.log("se envio correo");
+            this.Email(this.formBuilder.get('correo').value, this.formBuilder.get('nombre').value + ' ' + this.formBuilder.get('apellido').value);
+          }
         }
       }, (err: string) => {
         this.mensajesService.mensajesSweet(
@@ -477,6 +507,19 @@ export class ModalComponent implements OnInit {
         Swal.showLoading();
       }
     });
+  }
+
+  autocompletarCorreo(event: any) {
+    const usuario = this.formBuilder.value.correo;
+    const clave = event.target.value;
+    const ultimoCaracter = clave.slice(-1); // Obtener el último carácter
+
+    if (usuario && ultimoCaracter === '@' && !this.arroba) {
+      this.arroba = !this.arroba;
+      this.formBuilder.get('correo').setValue(`${usuario}ues.edu.sv`);
+    } else if (usuario && ultimoCaracter === '@' && this.arroba) {
+      this.arroba = !this.arroba;
+    }
   }
 
 }
