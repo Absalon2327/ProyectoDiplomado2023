@@ -412,11 +412,11 @@ export class ModalComponent implements OnInit {
   cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
     this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
       (vehiculosData: IVehiculos[]) => {
+        this.placas = [];
+        this.formularioSoliVe.get('vehiculo').setValue(null);
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
-        } else if(tipoVehiculo != '') {
-          this.placas = [];
-          this.formularioSoliVe.get('vehiculo').setValue('');
+        } else if(tipoVehiculo != null) {
           this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
         }
       },
