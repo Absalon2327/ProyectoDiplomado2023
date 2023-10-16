@@ -90,7 +90,7 @@ export class ModalComponent implements OnInit {
     this.listaentradasalidaservice.getMisiones();
     this.obtenerCorreos();
 
-    //console.log("EMAIL:", this.correos);
+
   }
   combustible: string[] = [
     "Un tanque",
@@ -162,7 +162,7 @@ export class ModalComponent implements OnInit {
         const decimalPart = inputValue.substr(dotIndex + 1);
         // Permitir máximo dos decimales
         if (decimalPart.length >= 2) {
-          console.log("Máximo dos decimales permitidos");
+
           return false;
         }
       }
@@ -171,7 +171,7 @@ export class ModalComponent implements OnInit {
       // Permitir un único punto decimal si no existe uno ya en el campo
       return true;
     } else {
-      console.log("charCode restricted is " + charCode);
+
       return false;
     }
   }
@@ -419,8 +419,6 @@ export class ModalComponent implements OnInit {
   Email(asunto: string, titulo: string, mensaje: string, centro: string) {
     const nombre = this.correos[0].nombre;
     const correo = this.correos[0].correo;
-    console.log("EMAIL:", this.correos);
-
     const email: IEmail = {
       asunto: asunto,
       titulo: titulo,
@@ -434,7 +432,7 @@ export class ModalComponent implements OnInit {
 
     this.usuarios.SendEmail(email).subscribe(
       (resp) => {
-        console.log("resp: ", resp);
+
 
         Swal.close();
         const Toast = Swal.mixin({
@@ -466,7 +464,7 @@ export class ModalComponent implements OnInit {
     this.listaentradasalidaservice.getCorreosFinanciero().subscribe({
       next: (data) => {
         this.correos = data;
-        console.log("correos: ", this.correos);
+
       },
     });
   }
