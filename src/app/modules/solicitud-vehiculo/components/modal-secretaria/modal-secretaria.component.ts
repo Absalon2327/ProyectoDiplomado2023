@@ -20,6 +20,7 @@ import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import { log } from 'console';
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
 import { EmailService } from '../../services/email.service';
+import { IEmpleado } from 'src/app/modules/empleado/interface/empleado.interface';
 
 @Component({
   selector: 'app-modal-secretaria',
@@ -43,7 +44,7 @@ export class ModalSecretariaComponent implements OnInit {
   cantones!: IPais[];
 
   placas!: IVehiculos[];
-
+  motoristas !: IMotorista[];
 
   formularioSoliVe!: FormGroup;
   pasajeros: IPasajero[] = [];
@@ -87,17 +88,23 @@ export class ModalSecretariaComponent implements OnInit {
     this.llenarSelectDepartamentos();
     this.soliVeService.obtenerVehiculos();
 
-   // const fechasSalida =   this.soliVeOd.fechaSalida.  //new Date(this.soliVeOd.fechaSalida);
-   const dateSalida = new Date(this.soliVeOd.fechaSalida);
-   const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
-    // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
-    dateEntrada.setDate(dateEntrada.getDate() + 1);
+    if(this.leyenda != 'Detalle') {
+      // const fechasSalida =   this.soliVeOd.fechaSalida.  //new Date(this.soliVeOd.fechaSalida);
+      const dateSalida = new Date(this.soliVeOd.fechaSalida);
+      const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
+       // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
+       dateEntrada.setDate(dateEntrada.getDate() + 1);
 
-    // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
-    let var1 : string = dateSalida.toISOString().split('T')[0];
-    let var2 : string = dateEntrada.toISOString().split('T')[0];
+       // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
+       let var1 : string = dateSalida.toISOString().split('T')[0];
+       let var2 : string = dateEntrada.toISOString().split('T')[0];
 
-    this.soliVeService.obtenerMotoristas(var1,var2);
+
+
+         this.cargamotorista2(var1,var2);
+
+     }
+
     this.detalle(this.leyenda);
   }
 
@@ -282,6 +289,32 @@ export class ModalSecretariaComponent implements OnInit {
         control.markAsTouched()
       );
     }
+  }
+
+  cargamotorista(fechaSalida:string, fechaEntrada:string){
+    this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
+    (motoristasData: IMotorista[]) => {
+      if(motoristasData && motoristasData.length > 0){
+        this.motoristas = motoristasData;
+        this.formularioSoliVe.get('motorista').setValue(null);
+      }else{
+        this.formularioSoliVe.get('motorista').setValue(null);
+        this.mensajesService.mensajesToast("warning", "En estas fechas, no hay motoristas disponibles.");
+      }
+
+
+    }
+    );
+  }
+
+   cargamotorista2(fechaSalida:string, fechaEntrada:string){
+    this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
+    (motoristasData: IMotorista[]) => {
+      this.motoristas = motoristasData;
+
+
+    }
+    );
   }
 
   // subir el archivo
@@ -482,8 +515,11 @@ export class ModalSecretariaComponent implements OnInit {
 
     // inicio de carga motirista
     this.formularioSoliVe.get('motorista').setValue(null);
-     
-    this.soliVeService.obtenerMotoristas(fechaSalida,fechaEntrada);
+
+    this.cargamotorista(fechaSalida,fechaEntrada);
+
+   // this.soliVeService.obtenerMotoristas(fechaSalida,fechaEntrada);
+
     // fin
 
   }
