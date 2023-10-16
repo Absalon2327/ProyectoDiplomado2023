@@ -26,7 +26,6 @@ import { ICorreos } from "src/app/modules/solicitudes/Interfaces/correos.interfa
 
 import { ServiceService } from "src/app/modules/solicitudes/Service/service.service";
 
-
 @Component({
   selector: "app-modal",
   templateUrl: "./modal.component.html",
@@ -54,7 +53,7 @@ export class ModalComponent implements OnInit {
   fechaActual: string;
   modoEdicion = false;
   kilomet: IEntradaSalida;
-  correos!: ICorreos[];
+  correos!: any;
 
   /////esto para enviar el objetivo a la modal
   //objetivoMision: IsolicitudVehiculo;
@@ -77,7 +76,6 @@ export class ModalComponent implements OnInit {
     private listaentradasalidaservice: ListaentradasalidaService,
     private usuarios: UsuarioService,
     private service: ServiceService
-
   ) {}
 
   ngOnInit(): void {
@@ -93,9 +91,8 @@ export class ModalComponent implements OnInit {
     this.obtenerCorreos();
 
 
-    
   }
-  combustible: string[]=[
+  combustible: string[] = [
     "Un tanque",
     "Mas de tres cuarto de tanque",
     "Tres cuarto de tanque",
@@ -105,7 +102,7 @@ export class ModalComponent implements OnInit {
     "Menos de medio tanque",
     "Mas de un cuarto de tanque",
     "Un cuarto de tanque",
-    "Menos de un cuarto de tanque"
+    "Menos de un cuarto de tanque",
   ];
 
   // Función para obtener la fecha actual en formato "yyyy-MM-dd"
@@ -227,12 +224,8 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     } else {
-      Swal.fire({
-        position: "center",
-        title: "Faltan datos en el formuario",
-        text: "submit disparado, formulario no valido",
-        icon: "warning",
-      });
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
   }
   registrando() {
@@ -330,14 +323,14 @@ export class ModalComponent implements OnInit {
                               );
                             },
                           });
-                           // Inicia mensaje dirigido hacia el correo institucional
-                           /*this.EmailE(
+                          // Inicia mensaje dirigido hacia el correo institucional
+                          this.Email(
                             "!Aviso importante!",
-                            "Se ha detectado un registro de entrada",
-                            "EL Auto detectado ha completado con su mision: " +
+                            "Se ha Registrado la entrada del vehículo",
+                            "El Vehículo a regresado de la misión mision: " +
                               this.objetivoMision.objetivoMision,
-                            "Se solicita continuar con los procesos para poder liquidar"
-                          ); */// Termina mensaje dirigido hacia el correo institucional
+                            "Puede continuar con el proceso de liquidación de la misión"
+                          ); // Termina mensaje dirigido hacia el correo institucional
                           Toast.fire({
                             icon: "success",
                             text: "Almacenamiento exitoso",
@@ -346,7 +339,6 @@ export class ModalComponent implements OnInit {
                           this.formBuilder.reset();
                           this.recargar();
                           this.modalService.dismissAll();
-                         
                         }
                       },
                       (err: any) => {
@@ -418,10 +410,9 @@ export class ModalComponent implements OnInit {
     return this.alerts.every((alert) => alert.show);
   }
 
-  EmailE(asunto: string, titulo: string, mensaje: string, centro: string) {
+  Email(asunto: string, titulo: string, mensaje: string, centro: string) {
     const nombre = this.correos[0].nombre;
     const correo = this.correos[0].correo;
-
     const email: IEmail = {
       asunto: asunto,
       titulo: titulo,
@@ -435,7 +426,6 @@ export class ModalComponent implements OnInit {
 
     this.usuarios.SendEmail(email).subscribe(
       (resp) => {
-
         Swal.close();
         const Toast = Swal.mixin({
           toast: true,
@@ -463,9 +453,10 @@ export class ModalComponent implements OnInit {
     );
   }
   obtenerCorreos() {
-    this.service.getCorreosFinanciero().subscribe({
+    this.listaentradasalidaservice.getCorreosFinanciero().subscribe({
       next: (data) => {
         this.correos = data;
+
       },
     });
   }

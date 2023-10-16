@@ -159,9 +159,9 @@ export class TopbarComponent implements OnInit {
   logout() {
     Swal.fire({
       icon: 'question',
-      title: "¿Deseas cerrar la sesión?",
+      title: "¿Desea cerrar la sesión?",
       showDenyButton: true,
-      confirmButtonText: "Cerrar la sesión",
+      confirmButtonText: "Cerrar la",
       confirmButtonColor: "#972727",
       denyButtonText: `Cancelar`,
       denyButtonColor: "#2c3136",
@@ -186,12 +186,8 @@ export class TopbarComponent implements OnInit {
 
 
     } else {
-      Swal.fire({
-        position: 'center',
-        title: 'Faltan datos en el formuario',
-        text: 'Complete todos los campos requeridos',
-        icon: 'warning',
-      });
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
   }
 

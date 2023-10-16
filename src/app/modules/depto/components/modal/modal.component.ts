@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { MensajesService } from 'src/app/shared/global/mensajes.service';
-import { NAME_TILDES_VALIDATE } from 'src/app/constants/constants';
+import { NAME_TILDES_VALIDATE,  NAME_STRING_NUMBER_VALIDATE} from 'src/app/constants/constants';
 
 
 @Component({
@@ -20,13 +20,15 @@ export class ModalComponent implements OnInit {
   @Input() deptos !: IDepto;
   @Input() leyenda !: string;
   private isText : string =  NAME_TILDES_VALIDATE;
+  private isTextNumber : string = NAME_STRING_NUMBER_VALIDATE;
+
 
   alerts = [
     {
       id: 1,
       type: "info",
       message:
-        " Ingrese un Cargo en mayusculas y complete los campos obligatorios (*)",
+        " Ingrese el nombre del departamento y complete los campos obligatorios (*)",
       show: false,
     },
   ];
@@ -49,7 +51,7 @@ export class ModalComponent implements OnInit {
   private iniciarFormulario(){
     return this.fb.group({
       nombre : ['',Validators.compose([Validators.required, Validators.pattern(this.isText)])],
-      descripcion : ['',Validators.compose([Validators.required, Validators.pattern(this.isText)])],
+      descripcion : ['',Validators.compose([Validators.required, Validators.pattern(this.isTextNumber)])],
       tipo : ['',Validators.compose([Validators.required])]
     })
   }
@@ -59,18 +61,14 @@ export class ModalComponent implements OnInit {
     if(this.formDepto.valid){
       if(this.deptos != null){
         this.editando();
-      console.log("editando");
+
       } else {
-        console.log("registrando");
+
         this.registrando();
       }
     }else{
-      Swal.fire({
-        position: 'center',
-        title: 'Faltan datos en el formuario',
-        text: 'Complete todos los campos requeridos',
-        icon: 'warning',
-      });
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
     }
 
@@ -86,8 +84,7 @@ export class ModalComponent implements OnInit {
 
       data.nombre = data.nombre.toUpperCase();
 
-      console.log(data);
-      console.log(this.formDepto.value);
+
 
       this.deptopService.saveDepto(data).subscribe({
         next : (resp) => {
@@ -116,7 +113,7 @@ export class ModalComponent implements OnInit {
           });
           Toast.fire({
             icon: 'success',
-            text: 'Datos Guardados con exito'
+            text: 'Datos guardados con exito'
           });
 
         }
@@ -164,7 +161,7 @@ export class ModalComponent implements OnInit {
           });
           Toast.fire({
             icon: 'success',
-            text: 'Datos Guardados con exito'
+            text: 'Datos guardados con exito'
           });
         }
       });

@@ -120,7 +120,7 @@
                             </label>
                             <input type="text" formControlName="nombre" class="form-control" id="nombre" name="nombre"
                                 placeholder="Ingrese nombre" [readonly]="empleadOd != null && titulo == 'Detalle'"
-                                maxlength="25"
+                                maxlength="25" minlength="3"
                                 [class]="titulo != 'Detalle' ? esCampoValido('nombre') : ''"
                                 [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" />
                             <div class="invalid-feedback">
@@ -139,7 +139,7 @@
                             </label>
                             <input type="text" formControlName="apellido" class="form-control" id="apellido"
                                 name="apellido" placeholder="Ingrese apellido"
-                                maxlength="25"
+                                maxlength="25" minlength="3"
                                 [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 [class]="titulo != 'Detalle' ? esCampoValido('apellido') : ''"
                                 [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" />
@@ -204,8 +204,10 @@
                             </label>
                             <input type="text" formControlName="correo" class="form-control" id="correo" name="correo"
                                 placeholder="Ingrese correo" [readonly]="empleadOd != null && titulo == 'Detalle'"
+                                maxlength="35"
                                 [class]="titulo != 'Detalle' ? esCampoValido('correo') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.correo : ''" />
+                                [ngModel]="empleadOd!=null ? empleadOd.correo : ''"
+                                (input)="autocompletarCorreo($event)"/>
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('correo')?.errors?.['required']">
                                     Ingrese un correo</span>

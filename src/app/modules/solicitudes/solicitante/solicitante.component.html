@@ -193,8 +193,9 @@
   <div class="modal-body">
     <div class="container-fluid">
       <div class="row">
-        <table class="table table-centered table-nowrap">
-          <thead class="table-light">
+        <div class="table-responsive mb-0">
+          <table class="table table-centered table-nowrap">
+            <thead class="table-light">
             <tr>
               <th class="align-middle">No.</th>
               <th class="align-middle">Fecha</th>
@@ -231,16 +232,13 @@
             </ng-container>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-light"
-      (click)="modal.close('Close click')"
-    >
-      Cancelar
+    <button class="btn btn-dark w-sm" (click)="modal.close('Close click')">
+      Cerrar
     </button>
 
     <!--<button type="button" class="btn btn-primary">Save changes</button>-->
@@ -263,8 +261,9 @@
   <div class="modal-body">
     <div class="container-fluid">
       <div class="row">
-        <table class="table table-centered table-nowrap">
-          <thead class="table-light">
+        <div class="table-responsive mb-0">
+          <table class="table table-centered table-nowrap">
+            <thead class="table-light">
             <tr>
               <th class="align-middle">No.</th>
               <th class="align-middle">Fecha</th>
@@ -306,16 +305,13 @@
             </ng-container>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-light"
-      (click)="modal.close('Close click')"
-    >
-      Cancelar
+    <button class="btn btn-dark w-sm" (click)="modal.close('Close click')">
+      Cerrar
     </button>
 
     <!--<button type="button" class="btn btn-primary">Save changes</button>-->
@@ -327,12 +323,12 @@
 <ng-template #content role="document" let-modal>
   <div class="modal-header">
     <h5 class="modal-title mt-0">
-      Movimientos de vales Fac.
+      Movimientos de vales <!--Fac.
       {{
         compra.factura == "" || compra.factura == null
           ? "Sin Factura"
           : compra.factura
-      }}
+      }}-->
     </h5>
     <button
       type="button"
@@ -344,12 +340,13 @@
   <div class="modal-body">
     <div class="card text-center">
       <div class="card-header">
-        Código inicio {{ compra.codInicio }} | Código fin {{ compra.codFin }}
+        Vales de combustible
+     <!--   Código inicio {{ compra.codInicio }} | Código fin {{ compra.codFin }}-->
       </div>
       <div class="card-body">
-        <h5 class="card-title">{{ compra.proveedor.nombre }}</h5>
+        <h5 class="card-title"><!--{{ compra.proveedor.nombre }}--></h5>
         <p class="card-text">
-          {{ compra.descripcion }}
+        <!--  {{ compra.descripcion }}-->
         </p>
         <div class="search-box d-inline-block">
           <div class="position-relative">
@@ -364,7 +361,8 @@
         </div>
       </div>
       <div class="card-footer text-muted">
-        Fecha de vencimiento {{ compra.fechaVencimiento | date : "dd/MM/yyyy" }}
+       <!-- Fecha de vencimiento {{ compra.fechaVencimiento | date : "dd/MM/yyyy" }}-->
+       Vales asignados a solicitud de vehículo.
       </div>
     </div>
     <div class="row">

@@ -44,89 +44,392 @@
           />
         </label>
     </div>
-    <div class="row mb-4">
-      <div class="col-md-5">
-
-        <div class="row">
-
-          <!--fecha de realizacion de solicitud-->
-          <div class="col-md-6">
-            <label for="fecha-solicitud">Fecha de solicitud: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                                  class="text-danger">*</span></label>
-            <input type="date" class="form-control" id="fecha-solicitud"
-                   formControlName="fechaSolicitud"
-                   [class]="esCampoValido('fechaSolicitud')"
-                   readonly/>
-            <div class="invalid-feedback">
-              <span
-                *ngIf="formularioSoliVe.get('fechaSolicitud')?.errors?.['required']">
-                Requiere una fecha de solicitud
-              </span>
-              <span
-                *ngIf="formularioSoliVe.get('fechaSolicitud')?.errors?.['pattern']">
-                Fecha no valida
-              </span>
-            </div>
-          </div>
-          <!--fin fecha de realizacion de solicitud-->
-
-          <!--fecha de salida de solicitud-->
-          <div class="col-md-6">
-            <label for="fecha-mision">Fecha de misión: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                             class="text-danger">*</span></label>
-            <input type="date" class="form-control" id="fecha-mision"
-                   formControlName="fechaSalida"
-                   [class]="esCampoValido('fechaSalida')"
-                   (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                   formularioSoliVe.get('fechaSalida').value)"
-                   [readonly]="soliVeOd != null && leyenda === 'Detalle'"/>
-            <div class="invalid-feedback">
-              <span
-                *ngIf="formularioSoliVe.get('fechaSalida')?.errors?.['required']">
-                Requiere una fecha de misión
-              </span>
-              <span
-                *ngIf="formularioSoliVe.get('fechaSalida')?.errors?.['pattern']">
-                Fecha no valida
-              </span>
-            </div>
-          </div>
-          <!--fin fecha de salida de solicitud-->
+    <div class="row">
+      <!--fecha de realizacion de solicitud-->
+      <div class="col-md-3">
+        <div class="mt-2">
+        <label for="fecha-solicitud">Fecha de solicitud: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                              class="text-danger">*</span></label>
+        <input type="date" class="form-control" id="fecha-solicitud"
+               formControlName="fechaSolicitud"
+               [class]="esCampoValido('fechaSolicitud')"
+               readonly/>
+        <div class="invalid-feedback">
+          <span
+            *ngIf="formularioSoliVe.get('fechaSolicitud')?.errors?.['required']">
+            Requiere una fecha de solicitud
+          </span>
+          <span
+            *ngIf="formularioSoliVe.get('fechaSolicitud')?.errors?.['pattern']">
+            Fecha no valida
+          </span>
         </div>
-        <div class="row">
-          <div class="mt-2">
-            <!--unidad que hace la solicitud-->
-            <div class="form-group">
-              <label for="unidad-solicitante">Unidad solicitante: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                                        class="text-danger">*</span></label>
-              <input type="text"
-                     class="form-control"
-                     id="unidad-solicitante"
-                     formControlName="unidadSolicitante"
-                     [class]="esCampoValido('unidadSolicitante')"
-                     readonly />
+      </div>
+    </div>
+      <!--fin fecha de realizacion de solicitud-->
+
+      <!--fecha de salida de solicitud-->
+      <div class="col-md-3">
+        <div class="mt-2">
+          <label for="fecha-mision">Fecha de misión: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                          class="text-danger">*</span></label>
+          <input type="date" class="form-control" id="fecha-mision"
+                formControlName="fechaSalida"
+                [class]="esCampoValido('fechaSalida')"
+                (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
+                formularioSoliVe.get('fechaSalida').value,formularioSoliVe.get('fechaEntrada').value)"
+                [readonly]="soliVeOd != null && leyenda === 'Detalle'"/>
+          <div class="invalid-feedback">
+            <span
+              *ngIf="formularioSoliVe.get('fechaSalida')?.errors?.['required']">
+              Requiere una fecha de misión
+            </span>
+            <span
+              *ngIf="formularioSoliVe.get('fechaSalida')?.errors?.['pattern']">
+              Fecha no valida
+            </span>
+          </div>
+        </div>
+      </div>
+      <!--fin fecha de salida de solicitud-->
+
+      <!-- fecha de regreso -->
+      <div class="col-md-3">
+        <div class="mt-2">
+          <label for="fecha-regreso">Fecha de regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                            class="text-danger">*</span></label>
+          <input type="date" class="form-control" id="fecha-regreso"
+                formControlName="fechaEntrada"
+                [class]="esCampoValido('fechaEntrada')"
+                (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
+                formularioSoliVe.get('fechaSalida').value,formularioSoliVe.get('fechaEntrada').value)"
+                [readOnly]="leyenda == 'Detalle' && soliVeOd != null"/>
+          <div class="invalid-feedback">
+            <span
+              *ngIf="formularioSoliVe.get('fechaEntrada')?.errors?.['required']">
+              Requiere una fecha de regreso
+            </span>
+            <span
+              *ngIf="formularioSoliVe.get('fechaEntrada')?.errors?.['pattern']">
+              Fecha no valida
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- fin fecha de regreso -->
+
+      <!--unidad que hace la solicitud-->
+      <div class="col-md-3">
+        <div class="form-group mt-2">
+          <label for="unidad-solicitante">U./Depto. solicitante: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                                    class="text-danger">*</span></label>
+          <input type="text"
+                class="form-control"
+                id="unidad-solicitante"
+                formControlName="unidadSolicitante"
+                [class]="esCampoValido('unidadSolicitante')"
+                readonly />
+          <div class="invalid-feedback">
+          <span
+            *ngIf="formularioSoliVe.get('unidadSolicitante')?.errors?.['required']">
+            Requiere una fecha de solicitud
+          </span>
+          </div>
+        </div>
+      </div>
+      <!--fin unidad que hace la solicitud-->
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+          <!-- hora de salida -->
+          <div class="mt-3">
+            <label for="hora-salida">Hora de salida: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                          class="text-danger">*</span></label>
+            <input type="time" id="hora-salida"
+                  class="form-control" formControlName="horaSalida"
+                  [class]="esCampoValido('horaSalida')"
+                  [readonly]="leyenda == 'Detalle' && soliVeOd != null"/>
+            <div class="invalid-feedback">
+                <span
+                  *ngIf="formularioSoliVe.get('horaSalida')?.errors?.['required']">
+                  Requiere la hora de salida
+                </span>
+            </div>
+          </div>
+        </div>
+        <!-- fin hora de salida -->
+
+        <!-- hora de regreso -->
+        <div class="col-md-3">
+          <div class="mt-3">
+            <label for="hora-regreso">Hora de regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                             class="text-danger">*</span></label>
+            <input type="time" id="hora-regreso"
+                   class="form-control" formControlName="horaEntrada"
+                   [class]="esCampoValido('horaEntrada')"
+                   [readOnly]="leyenda == 'Detalle' && soliVeOd != null"/>
+            <div class="invalid-feedback">
+                <span
+                  *ngIf="formularioSoliVe.get('horaEntrada')?.errors?.['required']">
+                  Requiere la hora de regreso
+                </span>
+            </div>
+          </div>
+        </div>
+        <!-- fin hora de regreso -->
+
+        <!-- tipo de vehiculo -->
+        <div class="col-md-3">
+          <div class="mt-3 ngselect-ve" >
+            <label for="tipo-vehiculo">Tipo de vehículo: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                               class="text-danger">*</span></label>
+
+            <ng-select *ngIf="leyenda == 'Nueva' && soliVeOd == null"
+              formControlName="tipoVehiculo"
+              placeholder="Escriba o seleccione"
+              [selectOnTab]="true"
+              labelForId="tipoVehiculo"
+               [class]="esCampoValido('tipoVehiculo')"
+               [notFoundText]="'Datos no econtrados'"
+              (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
+              formularioSoliVe.get('fechaSalida').value,formularioSoliVe.get('fechaEntrada').value)"
+            >
+              <ng-option
+                *ngFor="let car of listVehiculos"
+                [value]="car"
+              >{{ car }}</ng-option
+              >
+            </ng-select>
+            <div class="invalid-feedback">
+                <span
+                  *ngIf="formularioSoliVe.get('tipoVehiculo')?.errors?.['required']">
+                  Requiere seleccionar un tipo de vehículo
+                </span>
+            </div>
+            <input *ngIf="leyenda == 'Detalle' && soliVeOd != null" type="text" class="form-control"
+                   id="tipo-vehiculo"
+                   formControlName="tipoVehiculo"
+                   [value]="soliVeOd != null ? soliVeOd.vehiculo.clase: ''"
+                   readonly>
+          </div>
+        </div>
+        <!-- fin tipo de vehiculo -->
+
+        <!-- placa -->
+        <div class="col-md-3">
+          <div class="mt-3">
+            <label for="vehiculo">Placa: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                               class="text-danger">*</span></label>
+
+            <ng-template #selectTemplate>
+              <ng-select *ngIf="leyenda == 'Nueva' && soliVeOd == null"
+                         formControlName="vehiculo"
+                         placeholder="Escriba o seleccione"
+                         [selectOnTab]="true"
+                         labelForId="vehiculo"
+                         [class]="esCampoValido('vehiculo')"
+                         [notFoundText]="'Datos no econtrados'"
+              >
+                <ng-option *ngFor="let vehiculo of placas"
+                           [value]="vehiculo.codigoVehiculo">{{vehiculo.placa}}</ng-option>
+              </ng-select>
               <div class="invalid-feedback">
-              <span
-                *ngIf="formularioSoliVe.get('unidadSolicitante')?.errors?.['required']">
-                Requiere una fecha de solicitud
-              </span>
+                <span
+                  *ngIf="formularioSoliVe.get('vehiculo')?.errors?.['required']">
+                  Requiere seleccionar un vehículo
+                </span>
+              </div>
+            </ng-template>
+
+            <!-- fin placa -->
+
+            <ng-template #inputTemplate>
+              <!-- input placa para detalle -->
+              <input *ngIf="leyenda == 'Detalle' && soliVeOd != null" type="text" class="form-control"
+                     id="vehiculo"
+                     formControlName="vehiculo"
+                     [value]="soliVeOd != null ? soliVeOd.vehiculo.placa: ''"
+                     readonly>
+            </ng-template>
+
+            <!-- fin input placa -->
+
+            <div [ngTemplateOutlet]="leyenda == 'Nueva' ? selectTemplate : inputTemplate"></div>
+
+
+          </div>
+        </div>
+
+    </div>
+
+    <!-- direccion nacional -->
+    <div class="row" *ngIf="!isChecked">
+      <ng-container [ngSwitch]="leyenda">
+          <div *ngSwitchCase="'Nueva'" class="col-md-3">
+            <!--Departamento-->
+            <div class="mt-2">
+              <label for="detpto">Departamento: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                      class="text-danger">*</span></label>
+                                                      <ng-select
+                id="detpto"
+                formControlName="depto"
+                placeholder="Escriba o seleccione"
+                [selectOnTab]="true"
+                labelForId="depto"
+                [notFoundText]="'Datos no econtrados'"
+                [class]="esCampoValido('depto')"
+                (ngModelChange)="deptoChange($event)"
+                [notFoundText]="'Datos no econtrados'"
+              >
+                <ng-option *ngFor="let dpt of departamentos" [value]="dpt.codigo">
+                  {{dpt.na2}}
+                </ng-option>
+              </ng-select>
+              <div class="invalid-feedback">
+                <span
+                  *ngIf="formularioSoliVe.get('depto')?.errors?.['required']">
+                  Requiere seleccionar un departamento
+                </span>
               </div>
             </div>
-            <!--fin unidad que hace la solicitud-->
+          </div>
+          <!--fin departamento-->
+          <div *ngSwitchCase="'Nueva'" class="col-md-3">
+            <!--municipio-->
+            <div class="mt-2">
+              <label for="municipio">Municipio: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                class="text-danger">*</span></label>
+                <ng-select
+                  id="municipio"
+                  formControlName="municipio"
+                  placeholder="Escriba o seleccione"
+                  [selectOnTab]="true"
+                  labelForId="municipio"
+                  [notFoundText]="'Datos no econtrados'"
+                  [class]="esCampoValido('municipio')"
+                  (ngModelChange)="distChange($event)"
+                >
+                <ng-option *ngFor="let muni of municipios" [value]="muni.codigo">
+                  {{muni.nam}}
+                </ng-option>
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span
+                  *ngIf="formularioSoliVe.get('municipio')?.errors?.['required']">
+                    Requiere seleccionar un municipio
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- fin municipio -->
+            <div *ngSwitchCase="'Nueva'" class="col-md-3">
+              <!-- distrito -->
+              <div class="mt-2">
+                <label for="distrito">Distrito: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                  class="text-danger">*</span></label>
+                  <ng-select
+                    id="distrito"
+                    formControlName="distrito"
+                    placeholder="Escriba o seleccione"
+                    [selectOnTab]="true"
+                    labelForId="distrito"
+                    [notFoundText]="'Datos no econtrados'"
+                    [class]="esCampoValido('distrito')"
+                    (ngModelChange)="muniChange($event)"
+                  >
+                    <ng-option *ngFor="let dist of distritos" [value]="dist.codigo">
+                      {{dist.nam}}
+                    </ng-option>
+                  </ng-select>
+                  <div class="invalid-feedback">
+                    <span
+                    *ngIf="formularioSoliVe.get('distrito')?.errors?.['required']">
+                      Requiere seleccionar un distrito
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- fin distrito -->
+
+              <div *ngSwitchCase="'Nueva'" class="col-md-3">
+                <!--canton-->
+                <div class="mt-2">
+                  <label for="canton">Cantón: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                    class="text-danger">*</span></label>
+
+                  <ng-select
+                    id="canton"
+                    formControlName="canton"
+                    placeholder="Escriba o seleccione"
+                    [selectOnTab]="true"
+                    labelForId="canton"
+                    [notFoundText]="'Datos no econtrados'"
+                    [class]="esCampoValido('canton')"
+                  >
+                    <ng-option *ngFor="let cton of cantones" [value]="cton.codigo">
+                      {{cton.nam}}
+                    </ng-option>
+                  </ng-select>
+                  <div class="invalid-feedback">
+                    <span
+                      *ngIf="formularioSoliVe.get('canton')?.errors?.['required']">
+                      Requiere seleccionar un cantón
+                    </span>
+                  </div>
+              </div>
+            </div>
+          <!-- fin canton -->
+          <div *ngSwitchDefault>
+            <!-- Contenido predeterminado -->
+          </div>
+        </ng-container>
+    </div>
+    <!-- fin direccion nacional -->
+
+    <div class="row">
+
+      <div class="col-md-6">
+        <!-- objetivo de la mision -->
+        <div class="row">
+          <div class="mt-3">
+            <label for="objetivo-mision">Objetivo de la misión: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+              class="text-danger">*</span></label>
+            <textarea id="objetivo-mision"
+              cols="30"
+              rows="1"
+              class="form-control"
+              placeholder="Ingrese el objetivo de la misión"
+              formControlName="objetivoMision"
+              [class]="esCampoValido('objetivoMision')"
+              [readonly]="leyenda == 'Detalle' && soliVeOd != null">
+            </textarea>
+            <div class="invalid-feedback">
+              <span
+              *ngIf="formularioSoliVe.get('objetivoMision')?.errors?.['required']">
+                Requiere el obejetivo de la misión
+              </span>
+              <span
+              *ngIf="formularioSoliVe.get('objetivoMision')?.errors?.['minlength']">
+                Digite más de 6 caracteres
+              </span>
+            </div>
           </div>
         </div>
+        <!-- fin objetivo de la mision -->
+
+        <!--Lugar o institucion a visitar-->
         <div class="row">
-          <!--Lugar o institucion a visitar-->
-          <div class="mt-2">
+          <div class="mt-3">
             <label for="lugar-visitar">Lugar que visitará: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                                 class="text-danger">*</span></label>
+                                                                class="text-danger">*</span></label>
             <input type="text" class="form-control"
-                   id="lugar-visitar"
-                   placeholder="Ingrese el lugar o insitución que visitará"
-                   formControlName="lugarMision"
-                   [class]="esCampoValido('lugarMision')"
-                   [value]="soliVeOd != null ? soliVeOd.lugarMision: ''"
-                   [readonly]="soliVeOd != null && leyenda === 'Detalle'" />
+                  id="lugar-visitar"
+                  placeholder="Ingrese el lugar o insitución que visitará"
+                  formControlName="lugarMision"
+                  [class]="esCampoValido('lugarMision')"
+                  [value]="soliVeOd != null ? soliVeOd.lugarMision: ''"
+                  [readonly]="soliVeOd != null && leyenda === 'Detalle'" />
             <div class="invalid-feedback">
               <span
                 *ngIf="formularioSoliVe.get('lugarMision')?.errors?.['required']">
@@ -138,15 +441,38 @@
               </span>
             </div>
           </div>
-          <!--fin lugar o institucion a visitar-->
         </div>
+        <!--fin lugar o institucion a visitar-->
+
+        <!-- input solicitante (para el detalle) -->
+        <div class="row col-md-9" *ngIf="leyenda == 'Detalle' && soliVeOd != null">
+
+          <div class="mt-3">
+            <label for="solicitante">Responsable:</label>
+            <input type="text" id="solicitante"
+                      class="form-control"
+                      formControlName="solicitante"
+                      readonly>
+          </div>
+
+    </div>
+    <!-- fin solicitante -->
+
+
+      </div>
+
+      <div class="col-md-6">
+
+
+        <!-- direccion internacional -->
         <div class="row" *ngIf="isChecked">
-          <div class="mt-2">
+          <div class="mt-3">
             <label for="direccion">Dirección: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                     class="text-danger">*</span></label>
-            <textarea cols="30" rows="2"
+            <textarea cols="30" rows="1"
                       id="direccion"
                       class="form-control"
+                      placeholder="Ingrese la dirección de la misión internacional"
                       formControlName="direccion"
                       [readonly]="leyenda == 'Detalle' && soliVeOd != null"
                       [class]="esCampoValido('direccion')"
@@ -163,131 +489,27 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="!isChecked">
-          <ng-container [ngSwitch]="leyenda">
-            <div *ngSwitchCase="'Detalle'" class="col-md-12">
-              <!--direccon (solamente para mostrar en detalle de la solcitud)-->
-              <div class="mt-2">
-                <label for="direccion">Dirección:</label>
-                <textarea cols="30" rows="2"
+        <!-- fin direccion internacional -->
+
+        <div *ngIf="leyenda == 'Detalle'" class="col-md-12">
+
+          <!--direccon (solamente para mostrar en detalle de la solcitud)-->
+          <div class="mt-3">
+            <label for="direccion">Dirección:</label>
+            <textarea cols="30" rows="2"
                           class="form-control"
                           formControlName="direccionD"
                           readonly></textarea>
-              </div>
-              <!--fin direccion-->
-            </div>
-            <div *ngSwitchCase="'Nueva'" class="col-md-6">
-              <!--Departamento-->
-              <div class="mt-2">
-                <label for="detpto">Departamento: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                        class="text-danger">*</span></label>
-                <ng-select
-                  id="detpto"
-                  formControlName="depto"
-                  placeholder="Escriba o seleccione"
-                  [selectOnTab]="true"
-                  labelForId="depto"
-                  [class]="esCampoValido('depto')"
-                  (ngModelChange)="deptoChange($event)"
-                  [notFoundText]="'Datos no econtrados'"
-                >
-                  <ng-option *ngFor="let dpt of departamentos" [value]="dpt.codigo">
-                    {{dpt.na2}}
-                  </ng-option>
-                </ng-select>
-                <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('depto')?.errors?.['required']">
-                    Requiere seleccionar un departamento
-                  </span>
-                </div>
-              </div>
-              <!--fin departamento-->
-            </div>
-            <div *ngSwitchCase="'Nueva'" class="col-md-6">
-              <!--municipio-->
-              <div class="mt-2">
-                <label for="municipio">Municipio: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                        class="text-danger">*</span></label>
-                <ng-select
-                  id="municipio"
-                  formControlName="municipio"
-                  placeholder="Escriba o seleccione"
-                  [selectOnTab]="true"
-                  labelForId="municipio"
-                  [class]="esCampoValido('municipio')"
-                  (ngModelChange)="distChange($event)"
-                >
-                  <ng-option *ngFor="let muni of municipios" [value]="muni.codigo">
-                    {{muni.nam}}
-                  </ng-option>
-                </ng-select>
-                <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('municipio')?.errors?.['required']">
-                    Requiere seleccionar un municipio
-                  </span>
-                </div>
-              </div>
-              <!-- fin municipio -->
-            </div>
-            <div *ngSwitchDefault>
-              <!-- Contenido predeterminado -->
-            </div>
-          </ng-container>
+
+            <!--fin direccion-->
+          </div>
+
         </div>
 
-        <div class="row">
-            <!--canton-->
-            <div class="col-md-6" *ngIf="leyenda == 'Nueva' &&
-                  soliVeOd == null && !isChecked">
-              <div class="mt-2">
-                <label for="canton">Cantón: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                  class="text-danger">*</span></label>
 
-                <ng-select
-                  id="canton"
-                  formControlName="canton"
-                  placeholder="Escriba o seleccione"
-                  [selectOnTab]="true"
-                  labelForId="canton"
-                  [class]="esCampoValido('canton')"
-                >
-                  <ng-option *ngFor="let cton of cantones" [value]="cton.codigo">
-                    {{cton.nam}}
-                  </ng-option>
-                </ng-select>
-                <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('canton')?.errors?.['required']">
-                    Requiere seleccionar un cantón
-                  </span>
-                </div>
-              </div>
-          </div>
-          <!-- fin canton -->
 
-          <!-- hora de salida -->
-          <div class="col-md-6">
-            <div class="mt-2">
-              <label for="hora-salida">Hora de salida: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                             class="text-danger">*</span></label>
-              <input type="time" id="hora-salida"
-                     class="form-control" formControlName="horaSalida"
-                     [class]="esCampoValido('horaSalida')"
-                     [readonly]="leyenda == 'Detalle' && soliVeOd != null"/>
-              <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('horaSalida')?.errors?.['required']">
-                    Requiere la hora de salida
-                  </span>
-              </div>
-            </div>
-          </div>
-          <!-- fin hora de salida -->
-        </div>
-        <div class="row"*ngIf="leyenda == 'Detalle' && soliVeOd.motorista != null">
-          <div class="mt-2">
+        <div class="row col-md-9"*ngIf="leyenda == 'Detalle' && soliVeOd.motorista != null">
+          <div class="mt-3">
             <div class="form-group">
               <label for="motoristaid">Motorista:</label>
               <input type="text"
@@ -298,10 +520,46 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="mt-3">
+          <!-- cantidad de personas que viajaran -->
+          <label for="cantidad-pasajeros">No. de personas que viajarán:<span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                                              class="text-danger">*</span></label>
+
+              <div class="col-md-6">
+
+                <input type="number" id="cantidad-pasajeros"
+                      [value]="formularioSoliVe.get('cantidadPersonas').value"
+                      class="form-control"
+                      formControlName="cantidadPersonas" min="1"
+                      [class]="esCampoValido('cantidadPersonas')"
+                      [readonly]="leyenda == 'Detalle' && soliVeOd != null"
+                      (change)="actualizarFilas()" (input)="actualizarFilas()"/>
+                <div class="invalid-feedback">
+                    <span
+                      *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['required']">
+                      Requiere la cantidad de pasajeros en la misión
+                    </span>
+                  <span
+                    *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['min']">
+                      La cantidad de personas debe ser al menos 1
+                    </span>
+                  <span
+                    *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['pattern']">
+                      Solamente se permiten números enteros
+                    </span>
+                </div>
+              </div>
+              <!-- fin cantidad de personas que viajaran -->
+            </div>
+
+        </div>
+
         <div class="row" *ngIf="leyenda != 'Nueva'">
           <div class="mt-2">
             <div class="form-group">
-              <label for="observa-id">Observaciones:</label>
+              <label for="observa-id">Observaciones  :</label>
               <textarea cols="30" rows="2" class="form-control"
                         id="observa-id"
                         [placeholder]="(leyenda === 'Detalle' && soliVeOd.observaciones === '') ? '' : 'Ingrese observaciones'"
@@ -320,348 +578,121 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="row">
-          <!-- fecha de regreso -->
-          <div class="col-md-12">
-            <label for="fecha-regreso">Fecha de regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                               class="text-danger">*</span></label>
-            <input type="date" class="form-control" id="fecha-regreso"
-                   formControlName="fechaEntrada"
-                   [class]="esCampoValido('fechaEntrada')"
-                   (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                   formularioSoliVe.get('fechaSalida').value)"
-                   [readOnly]="leyenda == 'Detalle' && soliVeOd != null"/>
-            <div class="invalid-feedback">
-              <span
-                *ngIf="formularioSoliVe.get('fechaEntrada')?.errors?.['required']">
-                Requiere una fecha de regreso
-              </span>
-              <span
-                *ngIf="formularioSoliVe.get('fechaEntrada')?.errors?.['pattern']">
-                Fecha no valida
-              </span>
-            </div>
-          </div>
-          <!-- fin fecha de regreso -->
-        </div>
-        <div class="row">
-          <!-- tipo de vehiculo -->
-          <div class="col-md-12">
-            <div class="mt-2 ngselect-ve" >
-              <label for="tipo-vehiculo">Tipo de vehículo: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                                 class="text-danger">*</span></label>
 
-              <ng-select *ngIf="leyenda == 'Nueva' && soliVeOd == null"
-                formControlName="tipoVehiculo"
-                placeholder="Escriba o seleccione"
-                [selectOnTab]="true"
-                labelForId="tipoVehiculo"
-                 [class]="esCampoValido('tipoVehiculo')"
-                (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
-                formularioSoliVe.get('fechaSalida').value)"
-              >
-                <ng-option
-                  *ngFor="let car of listVehiculos"
-                  [value]="car"
-                >{{ car }}</ng-option
-                >
-              </ng-select>
-              <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('tipoVehiculo')?.errors?.['required']">
-                    Requiere seleccionar un tipo de vehículo
-                  </span>
-              </div>
-              <input *ngIf="leyenda == 'Detalle' && soliVeOd != null" type="text" class="form-control"
-                     id="tipo-vehiculo"
-                     formControlName="tipoVehiculo"
-                     [value]="soliVeOd != null ? soliVeOd.vehiculo.clase: ''"
-                     readonly>
-            </div>
-          </div>
-          <!-- fin tipo de vehiculo -->
-        </div>
-        <div class="row">
-          <!-- placa -->
-          <div class="col-md-12">
-            <div class="mt-2">
-              <label for="vehiculo">Placa: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                 class="text-danger">*</span></label>
-
-              <ng-template #selectTemplate>
-                <ng-select *ngIf="leyenda == 'Nueva' && soliVeOd == null"
-                           formControlName="vehiculo"
-                           placeholder="Escriba o seleccione"
-                           [selectOnTab]="true"
-                           labelForId="vehiculo"
-                           [class]="esCampoValido('vehiculo')"
-                >
-                  <ng-option *ngFor="let vehiculo of placas"
-                             [value]="vehiculo.codigoVehiculo">{{vehiculo.placa}}</ng-option>
-                </ng-select>
-                <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('vehiculo')?.errors?.['required']">
-                    Requiere seleccionar un vehículo
-                  </span>
-                </div>
-              </ng-template>
-
-              <!-- fin placa -->
-
-              <ng-template #inputTemplate>
-                <!-- input placa para detalle -->
-                <input *ngIf="leyenda == 'Detalle' && soliVeOd != null" type="text" class="form-control"
-                       id="vehiculo"
-                       formControlName="vehiculo"
-                       [value]="soliVeOd != null ? soliVeOd.vehiculo.placa: ''"
-                       readonly>
-              </ng-template>
-
-              <!-- fin input placa -->
-
-              <div [ngTemplateOutlet]="leyenda == 'Nueva' ? selectTemplate : inputTemplate"></div>
-
-
-            </div>
-          </div>
-        </div>
-        <div class="row" *ngIf="leyenda == 'Nueva' && soliVeOd == null && !isChecked">
-          <!-- distrito -->
-          <div class="col-md-12">
-            <div class="mt-2">
-              <label for="distrito">Distrito: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                    class="text-danger">*</span></label>
-              <ng-select
-                id="distrito"
-                formControlName="distrito"
-                placeholder="Escriba o seleccione"
-                [selectOnTab]="true"
-                labelForId="distrito"
-                [class]="esCampoValido('distrito')"
-                (ngModelChange)="muniChange($event)"
-              >
-                <ng-option *ngFor="let dist of distritos" [value]="dist.codigo">
-                  {{dist.nam}}
-                </ng-option>
-              </ng-select>
-              <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('distrito')?.errors?.['required']">
-                    Requiere seleccionar un distrito
-                  </span>
-              </div>
-            </div>
-          </div>
-          <!-- fin distrito -->
-        </div>
-        <div class="row">
-          <!-- hora de regreso -->
-          <div class="col-md-12">
-            <div class="mt-2">
-              <label for="hora-regreso">Hora de regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                               class="text-danger">*</span></label>
-              <input type="time" id="hora-regreso"
-                     class="form-control" formControlName="horaEntrada"
-                     [class]="esCampoValido('horaEntrada')"
-                     [readOnly]="leyenda == 'Detalle' && soliVeOd != null"/>
-              <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('horaEntrada')?.errors?.['required']">
-                    Requiere la hora de regreso
-                  </span>
-              </div>
-            </div>
-          </div>
-          <!-- fin hora de regreso -->
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="row">
-          <!-- objetivo de la mision -->
-          <div class="col-md-12">
-            <label for="objetivo-mision">Objetivo de la misión: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                                      class="text-danger">*</span></label>
-            <textarea id="objetivo-mision"
-                      cols="30"
-                      rows="3"
-                      class="form-control"
-                      placeholder="Ingrese el objetivo de la misión"
-                      formControlName="objetivoMision"
-                      [class]="esCampoValido('objetivoMision')"
-                      [readonly]="leyenda == 'Detalle' && soliVeOd != null">
-            </textarea>
-            <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('objetivoMision')?.errors?.['required']">
-                    Requiere el obejetivo de la misión
-                  </span>
-              <span
-                *ngIf="formularioSoliVe.get('objetivoMision')?.errors?.['minlength']">
-                    Digite más de 6 caracteres
-              </span>
-            </div>
-          </div>
-          <!-- fin objetivo de la mision -->
-        </div>
-        <div class="row">
-          <div class="mt-2">
-            <!-- cantidad de personas que viajaran -->
-            <label for="cantidad-pasajeros">No. de personas que viajarán: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                                                class="text-danger">*</span></label>
-            <div class="col-md-3">
-
-              <input type="number" id="cantidad-pasajeros"
-                     [value]="formularioSoliVe.get('cantidadPersonas').value"
-                     class="form-control"
-                     formControlName="cantidadPersonas" min="1"
-                     [class]="esCampoValido('cantidadPersonas')"
-                     [readonly]="leyenda == 'Detalle' && soliVeOd != null"
-                     (change)="actualizarFilas()" (input)="actualizarFilas()"/>
-              <div class="invalid-feedback">
-                  <span
-                    *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['required']">
-                    Requiere la cantidad de pasajeros en la misión
-                  </span>
-                <span
-                  *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['min']">
-                    La cantidad de personas debe ser al menos 1
-                  </span>
-                <span
-                  *ngIf="formularioSoliVe.get('cantidadPersonas')?.errors?.['pattern']">
-                    Solamente se permiten números enteros
-                  </span>
-              </div>
-            </div>
-            <!-- fin cantidad de personas que viajaran -->
-          </div>
-        </div>
-        <!-- input solicitante (para el detalle) -->
-        <div class="row" *ngIf="leyenda == 'Detalle' && soliVeOd != null">
-            <div class="col-md-12">
-              <div class="mt-2">
-                <label for="solicitante">Responsable:</label>
-                <input type="text" id="solicitante"
-                          class="form-control"
-                          formControlName="solicitante"
-                          readonly>
-              </div>
-            </div>
-        </div>
-        <!-- fin solicitante -->
-
-       <!-- tabla de personas -->
+               <!-- tabla de personas -->
        <div class="row" *ngIf="cantidadPersonas >= 2 || leyenda=='Detalle' &&
-       soliVeOd != null && soliVeOd.cantidadPersonas >= 2">
-        <div class="mt-2">
-          <div *ngIf="mostrarTabla; else archivoAdjunto">
-            <label for="tablaPasajeros">Ingrese los nombres de los pasajeros: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                                                   class="text-danger">*</span></label>
-            <table class="table excel-table table-responsive" id="tablaPasajeros"
-            *ngIf="leyenda==='Detalle' && soliVeOd != null">
-              <thead>
-              <tr>
-                <th>No</th>
-                <th>Nombre</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let pasajero of pasajeros; let i = index">
-                <td>{{ i + 1}}</td>
-                <td>
-                  <input type="text" style="width: 100%"
-                         [formControl]="pasajeroFormControls[i]"
-                         [readonly]="soliVeOd != null && leyenda === 'Detalle'">
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            <table class="table excel-table table-responsive" id="tablaPasajerosDetalle"
-            *ngIf="leyenda !== 'Detalle' || soliVeOd === null">
-              <thead>
-              <tr>
-                <th>No</th>
-                <th>Nombre</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let control of pasajeroFormControls; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>
-                  <input type="text" style="width: 100%" [formControl]="control"
-                         [readonly]="soliVeOd != null && leyenda === 'Detalle'">
-                </td>
-              </tr>
-              </tbody>
-            </table>
+        soliVeOd != null && soliVeOd.cantidadPersonas >= 2">
+         <div class="mt-2">
+           <div *ngIf="mostrarTabla; else archivoAdjunto">
+             <label for="tablaPasajeros">Ingrese los nombres de los pasajeros: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                                                    class="text-danger">*</span></label>
+             <table class="table excel-table table-responsive" id="tablaPasajeros"
+             *ngIf="leyenda==='Detalle' && soliVeOd != null">
+               <thead>
+               <tr>
+                 <th>No</th>
+                 <th>Nombre</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr *ngFor="let pasajero of pasajeros; let i = index">
+                 <td>{{ i + 1}}</td>
+                 <td>
+                   <input type="text" style="width: 100%"
+                          [formControl]="pasajeroFormControls[i]"
+                          [readonly]="soliVeOd != null && leyenda === 'Detalle'">
+                 </td>
+               </tr>
+               </tbody>
+             </table>
+             <table class="table excel-table table-responsive" id="tablaPasajerosDetalle"
+             *ngIf="leyenda !== 'Detalle' || soliVeOd === null">
+               <thead>
+               <tr>
+                 <th>No</th>
+                 <th>Nombre</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr *ngFor="let control of pasajeroFormControls; let i = index">
+                 <td>{{ i + 1 }}</td>
+                 <td>
+                   <input type="text" style="width: 100%" [formControl]="control"
+                          [readonly]="soliVeOd != null && leyenda === 'Detalle'">
+                 </td>
+               </tr>
+               </tbody>
+             </table>
 
-          </div>
+           </div>
 
-          <ng-template #archivoAdjunto>
-            <div *ngIf="mostrarArchivoAdjunto && leyenda === 'Nueva'" class="alert alert-warning">
-              Por favor, adjunta la lista de pasajeros: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
-                                                              class="text-danger">*</span>
-              <input type="file"
-              id="file" accept=".pdf"
-              (change)="cambioDeArchivo($event)"
-              formControlName="file" />
-            </div>
-          </ng-template>
+           <ng-template #archivoAdjunto>
+             <div *ngIf="mostrarArchivoAdjunto && leyenda === 'Nueva'" class="alert alert-warning">
+               Por favor, adjunta la lista de pasajeros: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+                                                               class="text-danger">*</span>
+               <input type="file"
+               id="file" accept=".pdf"
+               class="form-control"
+               (change)="cambioDeArchivo($event)"
+               formControlName="file" />
+             </div>
+           </ng-template>
 
-            <div *ngIf="btnVerPdf" class="alert alert-warning">
-              Lista de pasajeros
-              <div>
-                <button class="btn btn-primary" type="button"
-                (click)="descargaPdf()">
-                  Descargar pdf
-                </button>
-              </div>
-            </div>
-        </div>
+             <div *ngIf="btnVerPdf" class="alert alert-warning">
+               Lista de pasajeros
+               <div>
+                 <button class="btn btn-primary" type="button"
+                 (click)="descargaPdf()">
+                   Descargar pdf
+                 </button>
+               </div>
+             </div>
+         </div>
+       </div>
+       <!-- fin de personas -->
       </div>
-      <!-- fin de personas -->
 
-      </div>
+
     </div>
-    <div class="d-flex justify-content-end mt-4">
-<!--      botones administrador-->
-      <div *ngIf="usuarioActivo.role == 'ADMIN'">
 
-        <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save-admin" name="btn-save"
-                (click)="aprobarSolicitudAdministrador()">
+
+  </form>
+</div>
+<div class="modal-footer">
+  <!--      botones administrador-->
+        <div *ngIf="usuarioActivo.role == 'ADMIN'">
+
+          <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save-admin" name="btn-save"
+                  (click)="aprobarSolicitudAdministrador()">
+            Aprobar
+          </button>
+
+          <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-anu" name="btn-save"
+                  (click)="anularSolicitud()">
+            Anular
+          </button>
+
+        </div>
+  <!--      fin de botones administrador-->
+        <button type="button" (click)="guardar()" class="btn btn-primary w-sm me-2" id="btn-save" name="btn-save"
+                *ngIf="leyenda == 'Nueva'">
+          Enviar
+        </button>
+        <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save" name="btn-save"
+                (click)="aprobarSolicitud()"
+                *ngIf="(usuarioActivo.role == 'JEFE_DEPTO' ||
+                usuarioActivo.role == 'JEFE_FINANACIERO' ||
+                usuarioActivo.role == 'DECANO') && vista === 'listado'">
           Aprobar
         </button>
 
-        <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-anu" name="btn-save"
-                (click)="anularSolicitud()">
+        <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-ave" name="btn-save"
+                (click)="anularSolicitud()"
+                *ngIf="(usuarioActivo.role == 'DECANO' || usuarioActivo.role == 'JEFE_DEPTO' ||
+                usuarioActivo.role == 'JEFE_FINANACIERO') && vista === 'listado'">
           Anular
         </button>
-
+        <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
+                aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
       </div>
-<!--      fin de botones administrador-->
-      <button type="submit" class="btn btn-primary w-sm me-2" id="btn-save" name="btn-save"
-              *ngIf="leyenda == 'Nueva'">
-        Enviar
-      </button>
-      <button type="button" class="btn btn-primary w-sm me-2" id="btn-detalle-save" name="btn-save"
-              (click)="aprobarSolicitud()"
-              *ngIf="(usuarioActivo.role == 'JEFE_DEPTO' ||
-              usuarioActivo.role == 'JEFE_FINANACIERO' ||
-              usuarioActivo.role == 'DECANO') && vista === 'listado'">
-        Aprobar
-      </button>
-
-      <button type="button" class="btn btn-warning w-sm me-2" id="btn-detalle-ave" name="btn-save"
-              (click)="anularSolicitud()"
-              *ngIf="(usuarioActivo.role == 'DECANO' || usuarioActivo.role == 'JEFE_DEPTO' ||
-              usuarioActivo.role == 'JEFE_FINANACIERO') && vista === 'listado'">
-        Anular
-      </button>
-      <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
-              aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
-    </div>
-  </form>
-</div>
 <!-- Modal -->

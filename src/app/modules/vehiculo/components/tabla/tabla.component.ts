@@ -4,6 +4,7 @@ import { VehiculoService } from '../../service/vehiculo.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
 import Swal from 'sweetalert2';
+import { MensajesService } from 'src/app/shared/global/mensajes.service';
 
 @Component({
   selector: 'app-tabla',
@@ -19,7 +20,7 @@ export class TablaComponent implements OnInit {
   cambio:string = '';
   estado:number = 8;
 
-  constructor(private vehiService:VehiculoService, private serviModal: NgbModal) { }
+  constructor(private vehiService:VehiculoService, private serviModal: NgbModal, private mensajesService: MensajesService) { }
 
   ngOnInit(): void {
 
@@ -49,12 +50,13 @@ export class TablaComponent implements OnInit {
     }
 
     Swal.fire({
-      icon: 'question',
+      icon: "question",
       title: "¿Cambiar el estado a " + this.cambio + "?",
       showDenyButton: true,
-      showCancelButton: true,
+      denyButtonColor: "#2c3136",
+      denyButtonText: "No cambiar",
+      confirmButtonColor: "#972727",
       confirmButtonText: "Cambiar",
-      denyButtonText: `No cambiar`,
     }).then((result) => {
       if (result.isConfirmed) {
         envObj.estado = this.estado;
@@ -87,7 +89,7 @@ export class TablaComponent implements OnInit {
           });
         });
       } else if (result.isDenied) {
-        Swal.fire("Cambios no aplicados", "", "info");
+        this.mensajesService.mensajesToast("info", "Acción Cancelada!");
       }
     });
   }

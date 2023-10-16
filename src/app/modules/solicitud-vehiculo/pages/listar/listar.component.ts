@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SolicitudVehiculoService} from "../../services/solicitud-vehiculo.service";
 import {ISolicitudVehiculo} from "../../interfaces/data.interface";
 import {UsuarioService} from 'src/app/account/auth/services/usuario.service';
 import {Usuario} from "../../../../account/auth/models/usuario.models";
 import { from } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar',
@@ -20,6 +21,7 @@ export class ListarComponent implements OnInit {
   solicitudesVehiculo: ISolicitudVehiculo [] = [];
   usuario!: Usuario;
   estadoSeleccionado: number;
+  @ViewChild('selectElement') selectElement: any; // ViewChild para acceder al elemento select
 
   constructor( private soliVeService: SolicitudVehiculoService,
     private userService: UsuarioService) {
@@ -54,14 +56,40 @@ export class ListarComponent implements OnInit {
     }
   }
 
+
+
   filtrar(event: any) {
     this.estadoSeleccionado = event.target.value ? event.target.value : null;
 
-    from(this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado))
+    if (this.estadoSeleccionado == 4 || this.estadoSeleccionado == 5) {
+
+      Swal.fire({
+        title: 'Estas seguro?',
+        text: "Usa esta acción solamente si hay algún cambio a realizar!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#972727',
+        cancelButtonColor: '#2c3136',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          from(this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado))
+            .subscribe((data: ISolicitudVehiculo[]) => {
+              this.listSoliVeData.length = 0;
+              this.listSoliVeData.push(...data);
+          });
+        }
+      })
+
+    }else{
+      from(this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado))
       .subscribe((data: ISolicitudVehiculo[]) => {
         this.listSoliVeData.length = 0;
         this.listSoliVeData.push(...data);
       });
+      this.selectElement.nativeElement.selectedIndex = 0;
+    }
   }
 
 

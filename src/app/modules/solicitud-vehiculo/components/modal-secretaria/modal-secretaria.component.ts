@@ -86,7 +86,18 @@ export class ModalSecretariaComponent implements OnInit {
     this.iniciarFormulario();
     this.llenarSelectDepartamentos();
     this.soliVeService.obtenerVehiculos();
-    this.soliVeService.obtenerMotoristas();
+
+   // const fechasSalida =   this.soliVeOd.fechaSalida.  //new Date(this.soliVeOd.fechaSalida);
+   const dateSalida = new Date(this.soliVeOd.fechaSalida);
+   const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
+    // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
+    dateEntrada.setDate(dateEntrada.getDate() + 1);
+
+    // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
+    let var1 : string = dateSalida.toISOString().split('T')[0];
+    let var2 : string = dateEntrada.toISOString().split('T')[0];
+
+    this.soliVeService.obtenerMotoristas(var1,var2);
     this.detalle(this.leyenda);
   }
 
@@ -387,7 +398,9 @@ export class ModalSecretariaComponent implements OnInit {
                 //console.log(pdfResp);
                 if (this.usuarioActivo.role == 'ADMIN'){
                   this.soliVeService.getSolicitudesVehiculo(2);
-                }else{
+                }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
+                  this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
+                } else{
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
                 this.mensajesService.mensajesToast("success", "Asignación exitosa");
@@ -411,7 +424,9 @@ export class ModalSecretariaComponent implements OnInit {
           } else {
             if (this.usuarioActivo.role == 'ADMIN'){
               this.soliVeService.getSolicitudesVehiculo(2);
-            }else{
+            }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
+              this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
+            } else{
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
             this.mensajesService.mensajesToast("success", "Asignación exitosa");
@@ -440,8 +455,8 @@ export class ModalSecretariaComponent implements OnInit {
   editarSoliVe(){
   }
 
-  cargarPlacas(tipoVehiculo: string, fechaSalida:string) {
-    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida).subscribe(
+  cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
+    this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
@@ -457,13 +472,20 @@ export class ModalSecretariaComponent implements OnInit {
         }else if(tipoVehiculo != '' && tipoVehiculo != this.soliVeOd.vehiculo.clase) {
           this.placas = [];
           this.formularioSoliVe.get('vehiculo').setValue('');
-          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
+          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehículos disponibles del tipo seleccionado.");
         }
       },
       (error: any) => {
         //console.error('Error al obtener opciones de vehículos desde el backend:', error);
       }
     );
+
+    // inicio de carga motirista
+    this.formularioSoliVe.get('motorista').setValue(null);
+     
+    this.soliVeService.obtenerMotoristas(fechaSalida,fechaEntrada);
+    // fin
+
   }
 
 
@@ -506,7 +528,7 @@ export class ModalSecretariaComponent implements OnInit {
       ],
       solicitante: [],
       listaPasajeros: this.fb.array([]),
-      motorista:['',[Validators.required]],
+      motorista:[null,[Validators.required]],
       observaciones:['',[]],
       file: ['',],
       tieneVale:['',[Validators.required]],
@@ -782,6 +804,8 @@ export class ModalSecretariaComponent implements OnInit {
               }else {
                 this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
               }
+              this.enviarEmailSD("ASIS_FINANCIERO",
+                "Solicitud de vales", "Tiene una nueva solicitud de vales para la misión: "+data.objetivoMision);
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               this.modalService.dismissAll();
               resolve();
@@ -894,7 +918,7 @@ export class ModalSecretariaComponent implements OnInit {
           titulo: 'Solicitud de vehículo APROBADA',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
-          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". "+obsevacion+". Y está a la espera de asignación de vales",
+          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales",
           centro: '',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }

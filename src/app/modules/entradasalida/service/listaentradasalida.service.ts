@@ -16,7 +16,7 @@ export class ListaentradasalidaService {
   private baseUrl: string = environment.baseUrl;///base url
   // Declarar requestOptions como una variable global
   private requestOptions: any;
-  
+
   correos!: ICorreos[];
 
   listDeMisiones: IsolicitudVehiculo[] = [];
@@ -175,11 +175,14 @@ export class ListaentradasalidaService {
     return this.http.get<ISolicitudvalep>(`${this.baseUrl}/solicitudvale/buscarcodigosolicitudvale?codigo=${id}`, requestOptions);
   }
   getCorreosFinanciero(){
-    return this.http.get<ICorreos[]>(`${this.baseUrl}/asignacionvale/correosfinanciero`).subscribe({
-      next:(value)=>{
-        this.correos=value;
-      }
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
     });
+    this.requestOptions = {
+      headers: headers
+    };
+    return this.http.get<ICorreos[]>(`${this.baseUrl}/entradasalida/correos`, this.requestOptions);
   }
 
 

@@ -313,6 +313,7 @@ export class DetalleService {
 
   devolverVales(valesParaDevolucion: IValesADevolver, usuario: string) {
 
+
     const data = {
       valeDevuelto: valesParaDevolucion,
       usuario: usuario,

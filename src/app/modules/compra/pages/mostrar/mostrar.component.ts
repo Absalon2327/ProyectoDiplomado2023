@@ -17,7 +17,7 @@ export class MostrarComponent implements OnInit {
   constructor(private compraService: CompraService) { }
 
   ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Compra' }, { label: 'Mostrar', active: true }];
+    this.breadCrumbItems = [{ label: 'Compras' }, { label: 'Mostrar', active: true }];
     this.compraService.getCompras();
   }
 

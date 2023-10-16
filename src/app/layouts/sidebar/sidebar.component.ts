@@ -214,7 +214,7 @@ this.usuariojson = this.userService.usuarioJSON;
 
 
     });
-    console.log("rol en el metodo:",resp);
+   
   }
 
 

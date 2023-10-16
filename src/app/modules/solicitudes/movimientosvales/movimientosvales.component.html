@@ -47,7 +47,7 @@
               </thead>
               <tbody>
                 <tr *ngIf="veri">
-                  <td *ngIf="veri" colspan="8" style="text-align: center">
+                  <td *ngIf="veri" colspan="7" style="text-align: center">
                     No hay datos disponibles.
                   </td>
                 </tr>
@@ -107,7 +107,7 @@
                 <!--</ng-container>-->
                 <ng-template>
                   <tr>
-                    <td colspan="8" style="text-align: center">
+                    <td colspan="7" style="text-align: center">
                       No hay datos disponibles.
                     </td>
                   </tr>
@@ -158,15 +158,34 @@
         <p class="card-text">
           {{ compra.descripcion }}
         </p>
-        <div class="search-box d-inline-block">
-          <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Buscar Vale..."
-              [(ngModel)]="queryVale"
-            />
-            <i class="bx bx-search-alt search-icon"></i>
+        <div class="row">
+          <div class="col-sm-8 mb-2">
+            <ng-select
+              placeholder="Escriba o seleccione un estado de vale"
+              [selectOnTab]="true"
+              labelForId="estado"
+              [(ngModel)]="valorSeleccionado"
+              (ngModelChange)="getValesSelect()"
+            >
+              <ng-option *ngFor="let x of listEstado" [value]="x">{{
+                estadoNombre(x)
+              }}</ng-option>
+            </ng-select>
+          </div>
+          <div class="col-sm-4 mb-2">
+            <div class="text-sm-end">
+              <div class="search-box d-inline-block">
+                <div class="position-relative">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Buscar Vale..."
+                    [(ngModel)]="queryVale"
+                  />
+                  <i class="bx bx-search-alt search-icon"></i>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -177,7 +196,7 @@
     <div class="row">
       <div
         class="col-sm-3"
-        *ngFor="let data of listVale | filter : queryVale; let i = index"
+        *ngFor="let data of listValeAux | filter : queryVale; let i = index"
       >
         <div class="card">
           <div class="card-header">
