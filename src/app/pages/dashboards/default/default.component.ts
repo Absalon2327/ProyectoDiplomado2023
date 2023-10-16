@@ -53,7 +53,6 @@ export class DefaultComponent implements OnInit {
     this.fotoEmpleado =  this.usuarioService.empleadofoto;
     this.usuariojson = this.usuarioService.usuarioJSON;
     this.usuarioService.getCards();
-    console.log("usuario role:",this.usuariojson.role);
 
 
    

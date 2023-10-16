@@ -267,9 +267,7 @@ export class DetalleService {
       .pipe(map((resp: any) => resp as SolicitudVale[]))
       .subscribe(
         (lista: SolicitudVale[]) => {
-          console.log(lista);
           this.listDeMisiones = lista;
-          console.log(lista);
         },
         (error) => {
           console.error("Error al obtener las misiones:", error);
@@ -314,7 +312,6 @@ export class DetalleService {
   }
 
   devolverVales(valesParaDevolucion: IValesADevolver, usuario: string) {
-    console.log("interfaz: ", valesParaDevolucion);
 
     const data = {
       valeDevuelto: valesParaDevolucion,

@@ -49,7 +49,6 @@ this.usuariojson = this.userService.usuarioJSON;
 
   ngOnInit() {
     this.userService.getUsuario();
-  console.log(this.usuariojson);
     this.initialize();
     this._scrollElement();
   }

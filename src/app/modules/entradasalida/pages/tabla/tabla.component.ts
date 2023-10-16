@@ -22,7 +22,6 @@ export class TablaComponent implements OnInit {
   private obtenerLista() {//para poder mostrar e la tabla
     this.listaentradasalidaservice.ObtenerLista.subscribe((resp: IEntradaSalida[]) => {
       this.entradasalidas = resp;
-      console.log(resp);
     });
   }
 

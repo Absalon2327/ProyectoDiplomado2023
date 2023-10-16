@@ -45,7 +45,6 @@ export class ModalDocumentosComponent implements OnInit {
     this.formBuilder = this.Iniciarformulario();
     this.ObtenerSolicitudValeById(this.codigoAsignacion);
     this.fechaMax = new Date().toISOString().split("T")[0];
-    console.log("fechaMax: ", this.fechaMax);
 
   }
 
@@ -72,8 +71,6 @@ export class ModalDocumentosComponent implements OnInit {
         this.asignacionSolicitud = data;
         this.idSolicitud =
           this.asignacionSolicitud.solicitudVale.idSolicitudVale;
-
-        console.log("idSolicitud: ", this.idSolicitud);
         this.obtenerSolicitud(this.idSolicitud /* , content */);
         this.obtenerLista(this.idSolicitud /* , content */);
       },
@@ -86,7 +83,6 @@ export class ModalDocumentosComponent implements OnInit {
       solicitudvale: this.asignacionSolicitud.solicitudVale.idSolicitudVale,
     });
     const datotipo = this.formBuilder.get("tipo").value;
-    console.log("value del select: ", datotipo);
 
     const listando = this.formBuilder.value;
     if (this.entradasalidas.length < 2) {
@@ -205,7 +201,6 @@ export class ModalDocumentosComponent implements OnInit {
         );
       } else {
         if (this.entradasalidas.length == 0) {
-          console.log("entro al if");
 
           this.select = [
             {
@@ -290,24 +285,20 @@ export class ModalDocumentosComponent implements OnInit {
     return this.detalleservice.listDeMisiones;
   }
   obtenerSolicitud(id: string /* , content: any */) {
-    console.log("idSoli: ", id);
 
     this.detalleservice.getSolicitudVale(id).subscribe({
       next: (data) => {
         this.estadoEntrada = data[0].estadoEntradaSolicitudVale;
-        console.log("estadoEntrada: ", this.estadoEntrada);
         // this.validaciones(content);
       },
     });
   }
   obtenerLista(id: string /* , content: any */) {
     //para poder mostrar e la tabla
-    console.log("id: ", id);
 
     this.detalleservice.ObtenerLista(id).subscribe(
       (resp: IDocumentosvale[]) => {
         this.entradasalidas = resp;
-        console.log("entradasalida: ", this.entradasalidas);
 
         this.sizeDocs = resp.length;
         //this.validaciones(content);

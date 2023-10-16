@@ -70,7 +70,6 @@ export class VistaentradasalidaComponent implements OnInit {
     const charCode= (event.wich)? event.wich: event.keyCode;
     if(charCode > 31 && (charCode < 48 || charCode >75))
     {
-      console.log('charCode restricted is' + charCode);
       return false;
     }
     return true;
@@ -81,7 +80,6 @@ export class VistaentradasalidaComponent implements OnInit {
       if (this.entradasalidaOd != null) {
         //this.editando();
       } else {
-        console.log("antes de registrar");
        this.registrando();
       }
     } else {
@@ -99,11 +97,9 @@ export class VistaentradasalidaComponent implements OnInit {
   
 
       const entsali: EntradaSalidaI = new EntradaSalidaI(listando.tipo, listando.fecha, listando.hora, listando.combustible, listando.kilometraje);
-      console.log(entsali);
 
       this.listaentradasalidaservice.NuevosDatos(entsali).subscribe((resp: any) => {
         if (resp) {
-          /* console.log(resp); */
           Swal.fire({
             position: 'center',
             title: 'Buen trabajo',
@@ -146,7 +142,6 @@ private Iniciarformulario(): FormGroup {1
 private obtenerLista() {//para poder mostrar e la tabla
   this.listaentradasalidaservice.ObtenerLista.subscribe((resp: IEntradaSalida[]) => {
     this.entradasalidas = resp;
-    console.log(resp);
   });
 }
 
