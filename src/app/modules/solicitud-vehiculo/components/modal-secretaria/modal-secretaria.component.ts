@@ -290,7 +290,7 @@ export class ModalSecretariaComponent implements OnInit {
       );
     }
   }
-
+//metodo para cargar desde el metodo de cargaplaca
   cargamotorista(fechaSalida:string, fechaEntrada:string){
     this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
     (motoristasData: IMotorista[]) => {
@@ -301,22 +301,19 @@ export class ModalSecretariaComponent implements OnInit {
         this.formularioSoliVe.get('motorista').setValue(null);
         this.mensajesService.mensajesToast("warning", "En estas fechas, no hay motoristas disponibles.");
       }
-
-
     }
     );
   }
-
+// fin del metodo
+// metodo para cargar motoristas desde el oninit
    cargamotorista2(fechaSalida:string, fechaEntrada:string){
     this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
     (motoristasData: IMotorista[]) => {
       this.motoristas = motoristasData;
-
-
     }
     );
   }
-
+//fin del metodo
   // subir el archivo
   cambioDeArchivo(event: Event) {
     const target = event.target as HTMLInputElement;
