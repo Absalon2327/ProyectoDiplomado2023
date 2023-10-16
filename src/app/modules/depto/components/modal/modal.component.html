@@ -74,7 +74,7 @@
       <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Descripcion es obligatorio</span>
       </div>
       <div *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
-        <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras y espacio</span>
+        <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras, espacio y numeros</span>
         </div>
   </div>
 
