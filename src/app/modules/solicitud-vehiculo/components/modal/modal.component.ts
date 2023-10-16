@@ -417,7 +417,7 @@ export class ModalComponent implements OnInit {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
         } else if(tipoVehiculo != null) {
-          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
+          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehículos disponibles del tipo seleccionado.");
         }
       },
       (error: any) => {

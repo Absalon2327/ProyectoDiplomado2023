@@ -36,7 +36,6 @@ export class ModalValeComponent implements OnInit {
   }
 
   getValesSelect() {
-    console.log(this.valorSeleccionado);
     this.listValeAux = [];
     if (this.valorSeleccionado != null) {
       this.listVale.forEach((x) => {

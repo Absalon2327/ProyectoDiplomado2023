@@ -28,7 +28,8 @@ import {
   IValesAsignarPage,
   SearchResult,
 } from "../../solicitudes/Interfaces/solicitudValeAprobar.interface";
-import { SortDirection } from "src/app/pages/crypto/orders/orders-sortable.directive";
+export type SortDirection = 'asc' | 'desc' | '';
+
 
 interface State {
   page: number;
@@ -267,9 +268,7 @@ export class DetalleService {
       .pipe(map((resp: any) => resp as SolicitudVale[]))
       .subscribe(
         (lista: SolicitudVale[]) => {
-          console.log(lista);
           this.listDeMisiones = lista;
-          console.log(lista);
         },
         (error) => {
           console.error("Error al obtener las misiones:", error);
@@ -314,7 +313,7 @@ export class DetalleService {
   }
 
   devolverVales(valesParaDevolucion: IValesADevolver, usuario: string) {
-    console.log("interfaz: ", valesParaDevolucion);
+
 
     const data = {
       valeDevuelto: valesParaDevolucion,
