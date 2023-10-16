@@ -472,7 +472,7 @@ export class ModalSecretariaComponent implements OnInit {
         }else if(tipoVehiculo != '' && tipoVehiculo != this.soliVeOd.vehiculo.clase) {
           this.placas = [];
           this.formularioSoliVe.get('vehiculo').setValue('');
-          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
+          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehículos disponibles del tipo seleccionado.");
         }
       },
       (error: any) => {

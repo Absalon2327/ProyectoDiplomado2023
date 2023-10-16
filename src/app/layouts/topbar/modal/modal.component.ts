@@ -154,21 +154,13 @@ export class ModalComponent implements OnInit {
         if (this.confirma == "confirmada" && this.media) {
           this.registrandoU();
         } else {
-          Swal.fire({
-            position: "center",
-            title: "Faltan parametros de seguridad",
-            html: "Las claves deben coincidir y tener seguridad media como minimo",
-            icon: "warning",
-          });
+          //Usar mensajes globales :u
+          this.mensajesService.mensajesSweet("warning","Faltan parametros de seguridad","Las claves deben coincidir y tener seguridad media como minimo", "Entiendo");
         }
       }
     } else {
-      Swal.fire({
-        position: "center",
-        title: "Faltan datos en el formuario",
-        html: 'Complete todos los campos requeridos (<span style="color: red;">*</span>)',
-        icon: "warning",
-      });
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
   }
 
@@ -456,7 +448,7 @@ export class ModalComponent implements OnInit {
       }
     });
   }
-  
+
   AcercaDe(){
     this.usuarioService.logoutAcercaDe();
   }

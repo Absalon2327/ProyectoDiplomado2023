@@ -126,7 +126,7 @@ export class SolicitudVehiculoService {
           this.listVehiculos = vehiculo;
         },
         (error) => {
-          console.log("Error al obtener los vehiculos", error);
+          console.log("Error al obtener los vehículos", error);
           }
         );
   }
