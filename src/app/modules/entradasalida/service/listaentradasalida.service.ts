@@ -46,12 +46,9 @@ export class ListaentradasalidaService {
       .pipe(map((resp: any) => resp as IsolicitudVehiculo[]))
       .subscribe(
         (lista: IsolicitudVehiculo[]) => {
-          console.log(lista);
           this.listDeMisiones = lista;
-          console.log(lista);
         },
         (error) => {
-          console.error("Error al obtener las misiones:", error);
         }
       );
   }
@@ -132,9 +129,6 @@ export class ListaentradasalidaService {
     const fechaSalidaStr = fechaSalida.toString().split('T')[0];
     const fechaActualStr = fechaActual.toISOString().split('T')[0];
 
-    console.log("Salida sistema: " + fechaSalidaStr);
-    console.log("Actual: " + fechaActualStr);
-
     // Compara si las fechas son iguales
     return fechaSalidaStr === fechaActualStr;
   }
@@ -148,19 +142,6 @@ export class ListaentradasalidaService {
     // Compara si las fechas son iguales
     return fechaEntradaStr === fechaActualStr;
   }
-
-  /*obtenerImagenes(): Observable<IVehiculoentradaSalida[]> {
-
-     const token = localStorage.getItem('token');
-     const headers = new HttpHeaders({
-       Authorization: `Bearer ${token}`
-     });
-     const requestOptions = {
-       headers: headers
-     };
-     return this.http.get<IVehiculoentradaSalida[]>(`${this.baseUrl}/vehiculo/listasinpagina`, requestOptions);
-   }*/
-
   listarEstado(estado: string, id: number): Observable<IEntradaSalida> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({

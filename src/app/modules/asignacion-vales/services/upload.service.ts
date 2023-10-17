@@ -49,9 +49,7 @@ return throwError(()=>new Error('Error al subir archivos'));
     const requestOptions = {
       headers: headerss
     };
-    console.log(requestOptions);
     //const headers= new HttpHeaders().set('Content-Type', 'Aplication/json');
-    //console.log(headers);
     return this.http.get<File>(`${this.url}/document/descarga/${id}`,requestOptions
     //{headers, responseType: 'blob' as 'json'}
    )

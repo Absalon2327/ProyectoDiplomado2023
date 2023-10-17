@@ -67,8 +67,6 @@ export class ModalDocumentosComponent implements OnInit {
         this.asignacionSolicitud = data;
         this.idSolicitud =
           this.asignacionSolicitud.solicitudVale.idSolicitudVale;
-
-
         this.obtenerSolicitud(this.idSolicitud /* , content */);
         this.obtenerLista(this.idSolicitud /* , content */);
       },

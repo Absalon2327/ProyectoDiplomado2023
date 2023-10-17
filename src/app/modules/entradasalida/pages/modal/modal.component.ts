@@ -162,7 +162,6 @@ export class ModalComponent implements OnInit {
         const decimalPart = inputValue.substr(dotIndex + 1);
         // Permitir máximo dos decimales
         if (decimalPart.length >= 2) {
-
           return false;
         }
       }
@@ -171,7 +170,6 @@ export class ModalComponent implements OnInit {
       // Permitir un único punto decimal si no existe uno ya en el campo
       return true;
     } else {
-
       return false;
     }
   }
@@ -428,8 +426,6 @@ export class ModalComponent implements OnInit {
 
     this.usuarios.SendEmail(email).subscribe(
       (resp) => {
-
-
         Swal.close();
         const Toast = Swal.mixin({
           toast: true,
