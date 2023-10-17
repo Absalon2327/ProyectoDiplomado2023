@@ -48,11 +48,11 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(
-    private formBuilder: FormBuilder, 
-    private mensajesService: MensajesService, 
-    private usuarioService: UsuarioService, 
-    private router: Router, 
-    private modalService: NgbModal) { 
+    private formBuilder: FormBuilder,
+    private mensajesService: MensajesService,
+    private usuarioService: UsuarioService,
+    private router: Router,
+    private modalService: NgbModal) {
 
     }
 
@@ -100,12 +100,8 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
         this.resetpassword();
 
       } else {
-        Swal.fire({
-          position: "center",
-          title: "Faltan parametros de seguridad",
-          html: "Las claves deben coincidir y tener seguridad media como minimo",
-          icon: "warning",
-        });
+        //Usar mensajes globales :u
+        this.mensajesService.mensajesSweet("warning","Faltan parametros de seguridad","Las claves deben coincidir y tener seguridad media como minimo", "Entiendo");
       }
 
     }
@@ -146,12 +142,8 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
         })
       },
       (err) => {
-        Swal.close();
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err,
-        });
+        //Usar mensajes globales :u
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
         this.code = false;
       }
     );
@@ -174,11 +166,8 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
       },
       (err) => {
         Swal.close();
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err,
-        });
+        //Usar mensajes globales :u
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
         this.code = false;
       }
     );
@@ -231,16 +220,14 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
           })
         },
         (err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: err,
-          });
+          //Usar mensajes globales :u
+          this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
           this.resetpass = false;
         }
       );
     } else {
-      alert('Por favor, complete el código de 5 dígitos.');
+          //Usar mensajes globales :u
+          this.mensajesService.mensajesSweet("error","Error","Por favor, complete el código de 5 dígitos.", "Entiendo");
     }
   }
 
@@ -388,11 +375,8 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
         })
       },
       (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err,
-        });
+        //Usar mensajes globales :u
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
       }
     );
   }
