@@ -76,7 +76,7 @@ export class ModalComponent implements OnInit {
       n_chasis: ['',[Validators.required]],
       n_motor: ['', [Validators.required,Validators.minLength(5), Validators.maxLength(10)]],
       tipo_gas: ['Diesel',[Validators.required]],
-      file: ['',]
+      file: [null,]
     });
   }
 
@@ -120,7 +120,11 @@ export class ModalComponent implements OnInit {
       if (this.objVehiculo != null) {
         this.editando();
       } else {
-        this.registrando();
+        if(this.file != null){
+          this.registrando();
+        }else{
+          this.mensajeService.mensajesToast("error","La Fotografia del vehiculo es requerida");
+        }
       }
     } else {
       return Object.values(this.formVehiculo.controls)
@@ -129,6 +133,15 @@ export class ModalComponent implements OnInit {
   }
 
   onFileSelected(event: Event) {
+    const selectedFiles = event.target as HTMLInputElement;
+    let imgSelec = (selectedFiles.files as FileList)[0];
+    if (!imgSelec.type.startsWith('image/')) {
+      this.mensajeService.mensajesToast("warning","Por favor, selecciona solo archivos de imagen en formato .png o .jpg");
+      // Limpia la selección
+      selectedFiles.value = null;
+      return;
+    }
+
     const target = event.target as HTMLInputElement;
     this.file = (target.files as FileList)[0];
     this.imagen = "seleccioanda";
@@ -138,7 +151,7 @@ export class ModalComponent implements OnInit {
   esCampoValido(campo: string) {
     const validarCampo = this.formVehiculo.get(campo);
     return !validarCampo?.valid && validarCampo?.touched
-      ? 'is-invalid' : validarCampo?.touched ? 'is-valid' : '';
+      ? 'is-invalid' : validarCampo?.touched ? 'is-valid' : 'form-control';
   }
 
   registrando(){
