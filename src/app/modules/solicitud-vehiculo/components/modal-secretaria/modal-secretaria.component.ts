@@ -88,9 +88,16 @@ export class ModalSecretariaComponent implements OnInit {
     this.soliVeService.obtenerVehiculos();
 
    // const fechasSalida =   this.soliVeOd.fechaSalida.  //new Date(this.soliVeOd.fechaSalida);
+   const dateSalida = new Date(this.soliVeOd.fechaSalida);
+   const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
+    // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
+    dateEntrada.setDate(dateEntrada.getDate() + 1);
 
+    // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
+    let var1 : string = dateSalida.toISOString().split('T')[0];
+    let var2 : string = dateEntrada.toISOString().split('T')[0];
 
-    this.soliVeService.obtenerMotoristas(this.soliVeOd.fechaSalida,this.soliVeOd.fechaEntrada);
+    this.soliVeService.obtenerMotoristas(var1,var2);
     this.detalle(this.leyenda);
   }
 
@@ -472,6 +479,13 @@ export class ModalSecretariaComponent implements OnInit {
         //console.error('Error al obtener opciones de vehículos desde el backend:', error);
       }
     );
+
+    // inicio de carga motirista
+    this.formularioSoliVe.get('motorista').setValue(null);
+     console.log("fechaSalida: ",fechaSalida);
+    this.soliVeService.obtenerMotoristas(fechaSalida,fechaEntrada);
+    // fin
+
   }
 
 
@@ -514,7 +528,7 @@ export class ModalSecretariaComponent implements OnInit {
       ],
       solicitante: [],
       listaPasajeros: this.fb.array([]),
-      motorista:['',[Validators.required]],
+      motorista:[null,[Validators.required]],
       observaciones:['',[]],
       file: ['',],
       tieneVale:['',[Validators.required]],
