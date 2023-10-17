@@ -20,7 +20,7 @@ export class ListarComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: "Vehiculo" },
+      { label: "Vehículo" },
       { label: "Listar", active: true },
     ];
     this.vehiService.getVehiculos();

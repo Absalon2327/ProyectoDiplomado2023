@@ -72,7 +72,7 @@ export class MovimientosvalesComponent implements OnInit {
     // console.log('usuario ',this.usuarioActivo)
     this.userService.getUsuario();
     this.breadCrumbItems = [
-      { label: "Compra" },
+      { label: "Compras" },
       { label: "Mis compras / Reportes", active: true },
     ]; // miga de pan
     // this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado);
@@ -347,7 +347,6 @@ loadingAlert.close();
   }
 
   getValesSelect() {
-    console.log(this.valorSeleccionado);
     this.listValeAux = [];
     if (this.valorSeleccionado != null) {
       this.listVale.forEach((x) => {

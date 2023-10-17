@@ -95,13 +95,7 @@ export class DetalleDocumentosComponent {
       this.modalService.open(content, { size: "ls", centered: true });
     }
   }
-  /*private obtenerLista() {//para poder mostrar e la tabla
-    this.detalleservice.ObtenerLista.subscribe((resp: IDocumentosvale[]) => {
-      this.entradasalidas = resp.reverse();
-      console.log(resp);
-    });
 
-  }*/
   private obtenerLista(id: string) {
     //para poder mostrar e la tabla
     this.detalleservice.ObtenerLista(id).subscribe(
