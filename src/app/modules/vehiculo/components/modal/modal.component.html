@@ -41,11 +41,12 @@
                           <div class="form-group row">
                               <label class="control-label" for="file">Foto: <span class="text-danger">*</span></label>
                               <input formControlName="file" id="file" type="file"
-                                [class]="titulo != 'Detalle' ? esCampoValido('file') : ''"
-                                (change)="onFileSelected($event)" multiple/>
+                                class="form-control"
+                                (change)="onFileSelected($event)"
+                                accept="image/png, image/jpeg"/>
                               <div class="invalid-feedback">
                                 <span *ngIf="formVehiculo.get('file')?.errors?.['required']">
-                                  Requiere Foto
+                                  Requiere foto del vehiculo
                                 </span>
                               </div>
                           </div>

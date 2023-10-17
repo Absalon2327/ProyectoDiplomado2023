@@ -7,6 +7,10 @@ button.btn-close{
   margin-left: 5px;
 }
 
+.has-error {
+  border: 2px solid red;
+}
+
 /* Agrega una clase para aplicar el estilo de "solo lectura" al select */
 .select-readonly {
   background-color: #eff2f7;
@@ -39,14 +43,6 @@ button.btn-close{
 .custom-border {
   border: 1.5px solid #550000;
   padding: 5px;
-}
-
-.color-top-modal {
-  //background: #550000;
-}
-
-.color-top-modal h5 {
- // color: white;
 }
 
 /* Estilos para el botón de cierre personalizado */
