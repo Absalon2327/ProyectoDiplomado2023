@@ -16,6 +16,7 @@ import {Usuario} from "../../../account/auth/models/usuario.models";
 import {ISolicitudvalep} from "../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
 import Swal from "sweetalert2";
 import { MensajesService } from 'src/app/shared/global/mensajes.service';
+import { IEmpleado } from '../../empleado/interface/empleado.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -132,7 +133,7 @@ export class SolicitudVehiculoService {
   }
 
   obtenerMotoristas(fechaSalida:string,fechaEntarada:string) {
-    
+
     this.http
       .get(`${this.url}/empleado/motoristas?fechaSalida=${fechaSalida}&fechaEntrada=${fechaEntarada}`)
       .pipe(map((resp: any) => resp as IMotorista[]))
@@ -148,6 +149,15 @@ export class SolicitudVehiculoService {
         }
       );
     }
+
+    obtenerMotoristas2(fechaSalida:string,fechaEntarada:string):Observable<IMotorista[]> {
+
+     return this.http
+        .get(`${this.url}/empleado/motoristas?fechaSalida=${fechaSalida}&fechaEntrada=${fechaEntarada}`)
+        .pipe(map((resp: any) => resp as IMotorista[]));
+
+      }
+
 
   filtroPlacasVehiculo(clase: string,fechaSalida:string,fechaEntrada:string): Observable<IVehiculos[]> {
     return this.http
