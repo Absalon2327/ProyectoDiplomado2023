@@ -76,7 +76,7 @@ export class ModalComponent implements OnInit {
       n_chasis: ['',[Validators.required]],
       n_motor: ['', [Validators.required,Validators.minLength(5), Validators.maxLength(10)]],
       tipo_gas: ['Diesel',[Validators.required]],
-      file: ['',]
+      file: [null,[Validators.required]]
     });
   }
 
@@ -138,7 +138,7 @@ export class ModalComponent implements OnInit {
   esCampoValido(campo: string) {
     const validarCampo = this.formVehiculo.get(campo);
     return !validarCampo?.valid && validarCampo?.touched
-      ? 'is-invalid' : validarCampo?.touched ? 'is-valid' : '';
+      ? 'is-invalid' : validarCampo?.touched ? 'is-valid' : 'form-control';
   }
 
   registrando(){
