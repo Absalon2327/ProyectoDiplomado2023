@@ -99,7 +99,7 @@ export class ModalSecretariaComponent implements OnInit {
        let var1 : string = dateSalida.toISOString().split('T')[0];
        let var2 : string = dateEntrada.toISOString().split('T')[0];
 
-        
+
 
          this.cargamotorista2(var1,var2);
 
@@ -296,9 +296,9 @@ export class ModalSecretariaComponent implements OnInit {
     (motoristasData: IMotorista[]) => {
       if(motoristasData && motoristasData.length > 0){
         this.motoristas = motoristasData;
-        this.formularioSoliVe.get('motorista').setValue('');
+        this.formularioSoliVe.get('motorista').setValue(null);
       }else{
-        this.formularioSoliVe.get('motorista').setValue('');
+        this.formularioSoliVe.get('motorista').setValue(null);
         this.mensajesService.mensajesToast("warning", "En estas fechas, no hay motoristas disponibles.");
       }
 
