@@ -182,13 +182,13 @@ export class CalendarioComponent implements OnInit {
     //metodo para cargar el modal
   async handleEventClick(clickInfo: EventClickArg) {
         this.editEvent = clickInfo.event; // obtenemos los eventos del calendario
-        console.log(this.editEvent.id)
+        
        const compara = this.editEvent.id; // se asigna a una variable el id del evento que tambien es el codigo de la solicitud
 
       const dataSoli =  await this.soliService.getSolicitudV().toPromise();  // se obtinen las solicitudes
           let data = dataSoli.find(x => x.codigoSolicitudVehiculo == clickInfo.event.id);  // se busca la solicitud
             if (data.codigoSolicitudVehiculo == compara) {
-               console.log("lo que trajo", data);
+
               this.abrirModalSecre('Detalle', data);                  // se invoca al metodo para abrir el modal
             }
           }
