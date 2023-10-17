@@ -434,8 +434,8 @@ export class ModalSecretariaComponent implements OnInit {
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
                 this.mensajesService.mensajesToast("success", "Asignación exitosa");
-                if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 15){
-                  this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+                if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 6){
+                  this.enviarEmailSD('DECANO', 'Solicitud de vehículo','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
                 }
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
@@ -460,8 +460,8 @@ export class ModalSecretariaComponent implements OnInit {
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
             this.mensajesService.mensajesToast("success", "Asignación exitosa");
-            if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 15) {
-              this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación', 'Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+            if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 6) {
+              this.enviarEmailSD('DECANO', 'Solicitud de vehículo', 'Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
             }
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
@@ -764,7 +764,7 @@ export class ModalSecretariaComponent implements OnInit {
           }
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           if (data.estado == 6) {
-            this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo pendiente de revisión',
+            this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo',
             `Tiene una solicitud vehículo pendiente de revisión. ${data.observaciones}.`);
           } else if( data.estado == 15 ){
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
@@ -902,7 +902,7 @@ export class ModalSecretariaComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: mensaje,
-          centro: 'Por favor ingrese al sistema para ver más detalles',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -923,11 +923,11 @@ export class ModalSecretariaComponent implements OnInit {
           this.usuarioActivo.empleado.apellido;
         const email: IEmail = {
           asunto: 'Solicitud de vehículo ANULADA',
-          titulo: 'Solicitud de vehículo ANULADA',
+          titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: "Su solicitud ha sido anulada por "+nombreUserAccion+". "+obsevacion,
-          centro: 'Por favor ingrese al sistema para ver más detalles',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -948,7 +948,7 @@ export class ModalSecretariaComponent implements OnInit {
           this.usuarioActivo.empleado.apellido;
         const email: IEmail = {
           asunto: 'Solicitud de vehículo APROBADA',
-          titulo: 'Solicitud de vehículo APROBADA',
+          titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales",
