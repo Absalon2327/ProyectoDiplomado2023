@@ -10,7 +10,7 @@
 
 <ng-template #content role="document" let-modal>
   <div class="modal-header">
-    <h5 class="modal-title mt-0">{{ leyenda }} Proveedor</h5>
+    <h5 class="modal-title mt-0">{{ leyenda=="Agregar"? "Nuevo":"Editar" }} Proveedor</h5>
 
     <div class="btn-alerta" *ngIf="alerts">
       <i
@@ -127,7 +127,7 @@
           </div>
         </div>
         <div class="mb-4 col-md-6">
-          <label for="encargado">Persona encargada:</label>
+          <label for="encargado">Persona Encargada:</label>
           <input
             id="encargado"
             name="encargado"

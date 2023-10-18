@@ -37,7 +37,7 @@
             <div class="row">
               <div class="mb-4 d-grid gap-2 mx-auto text-center">
                 <label for="proveedor"
-                  >Elija el tipo de movimiento:
+                  >Elija el Tipo de Movimiento:
                   <div class="btn-alerta miDiv" *ngIf="alerts">
                     <i
                       class="mdi mdi-lightbulb-on-outline custom-cursor"
@@ -62,7 +62,7 @@
                     (click)="cambiartipo1()"
                   />
                   <label class="btn btn-outline-dark" for="tipo1"
-                    >Por cantidad de Vales</label
+                    >Cantidad de Vales</label
                   >
                   <input
                     type="radio"
@@ -75,7 +75,7 @@
                     (click)="cambiartipo0()"
                   />
                   <label class="btn btn-outline-primary" for="tipo2"
-                    >Por Total Monetario de Vales</label
+                    >Total Monetario de Vales</label
                   >
                 </div>
               </div>
@@ -83,7 +83,7 @@
             <div class="row">
               <div class="col-sm-3 mb-4">
                 <label for="proveedor"
-                  >Abonar a: <span class="text-danger">*</span></label
+                  >Abonar A: <span class="text-danger">*</span></label
                 >
 
                 <ng-select
@@ -111,7 +111,7 @@
                   *ngIf="formularioGeneral.get('tipo').value == 1; else tipo"
                 >
                   <label for="cantidad"
-                    >Cantidad de vales:
+                    >Cantidad de Vales:
                     <span class="text-danger">*</span></label
                   >
                   <input
@@ -144,7 +144,7 @@
                 </ng-container>
                 <ng-template #tipo>
                   <label for="total_monetario"
-                    >Total monetario ($):
+                    >Total Monetario ($):
                     <span class="text-danger">*</span></label
                   >
                   <input

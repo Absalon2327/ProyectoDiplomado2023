@@ -161,7 +161,7 @@ export class TopbarComponent implements OnInit {
       icon: 'question',
       title: "¿Desea cerrar la sesión?",
       showDenyButton: true,
-      confirmButtonText: "Cerrar la",
+      confirmButtonText: "Cerrar",
       confirmButtonColor: "#972727",
       denyButtonText: `Cancelar`,
       denyButtonColor: "#2c3136",
