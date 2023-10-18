@@ -99,7 +99,9 @@ export class TablaComponent implements OnInit {
   async aprobarSolicitud(data: any){
     if ((await this.mensajesService.mensajeAprobar()) == true) {
       //await this.actualizarSolicitud(data);
-      if (this.userAcivo.role=="JEFE_DEPTO"){
+      if (this.userAcivo.role=="JEFE_DEPTO"
+      || this.userAcivo.role== "JEFE_FINANACIERO"
+      || (this.userAcivo.role == "DECANO" && data.estado == 1)){
         await this.actualizarSolicitud(data);
       }else{
         if(data.tieneVale){
