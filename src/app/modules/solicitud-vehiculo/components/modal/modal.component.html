@@ -48,7 +48,7 @@
       <!--fecha de realizacion de solicitud-->
       <div class="col-md-3">
         <div class="mt-2">
-        <label for="fecha-solicitud">Fecha de solicitud: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+        <label for="fecha-solicitud">Fecha de Solicitud: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                               class="text-danger">*</span></label>
         <input type="date" class="form-control" id="fecha-solicitud"
                formControlName="fechaSolicitud"
@@ -61,7 +61,7 @@
           </span>
           <span
             *ngIf="formularioSoliVe.get('fechaSolicitud')?.errors?.['pattern']">
-            Fecha no valida
+            Fecha no válida
           </span>
         </div>
       </div>
@@ -71,7 +71,7 @@
       <!--fecha de salida de solicitud-->
       <div class="col-md-3">
         <div class="mt-2">
-          <label for="fecha-mision">Fecha de misión: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+          <label for="fecha-mision">Fecha de Misión: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                           class="text-danger">*</span></label>
           <input type="date" class="form-control" id="fecha-mision"
                 formControlName="fechaSalida"
@@ -86,7 +86,7 @@
             </span>
             <span
               *ngIf="formularioSoliVe.get('fechaSalida')?.errors?.['pattern']">
-              Fecha no valida
+              Fecha no válida
             </span>
           </div>
         </div>
@@ -96,7 +96,7 @@
       <!-- fecha de regreso -->
       <div class="col-md-3">
         <div class="mt-2">
-          <label for="fecha-regreso">Fecha de regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+          <label for="fecha-regreso">Fecha de Regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                             class="text-danger">*</span></label>
           <input type="date" class="form-control" id="fecha-regreso"
                 formControlName="fechaEntrada"
@@ -111,7 +111,7 @@
             </span>
             <span
               *ngIf="formularioSoliVe.get('fechaEntrada')?.errors?.['pattern']">
-              Fecha no valida
+              Fecha no válida
             </span>
           </div>
         </div>
@@ -121,7 +121,7 @@
       <!--unidad que hace la solicitud-->
       <div class="col-md-3">
         <div class="form-group mt-2">
-          <label for="unidad-solicitante">U./Depto. solicitante: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+          <label for="unidad-solicitante">U./Depto. Solicitante: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                                     class="text-danger">*</span></label>
           <input type="text"
                 class="form-control"
@@ -144,7 +144,7 @@
       <div class="col-md-3">
           <!-- hora de salida -->
           <div class="mt-3">
-            <label for="hora-salida">Hora de salida: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+            <label for="hora-salida">Hora de Salida: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                           class="text-danger">*</span></label>
             <input type="time" id="hora-salida"
                   class="form-control" formControlName="horaSalida"
@@ -163,7 +163,7 @@
         <!-- hora de regreso -->
         <div class="col-md-3">
           <div class="mt-3">
-            <label for="hora-regreso">Hora de regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+            <label for="hora-regreso">Hora de Regreso: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                              class="text-danger">*</span></label>
             <input type="time" id="hora-regreso"
                    class="form-control" formControlName="horaEntrada"
@@ -182,7 +182,7 @@
         <!-- tipo de vehiculo -->
         <div class="col-md-3">
           <div class="mt-3 ngselect-ve" >
-            <label for="tipo-vehiculo">Tipo de vehículo: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+            <label for="tipo-vehiculo">Tipo de Vehículo: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                                class="text-danger">*</span></label>
 
             <ng-select *ngIf="leyenda == 'Nueva' && soliVeOd == null"
@@ -393,7 +393,7 @@
         <!-- objetivo de la mision -->
         <div class="row">
           <div class="mt-3">
-            <label for="objetivo-mision">Objetivo de la misión: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+            <label for="objetivo-mision">Objetivo de la Misión: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
               class="text-danger">*</span></label>
             <textarea id="objetivo-mision"
               cols="30"
@@ -421,7 +421,7 @@
         <!--Lugar o institucion a visitar-->
         <div class="row">
           <div class="mt-3">
-            <label for="lugar-visitar">Lugar que visitará: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+            <label for="lugar-visitar">Lugar que Visitará: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                                 class="text-danger">*</span></label>
             <input type="text" class="form-control"
                   id="lugar-visitar"
@@ -524,7 +524,7 @@
         <div class="row">
           <div class="mt-3">
           <!-- cantidad de personas que viajaran -->
-          <label for="cantidad-pasajeros">No. de personas que viajarán:<span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+          <label for="cantidad-pasajeros">No. de Personas que Viajarán:<span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                                               class="text-danger">*</span></label>
 
               <div class="col-md-6">
@@ -559,7 +559,7 @@
         <div class="row" *ngIf="leyenda != 'Nueva'">
           <div class="mt-2">
             <div class="form-group">
-              <label for="observa-id">Observaciones  :</label>
+              <label for="observa-id">Observaciones: </label>
               <textarea cols="30" rows="2" class="form-control"
                         id="observa-id"
                         [placeholder]="(leyenda === 'Detalle' && soliVeOd.observaciones === '') ? '' : 'Ingrese observaciones'"
@@ -584,7 +584,7 @@
         soliVeOd != null && soliVeOd.cantidadPersonas >= 2">
          <div class="mt-2">
            <div *ngIf="mostrarTabla; else archivoAdjunto">
-             <label for="tablaPasajeros">Ingrese los nombres de los pasajeros: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
+             <label for="tablaPasajeros">Ingrese los Nombres de los Pasajeros: <span *ngIf="soliVeOd == null && leyenda === 'Nueva'"
                                                                                     class="text-danger">*</span></label>
              <table class="table excel-table table-responsive" id="tablaPasajeros"
              *ngIf="leyenda==='Detalle' && soliVeOd != null">
@@ -693,6 +693,6 @@
           Anular
         </button>
         <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
-                aria-hidden="true" (click)="activeModal.close('Close click')">Cancelar</button>
+                aria-hidden="true" (click)="activeModal.close('Close click')">{{ textoBoton }}</button>
       </div>
 <!-- Modal -->

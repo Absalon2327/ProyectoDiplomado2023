@@ -294,7 +294,7 @@ export class ModalSecretariaComponent implements OnInit {
   cargaMotorista(fechaSalida:string, fechaEntrada:string){
     this.motoristas = [];
 
-    
+
     const dateSalida = new Date(this.soliVeOd.fechaSalida);
     const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
 
@@ -1004,4 +1004,9 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   /** fin correos */
+
+
+  get textoBoton(): string {
+    return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+  }
 }

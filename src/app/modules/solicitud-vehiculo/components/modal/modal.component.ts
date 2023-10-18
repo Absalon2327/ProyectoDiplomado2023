@@ -816,6 +816,9 @@ export class ModalComponent implements OnInit {
   }
   /*fin administrador*/
 
+  get textoBoton(): string {
+    return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+  }
 
   /*Correo*/
   enviarEmail(departamento: any){
