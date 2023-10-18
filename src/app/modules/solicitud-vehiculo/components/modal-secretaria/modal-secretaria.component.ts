@@ -93,7 +93,7 @@ export class ModalSecretariaComponent implements OnInit {
       const dateSalida = new Date(this.soliVeOd.fechaSalida);
       const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
        // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
-       dateEntrada.setDate(dateEntrada.getDate() + 1);
+       dateEntrada.setDate(dateEntrada.getDate());
 
        // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
        let var1 : string = dateSalida.toISOString().split('T')[0];
@@ -101,7 +101,7 @@ export class ModalSecretariaComponent implements OnInit {
 
 
 
-         this.cargamotorista2(var1,var2);
+         this.cargaMotorista2(var1,var2);
 
      }
 
@@ -291,22 +291,85 @@ export class ModalSecretariaComponent implements OnInit {
     }
   }
 //metodo para cargar desde el metodo de cargaplaca
-  cargamotorista(fechaSalida:string, fechaEntrada:string){
+  cargaMotorista(fechaSalida:string, fechaEntrada:string){
+    this.motoristas = [];
+
     this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
     (motoristasData: IMotorista[]) => {
-      if(motoristasData && motoristasData.length > 0){
-        this.motoristas = motoristasData;
-        this.formularioSoliVe.get('motorista').setValue(null);
-      }else{
+      // se setea los date-- por el momento no uso los date sino en base si viene nullo el motorista
+      // const dateSalida = new Date(this.soliVeOd.fechaSalida);
+      // const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
+      //  // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
+      //  dateEntrada.setDate(dateEntrada.getDate());
+
+      //  // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
+      //  let var1 : string = dateSalida.toISOString().split('T')[0];
+      //  let var2 : string = dateEntrada.toISOString().split('T')[0];
+       this.formularioSoliVe.get('motorista').setValue(null);// limpiar el select
+
+       if(this.soliVeOd.motorista != null ){ // si el motorista no es null falto agregar mensaje que cuando sea null
+        console.log("entra al if 2")
+
+        if(motoristasData.length == 0){  //si lo que trae la data es 0
+          console.log("entra al if 3")
+
+          this.motoristas.push(this.soliVeOd.motorista);   // se agrega el motorista que viene en el @input
+          console.log("motorista en metodo",this.soliVeOd.motorista)
+        this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' + this.soliVeOd.motorista.apellido); // se setea en el select
+        }else{
+          this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
+        }
+
+
+        console.log("loque trea",this.motoristas)
+     //   this.motoristas = [];
+       // this.motoristas.push(this.soliVeOd.motorista);
+       if(this.motoristas.find(motorista => motorista.codigoEmpleado == this.soliVeOd.motorista.codigoEmpleado) == null){ // si el motorista no esta en la lista luego de ser llenada por la data
+        console.log("entra al if 44")
+        this.motoristas.push(this.soliVeOd.motorista);
+       }
+       console.log("entra al else 1")
+        this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' + this.soliVeOd.motorista.apellido);
+    //hizo falta agregar la validacion para el mensaje que no hay motoristas
+
+        // console.log("antes del primer if",motoristasData)
+      // } else{
+      //   console.log("entra al else 2")
+      //   this.motoristas = motoristasData;
+
+      // }
+
+      // if(motoristasData && motoristasData.length > 0){
+      //   console.log("entra al if 1")
+
+
+        //this.motoristas = motoristasData;
+
+
+      //  this.formularioSoliVe.get('motorista').setValue(null);
+
+
+
+      // } else if(motoristasData.length == 0){
+        // console.log("entra al if 4")
+        // this.motoristas = [];
+        // this.formularioSoliVe.get('motorista').setValue(null);
+        // this.mensajesService.mensajesToast("warning", "En estas fechas, no hay motoristas disponibles.");
+      }// en caso el motorista sea null
+          if(motoristasData.length > 0){
+            this.motoristas = motoristasData;
+          }else{
+          console.log("entra al if 4")
+        this.motoristas = [];
         this.formularioSoliVe.get('motorista').setValue(null);
         this.mensajesService.mensajesToast("warning", "En estas fechas, no hay motoristas disponibles.");
-      }
+          }
     }
     );
   }
 // fin del metodo
 // metodo para cargar motoristas desde el oninit
-   cargamotorista2(fechaSalida:string, fechaEntrada:string){
+   cargaMotorista2(fechaSalida:string, fechaEntrada:string){
     this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
     (motoristasData: IMotorista[]) => {
       this.motoristas = motoristasData;
@@ -513,7 +576,7 @@ export class ModalSecretariaComponent implements OnInit {
     // inicio de carga motirista
     this.formularioSoliVe.get('motorista').setValue(null);
 
-    this.cargamotorista(fechaSalida,fechaEntrada);
+    this.cargaMotorista(fechaSalida,fechaEntrada);
 
    // this.soliVeService.obtenerMotoristas(fechaSalida,fechaEntrada);
 
