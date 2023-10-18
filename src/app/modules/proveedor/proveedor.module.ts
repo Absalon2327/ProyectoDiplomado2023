@@ -11,9 +11,10 @@ import { Ng2SearchPipeModule } from "ng2-search-filter";
 import { NgxMaskModule } from "ngx-mask";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPaginationModule } from "ngx-pagination";
+import { ModalDetalleComponent } from './components/modal-detalle/modal-detalle.component';
 
 @NgModule({
-  declarations: [MostrarComponent, TablaComponent, ModalComponent],
+  declarations: [MostrarComponent, TablaComponent, ModalComponent, ModalDetalleComponent],
   imports: [
     CommonModule,
     ProveedorRoutingModule,

@@ -136,6 +136,16 @@ export class ModalComponent implements OnInit {
     });
   }
 
+  formatInputMayusDet(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+
+    this.formularioGeneral
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
+  }
+
   get listProveedor() {
     const proveedores: IProveedor[] = [];
 

@@ -187,6 +187,7 @@
                   placeholder="Concepto"
                   formControlName="concepto"
                   [class]="esCampoValido('concepto')"
+                  (keyup)="formatInputMayusDet('concepto', $event)"
                 ></textarea>
                 <div class="invalid-feedback">
                   <span

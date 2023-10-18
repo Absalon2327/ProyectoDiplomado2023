@@ -89,6 +89,28 @@ export class ModalComponent implements OnInit {
     });
   }
 
+  onInputMayus(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue = inputValue
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    this.formularioGeneral
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
+  }
+
+  formatInputMayusDet(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+
+    this.formularioGeneral
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
+  }
+
   async guardar() {
     if (this.formularioGeneral.valid) {
       if (this.proveedor?.id) {
