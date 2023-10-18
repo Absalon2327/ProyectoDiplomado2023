@@ -10,7 +10,7 @@
 
 <ng-template #content role="document" let-modal>
   <div class="modal-header">
-    <h5 class="modal-title mt-0">{{ leyenda }} compra de vales</h5>
+    <h5 class="modal-title mt-0">{{ leyenda=="Agregar"? "Nueva":"Editar" }} Compra de Vales</h5>
     <div class="btn-alerta" *ngIf="alerts">
       <i
         class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor"
@@ -102,7 +102,7 @@
         </div>
         <div class="mb-4 col-md-6">
           <label for="codInicio"
-            >Código de inicio: <span class="text-danger">*</span></label
+            >Código de Inicio: <span class="text-danger">*</span></label
           >
           <input
             id="codInicio"
@@ -135,7 +135,7 @@
         </div>
         <div class="mb-4 col-md-6">
           <label for="codFin"
-            >Código de fin: <span class="text-danger">*</span></label
+            >Código de Fin: <span class="text-danger">*</span></label
           >
           <input
             id="codFin"
@@ -166,7 +166,7 @@
         </div>
         <div class="mb-4 col-md-6">
           <label for="cantidad"
-            >Cantidad de vales: <span class="text-danger">*</span></label
+            >Cantidad de Vales: <span class="text-danger">*</span></label
           >
           <input
             id="cantidad"
@@ -197,7 +197,7 @@
         </div>
         <div class="mb-4 col-md-6">
           <label for="fechaCompra"
-            >Fecha de compra: <span class="text-danger">*</span></label
+            >Fecha de Compra: <span class="text-danger">*</span></label
           >
           <input
             id="fechaCompra"
@@ -225,7 +225,7 @@
         </div>
         <div class="mb-4 col-md-6">
           <label for="fechaVencimiento"
-            >Fecha de vencimiento de vales:
+            >Fecha de Vencimiento de Vales:
             <span class="text-danger">*</span></label
           >
           <input
@@ -254,7 +254,7 @@
         </div>
         <div class="mb-4 col-md-6">
           <label for="precioUnitario"
-            >Precio unitario ($): <span class="text-danger">*</span></label
+            >Precio Unitario ($): <span class="text-danger">*</span></label
           >
           <input
             id="precioUnitario"
@@ -289,7 +289,7 @@
         </div>
         <div class="mb-4 col-md-6">
           <label for="totalCompra"
-            >Total compra ($): <span class="text-danger">*</span></label
+            >Total Compra ($): <span class="text-danger">*</span></label
           >
           <input
             id="totalCompra"
