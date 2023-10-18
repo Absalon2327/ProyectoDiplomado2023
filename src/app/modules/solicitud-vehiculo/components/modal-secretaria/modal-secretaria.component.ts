@@ -187,14 +187,14 @@ export class ModalSecretariaComponent implements OnInit {
 
 
       for (const persona of this.soliVeOd.listaPasajeros) {
-        //console.log(persona);
+
         this.pasajeros.push({id: persona.id, nombrePasajero: persona.nombrePasajero});
 
         const control = new FormControl(this.soliVeOd != null ? persona.nombrePasajero : '');
         this.pasajeroFormControls.push(control);
       }
 
-      //console.log(this.pasajeros);
+
 
     }
   }
@@ -294,10 +294,10 @@ export class ModalSecretariaComponent implements OnInit {
   cargaMotorista(fechaSalida:string, fechaEntrada:string){
     this.motoristas = [];
 
-    // const fechasSalida =   this.soliVeOd.fechaSalida.  //new Date(this.soliVeOd.fechaSalida);
+    
     const dateSalida = new Date(this.soliVeOd.fechaSalida);
     const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
-     // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
+
      dateEntrada.setDate(dateEntrada.getDate());
 
      // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
