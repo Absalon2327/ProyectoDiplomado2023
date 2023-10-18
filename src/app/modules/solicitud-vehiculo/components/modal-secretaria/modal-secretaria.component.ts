@@ -318,9 +318,14 @@ export class ModalSecretariaComponent implements OnInit {
               this.soliVeOd.motorista.apellido);
           }
         }else if(motoristasData.length == 0){
-          this.motoristas.push(this.soliVeOd.motorista);
-          this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' + this.soliVeOd.motorista.apellido); // se setea en el select
-          this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+          if(var1 != fechaSalida || var2 != fechaEntrada){
+            this.formularioSoliVe.get('motorista').setValue(null);
+            this.mensajesService.mensajesToast("warning", "No hay motoristas disponibles.");
+          }else {
+            this.motoristas.push(this.soliVeOd.motorista);
+            this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' + this.soliVeOd.motorista.apellido); // se setea en el select
+            this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+          }
         }
       } else {
           //viene en estado 2
