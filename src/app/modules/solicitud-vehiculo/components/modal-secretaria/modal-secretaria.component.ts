@@ -328,7 +328,7 @@ export class ModalSecretariaComponent implements OnInit {
         console.log("entra al if 44")
         this.motoristas.push(this.soliVeOd.motorista);
        }
-       console.log("entra al else 1")
+        console.log("entra al else 1")
         this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' + this.soliVeOd.motorista.apellido);
     //hizo falta agregar la validacion para el mensaje que no hay motoristas
 
@@ -360,9 +360,9 @@ export class ModalSecretariaComponent implements OnInit {
             this.motoristas = motoristasData;
           }else{
           console.log("entra al if 4")
-        this.motoristas = [];
-        this.formularioSoliVe.get('motorista').setValue(null);
-        this.mensajesService.mensajesToast("warning", "En estas fechas, no hay motoristas disponibles.");
+            this.motoristas = [];
+            this.formularioSoliVe.get('motorista').setValue(null);
+            this.mensajesService.mensajesToast("warning", "En estas fechas, no hay motoristas disponibles.");
           }
     }
     );
@@ -372,9 +372,14 @@ export class ModalSecretariaComponent implements OnInit {
    cargaMotorista2(fechaSalida:string, fechaEntrada:string){
     this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
     (motoristasData: IMotorista[]) => {
-      this.motoristas = motoristasData;
-    }
-    );
+      if(motoristasData.length > 0) {
+        this.motoristas = motoristasData;
+      }else if(motoristasData.length == 0 && this.soliVeOd.motorista == null){
+        this.mensajesService.mensajesToast("warning", "No hay motoristas disponibles.");
+      }else if(motoristasData.length == 0 && this.soliVeOd.motorista != null){
+        this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+      }
+    });
   }
 //fin del metodo
   // subir el archivo
