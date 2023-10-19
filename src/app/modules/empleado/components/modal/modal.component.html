@@ -122,7 +122,8 @@
                                 placeholder="Ingrese nombre" [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 maxlength="25" minlength="3"
                                 [class]="titulo != 'Detalle' ? esCampoValido('nombre') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" />
+                                [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" 
+                                (keyup)="onInputMayus('nombre', $event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('nombre')?.errors?.['required']">
                                     Ingrese el nombre</span>
@@ -142,7 +143,8 @@
                                 maxlength="25" minlength="3"
                                 [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 [class]="titulo != 'Detalle' ? esCampoValido('apellido') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" />
+                                [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" 
+                                (keyup)="onInputMayus('apellido', $event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('apellido')?.errors?.['required']">
                                     Ingrese el apellido</span>
