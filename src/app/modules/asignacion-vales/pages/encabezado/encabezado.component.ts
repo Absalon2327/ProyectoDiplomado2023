@@ -65,8 +65,7 @@ export class EncabezadoComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: "Vales" },
-      { label: "Asignación de Vales" },
+
       { label: "Registro de Asignaciones", active: true },
     ];
 
