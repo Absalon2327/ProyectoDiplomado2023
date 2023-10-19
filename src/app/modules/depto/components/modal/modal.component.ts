@@ -99,12 +99,14 @@ export class ModalComponent implements OnInit {
         this.formDepto.reset();
         this.mostrar();
       },
-      error: (error) => {
-        this.mensajesService.mensajesSweet(
-          'error',
+      error: (err) => {
+
+         this.mensajesService.mensajesSweet(
+          "error",
           "Ups... Algo salió mal",
-          error
-        )
+          err.error.message
+        );
+
 
       },
       complete: () => {
@@ -145,13 +147,13 @@ export class ModalComponent implements OnInit {
         this.modalService.dismissAll();
         this.mostrar();
       },
-      error: (error) => {
+      error: (err) => {
         this.mensajesService.mensajesSweet(
-          'error',
+          "error",
           "Ups... Algo salió mal",
-          error
-        )
-        console.log(error);
+          err.error.message
+        );
+        console.log(err);
       },
       complete: () => {
         const Toast = Swal.mixin({
