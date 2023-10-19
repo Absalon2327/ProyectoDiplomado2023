@@ -153,7 +153,10 @@ export class ModalComponent implements OnInit {
       }
     } else {
       //Usar mensajes globales :u
-      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
+            this.mensajesService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
       
       return Object.values(this.formBuilder.controls).forEach((control) =>
         control.markAsTouched()
@@ -232,8 +235,30 @@ export class ModalComponent implements OnInit {
     empleado.correo =  empleado.correo.toLowerCase();
     if (this.imagen === 'no hay') {
       this.empleadoService.postEmpleado(empleado).subscribe((resp: any) => {
-        if (resp) {
+        if (resp && !this.esMotorista) {
           this.Email(this.formBuilder.get('correo').value, this.formBuilder.get('nombre').value + ' ' + this.formBuilder.get('apellido').value);
+        }else{
+          Swal.close();
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            //timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+  
+          Toast.fire({
+            icon: 'success',
+            text: 'Almacenamiento exitoso'
+          }).then(() => {
+            this.formBuilder.reset();
+            this.recargar();
+            this.modalService.dismissAll();
+          });
         }
       }, (err: any) => {
         this.mensajesService.mensajesSweet(
@@ -521,6 +546,18 @@ export class ModalComponent implements OnInit {
     } else if (usuario && ultimoCaracter === '@' && this.arroba) {
       this.arroba = !this.arroba;
     }
+  }
+
+  onInputMayus(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue = inputValue
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    this.formBuilder
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
   }
 
 }
