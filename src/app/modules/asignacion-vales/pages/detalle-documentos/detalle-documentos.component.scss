@@ -15,7 +15,7 @@
     background-color: #0056b3;
   }
   .button-detalle {
-    font-size: 16px; /* Tamaño de fuente predeterminado */
+    font-size: 14px; /* Tamaño de fuente predeterminado */
   }
 
   /* Media query para pantallas de 325px o menos */
@@ -27,4 +27,9 @@
       padding: 0;
       width: 110px; /* Tamaño de fuente más pequeño para pantallas de 325px o menos */
     }
+  }
+
+  .documentos-colores-detalle{
+    background-color: #B76369;
+    color: #fff;
   }
