@@ -10,6 +10,7 @@ export interface IAsignacionDetalle {
     {
       idVale: string;
       correlativo: number;
+      fechaVencimiento: string;
     }
   ];
 }
