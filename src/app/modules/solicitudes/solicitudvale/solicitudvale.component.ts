@@ -133,6 +133,18 @@ export class SolicitudvaleComponent implements OnInit {
   cantidadValesA: number;
   //fecha con formato
   fechaformateada = [];
+
+  estados = [
+    { id: "", nombre: "Seleccione" },
+    { id: "8", nombre: "Nueva" },
+    { id: "1", nombre: "Por Aprobar" },
+    { id: "4", nombre: "Aprobado" },
+    { id: "6", nombre: "Revisión" },
+    { id: "5", nombre: "Asignada" },
+    { id: "15", nombre: "Anuladas" },
+    { id: "7", nombre: "Finalizadas" },
+  ];
+  selectedOption: string = '';
   constructor(
     private modalService: NgbModal,
     private service: ServiceService,
@@ -183,8 +195,6 @@ export class SolicitudvaleComponent implements OnInit {
     this.getSolicitudesVale(APROBADAS);
     this.obtenerCorreos();
   }
-
-
 
   getSolicitudesVale(estado: number) {
     if (!estado) {
@@ -433,7 +443,7 @@ export class SolicitudvaleComponent implements OnInit {
     this.formularioSolicitudVale
       .get("observacionRevision")
       ?.setValue(String(observacionRevision));
-      this.formularioSolicitudVale
+    this.formularioSolicitudVale
       .get("existencia")
       ?.setValue(String(this.existenciaI.valesDisponibles));
   }
@@ -472,7 +482,7 @@ export class SolicitudvaleComponent implements OnInit {
     } else {
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioSolicitudVale.controls).forEach(
         (control) => control.markAsTouched()
@@ -558,7 +568,6 @@ export class SolicitudvaleComponent implements OnInit {
     const fechaAsignacion = this.obtenerFechaConFormato();
 
     if (cantidadVales > 0) {
-
       const solicitud: ISolcitudAprobar = {
         codigoSolicitudVale: this.codigoSolicitudValeAprobar,
         cantidadVales: cantidadVales,
@@ -590,7 +599,8 @@ export class SolicitudvaleComponent implements OnInit {
             this.Email(
               "!Solitud de Aprobación!",
               "Solicitud de Vale",
-              "Se a solicitado la aprobación de la Solicitud de Vales para la misión: " + mision,
+              "Se a solicitado la aprobación de la Solicitud de Vales para la misión: " +
+                mision,
               "Solicitud de Vale"
             );
             resolve(); // Resuelve la promesa sin argumentos
@@ -609,7 +619,7 @@ export class SolicitudvaleComponent implements OnInit {
           },
         });
       });
-    }else {
+    } else {
       this.mensajesService.mensajesToast(
         "warning",
         "Debe solicitar al menos un vale"
@@ -726,12 +736,12 @@ export class SolicitudvaleComponent implements OnInit {
       : "";
   }
 
-  obtenerCorreos(){
+  obtenerCorreos() {
     this.service.getCorreosFinanciero().subscribe({
-      next: (data)=>{
+      next: (data) => {
         this.correos = data;
-      }
-    })
+      },
+    });
   }
 
   Email(asunto: string, titulo: string, mensaje: string, centro: string) {
@@ -745,13 +755,12 @@ export class SolicitudvaleComponent implements OnInit {
       receptor: "Estimad@ : " + nombre,
       mensaje: mensaje,
       centro: centro,
-      codigo: '',
+      codigo: "",
       abajo: "Gracias por su atención a este importante mensaje.",
     };
 
     this.usuarios.SendEmail(email).subscribe(
       (resp) => {
-
         Swal.close();
         const Toast = Swal.mixin({
           toast: true,

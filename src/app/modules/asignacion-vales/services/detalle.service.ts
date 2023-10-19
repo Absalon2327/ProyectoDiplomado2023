@@ -30,7 +30,6 @@ import {
 } from "../../solicitudes/Interfaces/solicitudValeAprobar.interface";
 export type SortDirection = 'asc' | 'desc' | '';
 
-
 interface State {
   page: number;
   pageSize: number;

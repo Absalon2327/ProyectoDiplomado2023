@@ -52,7 +52,7 @@ $rightbar-width:  280px;
 $display-none: block;
 $display-block: none;
 
-// Brand 
+// Brand
 $navbar-brand-box-width: 250px;
 
 // Boxed layout width
@@ -864,7 +864,7 @@ $form-range-thumb-bg:                      $component-active-bg;
 $form-range-thumb-border:                  0;
 $form-range-thumb-border-radius:           1rem;
 $form-range-thumb-box-shadow:              0 .1rem .25rem rgba($black, .1);
-$form-range-thumb-focus-box-shadow:        0 0 0 1px $body-bg, $input-focus-box-shadow;
+$form-range-thumb-focus-box-shadow:        151 39 39 1px $body-bg, $input-focus-box-shadow;
 $form-range-thumb-focus-box-shadow-width:  $input-focus-width; // For focus box shadow issue in Edge
 $form-range-thumb-active-bg:               tint-color($component-active-bg, 70%);
 $form-range-thumb-disabled-bg:             $gray-500;

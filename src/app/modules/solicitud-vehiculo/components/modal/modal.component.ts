@@ -261,7 +261,7 @@ export class ModalComponent implements OnInit {
 
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioSoliVe.controls).forEach((control) =>
         control.markAsTouched()
@@ -362,6 +362,9 @@ export class ModalComponent implements OnInit {
                 /*Correo*/
                 if (this.usuarioActivo.role != ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
                   this.enviarEmail(this.usuarioActivo.empleado.departamento.nombre);
+                }else if(this.usuarioActivo.role == ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
+                  this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo',
+                  'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
                 }
                 /*Fin correo*/
                 this.mensajesService.mensajesToast("success", "Registro agregado");
@@ -384,6 +387,9 @@ export class ModalComponent implements OnInit {
             /*Correo*/
             if (this.usuarioActivo.role != ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
               this.enviarEmail(this.usuarioActivo.empleado.departamento.nombre);
+            }else if(this.usuarioActivo.role == ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
+              this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo',
+              'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
             }
             /*Fin correo*/
             this.mensajesService.mensajesToast("success", "Registro agregado");
