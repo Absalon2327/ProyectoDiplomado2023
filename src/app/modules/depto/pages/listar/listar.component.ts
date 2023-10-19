@@ -32,6 +32,7 @@ export class ListarComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Departamento' }, { label: 'Listar', active: true }];
     this.getDeptosAll();
+    this.deptoService.getDeptosAll2();
   }
 
   cargaDeptos(event: any) {
@@ -52,6 +53,9 @@ export class ListarComponent implements OnInit {
     });
   }
 
+  get lstDeptosData() {
+    return this.deptoService.lstDeptos;
+  }
   cambiarEstado(data: IDepto, estado: number) {
 
     if (estado == 8) {
