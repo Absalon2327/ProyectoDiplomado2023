@@ -1252,6 +1252,7 @@ export class SolicitanteComponent implements OnInit {
               ) +
               "       .",
             alignment: "right",
+            fontSize: 11,
           },
         ],
       },
@@ -1322,25 +1323,14 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Fecha de solicitud: ", bold: true },
-              this.formatDate(`${soliVehi.fechaSolicitud}`),
+              { text: "Fecha de Solicitud: ", bold: true, fontSize: 11 },
+              { text: this.formatDate(`${soliVehi.fechaSolicitud}`), fontSize: 11 },
             ],
           },
           {
             text: [
-              { text: "Fecha de misión: ", bold: true },
-              this.formatDate(`${soliVehi.fechaSalida}`),
-            ],
-          },
-        ],
-      },
-      { text: "\n" },
-      {
-        columns: [
-          {
-            text: [
-              { text: "Unidad solicitante: ", bold: true },
-              soliVehi.unidadSolicitante,
+              { text: "Fecha de Misión: ", bold: true, fontSize: 11 },
+              { text: this.formatDate(`${soliVehi.fechaSalida}`),fontSize: 11 },
             ],
           },
         ],
@@ -1350,8 +1340,19 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Vehículo: ", bold: true },
-              soliVehi.vehiculo.marca +
+              { text: "Unidad solicitante: ", bold: true, fontSize: 11 },
+              { text: soliVehi.unidadSolicitante,fontSize: 11 },
+            ],
+          },
+        ],
+      },
+      { text: "\n" },
+      {
+        columns: [
+          {
+            text: [
+              { text: "Vehículo: ", bold: true,fontSize: 11 },
+              { text: soliVehi.vehiculo.marca +
                 ", " +
                 soliVehi.vehiculo.modelo +
                 ", " +
@@ -1361,11 +1362,11 @@ export class SolicitanteComponent implements OnInit {
                 ", " +
                 soliVehi.vehiculo.color +
                 ", " +
-                soliVehi.vehiculo.year,
+                soliVehi.vehiculo.year, fontSize: 11 },
             ],
           },
           {
-            text: [{ text: "Placa: ", bold: true }, soliVehi.vehiculo.placa],
+            text: [{ text: "Placa: ", bold: true, fontSize: 11 }, { text: soliVehi.vehiculo.placa,fontSize: 11 },],
           },
         ],
       },
@@ -1374,19 +1375,8 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Objetivo de la misión: ", bold: true },
-              soliVehi.objetivoMision,
-            ],
-          },
-        ],
-      },
-      { text: "\n" },
-      {
-        columns: [
-          {
-            text: [
-              { text: "Lugar de la misión: ", bold: true },
-              soliVehi.lugarMision,
+              { text: "Objetivo de la misión: ", bold: true, fontSize: 11 },
+              { text: soliVehi.objetivoMision, fontSize: 11 },
             ],
           },
         ],
@@ -1396,8 +1386,8 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar que visitará: ", bold: true },
-              soliVehi.direccion,
+              { text: "Lugar de la misión: ", bold: true, fontSize: 11 },
+              { text: soliVehi.lugarMision, fontSize: 11 },
             ],
           },
         ],
@@ -1407,20 +1397,8 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "N. de personas que viajan: ", bold: true },
-              soliVehi.cantidadPersonas,
-            ],
-          },
-          {
-            text: [
-              { text: "Hora de salida: ", bold: true },
-              soliVehi.horaSalida,
-            ],
-          },
-          {
-            text: [
-              { text: "Hora de regreso: ", bold: true },
-              soliVehi.horaEntrada,
+              { text: "Lugar que visitará: ", bold: true,fontSize: 11 },
+              { text: soliVehi.direccion,fontSize: 11 },
             ],
           },
         ],
@@ -1430,14 +1408,37 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Nombre del responsable: ", bold: true },
-              soliVehi.solicitante.empleado.nombre +
+              { text: "N. de personas que viajan: ", bold: true, fontSize: 11 },
+              { text: soliVehi.cantidadPersonas, fontSize: 11 },
+            ],
+          },
+          {
+            text: [
+              { text: "Hora de salida: ", bold: true, fontSize: 11 },
+              { text: soliVehi.horaSalida, fontSize: 11 },
+            ],
+          },
+          {
+            text: [
+              { text: "Hora de regreso: ", bold: true, fontSize: 11 },
+              { text: soliVehi.horaEntrada, fontSize: 11 },
+            ],
+          },
+        ],
+      },
+      { text: "\n" },
+      {
+        columns: [
+          {
+            text: [
+              { text: "Nombre del responsable: ", bold: true, fontSize: 11 },
+              { text: soliVehi.solicitante.empleado.nombre +
                 " " +
-                soliVehi.solicitante.empleado.apellido,
+                soliVehi.solicitante.empleado.apellido, fontSize: 11 },
             ],
           },
           {
-            text: [{ text: "Firma: ", bold: true }],
+            text: [{ text: "Firma: ", bold: true, fontSize: 11 },],
           },
         ],
       },
@@ -1465,8 +1466,8 @@ export class SolicitanteComponent implements OnInit {
       for (const persona of soliVehi.listaPasajeros) {
         //  console.log(persona.nombrePasajero);
         tableRow.push([
-          { text: `${j + 1}`, alignment: "center" },
-          { text: `${persona.nombrePasajero}`, alignment: "center" },
+          { text: `${j + 1}`, alignment: "center", fontSize: 11 },
+          { text: `${persona.nombrePasajero}`, alignment: "center", fontSize: 11 },
         ]);
         j++;
       }
@@ -1479,7 +1480,7 @@ export class SolicitanteComponent implements OnInit {
             body: tableRow,
           },
         },
-        "Nota: Si el número de persona es mayor a cuatro, anexar listado"
+        { text: "Nota: Si el número de persona es mayor a cuatro, anexar listado", fontSize: 11 },
       );
     } else {
       tableRow.push([
@@ -1489,8 +1490,8 @@ export class SolicitanteComponent implements OnInit {
       for (const persona of soliVehi.listaPasajeros) {
         //  console.log(persona.nombrePasajero);
         tableRow.push([
-          { text: `${j + 1}`, alignment: "center" },
-          { text: `${persona.nombrePasajero}`, alignment: "center" },
+          { text: `${j + 1}`, alignment: "center", fontSize: 11 },
+          { text: `${persona.nombrePasajero}`, alignment: "center", fontSize: 11 },
         ]);
         j++;
       }
@@ -1504,7 +1505,7 @@ export class SolicitanteComponent implements OnInit {
           },
           layout: "noBorders",
         },
-        "Nota: Si el número de persona es mayor a cuatro, anexar listado"
+        { text: "Nota: Si el número de persona es mayor a cuatro, anexar listado", fontSize: 11 },
       );
     }
 
@@ -1513,7 +1514,7 @@ export class SolicitanteComponent implements OnInit {
       {
         columns: [
           {
-            text: [{ text: "Sello\n", bold: true }],
+            text: [{ text: "Sello\n", bold: true,fontSize: 11 },],
             alignment: "",
           },
         ],
@@ -1536,13 +1537,12 @@ export class SolicitanteComponent implements OnInit {
         },
         layout: "lightHorizontalLines",
       },
-      { text: "\n" },
       {
         columns: [
           {
             text: [
-              { text: "Nombre de motorista: ", bold: true },
-              soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido,
+              { text: "Nombre de motorista: ", bold: true, fontSize: 11 },
+              { text: soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido,fontSize: 11 },
             ],
           },
         ],
@@ -1552,8 +1552,8 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Vehículo: ", bold: true },
-              soliVehi.vehiculo.marca +
+              { text: "Vehículo: ", bold: true, fontSize: 11 },
+              { text: soliVehi.vehiculo.marca +
                 ", " +
                 soliVehi.vehiculo.modelo +
                 ", " +
@@ -1563,11 +1563,11 @@ export class SolicitanteComponent implements OnInit {
                 ", " +
                 soliVehi.vehiculo.color +
                 ", " +
-                soliVehi.vehiculo.year,
+                soliVehi.vehiculo.year, fontSize: 11 },
             ],
           },
           {
-            text: [{ text: "Placa: ", bold: true }, soliVehi.vehiculo.placa],
+            text: [{ text: "Placa: ", bold: true, fontSize: 11 }, { text: soliVehi.vehiculo.placa, fontSize: 11 },],
           },
         ],
       }
@@ -1578,15 +1578,15 @@ export class SolicitanteComponent implements OnInit {
         {
           columns: [
             {
-              text: [{ text: "N. de vales: ", bold: true }, vales.length],
+              text: [{ text: "N. de vales: ", bold: true, fontSize: 11 }, { text: vales.length, fontSize: 11 },],
             },
             {
-              text: [{ text: "Del: ", bold: true }, vales[0].correlativo],
+              text: [{ text: "Del: ", bold: true, fontSize: 11 }, { text: vales[0].correlativo,  fontSize: 11 },],
             },
             {
               text: [
-                { text: "AL: ", bold: true },
-                vales[this.valeDelAl.length - 1].correlativo,
+                { text: "AL: ", bold: true, fontSize: 11 },
+                { text: vales[this.valeDelAl.length - 1].correlativo, fontSize: 11 },
               ],
             },
           ],
@@ -1598,13 +1598,13 @@ export class SolicitanteComponent implements OnInit {
         {
           columns: [
             {
-              text: [{ text: "N. de vales: ", bold: true }, "0"],
+              text: [{ text: "N. de vales: ", bold: true, fontSize: 11 }, { text: "0", fontSize: 11 },],
             },
             {
-              text: [{ text: "Del: ", bold: true }, ""],
+              text: [{ text: "Del: ", bold: true, fontSize: 11 }, ""],
             },
             {
-              text: [{ text: "AL: ", bold: true }, ""],
+              text: [{ text: "AL: ", bold: true, fontSize: 11 }, ""],
             },
           ],
         }
@@ -1615,10 +1615,10 @@ export class SolicitanteComponent implements OnInit {
       {
         columns: [
           {
-            text: [{ text: "F.", bold: true }],
+            text: [{ text: "F.", bold: true, fontSize: 11 },],
           },
           {
-            text: [{ text: "Sello", bold: true }],
+            text: [{ text: "Sello", bold: true, fontSize: 11 },],
           },
         ],
       },
@@ -1627,9 +1627,9 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: u[0].usuario },
+              { text: u[0].usuario, fontSize: 11 },
 
-              { text: "\nNombre y firma Decano", bold: true },
+              { text: "\nNombre y firma Decano", bold: true, fontSize: 11 },
             ],
           },
         ],
@@ -1639,8 +1639,8 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Observaciones: ", bold: true },
-              soliVehi.observaciones,
+              { text: "Observaciones: ", bold: true, fontSize: 11 },
+              { text: soliVehi.observaciones, fontSize: 11 },
             ],
           },
         ],

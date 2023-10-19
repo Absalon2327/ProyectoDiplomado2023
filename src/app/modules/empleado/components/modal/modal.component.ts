@@ -152,14 +152,13 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     } else {
-      this.mensajesService.mensajesToast(
-        "warning",
-        "Complete lo que se indican"
-      );
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
       
       return Object.values(this.formBuilder.controls).forEach((control) =>
         control.markAsTouched()
       );
+
     }
   }
 

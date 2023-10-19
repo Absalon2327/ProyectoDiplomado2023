@@ -1,3 +1,4 @@
+
 export type SortDirection = 'asc' | 'desc' | '';
 import { SolicitudVale } from "../interface/IsolicitudvaleDocument";
 

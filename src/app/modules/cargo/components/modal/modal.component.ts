@@ -68,13 +68,8 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     }else{
-      this.mensajesService.mensajesToast(
-        "warning",
-        "Complete lo que se indican"
-      );
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
-
-
     }
 
     registrando(){
@@ -119,7 +114,7 @@ export class ModalComponent implements OnInit {
         });
         Toast.fire({
           icon: 'success',
-          text: 'Datos Guardados con exito'
+          text: 'Datos guardados con exito'
         });
 
       }
@@ -167,7 +162,7 @@ export class ModalComponent implements OnInit {
         });
         Toast.fire({
           icon: 'success',
-          text: 'Datos Guardados con exito'
+          text: 'Datos guardados con exito'
         });
       }
     });

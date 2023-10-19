@@ -154,20 +154,13 @@ export class ModalComponent implements OnInit {
         if (this.confirma == "confirmada" && this.media) {
           this.registrandoU();
         } else {
-          Swal.fire({
-            position: "center",
-            title: "Faltan parametros de seguridad",
-            html: "Las claves deben coincidir y tener seguridad media como minimo",
-            icon: "warning",
-          });
+          //Usar mensajes globales :u
+          this.mensajesService.mensajesSweet("warning","Faltan parametros de seguridad","Las claves deben coincidir y tener seguridad media como minimo", "Entiendo");
         }
       }
     } else {
-      this.mensajesService.mensajesToast(
-        "warning",
-        "Complete lo que se indican"
-      );
-
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
+      
       if (this.leyenda == "Datos") {
         return Object.values(this.formEmpleado.controls).forEach((control) =>
           control.markAsTouched()
@@ -177,8 +170,7 @@ export class ModalComponent implements OnInit {
           control.markAsTouched()
         );
       }
-
-
+      
     }
   }
 

@@ -417,7 +417,7 @@ export class ModalComponent implements OnInit {
         if (vehiculosData && vehiculosData.length > 0) {
           this.placas = vehiculosData;
         } else if(tipoVehiculo != null) {
-          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
+          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehículos disponibles del tipo seleccionado.");
         }
       },
       (error: any) => {
@@ -688,7 +688,7 @@ export class ModalComponent implements OnInit {
           if (accion == 'anulada'){
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
           }else if(accion=='aprobada'){
-            this.enviarEmailSecre('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+            this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo pendiente',
               'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
           }
 
@@ -792,7 +792,7 @@ export class ModalComponent implements OnInit {
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           this.modalService.dismissAll();
           if (accion == 'aprobada'){
-            this.enviarEmailSecre('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+            this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo pendiente',
               'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
           }else if (accion == 'anulada'){
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
@@ -816,6 +816,9 @@ export class ModalComponent implements OnInit {
   }
   /*fin administrador*/
 
+  get textoBoton(): string {
+    return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+  }
 
   /*Correo*/
   enviarEmail(departamento: any){
@@ -824,12 +827,12 @@ export class ModalComponent implements OnInit {
         const nombreCompletoSolicitante = this.usuarioActivo.empleado.nombre + " "+
           this.usuarioActivo.empleado.apellido;
         const email: IEmail = {
-          asunto: 'Solicitud de vehículo pendiente de aprobación',
-          titulo: 'Solicitud de vehículo pendiente de aprobación',
+          asunto: 'Solicitud de vehículo pendiente',
+          titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: nombreCompletoSolicitante+" ha realizado una solicitud de vehículo para una misión y esta a la espera de su aprobación.",
-          centro: 'Por favor ingrese al sistema para ver más detalles',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -850,11 +853,11 @@ export class ModalComponent implements OnInit {
           this.usuarioActivo.empleado.apellido;
         const email: IEmail = {
           asunto: 'Solicitud de vehículo ANULADA',
-          titulo: 'Solicitud de vehículo ANULADA',
+          titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: "Su solicitud ha sido anulada por "+nombreUserAccion+". "+obsevacion,
-          centro: 'Por favor ingrese al sistema para ver más detalles',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -874,7 +877,7 @@ export class ModalComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: mensaje,
-          centro: 'Por favor ingrese al sistema para ver más detalles',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);

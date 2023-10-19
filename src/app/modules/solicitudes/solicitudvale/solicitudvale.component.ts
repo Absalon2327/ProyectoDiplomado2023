@@ -34,7 +34,7 @@ import { title } from "process";
 import { IEmail } from "src/app/account/auth/interfaces/usuario";
 import { ICorreos } from "../Interfaces/correos.interface";
 import { log } from "console";
-
+const APROBADAS = 8;
 @Component({
   selector: "app-solicitudvale",
   templateUrl: "./solicitudvale.component.html",
@@ -180,13 +180,16 @@ export class SolicitudvaleComponent implements OnInit {
       this.solicitudvv = data.content;
     });
     this.obtnerExistenciaVales();
-    this.getSolicitudesVale(8);
+    this.getSolicitudesVale(APROBADAS);
     this.obtenerCorreos();
   }
 
 
 
   getSolicitudesVale(estado: number) {
+    if (!estado) {
+      return;
+    }
     let alert: any;
     alert = Swal.fire({
       title: "Espere un momento!",
@@ -542,7 +545,6 @@ export class SolicitudvaleComponent implements OnInit {
     const cargo = usuarioLogueado.empleado.cargo.nombreCargo;
 
     const mision = this.solicitudesVales[0].mision;
-    console.log("mision: ", mision);
 
     //Asignaré los campos necesario para modificar la asignación
     const cantidadVales =
@@ -556,7 +558,6 @@ export class SolicitudvaleComponent implements OnInit {
     const fechaAsignacion = this.obtenerFechaConFormato();
 
     if (cantidadVales > 0) {
-      console.log("cantidadVales: ", cantidadVales);
 
       const solicitud: ISolcitudAprobar = {
         codigoSolicitudVale: this.codigoSolicitudValeAprobar,
@@ -620,6 +621,9 @@ export class SolicitudvaleComponent implements OnInit {
   }
 
   filtrar(event: any) {
+    if (!event) {
+      return;
+    }
     this.filtroEstado = event;
     this.getSolicitudesVale(this.filtroEstado);
   }
@@ -725,7 +729,6 @@ export class SolicitudvaleComponent implements OnInit {
   obtenerCorreos(){
     this.service.getCorreosFinanciero().subscribe({
       next: (data)=>{
-        console.log("data: ", data);
         this.correos = data;
       }
     })
@@ -733,7 +736,7 @@ export class SolicitudvaleComponent implements OnInit {
 
   Email(asunto: string, titulo: string, mensaje: string, centro: string) {
     const nombre = this.correos[1].nombre;
-    const correo = this.correos[1].correo;  
+    const correo = this.correos[1].correo;
 
     const email: IEmail = {
       asunto: asunto,
@@ -748,7 +751,6 @@ export class SolicitudvaleComponent implements OnInit {
 
     this.usuarios.SendEmail(email).subscribe(
       (resp) => {
-        console.log("resp: ", resp);
 
         Swal.close();
         const Toast = Swal.mixin({

@@ -191,6 +191,7 @@ export class TopbarComponent implements OnInit {
         "Complete lo que se indican"
       );
     } */
+
   }
 
   registrando() {

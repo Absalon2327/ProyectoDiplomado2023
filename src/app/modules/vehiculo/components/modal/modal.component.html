@@ -39,9 +39,16 @@
                       <div class="form-group row">
                         <div class="col-md-7" *ngIf="titulo !== 'Detalle'">
                           <div class="form-group row">
-                              <label class="control-label" for="file">Foto: </label>
-                              <input formControlName="file" id="file" type="file" multiple class="form-control"
-                                  (change)="onFileSelected($event)" />
+                              <label class="control-label" for="file">Foto: <span class="text-danger">*</span></label>
+                              <input formControlName="file" id="file" type="file"
+                                class="form-control"
+                                (change)="onFileSelected($event)"
+                                accept="image/png, image/jpeg"/>
+                              <div class="invalid-feedback">
+                                <span *ngIf="formVehiculo.get('file')?.errors?.['required']">
+                                  Requiere foto del vehiculo
+                                </span>
+                              </div>
                           </div>
                         </div>
                         <span class="align-text-top col-md-4" style="display: flex; left: 10%;" *ngIf="titulo === 'Detalle' && !imgTemp"><strong>Foto Vehiclo:</strong></span>

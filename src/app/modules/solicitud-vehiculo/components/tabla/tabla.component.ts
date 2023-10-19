@@ -61,7 +61,7 @@ export class TablaComponent implements OnInit {
   abrirModalParaAdmin(leyenda: string, data: any) {
     if (this.userAcivo.role == 'ADMIN' && data.estado == 1 && this.vista == 'listar'){
       this.selectedData = data; // Almacena los datos del registro seleccionado
-      const modalRef = this.modalService.open(ModalComponent, {size: 'xl', backdrop: 'static'});
+      const modalRef = this.modalService.open(ModalComponent, {size: 'xl', backdrop: 'static', scrollable: true});
       modalRef.componentInstance.leyenda = leyenda; // Pasa la leyenda al componente modal
       modalRef.componentInstance.soliVeOd = data;
       modalRef.componentInstance.vista = this.vista;
@@ -72,7 +72,7 @@ export class TablaComponent implements OnInit {
   }
 
   abrirModalSecre(leyenda: string, data: any) {
-    const modalRef = this.modalService.open(ModalSecretariaComponent, {size:'xl', backdrop: 'static'});
+    const modalRef = this.modalService.open(ModalSecretariaComponent, {size:'xl', backdrop: 'static', scrollable: true});
     modalRef.componentInstance.leyenda = leyenda;
     modalRef.componentInstance.soliVeOd = data;
     modalRef.componentInstance.usuarioActivo = this.userAcivo;
@@ -80,7 +80,7 @@ export class TablaComponent implements OnInit {
 
   abrirModalLog(data: any) {
     this.obtenerLog(data.codigoSolicitudVehiculo).then(() => {
-      const modalRef = this.modalService.open(ModalLogComponent, { size: 'xl', backdrop: 'static' });
+      const modalRef = this.modalService.open(ModalLogComponent, { size: 'xl', backdrop: 'static', scrollable: true });
       modalRef.componentInstance.log = this.logSoli;
     });
   }
@@ -99,7 +99,9 @@ export class TablaComponent implements OnInit {
   async aprobarSolicitud(data: any){
     if ((await this.mensajesService.mensajeAprobar()) == true) {
       //await this.actualizarSolicitud(data);
-      if (this.userAcivo.role=="JEFE_DEPTO"){
+      if (this.userAcivo.role=="JEFE_DEPTO"
+      || this.userAcivo.role== "JEFE_FINANACIERO"
+      || (this.userAcivo.role == "DECANO" && data.estado == 1)){
         await this.actualizarSolicitud(data);
       }else{
         if(data.tieneVale){

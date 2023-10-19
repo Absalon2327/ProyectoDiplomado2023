@@ -4,13 +4,16 @@
   [ngClass]="getClassOf()"
   (click)="openModal(content, proveedor)"
   [innerHTML]="getIconsOf()"
+  ngbTooltip="{{ leyenda != 'Agregar' ? 'Editar Proveedor' : '' }}"
 >
   {{ leyenda }}
 </button>
 
 <ng-template #content role="document" let-modal>
   <div class="modal-header">
-    <h5 class="modal-title mt-0">{{ leyenda }} Proveedor</h5>
+    <h5 class="modal-title mt-0">
+      {{ leyenda == "Agregar" ? "Nuevo" : "Editar" }} Proveedor
+    </h5>
 
     <div class="btn-alerta" *ngIf="alerts">
       <i
@@ -109,6 +112,7 @@
             placeholder="Nombre"
             formControlName="nombre"
             [class]="esCampoValido('nombre')"
+            (keyup)="onInputMayus('nombre', $event)"
           />
           <div class="invalid-feedback">
             <span *ngIf="formularioGeneral.get('nombre').hasError('required')">
@@ -127,7 +131,7 @@
           </div>
         </div>
         <div class="mb-4 col-md-6">
-          <label for="encargado">Persona encargada:</label>
+          <label for="encargado">Persona Encargada:</label>
           <input
             id="encargado"
             name="encargado"
@@ -138,6 +142,7 @@
             placeholder="Encargado"
             formControlName="encargado"
             [class]="esCampoValido('encargado')"
+            (keyup)="onInputMayus('encargado', $event)"
           />
           <div class="invalid-feedback">
             <span
@@ -181,25 +186,25 @@
                 formularioGeneral.get('telefono').hasError('invalidPhoneNumber')
               "
             >
-              El teléfono debe comenzar con 7, 6 o 2 y tener 8 digitos
+              El teléfono debe comenzar con 7, 6 o 2 y tener 8 dígitos
             </span>
           </div>
         </div>
         <div class="mb-4 col-md-6">
-          <label for="email">Email: <span class="text-danger">*</span></label>
+          <label for="email">Correo: <span class="text-danger">*</span></label>
           <input
             id="email"
             name="email"
             maxlength="100"
             type="text"
             class="form-control"
-            placeholder="Email"
+            placeholder="Correo"
             formControlName="email"
             [class]="esCampoValido('email')"
           />
           <div class="invalid-feedback">
             <span *ngIf="formularioGeneral.get('email').hasError('required')">
-              Requiere un email
+              Requiere un correo
             </span>
             <span *ngIf="formularioGeneral.get('email').hasError('minlength')">
               Digite más de 2 caracteres
@@ -209,7 +214,7 @@
               Limite 100 caracteres
             </span>
             <span *ngIf="formularioGeneral.get('email').hasError('pattern')"
-              >Email no valido
+              >Correo no valido
             </span>
           </div>
         </div>
@@ -224,6 +229,7 @@
             placeholder="Dirección"
             formControlName="direccion"
             [class]="esCampoValido('direccion')"
+            (keyup)="formatInputMayusDet('direccion', $event)"
           ></textarea>
           <div class="invalid-feedback">
             <span

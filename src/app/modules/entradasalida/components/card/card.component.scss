@@ -55,14 +55,14 @@
 .card2 {
   position: center;
   width: 200px;
-  height: 140px; //160
+  height: 130px; //160
 }
 
 .card3 {
   position: center;
   padding: 5px;
   width: 180px;
-  height: 130px;
+  height: 145px;
 }
 
 .bg {
@@ -112,5 +112,6 @@
 
   100% {
     transform: translate(-100%, -100%) translate3d(0, 0, 0);
+
   }
 }

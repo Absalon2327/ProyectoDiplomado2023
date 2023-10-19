@@ -359,6 +359,16 @@ export class MostrarComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
+  formatInputMayusDet(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+
+    this.formularioGeneral
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
+  }
+
   openModal(content: any) {
     this.correoCompleto = null;
     this.formularioUsuario.reset();

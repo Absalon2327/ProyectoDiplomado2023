@@ -20,6 +20,7 @@ import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import { log } from 'console';
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
 import { EmailService } from '../../services/email.service';
+import { IEmpleado } from 'src/app/modules/empleado/interface/empleado.interface';
 
 @Component({
   selector: 'app-modal-secretaria',
@@ -43,7 +44,7 @@ export class ModalSecretariaComponent implements OnInit {
   cantones!: IPais[];
 
   placas!: IVehiculos[];
-
+  motoristas !: IMotorista[];
 
   formularioSoliVe!: FormGroup;
   pasajeros: IPasajero[] = [];
@@ -87,17 +88,23 @@ export class ModalSecretariaComponent implements OnInit {
     this.llenarSelectDepartamentos();
     this.soliVeService.obtenerVehiculos();
 
-   // const fechasSalida =   this.soliVeOd.fechaSalida.  //new Date(this.soliVeOd.fechaSalida);
-   const dateSalida = new Date(this.soliVeOd.fechaSalida);
-   const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
-    // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
-    dateEntrada.setDate(dateEntrada.getDate() + 1);
+    if(this.leyenda != 'Detalle') {
+      // const fechasSalida =   this.soliVeOd.fechaSalida.  //new Date(this.soliVeOd.fechaSalida);
+      const dateSalida = new Date(this.soliVeOd.fechaSalida);
+      const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
+       // Aumentamos en 1 el dia de fin para que el calendario lo pinte bien
+       dateEntrada.setDate(dateEntrada.getDate());
 
-    // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
-    let var1 : string = dateSalida.toISOString().split('T')[0];
-    let var2 : string = dateEntrada.toISOString().split('T')[0];
+       // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
+       let var1 : string = dateSalida.toISOString().split('T')[0];
+       let var2 : string = dateEntrada.toISOString().split('T')[0];
 
-    this.soliVeService.obtenerMotoristas(var1,var2);
+
+
+         this.cargaMotorista2(var1,var2);
+
+     }
+
     this.detalle(this.leyenda);
   }
 
@@ -180,14 +187,14 @@ export class ModalSecretariaComponent implements OnInit {
 
 
       for (const persona of this.soliVeOd.listaPasajeros) {
-        //console.log(persona);
+
         this.pasajeros.push({id: persona.id, nombrePasajero: persona.nombrePasajero});
 
         const control = new FormControl(this.soliVeOd != null ? persona.nombrePasajero : '');
         this.pasajeroFormControls.push(control);
       }
 
-      //console.log(this.pasajeros);
+
 
     }
   }
@@ -283,7 +290,70 @@ export class ModalSecretariaComponent implements OnInit {
       );
     }
   }
+//metodo para cargar desde el metodo de cargaplaca
+  cargaMotorista(fechaSalida:string, fechaEntrada:string){
+    this.motoristas = [];
 
+
+    const dateSalida = new Date(this.soliVeOd.fechaSalida);
+    const dateEntrada = new Date(this.soliVeOd.fechaEntrada);
+
+     dateEntrada.setDate(dateEntrada.getDate());
+
+     // Convertimos las fechas a string con formato ISO para que el calendario las pinte bien
+     let var1 : string = dateSalida.toISOString().split('T')[0];
+     let var2 : string = dateEntrada.toISOString().split('T')[0];
+    this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
+    (motoristasData: IMotorista[]) => {
+       //this.formularioSoliVe.get('motorista').setValue(null);// limpiar el select
+       if(this.soliVeOd.motorista != null ){ // si el motorista no es null falto agregar mensaje que cuando sea null
+        // viene en estado 6
+        if(motoristasData.length > 0){  //si lo que trae la data es 0
+          this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
+          this.formularioSoliVe.get('motorista').setValue(null);
+
+          if(var1 == fechaSalida && var2 == fechaEntrada){
+            this.motoristas.push(this.soliVeOd.motorista);
+            this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' +
+              this.soliVeOd.motorista.apellido);
+          }
+        }else if(motoristasData.length == 0){
+          if(var1 != fechaSalida || var2 != fechaEntrada){
+            this.formularioSoliVe.get('motorista').setValue(null);
+            this.mensajesService.mensajesToast("warning", "No hay motoristas disponibles.");
+          }else {
+            this.motoristas.push(this.soliVeOd.motorista);
+            this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' + this.soliVeOd.motorista.apellido); // se setea en el select
+            this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+          }
+        }
+      } else {
+          //viene en estado 2
+          if (motoristasData.length > 0) {
+            this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
+          }else{
+            this.formularioSoliVe.get('motorista').setValue(null);
+            this.mensajesService.mensajesToast("warning", "No hay motoristas disponibles.");
+          }
+      }
+    }
+  );
+}
+// fin del metodo
+// metodo para cargar motoristas desde el oninit
+   cargaMotorista2(fechaSalida:string, fechaEntrada:string){
+    this.soliVeService.obtenerMotoristas2(fechaSalida,fechaEntrada).subscribe(
+    (motoristasData: IMotorista[]) => {
+      if(motoristasData.length > 0) {
+        this.motoristas = motoristasData;
+      }else if(motoristasData.length == 0 && this.soliVeOd.motorista == null){
+        this.mensajesService.mensajesToast("warning", "No hay motoristas disponibles.");
+      }else if(motoristasData.length == 0 && this.soliVeOd.motorista != null){
+        this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+      }
+    });
+  }
+//fin del metodo
   // subir el archivo
   cambioDeArchivo(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -404,8 +474,8 @@ export class ModalSecretariaComponent implements OnInit {
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
                 this.mensajesService.mensajesToast("success", "Asignación exitosa");
-                if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 15){
-                  this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+                if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 6){
+                  this.enviarEmailSD('DECANO', 'Solicitud de vehículo','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
                 }
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
@@ -430,8 +500,8 @@ export class ModalSecretariaComponent implements OnInit {
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
             this.mensajesService.mensajesToast("success", "Asignación exitosa");
-            if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 15) {
-              this.enviarEmailSD('DECANO', 'Solicitud de vehículo pendiente de aprobación', 'Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
+            if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 6) {
+              this.enviarEmailSD('DECANO', 'Solicitud de vehículo', 'Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
             }
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
@@ -472,7 +542,7 @@ export class ModalSecretariaComponent implements OnInit {
         }else if(tipoVehiculo != '' && tipoVehiculo != this.soliVeOd.vehiculo.clase) {
           this.placas = [];
           this.formularioSoliVe.get('vehiculo').setValue('');
-          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehiculos disponibles del tipo seleccionado.");
+          this.mensajesService.mensajesToast("warning", "En estas fechas, no hay vehículos disponibles del tipo seleccionado.");
         }
       },
       (error: any) => {
@@ -481,9 +551,12 @@ export class ModalSecretariaComponent implements OnInit {
     );
 
     // inicio de carga motirista
-    this.formularioSoliVe.get('motorista').setValue(null);
-     console.log("fechaSalida: ",fechaSalida);
-    this.soliVeService.obtenerMotoristas(fechaSalida,fechaEntrada);
+    //this.formularioSoliVe.get('motorista').setValue(null);
+
+    this.cargaMotorista(fechaSalida,fechaEntrada);
+
+   // this.soliVeService.obtenerMotoristas(fechaSalida,fechaEntrada);
+
     // fin
 
   }
@@ -731,7 +804,7 @@ export class ModalSecretariaComponent implements OnInit {
           }
           this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           if (data.estado == 6) {
-            this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo pendiente de revisión',
+            this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo',
             `Tiene una solicitud vehículo pendiente de revisión. ${data.observaciones}.`);
           } else if( data.estado == 15 ){
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
@@ -869,7 +942,7 @@ export class ModalSecretariaComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: mensaje,
-          centro: 'Por favor ingrese al sistema para ver más detalles',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -890,11 +963,11 @@ export class ModalSecretariaComponent implements OnInit {
           this.usuarioActivo.empleado.apellido;
         const email: IEmail = {
           asunto: 'Solicitud de vehículo ANULADA',
-          titulo: 'Solicitud de vehículo ANULADA',
+          titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: "Su solicitud ha sido anulada por "+nombreUserAccion+". "+obsevacion,
-          centro: 'Por favor ingrese al sistema para ver más detalles',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -915,7 +988,7 @@ export class ModalSecretariaComponent implements OnInit {
           this.usuarioActivo.empleado.apellido;
         const email: IEmail = {
           asunto: 'Solicitud de vehículo APROBADA',
-          titulo: 'Solicitud de vehículo APROBADA',
+          titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales",
@@ -931,4 +1004,9 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   /** fin correos */
+
+
+  get textoBoton(): string {
+    return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+  }
 }

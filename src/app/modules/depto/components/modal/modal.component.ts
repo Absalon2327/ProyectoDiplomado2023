@@ -61,16 +61,14 @@ export class ModalComponent implements OnInit {
     if (this.formDepto.valid) {
       if (this.deptos != null) {
         this.editando();
-        console.log("editando");
       } else {
-        console.log("registrando");
+
         this.registrando();
       }
+
     } else {
-      this.mensajesService.mensajesToast(
-        "warning",
-        "Complete lo que se indican"
-      );
+      //Usar mensajes globales :u
+      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
   }
 
@@ -118,7 +116,6 @@ export class ModalComponent implements OnInit {
           icon: 'success',
           text: 'Datos Guardados con exito'
         });
-
       }
     });
   }
@@ -132,8 +129,7 @@ export class ModalComponent implements OnInit {
       descripcion: this.formDepto.controls['descripcion'].value,
       tipo: this.formDepto.controls['tipo'].value,
       estado: 8
-    }
-      ;
+    };
 
     data.nombre = data.nombre.toUpperCase();
 
@@ -166,6 +162,7 @@ export class ModalComponent implements OnInit {
           icon: 'success',
           text: 'Datos Guardados con exito'
         });
+
       }
     });
   }

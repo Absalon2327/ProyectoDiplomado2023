@@ -1,0 +1,55 @@
+<button
+  type="button"
+  class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+  (click)="openModal(content)"
+  ngbTooltip="Ver Detalle de Proveedor"
+>
+  <i class="mdi mdi-18px mdi-eye-outline"></i>
+</button>
+
+<ng-template #content role="document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">
+      Detalle de
+      {{ proveedor.nombre }}
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-hidden="true"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="card text-center">
+      <div class="card-header">
+        {{
+          proveedor.encargado == null || ""
+            ? "Sin encargado"
+            : proveedor.encargado
+        }}
+        | {{ proveedor.telefono | slice : 0 : 4 }}-{{
+          proveedor.telefono | slice : 4
+        }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ proveedor.tipo == 13 ? "Gasolinera" : "UES" }}
+        </h5>
+        <p class="card-text">{{ proveedor.direccion }}</p>
+        <ng-container *ngIf="proveedor.estado == 8; else estado">
+          <h5><span class="badge rounded-pill bg-success">Activo</span></h5>
+        </ng-container>
+        <ng-template #estado>
+          <h5><span class="badge rounded-pill bg-danger">Inactivo</span></h5>
+        </ng-template>
+      </div>
+      <div class="card-footer text-muted">{{ proveedor.email }}</div>
+    </div>
+  </div>
+  <div class="modal-footer custom-modal">
+    <button class="btn btn-dark w-sm" (click)="modal.close('Close click')">
+      Cerrar
+    </button>
+  </div>
+</ng-template>

@@ -152,12 +152,8 @@ export class PasswordresetComponent implements OnInit {
         })
       },
       (err) => {
-        Swal.close();
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err,
-        });
+        //Usar mensajes globales :u
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
         this.code = false;
       }
     );
@@ -180,11 +176,8 @@ export class PasswordresetComponent implements OnInit {
       },
       (err) => {
         Swal.close();
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err,
-        });
+        //Usar mensajes globales :u
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
         this.code = false;
       }
     );
@@ -237,16 +230,14 @@ export class PasswordresetComponent implements OnInit {
           })
         },
         (err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: err,
-          });
+          //Usar mensajes globales :u
+          this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
           this.resetpass = false;
         }
       );
     } else {
-      alert('Por favor, complete el código de 5 dígitos.');
+          //Usar mensajes globales :u
+          this.mensajesService.mensajesSweet("error","Error","Por favor, complete el código de 5 dígitos.", "Entiendo");
     }
   }
 
@@ -394,11 +385,8 @@ export class PasswordresetComponent implements OnInit {
         })
       },
       (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err,
-        });
+        //Usar mensajes globales :u
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
       }
     );
   }

@@ -54,7 +54,7 @@ export const MENU: MenuItem[] = [
         role: ["ADMIN","JEFE_DEPTO","SECR_DECANATO","DECANO"],
         parentId: 9,
       },
-   
+
     ],
   },
   {
@@ -158,14 +158,14 @@ export const MENU: MenuItem[] = [
   },
   {
     id: 25,
-    label: "Movimientos de vales",
+    label: "Movimientos de Vales",
     icon: "mdi mdi-checkbox-multiple-blank-outline",
     role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
     link: "/solicitudes/movimientosvales"
   },
   {
     id: 26,
-    label: "Vehiculos",
+    label: "Vehículos",
     icon: "mdi mdi-car-outline",
     role: ["ADMIN","ASIS_FINANCIERO"],
     link: "/vehiculo/listar"
@@ -437,7 +437,7 @@ export const MENU_ASIS_FINAN: MenuItem[] = [
   },
   {
     id: 14,
-    label: "Movimientos de vales",
+    label: "Movimientos de Vales",
     icon: "mdi mdi-checkbox-multiple-blank-outline",
     role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
     link: "/solicitudes/movimientosvales"
@@ -561,7 +561,7 @@ export const MENU_JEFE_FINAN: MenuItem[] = [
   },
   {
     id: 19,
-    label: "Movimientos de vales",
+    label: "Movimientos de Vales",
     icon: "mdi mdi-checkbox-multiple-blank-outline",
     role: ["ADMIN","ASIS_FINANCIERO","JEFE_FINANACIERO"],
     link: "/solicitudes/movimientosvales"
