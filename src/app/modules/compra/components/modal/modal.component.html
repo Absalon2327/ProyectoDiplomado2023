@@ -4,6 +4,7 @@
   [ngClass]="getClassOf()"
   (click)="openModal(content, compra)"
   [innerHTML]="getIconsOf()"
+  ngbTooltip="{{ leyenda != 'Agregar'?'Editar Compra':'' }}"
 >
   {{ leyenda }}
 </button>
@@ -331,6 +332,7 @@
             placeholder="Descripción"
             formControlName="descripcion"
             [class]="esCampoValido('descripcion')"
+            (keyup)="formatInputMayusDet('descripcion', $event)"
           ></textarea>
           <div class="invalid-feedback">
             <span

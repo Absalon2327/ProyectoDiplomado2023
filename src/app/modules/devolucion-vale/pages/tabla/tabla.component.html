@@ -2,38 +2,38 @@
   <table class="table table-centered table-nowrap">
     <thead class="table-light">
       <tr>
-        <th class="align-middle">Código de Vale</th>
-        <th class="align-middle">Fecha de Compra</th>
-        <th class="align-middle">Valor</th>
-        <th class="align-middle">Factura</th>
-        <th class="align-middle">Fecha Ven. Vale</th>
+        <th class="align-middle text-center">Código de Vale</th>
+        <th class="align-middle text-center">Fecha de Compra</th>
+        <th class="align-middle text-center">Valor</th>
+        <th class="align-middle text-center">Factura</th>
+        <th class="align-middle text-center">Fecha Ven. Vale</th>
       </tr>
     </thead>
     <tbody>
       <tr
         *ngFor="let data of vales | filter : queryString | paginate : { itemsPerPage: 10, currentPage: p }; let i = index"
       >
-        <td>
+        <td class="align-middle text-center">
           <a class="text-body fw-bold">
             {{ data.correlativo }}
           </a>
         </td>
-        <td>{{ data.compra.fechaCompra | date : "dd/MM/yyyy h:mm a" }}</td>
-        <td>{{ data.valor | currency : "USD" : "symbol" : "1.2-2" }}</td>
+        <td class="align-middle text-center">{{ data.compra.fechaCompra | date : "dd/MM/yyyy h:mm a" }}</td>
+        <td class="align-middle text-center">{{ data.valor | currency : "USD" : "symbol" : "1.2-2" }}</td>
         <ng-container
           *ngIf="
             data.compra.factura == null || data.compra.factura == '';
             else factura
           "
         >
-          <td>N/A</td>
+          <td class="align-middle text-center">N/A</td>
         </ng-container>
         <ng-template #factura>
-          <td>
+          <td class="align-middle text-center">
             {{ data.compra.factura }}
           </td>
         </ng-template>
-        <td>{{ data.fechaVencimiento | date : "dd/MM/yyyy" }}</td>
+        <td class="align-middle text-center">{{ data.fechaVencimiento | date : "dd/MM/yyyy" }}</td>
       </tr>
     </tbody>
   </table>
