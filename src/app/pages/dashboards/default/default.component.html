@@ -1,26 +1,20 @@
 <app-loader></app-loader>
 
-<ng-container
-  *ngIf="
+<ng-container *ngIf="
     usuariojson?.role == 'ASIS_FINANCIERO' ||
     usuariojson?.role == 'JEFE_FINANACIERO'
-  "
->
+  ">
   <app-mostrar></app-mostrar>
 </ng-container>
 
-<ng-container
-  *ngIf="
+<ng-container *ngIf="
     usuariojson?.role == 'USER'
-  "
->
+  ">
   <app-home-user></app-home-user>
 </ng-container>
-<ng-container
-  *ngIf="
+<ng-container *ngIf="
     usuariojson?.role == 'JEFE_DEPTO'
-  "
->
+  ">
   <app-home-jefe></app-home-jefe>
 </ng-container>
 
@@ -28,27 +22,21 @@
   <app-listar></app-listar>
 </ng-container>
 
-<ng-container
-  *ngIf="
+<ng-container *ngIf="
     usuariojson?.role == 'SECR_DECANATO'
-  "
->
+  ">
   <app-home-secre></app-home-secre>
 </ng-container>
 
-<ng-container
-  *ngIf="
+<ng-container *ngIf="
     usuariojson?.role == 'DECANO'
-  "
->
+  ">
   <app-home-decano></app-home-decano>
 </ng-container>
 
-<ng-container
-  *ngIf="
+<ng-container *ngIf="
     usuariojson?.role == 'ADMIN'
-  "
->
+  ">
   <app-home-admin></app-home-admin>
 </ng-container>
 
@@ -58,9 +46,7 @@
     <!-- start page title -->
     <div class="row">
       <div class="col-12">
-        <div
-          class="page-title-box d-flex align-items-center justify-content-between"
-        >
+        <div class="page-title-box d-flex align-items-center justify-content-between">
           <h4 class="mb-0 font-size-18">Panel de Control</h4>
           <div class="page-title-right">
             <ol class="breadcrumb m-0">
@@ -79,32 +65,17 @@
         <!-- Componente 0 -->
         <div class="row">
           <div class="col-md-3">
-            <app-stat
-              [title]="'Vales disponibles'"
-              [value]="cards?.vales"
-              [icon]="'mdi mdi-checkbook'"
-            ></app-stat>
+            <app-stat [title]="'Vales disponibles'" [value]="cards?.vales" [icon]="'mdi mdi-checkbook'"></app-stat>
           </div>
           <div class="col-md-3">
-            <app-stat
-              [title]="'Misiones en proceso'"
-              [value]="cards?.misiones"
-              [icon]="'dripicons-pulse'"
-            ></app-stat>
+            <app-stat [title]="'Misiones en proceso'" [value]="cards?.misiones" [icon]="'dripicons-pulse'"></app-stat>
           </div>
           <div class="col-md-3">
-            <app-stat
-              [title]="'Misiones del dia'"
-              [value]="cards?.misioneshoy"
-              [icon]="'mdi mdi-bus'"
-            ></app-stat>
+            <app-stat [title]="'Misiones del dia'" [value]="cards?.misioneshoy" [icon]="'mdi mdi-bus'"></app-stat>
           </div>
           <div class="col-md-3">
-            <app-stat
-              [title]="'Misiones del mes'"
-              [value]="cards?.misionesmes"
-              [icon]="'mdi mdi-bus-multiple'"
-            ></app-stat>
+            <app-stat [title]="'Misiones del mes'" [value]="cards?.misionesmes"
+              [icon]="'mdi mdi-bus-multiple'"></app-stat>
           </div>
         </div>
 
@@ -120,11 +91,7 @@
                     </div>
                   </div>
                   <div class="col-4 align-self-end">
-                    <img
-                      src="assets/images/profile-img.png"
-                      alt=""
-                      class="img-fluid"
-                    />
+                    <img src="assets/images/profile-img.png" alt="" class="img-fluid" />
                   </div>
                 </div>
               </div>
@@ -132,11 +99,7 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="image-container mb-4">
-                      <img
-                        class="rounded-circle header-profile-user"
-                        [src]="fotoempleado"
-                        alt="Header Avatar"
-                      />
+                      <img class="rounded-circle header-profile-user" [src]="fotoempleado" alt="Header Avatar" />
                     </div>
                     <h5 class="font-size-12 text-truncate">
                       {{ this.empleado.nombre }}
@@ -164,17 +127,10 @@
                       </div>
                       <div class="button-container">
                         <div class="mt-2">
-                          <app-modal
-                            [leyenda]="'Datos'"
-                            [home]="true"
-                          ></app-modal>
+                          <app-modal [leyenda]="'Datos'" [home]="true"></app-modal>
                         </div>
                         <div class="mt-2">
-                          <app-modal
-                            [leyenda]="'Credenciales'"
-                            [home]="true"
-                            [nuevo]="usuariojson?.nuevo"
-                          ></app-modal>
+                          <app-modal [leyenda]="'Credenciales'" [home]="true" [nuevo]="usuariojson?.nuevo"></app-modal>
                         </div>
                       </div>
                     </div>

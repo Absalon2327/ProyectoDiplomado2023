@@ -68,11 +68,8 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     }else{
-      //Usar mensajes globales :u
       this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
     }
-
-
     }
 
     registrando(){

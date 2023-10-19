@@ -154,6 +154,10 @@ export class ModalComponent implements OnInit {
     } else {
       //Usar mensajes globales :u
       this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
+      
+      return Object.values(this.formBuilder.controls).forEach((control) =>
+        control.markAsTouched()
+      );
 
     }
   }
@@ -225,6 +229,7 @@ export class ModalComponent implements OnInit {
   registrando() {
 
     const empleado = this.formBuilder.value;
+    empleado.correo =  empleado.correo.toLowerCase();
     if (this.imagen === 'no hay') {
       this.empleadoService.postEmpleado(empleado).subscribe((resp: any) => {
         if (resp) {

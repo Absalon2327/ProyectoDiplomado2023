@@ -123,7 +123,7 @@ export class ModalComponent implements OnInit {
     } else {
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioGeneral.controls).forEach((control) =>
         control.markAsTouched()

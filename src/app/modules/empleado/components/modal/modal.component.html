@@ -127,7 +127,7 @@
                                 <span *ngIf="formBuilder.get('nombre')?.errors?.['required']">
                                     Ingrese el nombre</span>
                                 <span *ngIf="formBuilder.get('nombre')?.errors?.['pattern']">
-                                    No debe contener numeros</span>
+                                    No debe contener números ni espacios</span>
                             </div>
                         </div>
                         <!-- fin de nombre Empleado -->
@@ -147,7 +147,7 @@
                                 <span *ngIf="formBuilder.get('apellido')?.errors?.['required']">
                                     Ingrese el apellido</span>
                                 <span *ngIf="formBuilder.get('apellido')?.errors?.['pattern']">
-                                    No debe contener numeros</span>
+                                    No debe contener números ni espacios</span>
                             </div>
                         </div>
                         <!-- fin de apellido Empleado -->
