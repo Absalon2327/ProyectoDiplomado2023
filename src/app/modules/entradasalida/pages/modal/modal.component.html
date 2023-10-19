@@ -1,11 +1,11 @@
 <span *ngIf="leyenda !== 'Entrada'" >
     <div class="text-sm-end">
-        <button type="button" class="btn btn-salida btn-separado"  (click)="openModal(content)">{{titulo}}</button>
+        <button type="button" class="btn btn-dark btn-separado"  (click)="openModal(content)">{{titulo}}</button>
     </div>
 </span>
 <span *ngIf="leyenda !== 'Salida'" >
     <div class="text-sm-end">
-        <button type="button" class="btn btn-entrada"  (click)="openModal(content)">{{titulo}}</button>
+        <button type="button" class="btn btn-primary"  (click)="openModal(content)">{{titulo}}</button>
     </div>
 </span>
 <span *ngIf="leyenda === titulo && titulo == 'Editar'">
@@ -87,14 +87,14 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label>Combustible</label><span class="text-danger"> *</span>
-                            <ng-select [class]="esCampoValido('combustible')" [items]="combustible" id="combustible" name="combustible" [ngModel]="entradasalidaOd?.combustible" placeholder="Selecciona una opción"
+                            <ng-select [class]="esCampoValido('combustible')" [selectOnTab]="true" labelForId="combustible"[items]="combustible" id="combustible" name="combustible" [ngModel]="entradasalidaOd?.combustible" placeholder="Seleccione una opción"
                                 formControlName="combustible" autocomplete="off" >
                                 <ng-option [value]="">Selecciona una opción</ng-option>
                                 <ng-option *ngFor="let combu of combustible" [value]="combu">{{combu}}</ng-option>
                             </ng-select>
                             <div class="invalid-feedback">
                                 <!-- aqui la validación-->
-                                <span *ngIf="formBuilder.get('combustible')?.errors?.['required']">Seleccione una opción del campo</span>
+                                <span *ngIf="formBuilder.get('combustible')?.errors?.['required']">Seleccione una opción de combustible</span>
                             </div>
                         </div>
                     </div>
