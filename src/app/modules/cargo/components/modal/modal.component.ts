@@ -68,12 +68,10 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     }else{
-      Swal.fire({
-        position: 'center',
-        title: 'Faltan datos en el formuario',
-        text: 'Complete todos los campos requeridos',
-        icon: 'warning',
-      });
+      this.mensajesService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
     }
 
 

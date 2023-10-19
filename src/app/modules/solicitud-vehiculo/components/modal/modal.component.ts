@@ -261,7 +261,7 @@ export class ModalComponent implements OnInit {
 
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioSoliVe.controls).forEach((control) =>
         control.markAsTouched()

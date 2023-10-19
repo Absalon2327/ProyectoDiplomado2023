@@ -20,7 +20,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 /**
  * Reset-password component
  */
-export class PasswordresetComponent implements OnInit, AfterViewInit {
+export class PasswordresetComponent implements OnInit {
 
   resetForm: FormGroup;
   submitted = false;
@@ -48,12 +48,12 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(
-    private formBuilder: FormBuilder, 
-    private mensajesService: MensajesService, 
-    private usuarioService: UsuarioService, 
-    private router: Router, 
-    private modalService: NgbModal) { 
-
+    private fb: FormBuilder,
+    private mensajesService: MensajesService,
+    private usuarioService: UsuarioService,
+    private router: Router,
+    ) {
+      this.resetForm = this.iniciarFormulario();
     }
 
 
@@ -61,51 +61,57 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
     {
       id: 1,
       type: "info",
-      message: "El correo electronico sera funcional solo cuando se encuentre conectado a la red de la UES-FMP.",
+      message: "El correo electronico sera funcional solo cuando se encuentre en la base de datos y sea el correcto.",
       show: false,
     },
   ];
 
   ngOnInit() {
 
-    this.resetForm = this.formBuilder.group({
+  }
+
+  private iniciarFormulario() {
+    return this.fb.group({
       correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
       dui: ['', [Validators.required]],
       clave: [''],
     });
   }
 
-  ngAfterViewInit() {
-  }
-
-  // convenience getter for easy access to form fields
-  get f() { return this.resetForm.controls; }
-
   /**
    * On submit form
    */
   onSubmit() {
     if (this.resetForm.valid && !this.code && !this.resetpass && this.anothermethod) {
+
       this.resetpassCD();
 
     } else if (this.code) {
       this.submitCode();
 
     } else if (!this.anothermethod) {
-      this.resetpassEmail();
-
+      if (this.resetForm.get('correo').valid) {
+        this.resetpassEmail();
+      } else {
+        this.mensajesService.mensajesToast(
+          "warning",
+          "Complete lo que se indican"
+        );
+      }
     } else {
 
       if (this.confirma == "confirmada" && this.media) {
         this.resetpassword();
 
       } else {
-        Swal.fire({
-          position: "center",
-          title: "Faltan parametros de seguridad",
-          html: "Las claves deben coincidir y tener seguridad media como minimo",
-          icon: "warning",
-        });
+        this.mensajesService.mensajesToast(
+          "warning",
+          "Complete lo que se indican"
+        );
+        
+        return Object.values(this.resetForm.controls).forEach((control) =>
+          control.markAsTouched()
+        );
       }
 
     }
@@ -406,6 +412,9 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
 
   Anothermethod() {
     this.anothermethod = !this.anothermethod;
+    this.alerts.map((alert) => {
+      alert.message = "Debe ingresar correo institucional y DUI";
+    });
   }
 
   cargando() {
@@ -418,32 +427,42 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
     });
   }
 
-   //////   metodos para la ayuda ///////
-   CambiarAlert(alert) {
-    alert.show = !alert.show;
-    this.modalService.dismissAll();
-  }
-
-  restaurarAlerts() {
-    this.alerts.forEach((alert) => {
-      alert.show = true;
-    });
-  }
-
-  siMuestraAlertas() {
-    return this.alerts.every((alert) => alert.show);
-  }
-
-    //// metodo par abrir la modal ////
-    openModal(content: any) {
-      //hacer que la modal no se cierre al precionar fuera de ella -> backdrop: 'static', keyboard: false
-      this.modalService.open(content, {
-        size: "",
-        centered: true,
-        backdrop: "static",
-        keyboard: false,
+  //////   metodos para la ayuda ///////
+  /*    CambiarAlert(alert) {
+      alert.show = !alert.show;
+      this.modalService.dismissAll();
+    }
+  
+    restaurarAlerts() {
+      this.alerts.forEach((alert) => {
+        alert.show = true;
       });
     }
+  
+    siMuestraAlertas() {
+      return this.alerts.every((alert) => alert.show);
+    } */
+
+  //// metodo par abrir la modal ////
+  /*     openModal(content: any) {
+        //hacer que la modal no se cierre al precionar fuera de ella -> backdrop: 'static', keyboard: false
+        this.modalService.open(content, {
+          size: "",
+          centered: true,
+          backdrop: "static",
+          keyboard: false,
+        });
+      } */
+
+  mostrarAyuda() {
+    let mensaje;
+
+    this.alerts.map((alert) => {
+      mensaje = alert.message;
+    });
+
+    this.mensajesService.mensajesSweet("info", "¡Importante!", mensaje, "Entiendo");
+  }
 }
 
 

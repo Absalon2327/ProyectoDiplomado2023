@@ -28,7 +28,7 @@ import {
   IValesAsignarPage,
   SearchResult,
 } from "../../solicitudes/Interfaces/solicitudValeAprobar.interface";
-import { SortDirection } from "src/app/pages/crypto/orders/orders-sortable.directive";
+export type SortDirection = 'asc' | 'desc' | '';
 
 interface State {
   page: number;

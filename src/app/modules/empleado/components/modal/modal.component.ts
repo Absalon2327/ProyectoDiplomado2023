@@ -152,13 +152,14 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     } else {
-      Swal.fire({
-        position: 'center',
-        title: 'Faltan datos en el formuario',
-        html: 'Complete todos los campos requeridos (<span style="color: red;">*</span>)',
-        icon: 'warning',
-      });
-
+      this.mensajesService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
+      
+      return Object.values(this.formBuilder.controls).forEach((control) =>
+        control.markAsTouched()
+      );
     }
   }
 
@@ -229,6 +230,7 @@ export class ModalComponent implements OnInit {
   registrando() {
 
     const empleado = this.formBuilder.value;
+    empleado.correo =  empleado.correo.toLowerCase();
     if (this.imagen === 'no hay') {
       this.empleadoService.postEmpleado(empleado).subscribe((resp: any) => {
         if (resp) {

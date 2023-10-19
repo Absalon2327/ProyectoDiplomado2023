@@ -41,23 +41,24 @@ export class LoginComponent implements OnInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private router: Router,
     private modalService: NgbModal,
     private mensajesService: MensajesService
-  ) {}
+  ) { 
+    this.loginForm = this.iniciarFormulario();
+  }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
+    
+  }
+
+  private iniciarFormulario() {
+    return this.fb.group({
       email: ["", [Validators.required]],
       password: ["", [Validators.required]],
     });
-  }
-
-  // convenience getter for easy access to form fields
-  get f() {
-    return this.loginForm.controls;
   }
 
   /**
@@ -69,6 +70,8 @@ export class LoginComponent implements OnInit {
         nombre: this.loginForm.get("email").value,
         clave: this.loginForm.get("password").value,
       };
+
+      login.nombre = login.nombre.toLowerCase();
 
       this.cargando();
 
@@ -109,6 +112,15 @@ export class LoginComponent implements OnInit {
           });
         }
       );
+    } else {
+      this.mensajesService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
+
+      return Object.values(this.loginForm.controls).forEach((control) =>
+        control.markAsTouched()
+      );
     }
   }
 
@@ -116,19 +128,18 @@ export class LoginComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  //// metodo par abrir la modal ////
-  openModal(content: any) {
-    //hacer que la modal no se cierre al precionar fuera de ella -> backdrop: 'static', keyboard: false
-    this.modalService.open(content, {
-      size: "",
-      centered: true,
-      backdrop: "static",
-      keyboard: false,
-    });
+  mostrarAyuda() {
+    this.mensajesService.mensajesSweet("info", "¡Importante!", "Ingrese su nombre de usuario y contraseña. Si es la primera vez que inicia sesión, su contraseña será el número de su DUI.", "Entiendo");
   }
 
-  mostrarAyuda(){
-    this.mensajesService.mensajesSweet("info", "¡Importante!", "Ingrese su nombre de usuario y contraseña. Si es la primera vez que inicia sesión, su contraseña será el número de su DUI.","Entiendo");
+
+  esCampoValido(campo: string) {
+    const validarCampo = this.loginForm.get(campo);
+    return !validarCampo?.valid && validarCampo?.touched
+      ? "is-invalid"
+      : validarCampo?.touched
+        ? "is-valid"
+        : "";
   }
 
   //////   metodos para la ayuda ///////

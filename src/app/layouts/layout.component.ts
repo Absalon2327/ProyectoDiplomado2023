@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { EventService } from '../core/services/event.service';
 
 import {
-  LAYOUT_VERTICAL, LAYOUT_HORIZONTAL, LAYOUT_WIDTH, TOPBAR
+  LAYOUT_VERTICAL, LAYOUT_WIDTH, TOPBAR
 } from './layouts.model';
 
 @Component({
@@ -73,10 +73,4 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     return this.layoutType === LAYOUT_VERTICAL;
   }
 
-  /**
-   * Check if the horizontal layout is requested
-   */
-  isHorizontalLayoutRequested() {
-    return this.layoutType === LAYOUT_HORIZONTAL;
-  }
 }
