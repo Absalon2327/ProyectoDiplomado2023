@@ -40,10 +40,10 @@
   </div>
 <!-- Aqui termina el div la alerta -->
 
-<div class="row">
+
   <div class="col-md-12">
     <!--inicio del campo nombre-->
-    <div class="form-group row m-4">
+    <div class="mt-4">
       <label class="control-label">Nombre:<span class="text-danger"> *</span></label>
       <input type="text"
       class="form-control"
@@ -58,11 +58,11 @@
           <span [ngStyle]="{color:'tomato', 'font-size': '12'}">Solamente letras y respecte los espacios </span>
           </div>
     </div>
-
+  </div>
     <!--fin del campo nombre-->
 
     <!--inicio del campo descripcion-->
-  <div class="form-group row m-4">
+  <div class="mt-4">
     <label class="control-label">Descripción:<span class="text-danger"> *</span></label>
     <textarea type="text"
     class="form-control"
@@ -80,10 +80,12 @@
 
   <!--fin del campo descripcion-->
   <!--Inicio checkbox-->
-  <div class="form-group" *ngIf="leyenda !== 'Detalle'">
-    <div class="form-group row m-4">
+  <div class="" *ngIf="leyenda !== 'Detalle'">
+    <div class="col-md-6">
+    <div class="mt-2">
       <label class="control-label">Tipo:<span class="text-danger"> *</span></label>
-      <div class="form-check form-check-inline m-3">
+      <div class="ms-3 d-flex mt-2">
+      <div class="form-check form-check-inline  me-3">
         <input
           type="radio"
           class="form-check-input"
@@ -94,8 +96,8 @@
         />
         <label class="form-check-lable">Académico</label>
       </div>
-      <!-- Fin del input mujer-->
-      <div class="form-check form-check-inline m-3" >
+      <!-- Fin del input administrativo-->
+      <div class="form-check form-check-inline me-3" >
         <input
           type="radio"
           class="form-check-input"
@@ -106,17 +108,19 @@
         />
         <label class="form-check-lable">Administrativo</label>
       </div>
+        </div>
     </div>
+  </div>
   </div>
 
   <!--Final checkbox-->
 
-  <div  class="form-group row m-4" *ngIf="leyenda === 'Detalle'" >
+  <div  class="mt-4" *ngIf="leyenda === 'Detalle'" >
     <label class="control-label">Tipo: <span class="text-danger"> {{ deptos.tipo }} </span></label>
   </div>
 
-  </div>
-</div>
+
+
  </div>
 
   <div class="modal-footer">
