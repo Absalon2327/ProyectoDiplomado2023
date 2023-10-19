@@ -184,11 +184,7 @@ export class SolicitanteComponent implements OnInit {
       (err) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
       }
     );
   }
@@ -217,11 +213,7 @@ export class SolicitanteComponent implements OnInit {
       (err) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
       }
     );
   }

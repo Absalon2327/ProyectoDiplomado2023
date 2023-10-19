@@ -1,146 +1,123 @@
+<!-- Modal -->
 
-
- <!-- Modal -->
-
-  <div class="modal-header color-top-modal">
-    <h5 class="modal-title mt-0">{{leyenda}} Departamento</h5>
-    <!-- aqui inicia el botton la alerta -->
-    <div class="btn-alerta" *ngIf="alerts">
-      <i
-        class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor"
-        ngbTooltip="Mostrar Ayuda"
-        *ngIf="!siMuestraAlertas()"
-        (click)="restaurarAlerts()"
-      ></i>
-    </div>
-    <!-- aqui termina el botton la alerta -->
-    <button type="button" class="btn-close" aria-hidden="true" (click)="activeModal.dismiss('Cross click')"
-    ></button>
+<div class="modal-header color-top-modal">
+  <h5 class="modal-title mt-0">{{leyenda}} Departamento</h5>
+  <!-- aqui inicia el botton la alerta -->
+  <div class="btn-alerta" *ngIf="alerts">
+    <i class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor" ngbTooltip="Mostrar Ayuda"
+      *ngIf="!siMuestraAlertas()" (click)="restaurarAlerts()"></i>
   </div>
+  <!-- aqui termina el botton la alerta -->
+  <button type="button" class="btn-close" aria-hidden="true" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
 
-    <form (ngSubmit)="guardar()" [formGroup]="formDepto">
-      <div class="modal-body">
+<form (ngSubmit)="guardar()" [formGroup]="formDepto">
+  <div class="modal-body">
 
-  <!-- Aqui va el div la alerta -->
-  <div *ngFor="let alert of alerts">
-    <div
-      class="alert alert-{{ alert.type }} alert-dismissible fade show"
-      role="alert"
-      *ngIf="alert.show"
-    >
-      <strong>Importante!</strong>
-      {{ alert.message }}
-      <button
-        type="button"
-        class="btn-close"
-        (click)="CambiarAlert(alert)"
-        aria-label="Close"
-      ></button>
+    <!-- Aqui va el div la alerta -->
+    <div *ngFor="let alert of alerts">
+      <div class="alert alert-{{ alert.type }} alert-dismissible fade show" role="alert" *ngIf="alert.show">
+        <strong>Importante!</strong>
+        {{ alert.message }}
+        <button type="button" class="btn-close" (click)="CambiarAlert(alert)" aria-label="Close"></button>
+      </div>
     </div>
-  </div>
-<!-- Aqui termina el div la alerta -->
+    <!-- Aqui termina el div la alerta -->
 
 
-  <div class="col-md-12">
-    <!--inicio del campo nombre-->
-    <div class="mt-2">
-      <label class="control-label">Nombre:<span class="text-danger"> *</span></label>
-      <input type="text"
-      class="form-control"
-      formControlName="nombre"
-      placeholder="EJ: RECURSO HUMANO"
-      [readonly]="leyenda == 'Detalle'"
-      [class]="esCampoValido('nombre')">
-      <div *ngIf="nombre?.errors?.['required'] && nombre?.touched">
-        <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Nombre es obligatorio</span>
+    <div class="col-md-12">
+      <!--inicio del campo nombre-->
+      <div class="mt-2">
+        <label class="control-label">Nombre:<span class="text-danger"> *</span></label>
+        <input type="text" class="form-control" formControlName="nombre" placeholder="EJ: RECURSO HUMANO"
+          [readonly]="leyenda == 'Detalle'" [class]="esCampoValido('nombre')">
+
+        <div class="invalid-feedback">
+          <span *ngIf="nombre?.errors?.['required'] && nombre?.touched">
+            El campo Nombre es obligatorio
+          </span>
+          <span *ngIf="nombre?.errors?.['pattern'] && nombre?.touched">
+            Solamente letras y respecte los espacios
+          </span>
         </div>
-        <div *ngIf="nombre?.errors?.['pattern'] && nombre?.touched">
-          <span [ngStyle]="{color:'tomato', 'font-size': '12'}">Solamente letras y respecte los espacios </span>
-          </div>
+
+      </div>
     </div>
-  </div>
     <!--fin del campo nombre-->
 
     <!--inicio del campo descripcion-->
     <div class="col-md-12">
 
-  <div class="mt-2">
+      <div class="mt-2">
 
-    <label class="control-label">Descripción:<span class="text-danger"> *</span></label>
-    <textarea type="text"
-    class="form-control"
-    formControlName="descripcion"
-    placeholder="Descripcion"
-    [readonly]="leyenda == 'Detalle'"
-    [class]="esCampoValido('descripcion')"></textarea>
-    <div *ngIf="descripcion?.errors?.['required'] && descripcion?.touched">
-      <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Descripcion es obligatorio</span>
-      </div>
-      <div *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
-        <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras, espacio y numeros</span>
+        <label class="control-label">Descripción:<span class="text-danger"> *</span></label>
+        <textarea type="text" class="form-control" formControlName="descripcion" placeholder="Descripcion"
+          [readonly]="leyenda == 'Detalle'" [class]="esCampoValido('descripcion')"></textarea>
+
+        <div class="invalid-feedback">
+          <span *ngIf="descripcion?.errors?.['required'] && descripcion?.touched">
+            El campo Descripcion es obligatorio
+          </span>
+          <span *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
+            Solo letras, espacio y numeros
+          </span>
         </div>
-  </div>
-</div>
 
-  <!--fin del campo descripcion-->
-  <!--Inicio checkbox-->
-  <div class="" *ngIf="leyenda !== 'Detalle'">
-    <div class="col-md-12">
-
-    <div class="mt-2">
-      <label class="control-label">Tipo:<span class="text-danger"> *</span></label>
-      <div class="d-flex">
-      <div class="form-check form-check-inline">
-
-        <input
-          type="radio"
-          class="form-check-input"
-          formControlName="tipo"
-          value="Academico"
-          [readonly]="leyenda == 'Detalle'"
-          [class]="esCampoValido('tipo')"
-        />
-        <label class="form-check-lable">Académico</label>
       </div>
-      <!-- Fin del input administrativo-->
-      <div class="form-check form-check-inline me-3" >
-        <input
-          type="radio"
-          class="form-check-input"
-          formControlName="tipo"
-          value="Administrativo"
-          [readonly]="leyenda == 'Detalle'"
-          [class]="esCampoValido('tipo')"
-        />
-        <label class="form-check-lable">Administrativo</label>
-      </div>
-        </div>
     </div>
+
+    <!--fin del campo descripcion-->
+    <!--Inicio checkbox-->
+    <div class="" *ngIf="leyenda !== 'Detalle'">
+      <div class="col-md-12">
+
+        <div class="mt-2">
+          <label class="control-label">Tipo:<span class="text-danger"> *</span></label>
+          <div class="d-flex">
+            <div class="form-check form-check-inline">
+
+              <input type="radio" class="form-check-input" formControlName="tipo" value="Academico"
+                [readonly]="leyenda == 'Detalle'" [class]="esCampoValido('tipo')" />
+              <label class="form-check-lable">Académico</label>
+
+              <div class="invalid-feedback msj-tipo">
+                <span *ngIf="tipo?.errors?.['required'] && tipo?.touched">
+                  El campo tipo es obligatorio
+                </span>
+              </div>
+
+            </div>
+            
+            <!-- Fin del input administrativo-->
+            <div class="form-check form-check-inline me-3">
+              <input type="radio" class="form-check-input" formControlName="tipo" value="Administrativo"
+                [readonly]="leyenda == 'Detalle'" [class]="esCampoValido('tipo')" />
+              <label class="form-check-lable">Administrativo</label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!--Final checkbox-->
+
+    <div class="mt-4" *ngIf="leyenda === 'Detalle'">
+      <label class="control-label">Tipo: <span class="text-danger"> {{ deptos.tipo }} </span></label>
+    </div>
+
+
+
   </div>
-  </div>
-
-  <!--Final checkbox-->
-
-  <div  class="mt-4" *ngIf="leyenda === 'Detalle'" >
-    <label class="control-label">Tipo: <span class="text-danger"> {{ deptos.tipo }} </span></label>
-  </div>
-
-
-
- </div>
 
   <div class="modal-footer">
 
-   <button type="submit" class="btn btn-primary" *ngIf="leyenda !== 'Detalle'">
-    {{ leyenda !== 'Editar' ? 'Guardar' : 'Modificar' }}
-   </button>
+    <button type="submit" class="btn btn-primary" *ngIf="leyenda !== 'Detalle'">
+      {{ leyenda !== 'Editar' ? 'Guardar' : 'Modificar' }}
+    </button>
 
-   <button type="button" class="btn btn-dark"  (click)="activeModal.dismiss('Cross click')"
-   (click)="this.formDepto.reset()"> {{ leyenda !== 'Detalle' ? 'Cancelar' : 'Cerrar' }}</button>
+    <button type="button" class="btn btn-dark" (click)="activeModal.dismiss('Cross click')"
+      (click)="this.formDepto.reset()"> {{ leyenda !== 'Detalle' ? 'Cancelar' : 'Cerrar' }}</button>
   </div>
 
-  </form>
-
-
-
-
+</form>

@@ -105,11 +105,7 @@ export class LoginComponent implements OnInit {
           });
         },
         (err) => {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: err,
-          });
+          this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
         }
       );
     } else {
