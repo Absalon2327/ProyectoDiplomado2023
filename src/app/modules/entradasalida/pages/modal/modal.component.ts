@@ -225,7 +225,10 @@ export class ModalComponent implements OnInit {
       }
     } else {
       //Usar mensajes globales :u
-      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
+            this.mensajesService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
     }
   }
   registrando() {

@@ -85,7 +85,7 @@ export class SolicitanteComponent implements OnInit {
     this.userService.getUsuario();
     this.breadCrumbItems = [
       { label: "Solicitud de transporte" },
-      { label: "Mis Solicitudes / Reportes", active: true },
+      { label: "Reportes", active: true },
     ]; // miga de pan
     this.getEstados();
     this.obtenerUsuarioActivo();
@@ -729,13 +729,13 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Fecha de solicitud: ", bold: true },
+              { text: "Fecha de Solicitud: ", bold: true },
               this.formatDate(`${soliVehi.fechaSolicitud}`),
             ],
           },
           {
             text: [
-              { text: "Fecha de misión: ", bold: true },
+              { text: "Fecha de Misión: ", bold: true },
               this.formatDate(`${soliVehi.fechaSalida}`),
             ],
           },
@@ -759,17 +759,6 @@ export class SolicitanteComponent implements OnInit {
             text: [
               { text: "Lugar de la misión: ", bold: true },
               soliVehi.lugarMision,
-            ],
-          },
-        ],
-      },
-      { text: "\n" },
-      {
-        columns: [
-          {
-            text: [
-              { text: "Lugar que visitará: ", bold: true },
-              soliVehi.direccion,
             ],
           },
         ],
@@ -822,7 +811,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Fecha de compra: ", bold: true },
+              { text: "Fecha de Compra: ", bold: true },
               this.datePipe.transform(
                 compr.fechaCompra,
                 "dd/MM/yyyy HH:mm:ss a"
@@ -831,7 +820,7 @@ export class SolicitanteComponent implements OnInit {
           },
           {
             text: [
-              { text: "Fecha de vencimiento: ", bold: true },
+              { text: "Fecha de Vencimiento: ", bold: true },
               this.datePipe.transform(vale.fechavencimiento, "dd/MM/yyyy"),
             ],
           },
@@ -844,7 +833,7 @@ export class SolicitanteComponent implements OnInit {
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio unitario: $ ", bold: true }, vale.valor],
+            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor],
           },
           {
             text: [
@@ -1017,13 +1006,13 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Fecha de solicitud: ", bold: true },
+              { text: "Fecha de Solicitud: ", bold: true },
               this.formatDate(`${soliVehi.fechaSolicitud}`),
             ],
           },
           {
             text: [
-              { text: "Fecha de misión: ", bold: true },
+              { text: "Fecha de Misión: ", bold: true },
               this.formatDate(`${soliVehi.fechaSalida}`),
             ],
           },
@@ -1340,7 +1329,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Unidad solicitante: ", bold: true, fontSize: 11 },
+              { text: "Unidad Solicitante: ", bold: true, fontSize: 11 },
               { text: soliVehi.unidadSolicitante,fontSize: 11 },
             ],
           },

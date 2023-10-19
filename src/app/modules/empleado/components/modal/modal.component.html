@@ -122,12 +122,13 @@
                                 placeholder="Ingrese nombre" [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 maxlength="25" minlength="3"
                                 [class]="titulo != 'Detalle' ? esCampoValido('nombre') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" />
+                                [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" 
+                                (keyup)="onInputMayus('nombre', $event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('nombre')?.errors?.['required']">
                                     Ingrese el nombre</span>
                                 <span *ngIf="formBuilder.get('nombre')?.errors?.['pattern']">
-                                    No debe contener numeros</span>
+                                    No debe contener números ni espacios</span>
                             </div>
                         </div>
                         <!-- fin de nombre Empleado -->
@@ -142,12 +143,13 @@
                                 maxlength="25" minlength="3"
                                 [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 [class]="titulo != 'Detalle' ? esCampoValido('apellido') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" />
+                                [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" 
+                                (keyup)="onInputMayus('apellido', $event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('apellido')?.errors?.['required']">
                                     Ingrese el apellido</span>
                                 <span *ngIf="formBuilder.get('apellido')?.errors?.['pattern']">
-                                    No debe contener numeros</span>
+                                    No debe contener números ni espacios</span>
                             </div>
                         </div>
                         <!-- fin de apellido Empleado -->

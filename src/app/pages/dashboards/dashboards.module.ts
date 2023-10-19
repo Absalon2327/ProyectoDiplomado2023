@@ -7,14 +7,12 @@ import { UIModule } from '../../shared/ui/ui.module';
 import { WidgetModule } from '../../shared/widget/widget.module';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { SharedModule } from './saas/shared/shared.module'
+
 import { NgbDropdownModule, NgbTooltipModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap'
 import { SimplebarAngularModule } from 'simplebar-angular';
 
 import { DefaultComponent } from './default/default.component';
-import { SaasComponent } from './saas/saas.component';
-import { CryptoComponent } from './crypto/crypto.component';
-import { BlogComponent } from './blog/blog.component';
+
 import { EntradasalidaModule } from 'src/app/modules/entradasalida/entradasalida.module';
 import { LayoutsModule } from 'src/app/layouts/layouts.module';
 import { HomeFinancieroModule } from 'src/app/modules/home-financiero/home-financiero.module';
@@ -22,7 +20,7 @@ import { HomeSoliModule } from 'src/app/modules/homeSolicitudes/home-soli.module
 
 
 @NgModule({
-  declarations: [DefaultComponent, SaasComponent, CryptoComponent, BlogComponent],
+  declarations: [DefaultComponent ],
   imports: [
     CommonModule,
     FormsModule,
@@ -34,13 +32,11 @@ import { HomeSoliModule } from 'src/app/modules/homeSolicitudes/home-soli.module
     NgbNavModule,
     WidgetModule,
     NgApexchartsModule,
-    SharedModule,
-    SimplebarAngularModule
-    ,EntradasalidaModule,
+    SimplebarAngularModule,
+    EntradasalidaModule,
     LayoutsModule,
     HomeFinancieroModule,
     HomeSoliModule
-
   ]
 })
 export class DashboardsModule { }
