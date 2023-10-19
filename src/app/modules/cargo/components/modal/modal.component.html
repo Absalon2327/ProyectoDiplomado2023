@@ -50,12 +50,13 @@
     placeholder="Nombre"
     [readonly]="leyenda == 'Detalle'"
     [class]="esCampoValido('nombreCargo')">
-    <div *ngIf="nombreCargo?.errors?.['required'] && nombreCargo?.touched">
+    <div class="invalid-feedback" *ngIf="nombreCargo?.errors?.['required'] && nombreCargo?.touched">
       <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Nombre es obligatorio</span>
       </div>
       <div *ngIf="nombreCargo?.errors?.['pattern'] && nombreCargo?.touched">
         <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras y espacios</span>
         </div>
+        
   </div>
 
   <!--fin del campo nombre-->

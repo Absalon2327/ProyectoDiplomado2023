@@ -127,6 +127,11 @@ export class ModalComponent implements OnInit {
         }
       }
     } else {
+      this.mensajeService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
+
       return Object.values(this.formVehiculo.controls)
       .forEach((control) => control.markAsTouched());
     }

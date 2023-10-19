@@ -216,4 +216,8 @@ export class ModalComponent implements OnInit {
   get descripcion() {
     return this.formDepto.get('descripcion');
   }
+
+  get tipo() {
+    return this.formDepto.get('tipo');
+  }
 }

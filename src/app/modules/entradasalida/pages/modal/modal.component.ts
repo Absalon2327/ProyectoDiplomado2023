@@ -205,11 +205,7 @@ export class ModalComponent implements OnInit {
         }
       },
       (err: any) => {
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
         this.obtenerLista();
         this.recargar();
       }
@@ -446,11 +442,7 @@ export class ModalComponent implements OnInit {
         }).then(() => {});
       },
       (err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Algo salió mal",
-          text: err,
-        });
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
       }
     );
   }
