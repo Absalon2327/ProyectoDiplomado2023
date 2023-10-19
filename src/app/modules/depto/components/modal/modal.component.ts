@@ -72,6 +72,9 @@ export class ModalComponent implements OnInit {
         "warning",
         "Complete lo que se indican"
       );
+      return Object.values(this.formDepto.controls).forEach((control) =>
+        control.markAsTouched()
+      );
     }
   }
 

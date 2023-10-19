@@ -43,7 +43,7 @@
 
   <div class="col-md-12">
     <!--inicio del campo nombre-->
-    <div class="mt-4">
+    <div class="mt-2">
       <label class="control-label">Nombre:<span class="text-danger"> *</span></label>
       <input type="text"
       class="form-control"
@@ -63,7 +63,7 @@
 
     <!--inicio del campo descripcion-->
     <div class="col-md-12">
-  <div class="mt-4">
+  <div class="mt-2">
     <label class="control-label">Descripción:<span class="text-danger"> *</span></label>
     <textarea type="text"
     class="form-control"
@@ -84,10 +84,10 @@
   <!--Inicio checkbox-->
   <div class="" *ngIf="leyenda !== 'Detalle'">
     <div class="col-md-12">
-    <div class="mt-4">
+    <div class="mt-2">
       <label class="control-label">Tipo:<span class="text-danger"> *</span></label>
-      <div class="d-flex mt-2">
-      <div class="form-check form-check-inline  me-3">
+      <div class="d-flex">
+      <div class="form-check form-check-inline">
         <input
           type="radio"
           class="form-check-input"
@@ -131,8 +131,8 @@
     {{ leyenda !== 'Editar' ? 'Guardar' : 'Modificar' }}
    </button>
 
-   <button type="button" class="btn btn-dark" (click)="activeModal.dismiss('Cross click')"
-   (click)="this.formDepto.reset()">Cerrar</button>
+   <button type="button" class="btn btn-dark"  (click)="activeModal.dismiss('Cross click')"
+   (click)="this.formDepto.reset()"> {{ leyenda !== 'Detalle' ? 'Cancelar' : 'Cerrar' }}</button>
   </div>
 
   </form>
