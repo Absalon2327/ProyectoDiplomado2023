@@ -64,6 +64,12 @@
   border: 1px solid #813b3d; /* Cambia el color del borde a tu preferencia */
 }
 
+.btn.btn-info:focus {
+  background-color: #813b3d; /* Cambia el color a tu preferencia */
+  color: #ffffff; /* Cambia el color del texto a tu preferencia */
+  border: 1px solid #813b3d; /* Cambia el color del borde a tu preferencia */
+}
+
 .btn.btn-warning {
   background-color: #da7678; /* Cambia el color a tu preferencia */
   color: #ffffff; /* Cambia el color del texto a tu preferencia */
@@ -77,6 +83,12 @@
 }
 
 .btn.btn-warning:active {
+  background-color: #a15a5b; /* Cambia el color a tu preferencia */
+  color: #ffffff; /* Cambia el color del texto a tu preferencia */
+  border: 1px solid #a15a5b; /* Cambia el color del borde a tu preferencia */
+}
+
+.btn.btn-warning:focus {
   background-color: #a15a5b; /* Cambia el color a tu preferencia */
   color: #ffffff; /* Cambia el color del texto a tu preferencia */
   border: 1px solid #a15a5b; /* Cambia el color del borde a tu preferencia */
@@ -100,6 +112,12 @@
   border: 1px solid #6e363a; /* Cambia el color del borde a tu preferencia */
 }
 
+.btn.btn-success:focus {
+  background-color: #6e363a; /* Cambia el color a tu preferencia */
+  color: #ffffff; /* Cambia el color del texto a tu preferencia */
+  border: 1px solid #6e363a; /* Cambia el color del borde a tu preferencia */
+}
+
 .btn.btn-danger {
   background-color: #c06a69; /* Cambia el color a tu preferencia */
   color: #ffffff; /* Cambia el color del texto a tu preferencia */
@@ -113,6 +131,12 @@
 }
 
 .btn.btn-danger:active {
+  background-color: #814847; /* Cambia el color a tu preferencia */
+  color: #ffffff; /* Cambia el color del texto a tu preferencia */
+  border: 1px solid #814847; /* Cambia el color del borde a tu preferencia */
+}
+
+.btn.btn-danger:focus {
   background-color: #814847; /* Cambia el color a tu preferencia */
   color: #ffffff; /* Cambia el color del texto a tu preferencia */
   border: 1px solid #814847; /* Cambia el color del borde a tu preferencia */
