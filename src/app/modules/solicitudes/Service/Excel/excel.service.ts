@@ -169,7 +169,7 @@ export class ExcelService {
     const titulo7 = sheet.getCell("A11");
     sheet.mergeCells("A11", "D11");
     titulo7.value = `${
-      "Asignación de Vales de combustible " +
+      "Asignación de vales de combustible " +
       this.formatDate(`${fechaDesde}`) +
       ""
     }`;
