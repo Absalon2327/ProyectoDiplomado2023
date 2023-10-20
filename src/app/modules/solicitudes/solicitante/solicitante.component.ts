@@ -69,6 +69,7 @@ export class SolicitanteComponent implements OnInit {
   queryVale!: string;
 
   idVales!: IdVale[];
+  condicion: boolean;
 
   constructor(
     private soliVeService: SolicitudVehiculoService,
@@ -89,6 +90,20 @@ export class SolicitanteComponent implements OnInit {
     ]; // miga de pan
     this.getEstados();
     this.obtenerUsuarioActivo();
+    //this.condicion = true
+  }
+  getidsolivele(id:string): boolean{
+    this.consultaService.getConsultaDocumnetoValeId(id).subscribe(
+      (response: DocumetValeId[]) => {
+        // Cerrar SweetAlert de carga
+        return this.condicion = true
+      },
+      (err) => {
+        // Cerrar SweetAlert de carga
+       return this.condicion = false
+      }
+    );
+    return this.condicion
   }
   obtenerUsuarioActivo() {
     this.consultaService.getEmpleado().subscribe((usuario) => {
@@ -738,7 +753,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Objetivo de la misión: ", bold: true },
+              { text: "Objetivo de la Misión: ", bold: true },
               soliVehi.objetivoMision,
             ],
           },
@@ -749,7 +764,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar de la misión: ", bold: true },
+              { text: "Lugar de la Misión: ", bold: true },
               soliVehi.lugarMision,
             ],
           },
@@ -760,7 +775,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar que visitará: ", bold: true },
+              { text: "Lugar que Visitará: ", bold: true },
               soliVehi.direccion,
             ],
           },
@@ -825,7 +840,7 @@ export class SolicitanteComponent implements OnInit {
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor],
+            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor.toFixed(2)],
           },
           {
             text: [
@@ -1015,7 +1030,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Objetivo de la misión: ", bold: true },
+              { text: "Objetivo de la Misión: ", bold: true },
               soliVehi.objetivoMision,
             ],
           },
@@ -1026,7 +1041,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar de la misión: ", bold: true },
+              { text: "Lugar de la Misión: ", bold: true },
               soliVehi.lugarMision,
             ],
           },
@@ -1037,7 +1052,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar que visitará: ", bold: true },
+              { text: "Lugar que Visitará: ", bold: true },
               soliVehi.direccion,
             ],
           },
@@ -1132,7 +1147,7 @@ export class SolicitanteComponent implements OnInit {
       } else if (persona.estadosolive == 15) {
         this.estado = "Anulada";
       }
- 
+     if(persona.estadosolive != 7){
       tableRow.push([
         { text: `${j + 1}`, alignment: "center" },
         { text: `${persona.actividad}`, alignment: "center" },
@@ -1148,6 +1163,7 @@ export class SolicitanteComponent implements OnInit {
         { text: `${persona.cargo}`, alignment: "center" },
         { text: `${this.estado}`, alignment: "center" },
       ]);
+    }
       j++;
     }
     if (logv != null) {
@@ -1356,7 +1372,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Objetivo de la misión: ", bold: true, fontSize: 11 },
+              { text: "Objetivo de la Misión: ", bold: true, fontSize: 11 },
               { text: soliVehi.objetivoMision, fontSize: 11 },
             ],
           },
@@ -1367,7 +1383,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar de la misión: ", bold: true, fontSize: 11 },
+              { text: "Lugar de la Misión: ", bold: true, fontSize: 11 },
               { text: soliVehi.lugarMision, fontSize: 11 },
             ],
           },
@@ -1378,7 +1394,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Lugar que visitará: ", bold: true,fontSize: 11 },
+              { text: "Lugar que Visitará: ", bold: true,fontSize: 11 },
               { text: soliVehi.direccion,fontSize: 11 },
             ],
           },
@@ -1395,13 +1411,13 @@ export class SolicitanteComponent implements OnInit {
           },
           {
             text: [
-              { text: "Hora de salida: ", bold: true, fontSize: 11 },
+              { text: "Hora de Salida: ", bold: true, fontSize: 11 },
               { text: soliVehi.horaSalida, fontSize: 11 },
             ],
           },
           {
             text: [
-              { text: "Hora de regreso: ", bold: true, fontSize: 11 },
+              { text: "Hora de Regreso: ", bold: true, fontSize: 11 },
               { text: soliVehi.horaEntrada, fontSize: 11 },
             ],
           },
@@ -1412,7 +1428,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Nombre del responsable: ", bold: true, fontSize: 11 },
+              { text: "Nombre del Responsable: ", bold: true, fontSize: 11 },
               { text: soliVehi.solicitante.empleado.nombre +
                 " " +
                 soliVehi.solicitante.empleado.apellido, fontSize: 11 },
@@ -1439,7 +1455,7 @@ export class SolicitanteComponent implements OnInit {
 
     const tableRow = [];
     let j = 0;
-    if (soliVehi.cantidadPersonas < 6) {
+    if (soliVehi.cantidadPersonas > 1 && soliVehi.cantidadPersonas < 6) {
       tableRow.push([
         { text: "N.", alignment: "center", style: "tableHeader" },
         { text: "NOMBRE", alignment: "center", style: "tableHeader" },
@@ -1522,7 +1538,7 @@ export class SolicitanteComponent implements OnInit {
         columns: [
           {
             text: [
-              { text: "Nombre de motorista: ", bold: true, fontSize: 11 },
+              { text: "Nombre de Motorista: ", bold: true, fontSize: 11 },
               { text: soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido,fontSize: 11 },
             ],
           },
