@@ -101,7 +101,7 @@
                       </span>
                     </h5>
                   </td>
-                  <td *ngIf="data.estado === 7" style="text-align: center">
+                  <td *ngIf="data.estado === 7 && data.tieneVale && data.cantidadPersonas >= 6" style="text-align: center">
                     <button
                       type="button"
                       (click)="cargarConsultaValeDelAl(data)"
@@ -113,9 +113,9 @@
                       ></i>
                     </button>
                     <button
-                      type="button"
+                      type="button" style="background-color: rgb(175, 66, 66); border-color: rgb(175, 66, 66);"
                       (click)="DocumentosSoliCard(data, mdDocumnetoSoliCar)"
-                      class="btn btn-success btn-sm btn-rounded boton-cuadrado mx-1"
+                      class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
                     >
                       <i
                         class="mdi mdi-18px mdi-format-list-bulleted"
@@ -125,7 +125,7 @@
                     <button
                       type="button"
                       (click)="DocumentosVale(data, mdDocumentVale)"
-                      class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
+                      class="btn btn-success btn-sm btn-rounded boton-cuadrado mx-1"
                     >
                       <i
                         class="mdi mdi-18px mdi-download-outline"
@@ -148,6 +148,96 @@
                     >
                       <i class="mdi mdi-18px mdi-gas-station"></i>
                     </button>
+                  </td>
+                  <td *ngIf="data.estado === 7 && data.tieneVale && data.cantidadPersonas < 6" style="text-align: center">
+                    <button
+                      type="button"
+                      (click)="cargarConsultaValeDelAl(data)"
+                      class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+                    >
+                      <i
+                        class="mdi mdi-18px mdi-file-document-outline"
+                        ngbTooltip="Solicitud de transporte"
+                      ></i>
+                    </button>
+                    <button
+                      type="button"
+                      (click)="DocumentosVale(data, mdDocumentVale)"
+                      class="btn btn-success btn-sm btn-rounded boton-cuadrado mx-1"
+                    >
+                      <i
+                        class="mdi mdi-18px mdi-download-outline"
+                        ngbTooltip="Documentos de liquidación"
+                      ></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm btn-rounded boton-cuadrado mx-1"
+                      (click)="generarPDFLOGsoli(data)"
+                      ngbTooltip="Movimientos de solicitud de transporte"
+                    >
+                      <i class="mdi mdi-18px mdi-file-document-outline"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-warning btn-sm btn-rounded boton-cuadrado mx-1"
+                      (click)="generarPdfLogVale(data, content)"
+                      ngbTooltip="Movimientos de Vales"
+                    >
+                      <i class="mdi mdi-18px mdi-gas-station"></i>
+                    </button>
+                  </td>
+                  <td *ngIf="data.estado === 7 && !data.tieneVale && data.cantidadPersonas >= 6" style="text-align: center">
+                    <button
+                      type="button"
+                      (click)="cargarConsultaValeDelAl(data)"
+                      class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+                    >
+                      <i
+                        class="mdi mdi-18px mdi-file-document-outline"
+                        ngbTooltip="Solicitud de transporte"
+                      ></i>
+                    </button>
+                    <button
+                      type="button" style="background-color: rgb(175, 66, 66); border-color: rgb(175, 66, 66);"
+                      (click)="DocumentosSoliCard(data, mdDocumnetoSoliCar)"
+                      class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1"
+                    >
+                      <i
+                        class="mdi mdi-18px mdi-format-list-bulleted"
+                        ngbTooltip="Lista de pasajeros doc."
+                      ></i>
+                    </button>                
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm btn-rounded boton-cuadrado mx-1"
+                      (click)="generarPDFLOGsoli(data)"
+                      ngbTooltip="Movimientos de solicitud de transporte"
+                    >
+                      <i class="mdi mdi-18px mdi-file-document-outline"></i>
+                    </button>
+                    
+                  </td>
+                  <td *ngIf="data.estado === 7 && !data.tieneVale && data.cantidadPersonas < 6" style="text-align: center">
+                    <button
+                      type="button"
+                      (click)="cargarConsultaValeDelAl(data)"
+                      class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1"
+                    >
+                      <i
+                        class="mdi mdi-18px mdi-file-document-outline"
+                        ngbTooltip="Solicitud de transporte"
+                      ></i>
+                    </button>               
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm btn-rounded boton-cuadrado mx-1"
+                      (click)="generarPDFLOGsoli(data)"
+                      ngbTooltip="Movimientos de solicitud de transporte"
+                    >
+                      <i class="mdi mdi-18px mdi-file-document-outline"></i>
+                    </button>
+                    
                   </td>
                 </tr>
                 <!--</ng-container>-->
