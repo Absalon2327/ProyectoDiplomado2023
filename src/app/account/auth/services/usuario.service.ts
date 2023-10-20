@@ -194,7 +194,11 @@ export class UsuarioService {
 
 
   logout() {
-    this.storage.clear();
+    var remenber = localStorage.getItem('remenber');
+    localStorage.clear();
+    if(remenber != null) {
+      localStorage.setItem('remenber', remenber);
+    }
     this.ngZone.run(() => {
       this.router.navigateByUrl('/account/login');
     });

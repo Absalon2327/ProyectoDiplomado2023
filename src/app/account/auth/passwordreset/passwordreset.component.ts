@@ -89,7 +89,6 @@ export class PasswordresetComponent implements OnInit {
 
     } else if (this.code) {
       this.submitCode();
-
     } else if (!this.anothermethod) {
       if (this.resetForm.get('correo').valid) {
         this.resetpassEmail();
@@ -109,7 +108,6 @@ export class PasswordresetComponent implements OnInit {
           "warning",
           "Complete lo que se indican"
         );
-
         return Object.values(this.resetForm.controls).forEach((control) =>
           control.markAsTouched()
         );
@@ -177,8 +175,7 @@ export class PasswordresetComponent implements OnInit {
       },
       (err) => {
         Swal.close();
-        //Usar mensajes globales :u
-        this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
         this.code = false;
       }
     );
