@@ -704,8 +704,14 @@ export class ModalSecretariaComponent implements OnInit {
     this.cantidadPersonas = this.formularioSoliVe.get('cantidadPersonas').value;
 
     if(this.cantidadPersonas == this.soliVeOd.cantidadPersonas){
-      this.mostrarTabla=false;
-      this.mostrarArchivoAdjunto = false;
+      if((this.soliVeOd.cantidadPersonas < 6 && this.soliVeOd.cantidadPersonas >=2 ) &&
+      (this.cantidadPersonas < 6 && this.cantidadPersonas >=2)){
+        this.mostrarTabla = true;
+        this.mostrarArchivoAdjunto = false;
+      }else{
+        this.mostrarTabla = false;
+        this.mostrarArchivoAdjunto = true;
+      }
     } else if (this.cantidadPersonas > 5 ) {
       this.mostrarTabla = false; // Ocultar la tabla
       this.mostrarArchivoAdjunto = true; // Mostrar el campo de entrada de archivo
@@ -735,8 +741,6 @@ export class ModalSecretariaComponent implements OnInit {
       this.pasajeroFormControls = [];
     }
   }
-
-
 
 
   siMuestraAlertas() {
