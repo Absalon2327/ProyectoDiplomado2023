@@ -38,3 +38,11 @@ img {
 .errorclave {
   color: red;
 }
+
+@media (max-width: 767.77px) {
+  .img-emp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -168,7 +168,7 @@ export class ModalComponent implements OnInit {
     formData.append('imagen', this.file!);
 
     this.vehiService.guardarVehiculo(formData).subscribe( reps => {
-      this.mensajeService.mensajesToast("success", "Registro agregado");
+      this.mensajeService.mensajesToast("success", "Datos almacenados exitosamente...");
       this.vehiService.getVehiculos();
       //cerrar el modal
       this.modalService.dismissAll();

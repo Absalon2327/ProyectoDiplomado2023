@@ -139,7 +139,7 @@ export class TablaDetalleComponent implements OnInit {
 
     // Formatea la fecha en "YYYY-MM-dd"
     const fechaFormateada = `${año}-${mes}-${dia}`;
-    console.log(fechaFormateada);
+    //console.log(fechaFormateada);
     return fechaFormateada;
   }
 }

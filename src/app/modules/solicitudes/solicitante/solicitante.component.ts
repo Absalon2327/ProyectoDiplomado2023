@@ -331,7 +331,7 @@ export class SolicitanteComponent implements OnInit {
         this.mensajesService.mensajesSweet(
           "info",
           "?...",
-          "Datos almacenados exitosamente.."
+          "Datos almacenados exitosamente..."
         );
       }
     );
@@ -360,7 +360,7 @@ export class SolicitanteComponent implements OnInit {
           // Cerrar SweetAlert de carga en caso de error
           loadingAlert.close();
           this.obtenerIDvale(soliVehi, response);
-          //   console.log(response);
+          //   //console.log(response);
         },
         (error) => {
           // Cerrar SweetAlert de carga en caso de error
@@ -868,7 +868,7 @@ export class SolicitanteComponent implements OnInit {
     ]);
 
     for (const persona of log) {
-      // console.log(persona.nombrePasajero);
+      //console.log(persona.nombrePasajero);
       if (persona.estadovale == 1) {
         this.estado = "En espera por jefe";
       } else if (persona.estadovale == 2) {
@@ -1100,7 +1100,7 @@ export class SolicitanteComponent implements OnInit {
     ]);
     let estado = "";
     for (const persona of log) {
-      // console.log(persona.nombrePasajero);
+      //console.log(persona.nombrePasajero);
       if (persona.estadosolive == 1) {
         this.estado = "En espera por jefe";
       } else if (persona.estadosolive == 2) {
@@ -1152,7 +1152,7 @@ export class SolicitanteComponent implements OnInit {
     }
     if (logv != null) {
       for (const persona of logv) {
-        // console.log(persona.nombrePasajero);
+        //console.log(persona.nombrePasajero);
         if (persona.estadosolive == 1) {
           this.estado = "En espera por jefe";
         } else if (persona.estadosolive == 2) {
@@ -1184,7 +1184,7 @@ export class SolicitanteComponent implements OnInit {
         } else if (persona.estadosolive == 15) {
           this.estado = "Anulada";
         }
-        console.log(this.estado);
+        //console.log(this.estado);
         tableRow.push([
           { text: `${j + 1}`, alignment: "center" },
           { text: `${persona.actividad}`, alignment: "center" },
@@ -1445,7 +1445,7 @@ export class SolicitanteComponent implements OnInit {
         { text: "NOMBRE", alignment: "center", style: "tableHeader" },
       ]);
       for (const persona of soliVehi.listaPasajeros) {
-        //  console.log(persona.nombrePasajero);
+        //  //console.log(persona.nombrePasajero);
         tableRow.push([
           { text: `${j + 1}`, alignment: "center", fontSize: 11 },
           { text: `${persona.nombrePasajero}`, alignment: "center", fontSize: 11 },
@@ -1469,7 +1469,7 @@ export class SolicitanteComponent implements OnInit {
         { text: "", alignment: "center", style: "tableHeader" },
       ]);
       for (const persona of soliVehi.listaPasajeros) {
-        //  console.log(persona.nombrePasajero);
+        //  //console.log(persona.nombrePasajero);
         tableRow.push([
           { text: `${j + 1}`, alignment: "center", fontSize: 11 },
           { text: `${persona.nombrePasajero}`, alignment: "center", fontSize: 11 },
