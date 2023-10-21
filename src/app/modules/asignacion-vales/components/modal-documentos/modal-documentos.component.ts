@@ -56,7 +56,7 @@ export class ModalDocumentosComponent implements OnInit {
         this.registrando();
       }
     } else {
-      //Usar mensajes globales :u
+      
             this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"

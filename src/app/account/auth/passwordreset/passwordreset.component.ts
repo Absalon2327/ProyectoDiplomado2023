@@ -151,7 +151,7 @@ export class PasswordresetComponent implements OnInit {
         })
       },
       (err) => {
-        //Usar mensajes globales :u
+        
         this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
         this.code = false;
       }
@@ -175,7 +175,7 @@ export class PasswordresetComponent implements OnInit {
       },
       (err) => {
         Swal.close();
-        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
+        this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
         this.code = false;
       }
     );
@@ -227,14 +227,13 @@ export class PasswordresetComponent implements OnInit {
             this.usuarioService.getUsuario();
           })
         },
-        (err) => {
-          //Usar mensajes globales :u
-          this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
+        (err) => {   
+          this.mensajesService.mensajesSweet("error", "Error", "El codigo no coincide", "Entiendo");
+          this.limpiarCampos();
           this.resetpass = false;
         }
       );
     } else {
-      //Usar mensajes globales :u
       this.mensajesService.mensajesSweet("error", "Error", "Por favor, complete el código de 5 dígitos.", "Entiendo");
     }
   }
@@ -263,7 +262,7 @@ export class PasswordresetComponent implements OnInit {
 
             Toast.fire({
               icon: "success",
-              text: "Modificacion exitosa",
+              text: "Modificación exitosa",
             }).then(() => {
               this.router.navigate(['/dashboard']);
               this.resetForm.reset();
@@ -285,6 +284,14 @@ export class PasswordresetComponent implements OnInit {
     }
     return codigo;
   }
+
+  limpiarCampos() {
+    for (let i = 1; i <= 5; i++) {
+      const input = document.getElementById('digit' + i) as HTMLInputElement;
+      input.value = '';
+    }
+  }
+
 
   SeguridadClave(event: any) {
     const clave = event.target.value;
@@ -379,7 +386,7 @@ export class PasswordresetComponent implements OnInit {
         })
       },
       (err) => {
-        //Usar mensajes globales :u
+        
         this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
       }
     );

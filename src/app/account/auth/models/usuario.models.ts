@@ -12,6 +12,15 @@ export class Usuario {
   ) {}
 }
 
+
+export class SendGrid {
+  constructor(
+    public codigoSendgrid: string,
+    public keysendgrid: string,
+    public keyplantilla: string,
+  ) {}
+}
+
 export class DataCards {
   constructor(
     public vales: string,

@@ -156,7 +156,7 @@ export class ModalComponent implements OnInit {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
         this.proveedorService.getProveedors();
-        this.mensajesService.mensajesToast("success", "Registro agregado");
+        this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
         this.modalService.dismissAll();
         this.limpiarCampos();
       },
