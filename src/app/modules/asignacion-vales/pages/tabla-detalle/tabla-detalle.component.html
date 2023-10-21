@@ -3,6 +3,7 @@
     <thead class="table-light">
       <tr>
         <th class="text-center">Vale</th>
+        <th class="text-center"></th>
         <th class="text-center">Devolver</th>
       </tr>
     </thead>
@@ -16,6 +17,10 @@
         "
       >
         <th class="text-center" scope="row">{{ vale.correlativo }}</th>
+        <th class="h6">
+          <span *ngIf="vale.fechaVencimiento < fechaActual" class="badge rounded-pill bg-danger">Vencido</span>
+          <span *ngIf="vale.fechaVencimiento >= fechaActual" class="badge rounded-pill bg-danger"></span>
+        </th>
         <td class="text-center">
           <input
             type="checkbox"
@@ -39,11 +44,12 @@
   <button
     type="button"
     [disabled]="buttonDisabled"
-    class="btn btn-dark me-2 btn-dca"
+    class="btn btn-primary me-2 btn-dark"
     (click)="devolverVales()"
   >
     Devolución
   </button>
+  <!--  button-encabezado-tabla -->
 
   <app-modal-documentos
     [leyenda]="'Nuevo'"

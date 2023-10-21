@@ -20,7 +20,7 @@
 
               <div class="form-group me-2 mb-2">
                 <label for="estadoSeleccionado">Filtro por estado</label>
-                <select id="estadoSeleccionado" class="form-control custom-select smaller-text" [(ngModel)]="estadoSeleccionado" (change)="onEstadoSeleccionado($event)">
+                <select id="estadoSeleccionado" class="form-select custom-select smaller-text" [(ngModel)]="estadoSeleccionado" (change)="onEstadoSeleccionado($event)">
                   <option [ngValue]="undefined" disabled selected>Seleccione...</option>
                   <option *ngFor="let estado of estadosSoliVe" [value]="estado.codigoEstado">{{estado.nombreEstado}}</option>
                 </select>

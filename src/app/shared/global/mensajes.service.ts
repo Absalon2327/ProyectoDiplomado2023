@@ -9,7 +9,7 @@ export class MensajesService {
 
   mensajesToast(
     icono: SweetAlertIcon = "info",
-    title: string = "Registrado con éxito!"
+    title: string = "Algo pasó"
   ) {
     Swal.fire({
       icon: icono,
@@ -29,8 +29,8 @@ export class MensajesService {
 
   mensajesSweet(
     icono: SweetAlertIcon = "info",
-    title: string = "Registrado con éxito!",
-    text: string = "Datos almacenados exitosamente",
+    title: string = "Algo pasó",
+    text: string = "Comuniquese con el administrador",
     boton: string = "Ok"
   ) {
     Swal.fire({

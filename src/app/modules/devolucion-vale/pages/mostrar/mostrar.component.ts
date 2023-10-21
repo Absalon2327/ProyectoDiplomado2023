@@ -184,7 +184,7 @@ export class MostrarComponent implements OnInit {
     } else {
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioGeneral.controls).forEach((control) =>
         control.markAsTouched()
@@ -198,7 +198,7 @@ export class MostrarComponent implements OnInit {
     } else {
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioGeneral.controls).forEach((control) =>
         control.markAsTouched()
@@ -228,7 +228,7 @@ export class MostrarComponent implements OnInit {
     } else {
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioUsuario.controls).forEach((control) =>
         control.markAsTouched()
@@ -357,6 +357,16 @@ export class MostrarComponent implements OnInit {
 
   public togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  formatInputMayusDet(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+
+    this.formularioGeneral
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
   }
 
   openModal(content: any) {

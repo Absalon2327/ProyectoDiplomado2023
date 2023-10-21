@@ -1,7 +1,7 @@
 <app-loader></app-loader>
 <div class="container-fluid">
   <app-page-title
-    title="Movimientos de vales"
+    title="Movimientos de Vales"
     [breadcrumbItems]="breadCrumbItems"
   ></app-page-title>
 
@@ -38,11 +38,11 @@
                 <tr>
                   <th class="align-middle">Factura</th>
                   <th class="align-middle">Proveedor</th>
-                  <th class="align-middle">Fecha de compra</th>
+                  <th class="align-middle">Fecha de Compra</th>
                   <th class="align-middle">Cantidad</th>
                   <th class="align-middle">Prec. Unit.</th>
                   <th class="align-middle">Total</th>
-                  <th class="align-middle text-center">Ver vales</th>
+                  <th class="align-middle text-center">Ver Vales</th>
                 </tr>
               </thead>
               <tbody>
@@ -94,11 +94,11 @@
                     <button
                       type="button"
                       (click)="cargarValesD(data, content)"
-                      class="btn btn-danger btn-sm btn-rounded boton-cuadrado mx-1"
-                      ngbTooltip="Movimientos de vales"
+                      class="btn btn-dark btn-sm btn-rounded boton-cuadrado mx-1"
+                      ngbTooltip="Movimientos de Vales"
                     >
                       <i
-                        class="mdi mdi-gas-station"
+                        class="mdi mdi-18px mdi-gas-station"
                         ngbTooltip="Solicitud de tranporte"
                       ></i>
                     </button>
@@ -151,7 +151,7 @@
   <div class="modal-body">
     <div class="card text-center">
       <div class="card-header">
-        Código inicio {{ compra.codInicio }} | Código fin {{ compra.codFin }}
+        Código Inicio {{ compra.codInicio }} | Código Fin {{ compra.codFin }}
       </div>
       <div class="card-body">
         <h5 class="card-title">{{ compra.proveedor.nombre }}</h5>
@@ -190,7 +190,7 @@
         </div>
       </div>
       <div class="card-footer text-muted">
-        Fecha de vencimiento {{ compra.fechaVencimiento | date : "dd/MM/yyyy" }}
+        Fecha de Vencimiento {{ compra.fechaVencimiento | date : "dd/MM/yyyy" }}
       </div>
     </div>
     <div class="row">
@@ -213,7 +213,7 @@
                 (click)="generarPDFLogVale(data, compra, data.estado)"
                 ngbTooltip="Ver movimientos"
               >
-                <i class="mdi mdi-file-document-outline"></i>
+                <i class="mdi mdi-18px mdi-file-document-outline"></i>
               </button>
             </h5>
           </div>

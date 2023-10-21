@@ -89,6 +89,28 @@ export class ModalComponent implements OnInit {
     });
   }
 
+  onInputMayus(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue = inputValue
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    this.formularioGeneral
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
+  }
+
+  formatInputMayusDet(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+
+    this.formularioGeneral
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
+  }
+
   async guardar() {
     if (this.formularioGeneral.valid) {
       if (this.proveedor?.id) {
@@ -101,7 +123,7 @@ export class ModalComponent implements OnInit {
     } else {
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioGeneral.controls).forEach((control) =>
         control.markAsTouched()
@@ -141,11 +163,7 @@ export class ModalComponent implements OnInit {
       error: (err) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
       },
     });
   }
@@ -182,11 +200,7 @@ export class ModalComponent implements OnInit {
       error: (err) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
       },
     });
   }

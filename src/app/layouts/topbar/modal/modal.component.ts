@@ -159,8 +159,21 @@ export class ModalComponent implements OnInit {
         }
       }
     } else {
-      //Usar mensajes globales :u
-      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
+            this.mensajesService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
+      
+      if (this.leyenda == "Datos") {
+        return Object.values(this.formEmpleado.controls).forEach((control) =>
+          control.markAsTouched()
+        );
+      } else {
+        return Object.values(this.formUsuario.controls).forEach((control) =>
+          control.markAsTouched()
+        );
+      }
+      
     }
   }
 
@@ -303,11 +316,7 @@ export class ModalComponent implements OnInit {
       },
       (err: any) => {
         Swal.close();
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
       }
     );
   }
@@ -449,7 +458,7 @@ export class ModalComponent implements OnInit {
     });
   }
 
-  AcercaDe(){
+  AcercaDe() {
     this.usuarioService.logoutAcercaDe();
   }
 }

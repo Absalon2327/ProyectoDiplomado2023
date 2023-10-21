@@ -6,10 +6,10 @@
 <div class="col-12">
   <div class="card">
     <div class="card-body">
-      <div class="row mb-1">
+      <div class="flex-sm-row mb-1 ">
         <h2 class="card-title"></h2>
-        <h4 class="card-title-desc">Misión:</h4>
-        <h3 class="ms-5">{{ mision }}</h3>
+        <h6 class="card-title-desc"><strong>Misión: </strong>  {{ mision }}</h6>
+        <h6 class="ms-5"></h6>
       </div>
       <div class="row">
         <div class="col-2"></div>
@@ -20,21 +20,21 @@
       </div>
       <div class="d-flex flex-column flex-sm-row gap-2  justify-content-between align-items-center mt-4">
         <div>
-          <button type="button" class="btn btn-warning btn-dca" (click)="anular()">
+          <button type="button" class="btn btn-warning button-encabezado-anular" (click)="anular()">
             Anular
           </button>
         </div>
-        <div class="d-flex flex-column flex-sm-row gap-2 justify-content-space-center align-items-center">
+        <div class="d-flex ">
 
-          <button type="submit" class="btn btn-primary btn-dca w-auto" (click)="ObtenerSolicitudValeById(codigoAsignacion)">Liquidar</button>
+          <button type="submit" class="btn btn-primary button-encabezado-otros w-auto" (click)="ObtenerSolicitudValeById(codigoAsignacion)">Liquidar</button>
           <div style="margin-left: 10px;">
             <app-detalle-documentos
             [leyenda]="'Detalle'"
-            [titulo]="'Detalle documentos'"  [codigoAsignacion]="codigoAsignacion"
+            [titulo]="'Detalle Documentos'"  [codigoAsignacion]="codigoAsignacion"
             >
             </app-detalle-documentos>
           </div>
-          <button type="button" class="btn btn-dark me-2 btn-dca w-auto" (click)="volver()">Volver</button>
+          <button type="button" class="btn btn-dark me-2 button-encabezado-otros w-auto" (click)="volver()">Volver</button>
         </div>
 
       </div>

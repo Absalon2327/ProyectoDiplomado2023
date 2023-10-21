@@ -99,7 +99,9 @@ export class TablaComponent implements OnInit {
   async aprobarSolicitud(data: any){
     if ((await this.mensajesService.mensajeAprobar()) == true) {
       //await this.actualizarSolicitud(data);
-      if (this.userAcivo.role=="JEFE_DEPTO"){
+      if (this.userAcivo.role=="JEFE_DEPTO"
+      || this.userAcivo.role== "JEFE_FINANACIERO"
+      || (this.userAcivo.role == "DECANO" && data.estado == 1)){
         await this.actualizarSolicitud(data);
       }else{
         if(data.tieneVale){
@@ -264,7 +266,7 @@ export class TablaComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: mensaje,
-          centro: 'Por favor ingrese al sistema para ver más detalles.',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -285,10 +287,10 @@ export class TablaComponent implements OnInit {
           this.userAcivo.empleado.apellido;
         const email: IEmail = {
           asunto: 'Solicitud de vehículo APROBADA',
-          titulo: 'Solicitud de vehículo APROBADA',
+          titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
-          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales",
+          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales. https://orellana2023.me/",
           centro: '',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }

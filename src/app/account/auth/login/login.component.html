@@ -1,7 +1,7 @@
 <div class="account-pages my-5 pt-sm-5">
   <div class="container-fluid ">
     <div class="row justify-content-center align-items-center" style="min-height: 50vh;">
-      <div class="col-md-4">
+      <div class="col-md-8 col-lg-6 col-xl-4 col-sm-8">
         <div class="card overflow-hidden">
           <div class="bg-soft bg-primary">
             <div class="row" id="background-image">
@@ -16,18 +16,18 @@
           </div>
           <div class="card-body pt-0">
             <div class="rount-image">
-              <a routerLink="/">
-                <div class="avatar-md profile-user-wid mb-4">
-                  <span class="avatar-title rounded-circle bg-light">
-                    <img src="assets/images/logo-sm3.png" alt="" height="60">
-                  </span>
-                </div>
-              </a>
+
+              <div class="avatar-md profile-user-wid mb-4">
+                <span class="avatar-title rounded-circle bg-light">
+                  <img src="assets/images/logo-sm.png" alt="" height="60">
+                </span>
+              </div>
+
             </div>
 
-            <div class="btn-alerta" style="position: absolute; top: 150px; right: 10px; z-index: 1;">
-              <i class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor"
-                (click)="mostrarAyuda()" [ngbTooltip]="' Ayuda '" [placement]="'left'"></i>
+            <div class="btn-alerta" style="position: absolute; top: 150px; right: 10px; z-index: 1; padding: 5px;">
+              <i class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor" (click)="mostrarAyuda()"
+                [ngbTooltip]="' Ayuda '" [placement]="'left'"></i>
             </div>
 
 
@@ -37,12 +37,13 @@
                 <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
 
                 <div class="mb-3">
-                  <label for="email">Usuario:</label>
-                  <input type="email" formControlName="email" class="form-control" id="email" placeholder="Omita @ues.edu.sv"
-                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors.required">El usuario es requerido</div>
-                    <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                  <label for="email">Usuario :</label>
+                  <input type="email" formControlName="email" class="form-control" id="email"
+                    placeholder="Omita @ues.edu.sv" [class]="esCampoValido('email')"
+                    [autocomplete]="false" />
+                  <div class="invalid-feedback">
+                    <span *ngIf="loginForm.get('email')?.errors?.['required']">
+                      El usuario es requerido</span>
                   </div>
                 </div>
 
@@ -51,31 +52,27 @@
                   <div class="input-group auth-pass-inputgroup">
                     <input [type]="showPassword ? 'text' : 'password'" type="password" class="form-control"
                       formControlName="password" placeholder="Digite contraseña"
-                      [ngClass]="{ 'is-invalid': submitted && f.password.errors }" aria-label="Password"
+                      [class]="esCampoValido('password')" aria-label="Password"
                       aria-describedby="password-addon">
 
-                      <button
-                      class="btn btn-light ms-0"
-                      type="button"
-                      id="password-addon"
-                      (click)="togglePasswordVisibility()"
-                    >
-                      <i
-                        [class]="
+                    <button class="btn btn-light ms-0" type="button" id="password-addon"
+                      (click)="togglePasswordVisibility()">
+                      <i [class]="
                           showPassword
                             ? 'mdi mdi-eye-off-outline'
                             : 'mdi mdi-eye-outline'
-                        "
-                      ></i>
+                        "></i>
                     </button>
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                      <span *ngIf="f.password.errors.required">La clave es requerida</span>
+
+                    <div class="invalid-feedback">
+                      <span *ngIf="loginForm.get('password')?.errors?.['required']">
+                        La clave es requerida</span>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="remember-check">
+                  <input class="form-check-input" type="checkbox" formControlName="remenber" id="remember-check">
                   <label class="form-check-label" for="remember-check">
                     Recordar usuario
                   </label>
@@ -103,10 +100,9 @@
     <div class="alert alert-{{ alert.type }} alert-dismissible fade show" role="alert" *ngIf="alert.show">
       <strong>Importante!</strong>
       <div class="text-justify">{{ alert.message }}</div>
-      <button type="button" class="btn-close" (click)="CambiarAlert(alert)" aria-hidden="true" aria-label="Close"></button>
+      <button type="button" class="btn-close" (click)="CambiarAlert(alert)" aria-hidden="true"
+        aria-label="Close"></button>
     </div>
   </div>
 
 </ng-template>
-
-

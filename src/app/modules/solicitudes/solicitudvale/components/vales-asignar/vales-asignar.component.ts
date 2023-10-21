@@ -41,7 +41,7 @@ export class ValesAsignarComponent implements OnInit {
   valesAsignar(valesAsignarModal: any) {
     const existencia = this.cantidadVales.get("existencia")?.value;
     const cantidadVales = this.cantidadVales.get("cantidadVales")?.value;
-    if (cantidadVales == 0) {
+    if (cantidadVales <= 0 ) {
       this.mensajesService.mensajesToast(
         "warning",
         "Ingrese una cantidad válida"
@@ -87,7 +87,7 @@ export class ValesAsignarComponent implements OnInit {
 
     // Formatea la fecha en "YYYY-MM-dd"
     const fechaFormateada = `${año}-${mes}-${dia}`;
-
+    console.log(fechaFormateada);
     return fechaFormateada;
   }
 }

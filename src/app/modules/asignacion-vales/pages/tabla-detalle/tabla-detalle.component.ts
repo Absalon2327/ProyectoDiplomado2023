@@ -127,4 +127,18 @@ export class TablaDetalleComponent implements OnInit {
     this.router.onSameUrlNavigation = "reload";
     this.router.navigate([currentUrl]);
   }
+
+  get fechaActual() {
+    // Obtiene la fecha actual
+    const fechaActual = new Date();
+
+    // Obtiene el año, el mes y el día por separado
+    const año = fechaActual.getFullYear();
+    const mes = (fechaActual.getMonth() + 1).toString().padStart(2, "0"); // El mes es de 0 a 11, así que sumamos 1
+    const dia = fechaActual.getDate().toString().padStart(2, "0");
+
+    // Formatea la fecha en "YYYY-MM-dd"
+    const fechaFormateada = `${año}-${mes}-${dia}`;
+    return fechaFormateada;
+  }
 }

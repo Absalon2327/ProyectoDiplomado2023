@@ -161,7 +161,7 @@ export class TopbarComponent implements OnInit {
       icon: 'question',
       title: "¿Desea cerrar la sesión?",
       showDenyButton: true,
-      confirmButtonText: "Cerrar la",
+      confirmButtonText: "Cerrar",
       confirmButtonColor: "#972727",
       denyButtonText: `Cancelar`,
       denyButtonColor: "#2c3136",
@@ -182,13 +182,16 @@ export class TopbarComponent implements OnInit {
 
   guardar() {
 
-    if (this.formUsuario.valid) {
+  /*   if (this.formUsuario.valid) {
 
 
     } else {
-      //Usar mensajes globales :u
-      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
-    }
+      this.mensajesService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
+    } */
+
   }
 
   registrando() {

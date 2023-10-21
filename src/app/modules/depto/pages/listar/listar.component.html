@@ -77,7 +77,7 @@
               </thead>
               <tbody>
                 <tr
-                  *ngFor="let data of lstDeptos  | filter : term | paginate : { itemsPerPage: 10, currentPage: p };let i = index">
+                  *ngFor="let data of lstDeptosData  | filter : term | paginate : { itemsPerPage: 10, currentPage: p };let i = index">
                   <td class="align-middle text-center">{{ (i + 1) }}</td>
                   <td class="align-middle text-center">{{ data.nombre }}</td>
                   <td class="align-middle text-center">{{ data.tipo }}</td>

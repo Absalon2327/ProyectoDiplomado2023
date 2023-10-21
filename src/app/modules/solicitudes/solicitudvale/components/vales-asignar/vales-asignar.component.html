@@ -20,8 +20,8 @@
     <div class="table-responsive mb-0">
       <table class="table table-centered table-nowrap">
         <thead class="table-light">
-          <tr>
-            <th class="align-middle text-center">Codigo Vale</th>
+          <tr >
+            <th class="align-middle text-center">Código Vale</th>
             <th class="align-middle text-center"></th>
             <th class="align-middle text-center">Valor $</th>
           </tr>
@@ -31,8 +31,9 @@
             <td class="align-middle text-center h3">
               {{ vale.correlativoVale }}
             </td>
-            <td *ngIf="vale.fechaVencimiento < fechaActual" class="h4">
-              <span class="badge rounded-pill bg-danger">Vencido</span>
+            <td class="h4">
+              <span *ngIf="vale.vales.fechaVencimiento < fechaActual" class="badge rounded-pill bg-danger">Vencido</span>
+              <span *ngIf="vale.vales.fechaVencimiento >= fechaActual" class="badge rounded-pill bg-danger"></span>
             </td>
             <td class="align-middle text-center h3">
               {{ "$ " + vale.valorVale + ".00" }}

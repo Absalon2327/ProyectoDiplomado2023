@@ -2,13 +2,12 @@
   <table class="table table-centered table-nowrap">
     <thead class="table-light">
       <tr>
-        <th class="align-middle">Nombre</th>
-        <th class="align-middle">Encargado</th>
-        <th class="align-middle">Teléfono</th>
-        <th class="align-middle">Email</th>
-        <th class="align-middle">Dirección</th>
-        <th class="align-middle">Tipo</th>
-        <th class="align-middle">Estado</th>
+        <th  class="align-middle text-center">Nombre</th>
+        <th class="align-middle text-center">Encargado</th>
+        <th class="align-middle text-center">Teléfono</th>
+        <th class="align-middle text-center">Correo</th>
+        <th class="align-middle text-center">Tipo</th>
+        <th class="align-middle text-center">Estado</th>
         <th class="align-middle text-center">Acciones</th>
       </tr>
     </thead>
@@ -16,7 +15,7 @@
       <tr
         *ngFor="let data of proveedores  | filter : queryString | paginate : { itemsPerPage: 10, currentPage: p }; let i = index"
       >
-        <td>
+        <td class="align-middle text-center">
           <a class="text-body fw-bold">
             {{ data.nombre }}
           </a>
@@ -25,36 +24,37 @@
         <ng-container
           *ngIf="data.encargado == null || data.encargado == ''; else encargado"
         >
-          <td>N/A</td>
+          <td class="align-middle text-center">N/A</td>
         </ng-container>
         <ng-template #encargado>
-          <td>{{ data.encargado }}</td>
+          <td class="align-middle text-center">{{ data.encargado }}</td>
         </ng-template>
-        <td>
+        <td class="align-middle text-center">
           {{ data.telefono | slice : 0 : 4 }}-{{ data.telefono | slice : 4 }}
         </td>
-        <td>{{ data.email }}</td>
-        <td>{{ data.direccion }}</td>
+        <td class="align-middle text-center">{{ data.email }}</td>
 
         <ng-container *ngIf="data.tipo == 13; else tipo">
-          <td>Gasolinera</td>
+          <td class="align-middle text-center">Gasolinera</td>
         </ng-container>
         <ng-template #tipo>
-          <td>UES</td>
+          <td class="align-middle text-center">UES</td>
         </ng-template>
 
         <ng-container *ngIf="data.estado == 8; else estado">
-          <td>
+          <td class="align-middle text-center">
             <h5><span class="badge rounded-pill bg-success">Activo</span></h5>
           </td>
         </ng-container>
         <ng-template #estado>
-          <td>
+          <td class="align-middle text-center">
             <h5><span class="badge rounded-pill bg-danger">Inactivo</span></h5>
           </td>
         </ng-template>
 
         <td class="d-flex justify-content-center gap-1">
+
+          <app-modal-detalle [proveedor]="data"></app-modal-detalle>
           <app-modal [proveedor]="data" [leyenda]="'Editar'"></app-modal>
           <button
             type="button"

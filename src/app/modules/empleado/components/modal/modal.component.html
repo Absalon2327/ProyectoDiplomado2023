@@ -9,13 +9,13 @@
 
 <span *ngIf="leyenda === titulo && titulo == 'Detalle'">
     <button type="button" class="btn btn-primary btn-sm btn-rounded boton-cuadrado mx-1" (click)="openModal(content)"
-        ngbTooltip="Detalle de empleado">
+        ngbTooltip="Detalle Empleado">
         <i class="mdi mdi-18px mdi-eye-outline"></i></button>
 </span>
 
 <span *ngIf="leyenda === titulo && titulo == 'Editar'">
     <button type="button" class="btn btn-info btn-sm btn-rounded boton-cuadrado mx-1" (click)="openModal(content)"
-        ngbTooltip="Modificar empleado">
+        ngbTooltip="Modificar Empleado">
         <i class="mdi mdi-18px mdi-book-edit-outline"></i></button>
 </span>
 
@@ -122,12 +122,13 @@
                                 placeholder="Ingrese nombre" [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 maxlength="25" minlength="3"
                                 [class]="titulo != 'Detalle' ? esCampoValido('nombre') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" />
+                                [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" 
+                                (keyup)="onInputMayus('nombre', $event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('nombre')?.errors?.['required']">
                                     Ingrese el nombre</span>
                                 <span *ngIf="formBuilder.get('nombre')?.errors?.['pattern']">
-                                    No debe contener numeros</span>
+                                    No debe contener números ni espacios</span>
                             </div>
                         </div>
                         <!-- fin de nombre Empleado -->
@@ -142,12 +143,13 @@
                                 maxlength="25" minlength="3"
                                 [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 [class]="titulo != 'Detalle' ? esCampoValido('apellido') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" />
+                                [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" 
+                                (keyup)="onInputMayus('apellido', $event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('apellido')?.errors?.['required']">
                                     Ingrese el apellido</span>
                                 <span *ngIf="formBuilder.get('apellido')?.errors?.['pattern']">
-                                    No debe contener numeros</span>
+                                    No debe contener números ni espacios</span>
                             </div>
                         </div>
                         <!-- fin de apellido Empleado -->
@@ -212,7 +214,7 @@
                                 <span *ngIf="formBuilder.get('correo')?.errors?.['required']">
                                     Ingrese un correo</span>
                                 <span *ngIf="formBuilder.get('correo')?.errors?.['pattern']">
-                                    Email no válido, debe ser '@ues.edu.sv'</span>
+                                    Email no válido, debe ser '@ues.edu.sv' y sin espacios</span>
                             </div>
                         </div>
                         <!-- fin de correo Empleado -->

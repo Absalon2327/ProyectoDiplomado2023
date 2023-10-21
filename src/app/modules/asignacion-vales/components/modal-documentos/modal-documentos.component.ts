@@ -57,7 +57,10 @@ export class ModalDocumentosComponent implements OnInit {
       }
     } else {
       //Usar mensajes globales :u
-      this.mensajesService.mensajesSweet("warning","Faltan datos en el formuario","Complete todos los campos requeridos", "Entiendo");
+            this.mensajesService.mensajesToast(
+        "warning",
+        "Complete lo que se indican"
+      );
     }
   }
 
@@ -200,29 +203,29 @@ export class ModalDocumentosComponent implements OnInit {
 
           this.select = [
             {
-              value: "Comprobante de recibido",
-              option: "Comprobante de recibido",
+              value: "Documentos de la Misión y Más...",
+              option: "Documentos de la Misión y Más...",
             },
             {
-              value: "facturación de consumo de vales",
-              option: "facturación de consumo de vales",
+              value: "Facturación de Consumo de Vales",
+              option: "Facturación de Consumo de Vales",
             },
           ];
         } else {
           for (let index = 0; index < this.entradasalidas.length; index++) {
             const element = this.entradasalidas[index].tipo;
-            if (element == "Comprobante de recibido") {
+            if (element == "Documentos de la Misión y Más...") {
               this.select = [
                 {
-                  value: "facturación de consumo de vales",
-                  option: "facturación de consumo de vales",
+                  value: "Facturación de Consumo de Vales",
+                  option: "Facturación de Consumo de Vales",
                 },
               ];
-            } else if (element == "facturación de consumo de vales") {
+            } else if (element == "Facturación de Consumo de Vales") {
               this.select = [
                 {
-                  value: "Comprobante de recibido",
-                  option: "Comprobante de recibido",
+                  value: "Documentos de la Misión y Más...",
+                  option: "Documentos de la Misión y Más...",
                 },
               ];
             } else if (element == "") {
@@ -234,7 +237,7 @@ export class ModalDocumentosComponent implements OnInit {
     } else {
       this.mensajesService.mensajesToast(
         "warning",
-        "Vehículo no ha regresado de la misión"
+        "Vehículo no ha regresado de la Misión"
       );
     }
   }

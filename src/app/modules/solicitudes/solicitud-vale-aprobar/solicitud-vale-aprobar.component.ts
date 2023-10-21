@@ -241,7 +241,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
     } else {
       this.mensajesService.mensajesToast(
         "warning",
-        "Complete los que se indican"
+        "Complete lo que se indican"
       );
       return Object.values(this.formularioSolicitudVale.controls).forEach(
         (control) => control.markAsTouched()
@@ -447,11 +447,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
         }).then(() => {});
       },
       (err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Algo salió mal",
-          text: err,
-        });
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
       }
     );
   }
