@@ -181,53 +181,58 @@ export class ModalComponent implements OnInit {
                     "La hora de regreso debe ser mayor a la hora de salida en una misión de un día"
                   );
                 }else {
-                  if(this.file  != null
-                    || solicitudVehiculo.cantidadPersonas < 6){
-                    //  vacío para almacenar los datos de los pasajeros
-                    const pasajerosData = [];
+                  if (solicitudVehiculo.fechaSalida ==  this.getFechaActual() &&
+                  solicitudVehiculo.horaSalida < this.getHoraActual()) {
+                    this.mensajesService.mensajesToast('warning', 'La hora de salida debe ser mayor a la actual');
+                  } else {
+                    if(this.file  != null
+                      || solicitudVehiculo.cantidadPersonas < 6){
+                      //  vacío para almacenar los datos de los pasajeros
+                      const pasajerosData = [];
 
-                    // Recorrer los controles de los pasajeros
-                    for (const control of this.pasajeroFormControls) {
-                      // Obtener el valor del control
-                      const nombrePasajero = control.value;
+                      // Recorrer los controles de los pasajeros
+                      for (const control of this.pasajeroFormControls) {
+                        // Obtener el valor del control
+                        const nombrePasajero = control.value;
 
-                      // objeto con el valor del control y un ID vacío
-                      const pasajero = { id: '', nombrePasajero };
+                        // objeto con el valor del control y un ID vacío
+                        const pasajero = { id: '', nombrePasajero };
 
-                      // Agregar el objeto al arreglo de pasajerosData
-                      pasajerosData.push(pasajero);
-                    }
+                        // Agregar el objeto al arreglo de pasajerosData
+                        pasajerosData.push(pasajero);
+                      }
 
-                    solicitudVehiculo.listaPasajeros = pasajerosData;
+                      solicitudVehiculo.listaPasajeros = pasajerosData;
 
-                    //console.log("dataPas: ",pasajerosData);
+                      //console.log("dataPas: ",pasajerosData);
 
-                    // validacion lista de pasajeros
-                    const todosLlenos = pasajerosData.every((pasajero) => {
-                      const value = pasajero.nombrePasajero;
+                      // validacion lista de pasajeros
+                      const todosLlenos = pasajerosData.every((pasajero) => {
+                        const value = pasajero.nombrePasajero;
 
-                      return typeof value === 'string' && value.trim() !== '';
+                        return typeof value === 'string' && value.trim() !== '';
 
 
-                    });
+                      });
 
-                    if (!todosLlenos) {
+                      if (!todosLlenos) {
+                        this.mensajesService.mensajesToast(
+                          "warning",
+                          "Por favor, completa todos los nombres de los pasajeros."
+                        );
+                        // fin validacion de lista de pasajeros
+                      } else {
+                        // Todos los nombres de los pasajeros están llenos, continuar con el envío de la solicitud.
+                        if ((await this.mensajesService.mensajesConfirmar()) == true) {
+                          await this.registrarSoliVe();
+                        }
+                      }
+                    } else {
                       this.mensajesService.mensajesToast(
                         "warning",
-                        "Por favor, completa todos los nombres de los pasajeros."
+                        "Debe subir pdf de la lista de pasajeros"
                       );
-                      // fin validacion de lista de pasajeros
-                    } else {
-                      // Todos los nombres de los pasajeros están llenos, continuar con el envío de la solicitud.
-                      if ((await this.mensajesService.mensajesConfirmar()) == true) {
-                        await this.registrarSoliVe();
-                      }
                     }
-                  } else {
-                    this.mensajesService.mensajesToast(
-                      "warning",
-                      "Debe subir pdf de la lista de pasajeros"
-                    );
                   }
                 }
 
@@ -908,5 +913,13 @@ export class ModalComponent implements OnInit {
     const month = today.getMonth() + 1;
     const day = today.getDate();
     return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+  }
+
+  getHoraActual(): string {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds();
+    return `${hours}:${minutes}:${seconds}`;
   }
 }
