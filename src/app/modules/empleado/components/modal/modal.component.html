@@ -122,7 +122,7 @@
                                 placeholder="Ingrese nombre" [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 maxlength="25" minlength="3"
                                 [class]="titulo != 'Detalle' ? esCampoValido('nombre') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.nombre : ''" 
+                                [ngModel]="empleadOd!=null ? empleadOd.nombre : ''"
                                 (keyup)="onInputMayus('nombre', $event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('nombre')?.errors?.['required']">
@@ -139,11 +139,10 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="text" formControlName="apellido" class="form-control" id="apellido"
-                                name="apellido" placeholder="Ingrese apellido"
-                                maxlength="25" minlength="3"
+                                name="apellido" placeholder="Ingrese apellido" maxlength="25" minlength="3"
                                 [readonly]="empleadOd != null && titulo == 'Detalle'"
                                 [class]="titulo != 'Detalle' ? esCampoValido('apellido') : ''"
-                                [ngModel]="empleadOd!=null ? empleadOd.apellido : ''" 
+                                [ngModel]="empleadOd!=null ? empleadOd.apellido : ''"
                                 (keyup)="onInputMayus('apellido', $event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('apellido')?.errors?.['required']">
@@ -206,15 +205,14 @@
                             </label>
                             <input type="text" formControlName="correo" class="form-control" id="correo" name="correo"
                                 placeholder="Ingrese correo" [readonly]="empleadOd != null && titulo == 'Detalle'"
-                                maxlength="35"
-                                [class]="titulo != 'Detalle' ? esCampoValido('correo') : ''"
+                                maxlength="35" [class]="titulo != 'Detalle' ? esCampoValido('correo') : ''"
                                 [ngModel]="empleadOd!=null ? empleadOd.correo : ''"
-                                (input)="autocompletarCorreo($event)"/>
+                                (input)="autocompletarCorreo($event)" />
                             <div class="invalid-feedback">
                                 <span *ngIf="formBuilder.get('correo')?.errors?.['required']">
                                     Ingrese un correo</span>
                                 <span *ngIf="formBuilder.get('correo')?.errors?.['pattern']">
-                                    Email no válido, debe ser '@ues.edu.sv'</span>
+                                    Email no válido, debe ser '@ues.edu.sv' y sin espacios</span>
                             </div>
                         </div>
                         <!-- fin de correo Empleado -->
@@ -232,7 +230,9 @@
                                 [class]="titulo != 'Detalle' ? esCampoValido('cargo') : ''">
                                 <option value="">Seleccione Cargo</option>
                                 <option *ngFor="let x of Cargos" [ngValue]="x.id">
-                                    {{x.nombreCargo}}
+                                    <p *ngIf="!(titulo == 'Editar' && x.nombreCargo == 'MOTORISTA')" >
+                                        {{x.nombreCargo}}
+                                    </p>
                                 </option>
                             </select>
                             <div class="invalid-feedback">

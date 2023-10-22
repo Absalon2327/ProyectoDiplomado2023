@@ -67,7 +67,7 @@ export class ModalComponent implements OnInit {
       }
 
     } else {
-      //Usar mensajes globales :u
+
             this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"
@@ -90,8 +90,8 @@ export class ModalComponent implements OnInit {
 
     data.nombre = data.nombre.toUpperCase();
 
-    console.log(data);
-    console.log(this.formDepto.value);
+    //console.log(data);
+    //console.log(this.formDepto.value);
 
     this.deptopService.saveDepto(data).subscribe({
       next: (resp) => {
@@ -153,7 +153,7 @@ export class ModalComponent implements OnInit {
           "Ups... Algo salió mal",
           err.error.message
         );
-        console.log(err);
+        //console.log(err);
       },
       complete: () => {
         const Toast = Swal.mixin({
@@ -218,7 +218,8 @@ export class ModalComponent implements OnInit {
   get descripcion() {
     return this.formDepto.get('descripcion');
   }
-  
+
+
   formatInputMayusDet(nombre: string, event: any) {
     const inputValue = event.target.value;
     const formattedValue =
@@ -227,5 +228,11 @@ export class ModalComponent implements OnInit {
     this.formDepto
       .get(nombre)
       .setValue(formattedValue, { emitEvent: false });
+  }
+
+
+  get tipo() {
+    return this.formDepto.get('tipo');
+
   }
 }

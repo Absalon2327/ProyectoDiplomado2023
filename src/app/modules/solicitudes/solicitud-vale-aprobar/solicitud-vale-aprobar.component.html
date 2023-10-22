@@ -325,7 +325,7 @@
               />
             </div>
           </div>
-          <div class="row mb-4">
+          <div *ngIf="estadoSoli !='Aprobada'" class="row mb-4">
             <label for="formrow-firstname-input">Observación</label>
             <div class="col-sm-12">
               <textarea
@@ -338,16 +338,29 @@
               ></textarea>
             </div>
           </div>
+          <div *ngIf="estadoSoli =='Aprobada' || estadoSoli == 'Revisión'" class="row mb-4">
+            <label for="formrow-firstname-input">Observación</label>
+            <div class="col-sm-12">
+              <textarea
+                row="3"
+                maxlength="750"
+                class="form-control"
+                placeholder="Comentario"
+                disabled=""
+                formControlName="observacionRevision"
+              ></textarea>
+            </div>
+          </div>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
 
-    <button type="button" class="btn btn-success btn-dca" (click)="aprobar()">
+    <button  *ngIf="estadoSoli !='Aprobada'" type="button" class="btn btn-success btn-dca" (click)="aprobar()">
       Aprobar
     </button>
-    <button type="submit" class="btn btn-warning btn-dca" form="formSoliVale">
+    <button  *ngIf="estadoSoli !='Aprobada'" type="submit" class="btn btn-warning btn-dca" form="formSoliVale">
       Revisión
     </button>
     <button

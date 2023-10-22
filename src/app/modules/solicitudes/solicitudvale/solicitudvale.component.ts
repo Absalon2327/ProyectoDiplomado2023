@@ -779,11 +779,7 @@ export class SolicitudvaleComponent implements OnInit {
         }).then(() => {});
       },
       (err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Algo salió mal",
-          text: err,
-        });
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
       }
     );
   }

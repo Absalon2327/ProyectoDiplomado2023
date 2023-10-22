@@ -27,6 +27,7 @@ export class PasswordresetComponent implements OnInit {
   error = '';
   success = '';
   loading = false;
+  arroba: boolean = false;
 
   code: boolean = false;
   resetpass: boolean = false;
@@ -52,9 +53,9 @@ export class PasswordresetComponent implements OnInit {
     private mensajesService: MensajesService,
     private usuarioService: UsuarioService,
     private router: Router,
-    ) {
-      this.resetForm = this.iniciarFormulario();
-    }
+  ) {
+    this.resetForm = this.iniciarFormulario();
+  }
 
 
   alerts = [
@@ -88,7 +89,6 @@ export class PasswordresetComponent implements OnInit {
 
     } else if (this.code) {
       this.submitCode();
-
     } else if (!this.anothermethod) {
       if (this.resetForm.get('correo').valid) {
         this.resetpassEmail();
@@ -108,7 +108,6 @@ export class PasswordresetComponent implements OnInit {
           "warning",
           "Complete lo que se indican"
         );
-        
         return Object.values(this.resetForm.controls).forEach((control) =>
           control.markAsTouched()
         );
@@ -152,8 +151,8 @@ export class PasswordresetComponent implements OnInit {
         })
       },
       (err) => {
-        //Usar mensajes globales :u
-        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
+        
+        this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
         this.code = false;
       }
     );
@@ -176,8 +175,7 @@ export class PasswordresetComponent implements OnInit {
       },
       (err) => {
         Swal.close();
-        //Usar mensajes globales :u
-        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
+        this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
         this.code = false;
       }
     );
@@ -229,15 +227,14 @@ export class PasswordresetComponent implements OnInit {
             this.usuarioService.getUsuario();
           })
         },
-        (err) => {
-          //Usar mensajes globales :u
-          this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
+        (err) => {   
+          this.mensajesService.mensajesSweet("error", "Error", "El codigo no coincide", "Entiendo");
+          this.limpiarCampos();
           this.resetpass = false;
         }
       );
     } else {
-          //Usar mensajes globales :u
-          this.mensajesService.mensajesSweet("error","Error","Por favor, complete el código de 5 dígitos.", "Entiendo");
+      this.mensajesService.mensajesSweet("error", "Error", "Por favor, complete el código de 5 dígitos.", "Entiendo");
     }
   }
 
@@ -265,7 +262,7 @@ export class PasswordresetComponent implements OnInit {
 
             Toast.fire({
               icon: "success",
-              text: "Modificacion exitosa",
+              text: "Modificación exitosa",
             }).then(() => {
               this.router.navigate(['/dashboard']);
               this.resetForm.reset();
@@ -274,11 +271,7 @@ export class PasswordresetComponent implements OnInit {
         }
       },
       (err: any) => {
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+        this.mensajesService.mensajesSweet("error", "Error", err.error.message, "Entiendo");;
       }
     );
   }
@@ -291,6 +284,14 @@ export class PasswordresetComponent implements OnInit {
     }
     return codigo;
   }
+
+  limpiarCampos() {
+    for (let i = 1; i <= 5; i++) {
+      const input = document.getElementById('digit' + i) as HTMLInputElement;
+      input.value = '';
+    }
+  }
+
 
   SeguridadClave(event: any) {
     const clave = event.target.value;
@@ -385,8 +386,8 @@ export class PasswordresetComponent implements OnInit {
         })
       },
       (err) => {
-        //Usar mensajes globales :u
-        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
+        
+        this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
       }
     );
   }
@@ -415,32 +416,19 @@ export class PasswordresetComponent implements OnInit {
     });
   }
 
-  //////   metodos para la ayuda ///////
-  /*    CambiarAlert(alert) {
-      alert.show = !alert.show;
-      this.modalService.dismissAll();
-    }
-  
-    restaurarAlerts() {
-      this.alerts.forEach((alert) => {
-        alert.show = true;
-      });
-    }
-  
-    siMuestraAlertas() {
-      return this.alerts.every((alert) => alert.show);
-    } */
+  //////   metodos para la autocompletar el correo ///////
+  autocompletarCorreo(event: any) {
+    const usuario = this.resetForm.value.correo;
+    const clave = event.target.value;
+    const ultimoCaracter = clave.slice(-1); // Obtener el último carácter
 
-  //// metodo par abrir la modal ////
-  /*     openModal(content: any) {
-        //hacer que la modal no se cierre al precionar fuera de ella -> backdrop: 'static', keyboard: false
-        this.modalService.open(content, {
-          size: "",
-          centered: true,
-          backdrop: "static",
-          keyboard: false,
-        });
-      } */
+    if (usuario && ultimoCaracter === '@' && !this.arroba) {
+      this.arroba = !this.arroba;
+      this.resetForm.get('correo').setValue(`${usuario}ues.edu.sv`);
+    } else if (usuario && ultimoCaracter === '@' && this.arroba) {
+      this.arroba = !this.arroba;
+    }
+  }
 
   mostrarAyuda() {
     let mensaje;

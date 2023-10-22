@@ -102,15 +102,15 @@ export class ServiceService {
     empleado: string,
     cargo: string
   ) {
-    console.log("en el servicio:", asignacionVale);
-    console.log("suario en el servicio:", this.usuario);
+    //console.log("en el servicio:", asignacionVale);
+    //console.log("suario en el servicio:", this.usuario);
     const data = {
       asignacionValeInDto: asignacionVale,
       idUsuarioLogueado: idUsuario,
       empleado: empleado,
       cargo: cargo,
     };
-    console.log("data en el servicio:", data);
+    //console.log("data en el servicio:", data);
 
     return this.http.post(`${this.baseUrl}/asignacionvale/insertar`, data);
   }
@@ -126,7 +126,7 @@ export class ServiceService {
     size: number,
     cantVales: number
   ): Observable<IValesAsignarPage[]> {
-    console.log("en el servicio cantVales: " + size);
+    //console.log("en el servicio cantVales: " + size);
     return this.http.get<IValesAsignarPage[]>(
       `${this.baseUrl}/asignacionvale/listarvalesasignar/${cantVales}`
     ) /*
@@ -234,7 +234,7 @@ export class ServiceService {
           this.listSolicitudesValeRol = soliVe;
         },
         (error) => {
-          console.log("Error al obtener las solicitudes de vehiculo", error);
+          //console.log("Error al obtener las solicitudes de vehiculo", error);
         }
       );
   }

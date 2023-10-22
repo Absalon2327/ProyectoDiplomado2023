@@ -16,27 +16,31 @@
     </a>
 </div>
 
+<div *ngIf="leyenda == 'SendGrid' && home == false">
+    <a class="dropdown-item" style="cursor: pointer;" (click)="openModal(content)">
+        <i class="bx bx-mail-send font-size-16 align-middle me-1"></i>SendGrid
+    </a>
+</div>
+
 <div *ngIf="leyenda == 'Datos' && home == true">
-  <a style="cursor: pointer;" class="btn btn-primary btn-sm" (click)="openModal(content)" >Ver Perfil
-    <i
-            class="mdi mdi-arrow-right ms-1"></i></a>
+    <a style="cursor: pointer;" class="btn btn-primary btn-sm" (click)="openModal(content)">Ver Perfil
+        <i class="mdi mdi-arrow-right ms-1"></i></a>
 </div>
 
 <div *ngIf="leyenda == 'Credenciales' && home == true">
-    <a style="cursor: pointer;" class="btn btn-primary btn-sm" (click)="openModal(content)" >Credenciales
-      <i
-              class="mdi mdi-arrow-right ms-1"></i></a>
-  </div>
+    <a style="cursor: pointer;" class="btn btn-primary btn-sm" (click)="openModal(content)">Credenciales
+        <i class="mdi mdi-arrow-right ms-1"></i></a>
+</div>
 
-  <div *ngIf="leyenda == 'AcercaDe' && home == true">
+<div *ngIf="leyenda == 'AcercaDe' && home == true">
     <a class="dropdown-item" style="cursor: pointer;" (click)="AcercaDe()">
         <i class="dripicons-information font-size-13 align-middle me-1"></i> Acerca De
     </a>
 </div>
 
 <!-- Modal-->
-<div class="modal modal-fullscreen-xl-down fade" id="modalEmpleado" name="modalEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal modal-fullscreen-xl-down fade" id="modalEmpleado" name="modalEmpleado" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <ng-template #content role="document" let-modal>
         <div class="modal-header">
 
@@ -48,11 +52,15 @@
                 <h5 class="modal-title mt-0">Modificar Credenciales</h5>
             </div>
 
+            <div *ngIf="leyenda == 'SendGrid'">
+                <h5 class="modal-title mt-0">Credenciales de SendGrid</h5>
+            </div>
+
 
             <div class="btn-alerta" *ngIf="alerts">
                 <i class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor" ngbTooltip="Mostrar Ayuda"
-                    *ngIf="leyenda == 'Datos' ? !siMuestraAlertas() : !siMuestraAlertas2()"
-                    (click)="leyenda == 'Datos' ? restaurarAlerts() : restaurarAlerts2()"></i>
+                    *ngIf="leyenda == 'Datos' ? !siMuestraAlertas() : leyenda == 'Credenciales' ? !siMuestraAlertas2() : !siMuestraAlertas3()"
+                    (click)="leyenda == 'Datos' ? restaurarAlerts() : leyenda == 'Credenciales' ? restaurarAlerts2() : restaurarAlerts3()"></i>
             </div>
 
             <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
@@ -76,10 +84,24 @@
                     <div class="alert alert-{{ alert.type }} alert-dismissible fade show" role="alert"
                         *ngIf="alert.show">
                         <strong>Importante!</strong>
-                        <br/>
+                        <br />
                         <strong>{{nuevo ? '!Debe cambiar clave "por defecto", por la original¡' : ''}}</strong>
                         <div class="text-justify">{{ alert.message }}</div>
                         <button type="button" class="btn-close" (click)="CambiarAlert2(alert)"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div *ngIf="leyenda == 'SendGrid'">
+                <div *ngFor="let alert of alerts3">
+                    <div class="alert alert-{{ alert.type }} alert-dismissible fade show" role="alert"
+                        *ngIf="alert.show">
+                        <strong>Precaución!</strong>
+                        <br />
+                        <div class="text-justify">{{ alert.message }}</div>
+                        <button type="button" class="btn-close" (click)="CambiarAlert3(alert)"
                             aria-label="Close"></button>
                     </div>
                 </div>
@@ -131,10 +153,10 @@
                                     <button class="btn btn-light ms-0" type="button" id="password-addon"
                                         (click)="togglePasswordVisibility2()"><i
                                             class="mdi mdi-eye-outline"></i></button>
-                                    <div class="invalid-feedback">
-                                        <span *ngIf="formEmpleado.get('confirclave')?.errors?.['required']">
+                                    <!--      <div class="invalid-feedback">
+                                        <span *ngIf="formUsuario.get('clave')?.errors?.['required']">
                                             Ingrese la confirmacion</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <!-- fin de apellido Empleado -->
@@ -216,11 +238,11 @@
                             </div>
                             <!-- fin de telefono Empleado -->
 
-                            
+
                             <!-- inicio de foto Empleado -->
                             <div class="form-group row">
 
-                                <div class="col-md-7">
+                                <div class="col-md-6 m-2">
                                     <div class="form-group row m-2">
                                         <label class="control-label" for="file">Foto: </label>
                                         <input id="file" type="file" multiple class="form-control"
@@ -228,7 +250,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md">
+                                <div class="col-md-4 img-emp m-2">
                                     <img class="rounded-circle custom-border" *ngIf="!imgTemp"
                                         [src]="fotoEmpleado !== '' ? fotoEmpleado : './../../../../assets/images/Default-Avatar.png'"
                                         alt="">
@@ -252,6 +274,76 @@
                 </form>
             </div>
             <!-- Datos -->
+
+            <!-- SendGrid -->
+
+            <div *ngIf="leyenda == 'SendGrid'">
+                <form (ngSubmit)="guardar()" [formGroup]="formSendGrid" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md">
+
+
+                            <!-- inicio de keysendgrid Empleado -->
+                            <div class="form-group row m-4">
+                                <label class="control-label">API-SendGrid : </label>
+                                <div class="input-group auth-pass-inputgroup">
+                                    <input formControlName="keysendgrid" class="form-control" id="keysendgrid"
+                                        name="keysendgrid" placeholder="Ingrese key de sendgrid"
+                                        [ngModel]="sendgrid!=null ? sendgrid.keysendgrid : ''"
+                                        [class]="esCampoValidoS('keysendgrid')" />
+
+                                    <button class="btn btn-light ms-0" type="button" id="password-addon"
+                                        (click)="eliminarkeysendgrid()"><i class="bx bx-trash"></i></button>
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="formSendGrid.get('keysendgrid')?.errors?.['required']">
+                                            Ingrese api de sendgrid</span>
+                                        <span *ngIf="formSendGrid.get('keysendgrid')?.errors?.['minlength']">
+                                            Debe tener al menos 30 caracteres</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- fin de keysendgrid Empleado -->
+
+                            <!-- inicio de keyplantilla Empleado -->
+                            <div class="form-group row m-4">
+                                <label class="control-label">API-Plantilla :
+                                </label>
+                                <div class="input-group auth-pass-inputgroup">
+                                    <input formControlName="keyplantilla" class="form-control" id="keyplantilla"
+                                        name="keyplantilla" placeholder="Ingrese key de plantilla"
+                                        [ngModel]="sendgrid!=null ? sendgrid.keyplantilla : ''"
+                                        [class]="esCampoValidoS('keyplantilla')" />
+
+                                    <button class="btn btn-light ms-0" type="button" id="password-addon"
+                                        (click)="eliminarkeyplantilla()"><i class="bx bx-trash"></i></button>
+
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="formSendGrid.get('keyplantilla')?.errors?.['required']">
+                                            Ingrese api de plantilla</span>
+                                        <span *ngIf="formSendGrid.get('keyplantilla')?.errors?.['minlength']">
+                                            Debe tener al menos 30 caracteres</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- fin de apellido Empleado -->
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn btn-primary w-sm me-2" id="btn-save"
+                            name="btn-save">Modificar</button>
+
+                        <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel"
+                            aria-hidden="true" (click)="modal.dismiss('Cross click')">Cancelar</button>
+                    </div>
+
+                </form>
+            </div>
+            <!-- SendGrid -->
+
         </div>
     </ng-template>
 </div>

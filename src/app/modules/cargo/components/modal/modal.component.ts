@@ -42,10 +42,10 @@ export class ModalComponent implements OnInit {
 
 
       if(typeof this.cargos != 'undefined'){
-        console.log("trae algo:"+this.cargos);
+        //console.log("trae algo:"+this.cargos);
         this.formCargo.patchValue(this.cargos);
       }
-      console.log("no trae nada"+this.cargos);
+      //console.log("no trae nada"+this.cargos);
     }
 
      private iniciarFormulario(){
@@ -62,9 +62,9 @@ export class ModalComponent implements OnInit {
     if(this.formCargo.valid){
       if(this.cargos != null){
         this.editando();
-      console.log("editando");
+      //console.log("editando");
       } else {
-        console.log("registrando");
+        //console.log("registrando");
         this.registrando();
       }
     }else{
@@ -86,8 +86,8 @@ export class ModalComponent implements OnInit {
 
     data.nombreCargo = data.nombreCargo.toUpperCase();
 
-    console.log(data);
-    console.log(this.formCargo.value);
+    //console.log(data);
+    //console.log(this.formCargo.value);
 
     this.cargoService.saveCargos(data).subscribe({
       next : (resp) => {

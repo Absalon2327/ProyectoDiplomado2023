@@ -44,7 +44,6 @@
                   <div class="invalid-feedback">
                     <span *ngIf="loginForm.get('email')?.errors?.['required']">
                       El usuario es requerido</span>
-
                   </div>
                 </div>
 
@@ -73,7 +72,7 @@
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="remember-check">
+                  <input class="form-check-input" type="checkbox" formControlName="remenber" id="remember-check">
                   <label class="form-check-label" for="remember-check">
                     Recordar usuario
                   </label>

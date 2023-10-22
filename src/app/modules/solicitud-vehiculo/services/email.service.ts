@@ -45,7 +45,7 @@ export class EmailService {
       (resp) => {
       },
       (err) => {
-        console.log("Error al enviar el correo de notificación" +err);
+        //console.log("Error al enviar el correo de notificación" +err);
       }
     );
   }

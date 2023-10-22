@@ -189,7 +189,7 @@ export class SolicitudvComponent implements OnInit {
   obtnerExistenciaVales() {
     this.existenciaService.getCantidadVales().subscribe((response) => {
         this.existenciaI = response;
-        // console.log(this.existenciaI);
+        //console.log(this.existenciaI);
       },
       (error) => {
         this.existenciaI = null;
