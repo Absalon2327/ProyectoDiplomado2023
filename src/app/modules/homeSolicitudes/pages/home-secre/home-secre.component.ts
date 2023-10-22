@@ -119,14 +119,14 @@ export class HomeSecreComponent implements OnInit {
      /*
     this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
       this.solicitud = data;
-        console.log("dasd",this.solicitud)
+        //console.log("dasd",this.solicitud)
         this.solicitud.forEach(element => {
           const date = new Date(element.fechaSalida);
           if(date.getMonth() == new Date().getMonth()){
 
 
           }
-          console.log("carga",this.cargaRevision)
+          //console.log("carga",this.cargaRevision)
         })
     }); */// carga las solicitudes de vehiculo para el usuario
     }

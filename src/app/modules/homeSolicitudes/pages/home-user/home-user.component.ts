@@ -87,7 +87,7 @@ export class HomeUserComponent implements OnInit {
       this.solicitud.forEach(element => {
         const date = new Date(element.fechaSalida);
         if(date.getMonth() == new Date().getMonth()){
-          console.log("fecha",new Date().getMonth())
+          //console.log("fecha",new Date().getMonth())
           this.cargaRevision.push(element);
         }
 

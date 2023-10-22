@@ -384,6 +384,7 @@ export class DetalleService {
 
     return estado;
   }
+
   async mensajesConfirmarLiquidacion(
     icono: SweetAlertIcon = "warning",
     title: string = "¿Está seguro de liquidar?",
@@ -455,6 +456,43 @@ export class DetalleService {
       estado = true;
     }
 
+    return estado;
+  }
+
+
+  async mensajesConfirmarModificacionKeysSendgrid(
+    icono: SweetAlertIcon = "warning",
+    title: string = "¿Está seguro de modificar?",
+    label: string = "Los datos no se podrán revertir, digite: ",
+    palabraClave: string = "modificar"
+  ) {
+    let estado = false;
+    const palabra = palabraClave;
+
+    const { value: valorPalabra } = await Swal.fire({
+      icon: icono,
+      title: title,
+      input: "text",
+      inputLabel: label + palabraClave,
+      inputValue: "",
+      showCancelButton: true,
+      confirmButtonColor: "#972727",
+      confirmButtonText: "Aceptar",
+      cancelButtonColor: "#2c3136",
+      cancelButtonText: "Cancelar",
+      inputValidator: (value) => {
+        if (!value) {
+          return "¡Tiene que escribir algo!";
+        }
+        if (value != palabra) {
+          return "¡No coincide!";
+        }
+      },
+    });
+
+    if (valorPalabra) {
+      estado = true;
+    }
     return estado;
   }
 }

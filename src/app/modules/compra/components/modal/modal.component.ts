@@ -295,7 +295,7 @@ export class ModalComponent implements OnInit {
           this.compraService.getCompras();
           this.modalService.dismissAll();
           this.limpiarCampos();
-          this.mensajesService.mensajesToast("success", "Registro agregado");
+          this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
           resolve(); // Resuelve la promesa sin argumentos
         },
         error: (err) => {

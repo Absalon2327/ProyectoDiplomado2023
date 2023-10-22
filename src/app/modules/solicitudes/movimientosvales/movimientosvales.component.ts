@@ -69,7 +69,7 @@ export class MovimientosvalesComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerUsuarioActivo();
-    // console.log('usuario ',this.usuarioActivo)
+    //console.log('usuario ',this.usuarioActivo)
     this.userService.getUsuario();
     this.breadCrumbItems = [
       { label: "Compras" },
@@ -79,7 +79,7 @@ export class MovimientosvalesComponent implements OnInit {
     this.getEstados();
     this.obtenerUsuarioActivo();
     this.compraService.getCompras();
-    // console.log('esta', this.solicitudesVehiculo.)
+    //console.log('esta', this.solicitudesVehiculo.)
   }
 
   get listDatos() {
@@ -270,7 +270,7 @@ loadingAlert.close();
     ]);
 
     for (const persona of log) {
-      // console.log(persona.nombrePasajero);
+      //console.log(persona.nombrePasajero);
       if (persona.estadovale == 1) {
         this.estado = "En espera por jefe";
       } else if (persona.estadovale == 2) {
@@ -415,7 +415,7 @@ loadingAlert.close();
         this.listVale = vales;
         //para el filtro de estados
         this.listValeAux = this.listVale;
-        //  console.log(vales);
+        //  //console.log(vales);
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error

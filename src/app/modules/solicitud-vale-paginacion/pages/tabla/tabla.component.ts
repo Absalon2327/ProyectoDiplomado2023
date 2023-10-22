@@ -26,7 +26,7 @@ export class TablaComponent implements OnInit {
   }
 
   get listDatos() {
-    console.log(this.solicitudesServices.listSolcitudes);
+    //console.log(this.solicitudesServices.listSolcitudes);
     this.solicitudes = this.solicitudesServices.listSolcitudes;
     return this.solicitudes;
   }
