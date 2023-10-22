@@ -218,4 +218,14 @@ export class ModalComponent implements OnInit {
   get descripcion() {
     return this.formDepto.get('descripcion');
   }
+  
+  formatInputMayusDet(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+
+    this.formDepto
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
+  }
 }

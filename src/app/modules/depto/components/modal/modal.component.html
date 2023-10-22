@@ -72,7 +72,8 @@
     formControlName="descripcion"
     placeholder="Descripcion"
     [readonly]="leyenda == 'Detalle'"
-    [class]="esCampoValido('descripcion')"></textarea>
+    [class]="esCampoValido('descripcion')"
+    (keyup)="formatInputMayusDet('descripcion', $event)"></textarea>
     <div *ngIf="descripcion?.errors?.['required'] && descripcion?.touched">
       <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Descripcion es obligatorio</span>
       </div>
