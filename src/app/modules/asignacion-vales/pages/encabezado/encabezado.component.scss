@@ -30,6 +30,11 @@
   font-size: 14px; /* Tamaño de fuente predeterminado */
 }
 
+.paleta-colores-encabezado{
+  background-color: #B76369;
+  color: white;
+}
+
 /* Media query para pantallas de 325px o menos */
 @media (max-width: 768px) {
   .button-encabezado-otros {

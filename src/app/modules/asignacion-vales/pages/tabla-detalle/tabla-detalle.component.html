@@ -17,11 +17,9 @@
         "
       >
         <th class="text-center" scope="row">{{ vale.correlativo }}</th>
-        <th *ngIf="vale.fechaVencimiento < fechaActual" class="h6">
-          <span class="badge rounded-pill bg-danger">Vencido</span>
-        </th>
-        <th *ngIf="vale.fechaVencimiento >= fechaActual" class="h6">
-          <span class="badge rounded-pill bg-danger"></span>
+        <th class="h6">
+          <span *ngIf="vale.fechaVencimiento < fechaActual" class="badge rounded-pill bg-danger">Vencido</span>
+          <span *ngIf="vale.fechaVencimiento >= fechaActual" class="badge rounded-pill bg-danger"></span>
         </th>
         <td class="text-center">
           <input
@@ -46,11 +44,12 @@
   <button
     type="button"
     [disabled]="buttonDisabled"
-    class="btn btn-dark me-2 button-encabezado-tabla"
+    class="btn btn-primary me-2 btn-dark"
     (click)="devolverVales()"
   >
     Devolución
   </button>
+  <!--  button-encabezado-tabla -->
 
   <app-modal-documentos
     [leyenda]="'Nuevo'"

@@ -47,7 +47,7 @@ export class TablaComponent implements OnInit {
       this.abrirModalSecre(leyenda, data)
     } else if (this.userAcivo.role == 'SECR_DECANATO' && (data.estado == 2 || data.estado == 4 || data.estado == 5 || data.estado == 6) && this.vista == 'listado'){
       this.abrirModalSecre(leyenda, data);
-      console.log("entro");
+      //console.log("entro");
     }else {
       this.selectedData = data; // Almacena los datos del registro seleccionado
       const modalRef = this.modalService.open(ModalComponent, {size: 'xl', backdrop: 'static' , scrollable: true});
@@ -266,7 +266,7 @@ export class TablaComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: mensaje,
-          centro: 'Por favor ingrese al sistema para ver más detalles.',
+          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -287,10 +287,10 @@ export class TablaComponent implements OnInit {
           this.userAcivo.empleado.apellido;
         const email: IEmail = {
           asunto: 'Solicitud de vehículo APROBADA',
-          titulo: 'Solicitud de vehículo APROBADA',
+          titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
-          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales",
+          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales. https://orellana2023.me/",
           centro: '',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }

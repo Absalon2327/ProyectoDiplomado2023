@@ -169,7 +169,7 @@ export class ExcelService {
     const titulo7 = sheet.getCell("A11");
     sheet.mergeCells("A11", "D11");
     titulo7.value = `${
-      "Asignación de Vales de combustible " +
+      "Asignación de vales de combustible " +
       this.formatDate(`${fechaDesde}`) +
       ""
     }`;
@@ -423,7 +423,7 @@ export class ExcelService {
             `${"$"}`,
             `${"$"}`,
             `${item.cantidadvale}`,
-            `${"$" + item.valor}`,
+            `${"$" + item.valor.toFixed(2)}`,
             `${"$" + item.cantidadvale * item.valor}`,
             `${this.formatDate(`${item.fecha}`)}`,
           ];
@@ -486,7 +486,7 @@ export class ExcelService {
               `${"$"}`,
               `${"$"}`,
               `${item.cantidadvale}`,
-              `${"$" + item.valor}`,
+              `${"$" + item.valor.toFixed(2)}`,
               `${"$" + item.cantidadvale * item.valor}`,
               `${this.formatDate(`${item.fecha}`)}`,
             ];
@@ -514,7 +514,7 @@ export class ExcelService {
               `${"$"}`,
               `${"$"}`,
               `${item.cantidadvale}`,
-              `${"$" + item.valor}`,
+              `${"$" + item.valor.toFixed(2)}`,
               `${"$" + item.cantidadvale * item.valor}`,
 
               `${this.formatDate(`${item.fecha}`)}`,
@@ -601,8 +601,8 @@ export class ExcelService {
           row.values = [
             "DEl " + `${item.codigoinicio}` + " AL " + `${item.codigofin}`,
             `${item.cantidad}`,
-            `${"$" + item.preciounitario}`,
-            `${"$" + item.cantidad * item.preciounitario}`,
+            `${"$" + item.preciounitario.toFixed(2)}`,
+            `${"$" + (item.cantidad * item.preciounitario).toFixed(2)}`,
             `${""}`,
             `${"$"}`,
             `${"$"}`,
@@ -615,8 +615,8 @@ export class ExcelService {
           row.values = [
             "DEl " + `${item.codigoinicio}` + " AL " + `${item.codigofin}`,
             `${item.cantidad}`,
-            `${"$" + item.preciounitario}`,
-            `${"$" + item.cantidad * item.preciounitario}`,
+            `${"$" + item.preciounitario.toFixed(2)}`,
+            `${"$" + (item.cantidad * item.preciounitario).toFixed(2)}`,
             `${""}`,
             `${"$"}`,
             `${"$"}`,
@@ -667,7 +667,7 @@ export class ExcelService {
       },
     };
     const titulo023 = sheet.getCell("D" + `${index + 13}`);
-    titulo023.value = `${cantcomprapu}`;
+    titulo023.value = `${cantcomprapu.toFixed(2)}`;
     titulo023.style.font = {
       bold: true,
       size: 12,
@@ -687,7 +687,7 @@ export class ExcelService {
       },
     };
     const titulo03 = sheet.getCell("G" + `${index + 13}`);
-    titulo03.value = `${kk * this.in[0].vall}`;
+    titulo03.value = `${(kk * this.in[0].vall).toFixed(2)}`;
     titulo03.style.font = {
       bold: true,
       size: 12,
@@ -768,7 +768,7 @@ export class ExcelService {
         argb: "FF000000",
       },
     };
-    console.log("obj veri", this.valor);
+    //console.log("obj veri", this.valor);
     //--------------------------------------------
     let connnnnn = 0;
     let ooo = 0;
@@ -777,12 +777,12 @@ export class ExcelService {
         const titulosffcc = sheet.getCell("E" + `${this.in[j].in + 13}`);
         titulosffcc.value = `${this.cccc[j].codi}`;
         const titulosffcc1 = sheet.getCell("G" + `${this.in[j].in + 13}`);
-        titulosffcc1.value = `$${this.cccc[j].codi * this.cccc[j].val}`;
+        titulosffcc1.value = `$${(this.cccc[j].codi * this.cccc[j].val).toFixed(2)}`;
       } else {
         const titulosffcc = sheet.getCell("E" + `${this.in[j].in + (13 - 1)}`);
         titulosffcc.value = `${this.cccc[j].codi}`;
         const titulosffcc1 = sheet.getCell("G" + `${this.in[j].in + (13 - 1)}`);
-        titulosffcc1.value = `$${this.cccc[j].codi * this.cccc[j].val}`;
+        titulosffcc1.value = `$${(this.cccc[j].codi * this.cccc[j].val).toFixed(2)}`;
       }
       connnnnn = connnnnn + this.cccc[j].codi;
       this.hhh = this.in[j].idn;
@@ -797,12 +797,12 @@ export class ExcelService {
       const titulosffcc1 = sheet.getCell(
         "G" + `${this.in[ll - 1].in + (13 - 1)}`
       );
-      titulosffcc1.value = `$${(kk - connnnnn) * this.in[ll - 1].vall}`;
+      titulosffcc1.value = `$${((kk - connnnnn) * this.in[ll - 1].vall).toFixed(2)}`;
     } else {
       const titulosffcc = sheet.getCell("E" + `${this.in[ll - 1].in + 13}`);
       titulosffcc.value = `${kk - connnnnn}`;
       const titulosffcc1 = sheet.getCell("G" + `${this.in[ll - 1].in + 13}`);
-      titulosffcc1.value = `$${(kk - connnnnn) * this.in[ll - 1].vall}`;
+      titulosffcc1.value = `$${((kk - connnnnn) * this.in[ll - 1].vall).toFixed(2)}`;
     }
     //------------------------------------------
     for (let i = 0; i < this.valor.length; i++) {
@@ -838,7 +838,7 @@ export class ExcelService {
           (this.valor[i].cantidad - this.valor[i].conv) *
           this.valor[i].valorAntes
         }`;
-        console.log(this.valor[i]);
+        //console.log(this.valor[i]);
       }
     }
   }

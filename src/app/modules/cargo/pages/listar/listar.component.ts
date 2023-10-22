@@ -36,7 +36,7 @@ export class ListarComponent implements OnInit {
   }
 
   getCargos(estado : number){
-    console.log(estado);
+    //console.log(estado);
     this.cargoService.getCargos(estado).subscribe((data: ICargo[]) => {
       this.lstCargos = data;
     });

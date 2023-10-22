@@ -69,7 +69,7 @@ export class MovimientosvalesComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerUsuarioActivo();
-    // console.log('usuario ',this.usuarioActivo)
+    //console.log('usuario ',this.usuarioActivo)
     this.userService.getUsuario();
     this.breadCrumbItems = [
       { label: "Compras" },
@@ -79,7 +79,7 @@ export class MovimientosvalesComponent implements OnInit {
     this.getEstados();
     this.obtenerUsuarioActivo();
     this.compraService.getCompras();
-    // console.log('esta', this.solicitudesVehiculo.)
+    //console.log('esta', this.solicitudesVehiculo.)
   }
 
   get listDatos() {
@@ -127,11 +127,7 @@ loadingAlert.close();
       },(err) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
       },);
   }
 
@@ -209,7 +205,7 @@ loadingAlert.close();
         columns: [
           {
             text: [
-              { text: "Fecha de compra: ", bold: true },
+              { text: "Fecha de Compra: ", bold: true },
               this.datePipe.transform(
                 compr.fechaCompra,
                 "dd/MM/yyyy HH:mm:ss a"
@@ -218,7 +214,7 @@ loadingAlert.close();
           },
           {
             text: [
-              { text: "Fecha de vencimiento: ", bold: true },
+              { text: "Fecha de Vencimiento: ", bold: true },
               this.datePipe.transform(vale.fechaVencimiento, "dd/MM/yyyy"),
             ],
           },
@@ -231,11 +227,11 @@ loadingAlert.close();
             text: [{ text: "Vale: ", bold: true }, vale.correlativo],
           },
           {
-            text: [{ text: "Precio unitario: $ ", bold: true }, vale.valor],
+            text: [{ text: "Precio Unitario: $ ", bold: true }, vale.valor.toFixed(2)],
           },
           {
             text: [
-              { text: "Estado del vale: ", bold: true },
+              { text: "Estado del Vale: ", bold: true },
               this.estadoNombre(estado),
             ],
           },
@@ -274,7 +270,7 @@ loadingAlert.close();
     ]);
 
     for (const persona of log) {
-      // console.log(persona.nombrePasajero);
+      //console.log(persona.nombrePasajero);
       if (persona.estadovale == 1) {
         this.estado = "En espera por jefe";
       } else if (persona.estadovale == 2) {
@@ -419,7 +415,7 @@ loadingAlert.close();
         this.listVale = vales;
         //para el filtro de estados
         this.listValeAux = this.listVale;
-        //  console.log(vales);
+        //  //console.log(vales);
       },
       (error) => {
         // Cerrar SweetAlert de carga en caso de error

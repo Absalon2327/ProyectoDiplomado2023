@@ -109,7 +109,9 @@ export class ModalComponent implements OnInit {
     this.empleadoService.listCargos.forEach((x) => {
       if (this.leyenda == "Editar") {
         if (x.estado == 8 && x.id != this.empleadOd.cargo.id) {
-          cargos.push(x);
+           if(x.nombreCargo != "MOTORISTA"){
+            cargos.push(x);
+           }
         }
       } else {
         if (x.estado == 8) {
@@ -152,12 +154,12 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     } else {
-      //Usar mensajes globales :u
-            this.mensajesService.mensajesToast(
+      
+      this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"
       );
-      
+
       return Object.values(this.formBuilder.controls).forEach((control) =>
         control.markAsTouched()
       );
@@ -232,12 +234,12 @@ export class ModalComponent implements OnInit {
   registrando() {
 
     const empleado = this.formBuilder.value;
-    empleado.correo =  empleado.correo.toLowerCase();
+    empleado.correo = empleado.correo.toLowerCase();
     if (this.imagen === 'no hay') {
       this.empleadoService.postEmpleado(empleado).subscribe((resp: any) => {
         if (resp && !this.esMotorista) {
           this.Email(this.formBuilder.get('correo').value, this.formBuilder.get('nombre').value + ' ' + this.formBuilder.get('apellido').value);
-        }else{
+        } else {
           Swal.close();
           const Toast = Swal.mixin({
             toast: true,
@@ -250,7 +252,7 @@ export class ModalComponent implements OnInit {
               toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
           });
-  
+
           Toast.fire({
             icon: 'success',
             text: 'Almacenamiento exitoso'
@@ -261,17 +263,13 @@ export class ModalComponent implements OnInit {
           });
         }
       }, (err: any) => {
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        )
+        this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");
       });
     } else {
       this.empleadoService.postEmpleadoImagen(empleado, this.file).subscribe((resp: any) => {
         if (resp) {
           if (this.esMotorista) {
-            console.log("No se envio correo");
+            //console.log("No se envio correo");
             Swal.close();
             const Toast = Swal.mixin({
               toast: true,
@@ -294,7 +292,7 @@ export class ModalComponent implements OnInit {
               this.modalService.dismissAll();
             });
           } else {
-            console.log("se envio correo");
+            //console.log("se envio correo");
             this.Email(this.formBuilder.get('correo').value, this.formBuilder.get('nombre').value + ' ' + this.formBuilder.get('apellido').value);
           }
         }
@@ -341,11 +339,7 @@ export class ModalComponent implements OnInit {
         }
       }, (err: any) => {
         Swal.close();
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        )
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");
       });
     } else {
       this.empleadoService.putEmpleadoImagen(empleado, this.file).subscribe((resp: any) => {
@@ -378,11 +372,7 @@ export class ModalComponent implements OnInit {
         }
       }, (err: any) => {
         Swal.close();
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        )
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");
       });
     }
   }
@@ -418,7 +408,7 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  /////// metodo para modificacion de validaciones y estados cambiando el formulario a comveniencia si el empleado es motorista o no //////
+  /////// metodo para Modificación de validaciones y estados cambiando el formulario a comveniencia si el empleado es motorista o no //////
 
   SelectCargo(newValue: string) {
     // Lógica para determinar si el cargo seleccionado es "Motorista"

@@ -62,7 +62,7 @@ export class SolicitudVehiculoService {
             this.listSoliVehiculo = soliVe;
           },
           (error) => {
-            console.log("Error al obtener las solicitudes de vehiculo", error);
+            //console.log("Error al obtener las solicitudes de vehiculo", error);
           }
         );
     }else {
@@ -74,7 +74,7 @@ export class SolicitudVehiculoService {
             this.listSoliVehiculo = soliVe;
           },
           (error) => {
-            console.log("Error al obtener las solicitudes de vehiculo", error);
+            //console.log("Error al obtener las solicitudes de vehiculo", error);
           }
         );
     }
@@ -127,7 +127,7 @@ export class SolicitudVehiculoService {
           this.listVehiculos = vehiculo;
         },
         (error) => {
-          console.log("Error al obtener los vehículos", error);
+          //console.log("Error al obtener los vehículos", error);
           }
         );
   }
@@ -192,7 +192,7 @@ export class SolicitudVehiculoService {
             this.listSoliVehiculoRol = soliVe;
           },
           (error) => {
-            console.log("Error al obtener las solicitudes de vehiculo", error);
+            //console.log("Error al obtener las solicitudes de vehiculo", error);
           }
         );
   }*/
