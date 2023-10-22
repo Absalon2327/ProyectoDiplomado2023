@@ -45,7 +45,7 @@ export class ModalComponent implements OnInit {
 
   formularioSoliVe!: FormGroup;
   pasajeros: IPasajero[] = [];
-  username: string = 'Usuario que inicia';
+  username: string = '';
   mostrarTabla: boolean = true;
   btnVerPdf: boolean = false;
   mostrarArchivoAdjunto: boolean = false;
@@ -56,6 +56,7 @@ export class ModalComponent implements OnInit {
   file!: File;
   solicitudVale!: ISolicitudvalep;
   isChecked: boolean = false;
+  fechaMinima: Date;
 
   alerts = [
     {
@@ -85,6 +86,7 @@ export class ModalComponent implements OnInit {
       estado: 8,
       solicitudVehiculo: ''
     };
+    this.fechaMinima = new Date();
   }
 
   ngOnInit(): void {
@@ -92,6 +94,8 @@ export class ModalComponent implements OnInit {
     this.llenarSelectDepartamentos();
     this.soliVeService.obtenerVehiculos();
     this.detalle(this.leyenda);
+
+    this.fechaMinima = new Date();
   }
 
   get listVehiculos() {
@@ -447,7 +451,10 @@ export class ModalComponent implements OnInit {
       ],
       fechaSalida: [
         '',
-        [Validators.required]
+        [Validators.required, (value) => {
+          const fechaActual = new Date();
+          return fechaActual <= value;
+        }]
       ],
       fechaEntrada: [
         '',
@@ -895,5 +902,11 @@ export class ModalComponent implements OnInit {
   }
 
   /* fin correo */
-
+  getFechaActual(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+  }
 }
