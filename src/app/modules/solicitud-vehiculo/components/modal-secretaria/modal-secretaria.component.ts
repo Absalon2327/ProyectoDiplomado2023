@@ -172,6 +172,14 @@ export class ModalSecretariaComponent implements OnInit {
         this.formularioSoliVe.get('motorista')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
             + this.soliVeOd.motorista.apellido: '');
+        // nuevo codigo para mostrar motorista junta
+        if(this.soliVeOd.motoristaJunta != null){
+          this.isChecked = true;
+          this.formularioSoliVe.get('motoristaJunta')
+          .setValue(this.soliVeOd != null ? this.soliVeOd.motoristaJunta: '');
+        }else{
+          this.isChecked = false;
+        }
       }
       if (this.soliVeOd.observaciones != null){
         this.formularioSoliVe.get('observaciones')
@@ -605,6 +613,7 @@ export class ModalSecretariaComponent implements OnInit {
       observaciones:['',[]],
       file: ['',],
       tieneVale:['',[Validators.required]],
+      motoristaJunta:[null]
     });
   }
 
@@ -770,8 +779,6 @@ export class ModalSecretariaComponent implements OnInit {
 
   actualizarEstadoCheckbox() {
     this.isChecked = !this.isChecked;
-    //console.log(this.isChecked);
-
   }
 
   borrarPasatiempo(i: number){
@@ -1012,5 +1019,22 @@ export class ModalSecretariaComponent implements OnInit {
 
   get textoBoton(): string {
     return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+  }
+
+  verficarSelect(){
+    const valorSeleccionado = this.formularioSoliVe.get('motorista').value;
+    if (valorSeleccionado != null) {
+      this.soliVeService.obtenerMotoristaAcuerdo(valorSeleccionado)
+      .subscribe((MotorisData: IMotorista) => {
+        if(MotorisData.dui == '00000000'){
+          this.isChecked = true;
+          this.formularioSoliVe.get('motoristaJunta').setValidators([Validators.required]);
+        }else{
+          this.isChecked = false;
+          this.formularioSoliVe.get('motoristaJunta').setValue(null);
+        }
+      });
+    }
+    this.isChecked = false;
   }
 }
