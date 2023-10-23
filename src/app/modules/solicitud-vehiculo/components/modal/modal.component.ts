@@ -333,15 +333,15 @@ export class ModalComponent implements OnInit {
     }
     /* fin de la direccion */
 
+
+    let alertLoading: any;
     // Mostrar SweetAlert de carga
-    Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
+    alertLoading = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
     });
 
     return new Promise<void> ((resolve, reject) => {
@@ -367,7 +367,6 @@ export class ModalComponent implements OnInit {
             this.soliVeService.enviarPdfPasajeros(formData).subscribe({
               next: () => {
                 //console.log(pdfResp:any);
-                this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
                 /*Correo*/
                 if (this.usuarioActivo.role != ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
                   this.enviarEmail(this.usuarioActivo.empleado.departamento.nombre);
@@ -376,13 +375,15 @@ export class ModalComponent implements OnInit {
                   'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
                 }
                 /*Fin correo*/
-                this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
+                this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
+                alertLoading.close();
+                this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
                 resolve();
               },
               error: (pdfError) => {
-                Swal.close();
+                alertLoading.close();
                 this.mensajesService.mensajesSweet(
                   'error',
                   'Ups... Algo salió mal al enviar el PDF',
@@ -392,7 +393,6 @@ export class ModalComponent implements OnInit {
               },
             });
           } else {
-            this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
             /*Correo*/
             if (this.usuarioActivo.role != ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
               this.enviarEmail(this.usuarioActivo.empleado.departamento.nombre);
@@ -401,16 +401,17 @@ export class ModalComponent implements OnInit {
               'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
             }
             /*Fin correo*/
-            this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
+            this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
+            alertLoading.close();
+            this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
             resolve();
           }
-          Swal.close();
         },
         error : (err) => {
           // Cerrar SweetAlert de carga
-          Swal.close();
+          alertLoading.close();
           this.mensajesService.mensajesSweet(
             "error",
             "Ups... Algo salió mal al registrar la solicitud",
