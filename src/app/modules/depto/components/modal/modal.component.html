@@ -48,7 +48,8 @@
     <!--inicio del campo descripcion-->
     <div class="col-md-12">
 
-      <div class="mt-2">
+
+  <div class="mt-2">
 
     <label class="control-label">Descripción:<span class="text-danger"> *</span></label>
     <textarea type="text"
@@ -64,9 +65,9 @@
       <div *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
         <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras, espacio y numeros</span>
         </div>
+  </div>
+</div>
 
-      </div>
-    </div>
 
     <!--fin del campo descripcion-->
     <!--Inicio checkbox-->

@@ -267,7 +267,6 @@ export class ModalComponent implements OnInit {
       .setValue(formattedValue, { emitEvent: false });
   }
 
-
   get tipo() {
     return this.formDepto.get('tipo');
 
