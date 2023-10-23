@@ -48,23 +48,26 @@
     <!--inicio del campo descripcion-->
     <div class="col-md-12">
 
-      <div class="mt-2">
 
-        <label class="control-label">Descripción:<span class="text-danger"> *</span></label>
-        <textarea type="text" class="form-control" formControlName="descripcion" placeholder="Descripcion"
-          [readonly]="leyenda == 'Detalle'" [class]="esCampoValido('descripcion')"></textarea>
+  <div class="mt-2">
 
-        <div class="invalid-feedback">
-          <span *ngIf="descripcion?.errors?.['required'] && descripcion?.touched">
-            El campo Descripcion es obligatorio
-          </span>
-          <span *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
-            Solo letras, espacio y numeros
-          </span>
-        </div>
-
+    <label class="control-label">Descripción:<span class="text-danger"> *</span></label>
+    <textarea type="text"
+    class="form-control"
+    formControlName="descripcion"
+    placeholder="Descripcion"
+    [readonly]="leyenda == 'Detalle'"
+    [class]="esCampoValido('descripcion')"
+    (keyup)="formatInputMayusDet('descripcion', $event)"></textarea>
+    <div *ngIf="descripcion?.errors?.['required'] && descripcion?.touched">
+      <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Descripcion es obligatorio</span>
       </div>
-    </div>
+      <div *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
+        <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras, espacio y numeros</span>
+        </div>
+  </div>
+</div>
+
 
     <!--fin del campo descripcion-->
     <!--Inicio checkbox-->
