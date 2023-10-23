@@ -277,7 +277,7 @@ export class ModalSecretariaComponent implements OnInit {
       }
     } else {
       // Mostrar nombres de campos inválidos por consola
-      /*console.log('Campos inválidos:',
+      /*//console.log('Campos inválidos:',
         Object.keys(this.formularioSoliVe.controls).filter((controlName) =>
           this.formularioSoliVe.get(controlName)?.invalid));*/
 

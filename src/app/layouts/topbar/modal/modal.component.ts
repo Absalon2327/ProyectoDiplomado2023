@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UsuarioService } from "src/app/account/auth/services/usuario.service";
 import { NAME_VALIDATE } from "src/app/constants/constants";
+import { DetalleService } from "src/app/modules/asignacion-vales/services/detalle.service";
 import { EmpleadoService } from "src/app/modules/empleado/service/empleado.service";
 import { MensajesService } from "src/app/shared/global/mensajes.service";
 import Swal from "sweetalert2";
@@ -16,6 +17,8 @@ import Swal from "sweetalert2";
 export class ModalComponent implements OnInit {
   formEmpleado!: FormGroup;
   formUsuario!: FormGroup;
+  formSendGrid!: FormGroup;
+
   @Input() nuevo!: boolean;
   @Input() leyenda!: string;
   @Input() home: boolean = false;
@@ -55,27 +58,45 @@ export class ModalComponent implements OnInit {
     },
   ];
 
+
+  alerts3 = [
+    {
+      id: 1,
+      type: "warning",
+      message:
+        "Las credenciales solo deben ser modificadas en caso de fallo o si son distintas. La plantilla debe conservar las mismas variables para asegurar el envío correcto de correos electrónicos. Es crucial tener en cuenta que una vez alteradas las credenciales actuales, no será posible recuperarlas. Si llegara a modificar las credenciales de la API de SendGrid con información no válida, el envío de correos quedará inoperativo; en este caso, deberá ingresar credenciales válidas a través de la Interfaz de la API SendGrid.",
+      show: false,
+    },
+  ];
+
+
   constructor(
     private usuarioService: UsuarioService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private router: Router,
     private empleadoService: EmpleadoService,
-    private mensajesService: MensajesService
+    private mensajesService: MensajesService,
+    private service: DetalleService
   ) {
     this.formEmpleado = this.iniciarFormularioE();
     this.formUsuario = this.iniciarFormularioU();
+    this.formSendGrid = this.iniciarFormularioS();
   }
 
   ngOnInit() {
     this.fotoEmpleado = this.usuarioService.empleadofoto;
     this.usuarioService.getEmpleado();
     this.usuarioService.getUsuario();
+    this.usuarioService.getSendGrid();
 
     if (this.leyenda == "Credenciales") {
       this.restaurarAlerts2();
     }
 
+    if (this.leyenda == "SendGrid") {
+      this.restaurarAlerts3();
+    }
 
   }
 
@@ -119,6 +140,15 @@ export class ModalComponent implements OnInit {
     });
   }
 
+  private iniciarFormularioS() {
+    return this.fb.group({
+      codigoSendgrid: [""],
+      keysendgrid: ["", [Validators.required, Validators.minLength(30)]],
+      keyplantilla: ["", [Validators.required, Validators.minLength(30)]],
+    });
+  }
+  
+
   ///// metodo que extrae la informacion de la imagen /////
   onFileSelected(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -145,35 +175,46 @@ export class ModalComponent implements OnInit {
     return this.usuarioService.empleado;
   }
 
+  get sendgrid() {
+    return this.usuarioService.sendgrid;
+  }
+
   guardar() {
-    if (this.formEmpleado.valid || this.formUsuario.valid) {
-      this.cargando();
+    if (this.formEmpleado.valid || this.formUsuario.valid || this.formSendGrid.valid) {
       if (this.leyenda == "Datos") {
+        this.cargando();
         this.registrandoE();
-      } else {
+      } else if (this.leyenda == "Credenciales") {
         if (this.confirma == "confirmada" && this.media) {
+          this.cargando();
           this.registrandoU();
         } else {
-          //Usar mensajes globales :u
-          this.mensajesService.mensajesSweet("warning","Faltan parametros de seguridad","Las claves deben coincidir y tener seguridad media como minimo", "Entiendo");
+          
+          this.mensajesService.mensajesSweet("warning", "Faltan parametros de seguridad", "Las claves deben coincidir y tener seguridad media como minimo", "Entiendo");
         }
+      } else {
+        this.registrandoS();
       }
     } else {
-            this.mensajesService.mensajesToast(
+      this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"
       );
-      
+
       if (this.leyenda == "Datos") {
         return Object.values(this.formEmpleado.controls).forEach((control) =>
           control.markAsTouched()
         );
-      } else {
+      } else if (this.leyenda == "Credenciales") {
         return Object.values(this.formUsuario.controls).forEach((control) =>
           control.markAsTouched()
         );
+      } else {
+        return Object.values(this.formSendGrid.controls).forEach((control) =>
+          control.markAsTouched()
+        );
       }
-      
+
     }
   }
 
@@ -201,7 +242,7 @@ export class ModalComponent implements OnInit {
 
               Toast.fire({
                 icon: "success",
-                text: "Modificacion exitosa",
+                text: "Modificación exitosa",
               }).then(() => {
                 // Aquí se realiza la redirección
                 this.formEmpleado.reset();
@@ -240,7 +281,7 @@ export class ModalComponent implements OnInit {
 
             Toast.fire({
               icon: "success",
-              text: "Modificacion exitosa",
+              text: "Modificación exitosa",
             }).then(() => {
               // Aquí se realiza la redirección
               this.formEmpleado.reset();
@@ -285,7 +326,7 @@ export class ModalComponent implements OnInit {
     this.EstructurandoFormU();
     const usuario = this.formUsuario.value;
 
-    console.log(usuario);
+    //console.log(usuario);
     this.usuarioService.Credenciales(usuario).subscribe(
       (resp: any) => {
         if (resp) {
@@ -305,7 +346,7 @@ export class ModalComponent implements OnInit {
 
             Toast.fire({
               icon: "success",
-              text: "Modificacion exitosa",
+              text: "Modificación exitosa",
             }).then(() => {
               this.formEmpleado.reset();
               this.recargar();
@@ -316,7 +357,7 @@ export class ModalComponent implements OnInit {
       },
       (err: any) => {
         Swal.close();
-             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
+        this.mensajesService.mensajesSweet("error", "Error", err.error.message, "Entiendo");;
       }
     );
   }
@@ -327,6 +368,58 @@ export class ModalComponent implements OnInit {
     const objeto = this.usuarioService.usuario;
     objeto.clave = clave;
     this.formUsuario.patchValue(objeto);
+  }
+
+  async registrandoS() {
+    if ((await this.service.mensajesConfirmarModificacionKeysSendgrid()) == true) {
+      this.EstructurandoFormS();
+       const datos = this.formSendGrid.value;
+   
+       //console.log(datos);
+       this.usuarioService.Sendgrid(datos).subscribe(
+         (resp: any) => {
+           if (resp) {
+             Swal.close();
+             if (this.usuarioService.validarToken()) {
+               const Toast = Swal.mixin({
+                 toast: true,
+                 position: "top-end",
+                 showConfirmButton: false,
+                 timer: 2000,
+                 //timerProgressBar: true,
+                 didOpen: (toast) => {
+                   toast.addEventListener("mouseenter", Swal.stopTimer);
+                   toast.addEventListener("mouseleave", Swal.resumeTimer);
+                 },
+               });
+   
+               Toast.fire({
+                 icon: "success",
+                 text: "Modificación exitosa",
+               }).then(() => {
+                 this.formSendGrid.reset();
+                 this.recargar();
+                 this.modalService.dismissAll();
+               });
+             }
+           }
+         },
+         (err: any) => {
+           Swal.close();
+           this.mensajesService.mensajesSweet("error", "Error", err.error.message, "Entiendo");;
+         }
+       );
+    }
+  }
+
+  EstructurandoFormS() {
+    const keysendgrid = this.formSendGrid.get("keysendgrid").value;
+    const keyplantilla = this.formSendGrid.get("keyplantilla").value;
+
+    const objeto = this.usuarioService.sendgrid;
+    objeto.keysendgrid = keysendgrid;
+    objeto.keyplantilla = keyplantilla;
+    this.formSendGrid.patchValue(objeto);
   }
 
   esCampoValido(campo: string) {
@@ -347,6 +440,15 @@ export class ModalComponent implements OnInit {
         : "";
   }
 
+  esCampoValidoS(campo: string) {
+    const validarCampo = this.formSendGrid.get(campo);
+    return !validarCampo?.valid && validarCampo?.touched
+      ? "is-invalid"
+      : validarCampo?.touched
+        ? "is-valid"
+        : "";
+  }
+
   ///// Metodo para recargar la pagina /////
   recargar() {
     let currentUrl = this.router.url;
@@ -360,10 +462,10 @@ export class ModalComponent implements OnInit {
   }
 
   openModal(content: any) {
-    console.log(content);
     this.modalService.open(content, { size: "", backdrop: "static" });
   }
 
+  //// para la alerta de Datos de Empleado
   CambiarAlert(alert) {
     alert.show = !alert.show;
   }
@@ -378,6 +480,7 @@ export class ModalComponent implements OnInit {
     return this.alerts.every((alert) => alert.show);
   }
 
+  //// para la alerta de Credenciales
   CambiarAlert2(alert2) {
     alert2.show = !alert2.show;
   }
@@ -390,6 +493,21 @@ export class ModalComponent implements OnInit {
 
   siMuestraAlertas2() {
     return this.alerts2.every((alert2) => alert2.show);
+  }
+
+  //// para la alerta de SendGrid  
+  CambiarAlert3(alert3) {
+    alert3.show = !alert3.show;
+  }
+
+  restaurarAlerts3() {
+    this.alerts3.forEach((alert3) => {
+      alert3.show = true;
+    });
+  }
+
+  siMuestraAlertas3() {
+    return this.alerts3.every((alert3) => alert3.show);
   }
 
   SeguridadClave(event: any) {
@@ -446,6 +564,15 @@ export class ModalComponent implements OnInit {
 
   public togglePasswordVisibility2(): void {
     this.showPassword2 = !this.showPassword2;
+  }
+
+
+  public eliminarkeysendgrid(): void {
+    this.formSendGrid.get('keysendgrid').setValue('');
+  }
+
+  public eliminarkeyplantilla(): void {
+    this.formSendGrid.get('keyplantilla').setValue('');
   }
 
   cargando() {

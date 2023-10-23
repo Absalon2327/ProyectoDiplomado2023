@@ -264,7 +264,7 @@ export class ModalComponent implements OnInit {
       }
     } else {
       // Mostrar nombres de campos inválidos por consola
-      /*console.log('Campos inválidos:',
+      /*//console.log('Campos inválidos:',
         Object.keys(this.formularioSoliVe.controls).filter((controlName) =>
           this.formularioSoliVe.get(controlName)?.invalid));*/
 
@@ -376,7 +376,7 @@ export class ModalComponent implements OnInit {
                   'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
                 }
                 /*Fin correo*/
-                this.mensajesService.mensajesToast("success", "Registro agregado");
+                this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
                 resolve();
@@ -401,7 +401,7 @@ export class ModalComponent implements OnInit {
               'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
             }
             /*Fin correo*/
-            this.mensajesService.mensajesToast("success", "Registro agregado");
+            this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
             resolve();
