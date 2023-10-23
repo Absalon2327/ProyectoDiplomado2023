@@ -86,37 +86,60 @@ export class ListarComponent implements OnInit {
 
         }
 
+        // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
         this.deptoService.editDepto(data.codigoDepto, data).subscribe({
           next: (resp) => {
-
-            this.mostrar();
+             this.deptoService.getDeptosAll2();
+           // this.mostrar();
           },
-          error: (error) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Algo paso, hable con el administrador',
-            });
+          error: (err) => {
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'Error',
+            //   text: 'Algo paso, hable con el administrador',
+            // });
+            this.mensajesService.mensajesSweet(
+              "error",
+              "Ups... Algo salió mal",
+              err.error.message
+            );
 
           },
           complete: () => {
 
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              //timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
+            // const Toast = Swal.mixin({
+            //   toast: true,
+            //   position: 'top-end',
+            //   showConfirmButton: false,
+            //   timer: 3000,
+            //   //timerProgressBar: true,
+            //   didOpen: (toast) => {
+            //     toast.addEventListener('mouseenter', Swal.stopTimer)
+            //     toast.addEventListener('mouseleave', Swal.resumeTimer)
+            //   }
+            // })
 
-            Toast.fire({
-              icon: 'success',
-              text: 'Modificación exitosa'
-            })
+            // Toast.fire({
+            //   icon: 'success',
+            //   text: 'Modificación exitosa'
+            // })
+            loadingAlert.close();
+            this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
           },
         });
       } else if (result.isDenied) {
