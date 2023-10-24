@@ -154,6 +154,10 @@ export class ModalSecretariaComponent implements OnInit {
       this.formularioSoliVe.get('solicitante')
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
+      this.placas = [this.soliVeOd.vehiculo];
+      console.log(this.placas);
+
+
       // para input radio
       if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle'){
         this.formularioSoliVe.get('tieneVale').disable();
@@ -543,6 +547,7 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
+    this.placas = [];
     this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
