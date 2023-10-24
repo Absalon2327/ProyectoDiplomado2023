@@ -37,6 +37,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
   //para la paginación
   p: any;
   term: any;
+  items: number = 10;
 
   //filtro para las solicitudes
   filtroEstado: number;
