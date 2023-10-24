@@ -82,14 +82,14 @@ export class SolicitudVehiculoService {
 
   getSolicitudesVehiculo(estado: number): Promise<ISolicitudVehiculo[]> {
     // Mostrar la alerta de Swal antes de realizar la solicitud
-    Swal.fire({
+    /*Swal.fire({
       title: 'Espere un momento!',
       html: 'Se está procesando la información...',
       didOpen: () => {
         Swal.showLoading();
       }
     });
-
+*/
     let requestUrl = `${this.url}/solicitudvehiculo/lista`;
     if (estado != null) {
       requestUrl = `${this.url}/solicitudvehiculo/lista/${estado}`;
@@ -101,13 +101,13 @@ export class SolicitudVehiculoService {
       .toPromise() // Convertir el observable en una Promesa
       .then((soliVe: ISolicitudVehiculo[]) => {
         // Cierra la alerta de Swal cuando se obtienen las solicitudes
-        Swal.close();
+        //Swal.close();
         this.listSoliVehiculo = soliVe;
         return this.listSoliVehiculo; // Devuelve las solicitudes como resultado de la Promesa
       })
       .catch((error) => {
         // Cierra la alerta de Swal en caso de error y lanza el error
-        Swal.close();
+        //Swal.close();
         console.error('Error al obtener las solicitudes de vehículo', error);
         throw error; // Lanza el error para que el componente lo maneje
       });
@@ -199,27 +199,27 @@ export class SolicitudVehiculoService {
 
   getSolicitudesRol(rol: string): Promise<ISolicitudVehiculo[]> {
     // Mostrar la alerta de Swal antes de realizar la solicitud
-    Swal.fire({
+    /*Swal.fire({
       title: 'Espere un momento!',
       html: 'Se está procesando la información...',
       didOpen: () => {
         Swal.showLoading();
       }
     });
-
+*/
     return this.http
       .get(`${this.url}/solicitudvehiculo/listado/${rol}`)
       .pipe(map((resp: any) => resp as ISolicitudVehiculo[]))
       .toPromise() // Convertir el observable en una Promesa
       .then((soliVe: ISolicitudVehiculo[]) => {
         // Cierra la alerta de Swal cuando se obtienen las solicitudes
-        Swal.close();
+        //Swal.close();
         this.listSoliVehiculoRol = soliVe;
         return this.listSoliVehiculoRol; // Devuelve las solicitudes como resultado de la Promesa
       })
       .catch((error) => {
         // Cierra la alerta de Swal en caso de error y lanza el error
-        Swal.close();
+        //Swal.close();
         console.error('Error al obtener las solicitudes de vehículo', error);
         throw error; // Lanza el error para que el componente lo maneje
       });
