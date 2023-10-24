@@ -308,8 +308,11 @@ export class ModalSecretariaComponent implements OnInit {
        //this.formularioSoliVe.get('motorista').setValue(null);// limpiar el select
        if(this.soliVeOd.motorista != null ){ // si el motorista no es null falto agregar mensaje que cuando sea null
         // viene en estado 6
+
         if(motoristasData.length > 0){  //si lo que trae la data es 0
           this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
+          this.motoristas.push(this.soliVeOd.motorista);
+
           this.formularioSoliVe.get('motorista').setValue(null);
 
           if(var1 == fechaSalida && var2 == fechaEntrada){
@@ -346,10 +349,15 @@ export class ModalSecretariaComponent implements OnInit {
     (motoristasData: IMotorista[]) => {
       if(motoristasData.length > 0) {
         this.motoristas = motoristasData;
+        if(this.soliVeOd.motorista != null){
+          this.motoristas.push(this.soliVeOd.motorista);
+        }
       }else if(motoristasData.length == 0 && this.soliVeOd.motorista == null){
         this.mensajesService.mensajesToast("warning", "No hay motoristas disponibles.");
       }else if(motoristasData.length == 0 && this.soliVeOd.motorista != null){
-        this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+        //this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+        this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
+        this.motoristas.push(this.soliVeOd.motorista);
       }
     });
   }
