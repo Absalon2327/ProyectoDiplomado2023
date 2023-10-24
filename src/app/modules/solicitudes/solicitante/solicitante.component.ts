@@ -346,7 +346,7 @@ export class SolicitanteComponent implements OnInit {
         this.mensajesService.mensajesSweet(
           "info",
           "?...",
-          "Datos almacenados exitosamente..."
+          "Datos almacenados exitosamente.."
         );
       }
     );
@@ -375,7 +375,7 @@ export class SolicitanteComponent implements OnInit {
           // Cerrar SweetAlert de carga en caso de error
           loadingAlert.close();
           this.obtenerIDvale(soliVehi, response);
-          //   //console.log(response);
+          //   console.log(response);
         },
         (error) => {
           // Cerrar SweetAlert de carga en caso de error
@@ -883,7 +883,7 @@ export class SolicitanteComponent implements OnInit {
     ]);
 
     for (const persona of log) {
-      //console.log(persona.nombrePasajero);
+      // console.log(persona.nombrePasajero);
       if (persona.estadovale == 1) {
         this.estado = "En espera por jefe";
       } else if (persona.estadovale == 2) {
@@ -1115,7 +1115,7 @@ export class SolicitanteComponent implements OnInit {
     ]);
     let estado = "";
     for (const persona of log) {
-      //console.log(persona.nombrePasajero);
+      // console.log(persona.nombrePasajero);
       if (persona.estadosolive == 1) {
         this.estado = "En espera por jefe";
       } else if (persona.estadosolive == 2) {
@@ -1168,7 +1168,7 @@ export class SolicitanteComponent implements OnInit {
     }
     if (logv != null) {
       for (const persona of logv) {
-        //console.log(persona.nombrePasajero);
+        // console.log(persona.nombrePasajero);
         if (persona.estadosolive == 1) {
           this.estado = "En espera por jefe";
         } else if (persona.estadosolive == 2) {
@@ -1200,7 +1200,7 @@ export class SolicitanteComponent implements OnInit {
         } else if (persona.estadosolive == 15) {
           this.estado = "Anulada";
         }
-        //console.log(this.estado);
+        console.log(this.estado);
         tableRow.push([
           { text: `${j + 1}`, alignment: "center" },
           { text: `${persona.actividad}`, alignment: "center" },
@@ -1461,7 +1461,7 @@ export class SolicitanteComponent implements OnInit {
         { text: "NOMBRE", alignment: "center", style: "tableHeader" },
       ]);
       for (const persona of soliVehi.listaPasajeros) {
-        //  //console.log(persona.nombrePasajero);
+        //  console.log(persona.nombrePasajero);
         tableRow.push([
           { text: `${j + 1}`, alignment: "center", fontSize: 11 },
           { text: `${persona.nombrePasajero}`, alignment: "center", fontSize: 11 },
@@ -1485,7 +1485,7 @@ export class SolicitanteComponent implements OnInit {
         { text: "", alignment: "center", style: "tableHeader" },
       ]);
       for (const persona of soliVehi.listaPasajeros) {
-        //  //console.log(persona.nombrePasajero);
+        //  console.log(persona.nombrePasajero);
         tableRow.push([
           { text: `${j + 1}`, alignment: "center", fontSize: 11 },
           { text: `${persona.nombrePasajero}`, alignment: "center", fontSize: 11 },
@@ -1505,6 +1505,7 @@ export class SolicitanteComponent implements OnInit {
         { text: "Nota: Si el número de persona es mayor a cuatro, anexar listado", fontSize: 11 },
       );
     }
+    if(soliVehi.motoristaJunta == null){
       pdfDefinicion.content.push(
         { text: "\n" },
         {
@@ -1538,7 +1539,7 @@ export class SolicitanteComponent implements OnInit {
             {
               text: [
                 { text: "Nombre de Motorista: ", bold: true, fontSize: 11 },
-                { text: soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido,fontSize: 11 },
+                { text: soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido, fontSize: 11 },
               ],
             },
           ],
@@ -1568,6 +1569,71 @@ export class SolicitanteComponent implements OnInit {
           ],
         }
       );
+    }else{
+      pdfDefinicion.content.push(
+        { text: "\n" },
+        {
+          columns: [
+            {
+              text: [{ text: "Sello\n", bold: true,fontSize: 11 },],
+              alignment: "",
+            },
+          ],
+        },
+        {
+          style: "tableExample",
+          table: {
+            widths: ["*"],
+            headerRows: 1,
+            body: [
+              [
+                {
+                  text: "AUTORIZACIÓN",
+                  style: "tableHeader",
+                  alignment: "center",
+                },
+              ],
+              [""],
+            ],
+          },
+          layout: "lightHorizontalLines",
+        },
+        {
+          columns: [
+            {
+              text: [
+                { text: "Nombre de Motorista: ", bold: true, fontSize: 11 },
+                { text: soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido + ", " + soliVehi.motoristaJunta,fontSize: 11 },
+              ],
+            },
+          ],
+        },
+        { text: "\n" },
+        {
+          columns: [
+            {
+              text: [
+                { text: "Vehículo: ", bold: true, fontSize: 11 },
+                { text: soliVehi.vehiculo.marca +
+                  ", " +
+                  soliVehi.vehiculo.modelo +
+                  ", " +
+                  soliVehi.vehiculo.clase +
+                  ", " +
+                  soliVehi.vehiculo.tipo_gas +
+                  ", " +
+                  soliVehi.vehiculo.color +
+                  ", " +
+                  soliVehi.vehiculo.year, fontSize: 11 },
+              ],
+            },
+            {
+              text: [{ text: "Placa: ", bold: true, fontSize: 11 }, { text: soliVehi.vehiculo.placa, fontSize: 11 },],
+            },
+          ],
+        }
+      );
+    }
 
     if (vales != null) {
       pdfDefinicion.content.push(
