@@ -16,6 +16,7 @@ export class ListarComponent implements OnInit {
   // migas de pan
   breadCrumbItems: Array<{}>;
   term: any; // para buscar
+  items: number = 10;
   p: any; // paginacion
 
   solicitudesVehiculo: ISolicitudVehiculo [] = [];

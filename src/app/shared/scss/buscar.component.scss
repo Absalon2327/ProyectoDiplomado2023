@@ -150,5 +150,26 @@
     }
 }
 
-
 // para el buscar adaptable de las tablas
+
+/* Para el numero de registros */
+
+@media (max-width: 1350px) {
+    .dataTables_length {
+        width: 300px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .dataTables_length label {
+        font-size: 11px !important;
+    }
+
+    .mx-2{
+        font-size: 9px !important;
+        width: 30px !important;
+        height: 7px !important;
+    }
+}
+
+/* Para el numero de registros */

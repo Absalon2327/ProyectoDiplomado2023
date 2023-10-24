@@ -13,6 +13,7 @@ export class ListarComponent implements OnInit {
   // bread crumb items
   breadCrumbItems: Array<{}>;
   termBusca: string;
+  items: number = 10;
 
 
 

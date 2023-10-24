@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let empleado of empleados | filter:queryString | paginate: { itemsPerPage: 7, currentPage: p}">
+            <tr *ngFor="let empleado of empleados | filter:queryString | paginate: { itemsPerPage: items, currentPage: p}">
                 <td class="align-middle text-center">{{ InsertarGuion(empleado.dui) }}</td>
                 <td class="align-middle text-center">{{ empleado.nombre + ' ' + empleado.apellido }}</td>
                 <td class="align-middle text-center">{{ empleado.cargo.nombreCargo }}</td>

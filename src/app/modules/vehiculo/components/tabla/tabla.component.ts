@@ -15,6 +15,7 @@ export class TablaComponent implements OnInit {
 
   @Input() vehiculos: IVehiculos[] = [];
   @Input() busqueda: string = '';
+  @Input() items: number;
 
   p: any;
   cambio:string = '';

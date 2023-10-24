@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="let data of vales | filter : queryString | paginate : { itemsPerPage: 10, currentPage: p }; let i = index"
+        *ngFor="let data of vales | filter : queryString | paginate : { itemsPerPage: items, currentPage: p }; let i = index"
       >
         <td class="align-middle text-center">
           <a class="text-body fw-bold">

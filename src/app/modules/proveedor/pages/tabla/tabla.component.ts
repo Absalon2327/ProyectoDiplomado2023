@@ -12,6 +12,7 @@ import { MensajesService } from "src/app/shared/global/mensajes.service";
 export class TablaComponent implements OnInit {
   @Input() proveedores!: IProveedor[];
   @Input() queryString!: string;
+  @Input() items!: number;
   p: any;
 
   proveedor: IProveedor;

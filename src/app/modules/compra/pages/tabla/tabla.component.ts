@@ -9,6 +9,7 @@ import { ICompra } from '../../interfaces/compra.interface';
 export class TablaComponent implements OnInit {
   @Input() compras!: ICompra[];
   @Input() queryString!: string;
+  @Input() items!: number;
   p: any;
 
   constructor() { }
