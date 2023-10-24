@@ -3,6 +3,7 @@ import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { DetalleService } from "../../services/detalle.service";
 import {
   IAsignacionDetalle,
+  IAsignacionValeSolicitud,
   IValesADevolver,
 } from "../../interfaces/asignacion.interface";
 import { TmplAstRecursiveVisitor } from "@angular/compiler";
@@ -28,6 +29,8 @@ export class TablaDetalleComponent implements OnInit {
   busqueda: string = "";
   p: any;
   term: any; // para buscar
+
+  asignacionSolicitud: IAsignacionValeSolicitud;
 
   devolucionExito: boolean = false;
   vales = [];
@@ -97,27 +100,29 @@ export class TablaDetalleComponent implements OnInit {
         showConfirmButton: false,
       });
       return new Promise<void>((resolve, reject) => {
-        this.service.devolverVales(this.valesADevoler, usuario.codigoUsuario).subscribe({
-          next: (data: any) => {
-            // Cerrar SweetAlert de carga
-            Swal.close();
-            this.mostrarVales();
-            this.buttonDisabled = true;
-            this.vales = this.valesADevoler.valesDevueltos;
-            this.mensajesService.mensajesToast("success", "Vales devueltos");
-            resolve(); // Resuelve la promesa sin argumentos
-          },
-          error: (err) => {
-            // Cerrar SweetAlert de carga
-            Swal.close();
-            this.mensajesService.mensajesSweet(
-              "error",
-              "Ups... Algo salió mal",
-              err.error.message
-            );
-            reject(err); // Rechaza la promesa con el error
-          },
-        });
+        this.service
+          .devolverVales(this.valesADevoler, usuario.codigoUsuario)
+          .subscribe({
+            next: (data: any) => {
+              // Cerrar SweetAlert de carga
+              Swal.close();
+              this.mostrarVales();
+              this.buttonDisabled = true;
+              this.vales = this.valesADevoler.valesDevueltos;
+              this.mensajesService.mensajesToast("success", "Vales devueltos");
+              resolve(); // Resuelve la promesa sin argumentos
+            },
+            error: (err) => {
+              // Cerrar SweetAlert de carga
+              Swal.close();
+              this.mensajesService.mensajesSweet(
+                "error",
+                "Ups... Algo salió mal",
+                err.error.message
+              );
+              reject(err); // Rechaza la promesa con el error
+            },
+          });
       });
     }
   }
@@ -140,5 +145,32 @@ export class TablaDetalleComponent implements OnInit {
     // Formatea la fecha en "YYYY-MM-dd"
     const fechaFormateada = `${año}-${mes}-${dia}`;
     return fechaFormateada;
+  }
+
+  ObtenerSolicitudValeById(codigoA: string) {
+    this.service.getAsignacionValeSolicitudVale(codigoA).subscribe({
+      next: (data) => {
+        this.asignacionSolicitud = data;
+        this.obtenerSolicitud(data.solicitudVale.idSolicitudVale);
+      },
+      error: (err) => {
+        return false;
+      },
+    });
+  }
+
+  obtenerSolicitud(id: string) {
+    this.service.getSolicitudVale(id).subscribe({
+      next: (data) => {
+        if (data[0].estadoEntradaSolicitudVale == 2) {
+          this.devolverVales();
+        } else {
+          this.mensajesService.mensajesToast(
+            "warning",
+            "Vehículo no ha regresado de la misión"
+          );
+        }
+      },
+    });
   }
 }
