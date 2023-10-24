@@ -45,7 +45,7 @@ export class ModalComponent implements OnInit {
 
   formularioSoliVe!: FormGroup;
   pasajeros: IPasajero[] = [];
-  username: string = 'Usuario que inicia';
+  username: string = '';
   mostrarTabla: boolean = true;
   btnVerPdf: boolean = false;
   mostrarArchivoAdjunto: boolean = false;
@@ -56,6 +56,7 @@ export class ModalComponent implements OnInit {
   file!: File;
   solicitudVale!: ISolicitudvalep;
   isChecked: boolean = false;
+  fechaMinima: Date;
 
   alerts = [
     {
@@ -85,6 +86,7 @@ export class ModalComponent implements OnInit {
       estado: 8,
       solicitudVehiculo: ''
     };
+    this.fechaMinima = new Date();
   }
 
   ngOnInit(): void {
@@ -92,6 +94,8 @@ export class ModalComponent implements OnInit {
     this.llenarSelectDepartamentos();
     this.soliVeService.obtenerVehiculos();
     this.detalle(this.leyenda);
+
+    this.fechaMinima = new Date();
   }
 
   get listVehiculos() {
@@ -177,53 +181,58 @@ export class ModalComponent implements OnInit {
                     "La hora de regreso debe ser mayor a la hora de salida en una misión de un día"
                   );
                 }else {
-                  if(this.file  != null
-                    || solicitudVehiculo.cantidadPersonas < 6){
-                    //  vacío para almacenar los datos de los pasajeros
-                    const pasajerosData = [];
+                  if (solicitudVehiculo.fechaSalida ==  this.getFechaActual() &&
+                  solicitudVehiculo.horaSalida < this.getHoraActual()) {
+                    this.mensajesService.mensajesToast('warning', 'La hora de salida debe ser mayor a la actual');
+                  } else {
+                    if(this.file  != null
+                      || solicitudVehiculo.cantidadPersonas < 6){
+                      //  vacío para almacenar los datos de los pasajeros
+                      const pasajerosData = [];
 
-                    // Recorrer los controles de los pasajeros
-                    for (const control of this.pasajeroFormControls) {
-                      // Obtener el valor del control
-                      const nombrePasajero = control.value;
+                      // Recorrer los controles de los pasajeros
+                      for (const control of this.pasajeroFormControls) {
+                        // Obtener el valor del control
+                        const nombrePasajero = control.value;
 
-                      // objeto con el valor del control y un ID vacío
-                      const pasajero = { id: '', nombrePasajero };
+                        // objeto con el valor del control y un ID vacío
+                        const pasajero = { id: '', nombrePasajero };
 
-                      // Agregar el objeto al arreglo de pasajerosData
-                      pasajerosData.push(pasajero);
-                    }
+                        // Agregar el objeto al arreglo de pasajerosData
+                        pasajerosData.push(pasajero);
+                      }
 
-                    solicitudVehiculo.listaPasajeros = pasajerosData;
+                      solicitudVehiculo.listaPasajeros = pasajerosData;
 
-                    //console.log("dataPas: ",pasajerosData);
+                      //console.log("dataPas: ",pasajerosData);
 
-                    // validacion lista de pasajeros
-                    const todosLlenos = pasajerosData.every((pasajero) => {
-                      const value = pasajero.nombrePasajero;
+                      // validacion lista de pasajeros
+                      const todosLlenos = pasajerosData.every((pasajero) => {
+                        const value = pasajero.nombrePasajero;
 
-                      return typeof value === 'string' && value.trim() !== '';
+                        return typeof value === 'string' && value.trim() !== '';
 
 
-                    });
+                      });
 
-                    if (!todosLlenos) {
+                      if (!todosLlenos) {
+                        this.mensajesService.mensajesToast(
+                          "warning",
+                          "Por favor, completa todos los nombres de los pasajeros."
+                        );
+                        // fin validacion de lista de pasajeros
+                      } else {
+                        // Todos los nombres de los pasajeros están llenos, continuar con el envío de la solicitud.
+                        if ((await this.mensajesService.mensajesConfirmar()) == true) {
+                          await this.registrarSoliVe();
+                        }
+                      }
+                    } else {
                       this.mensajesService.mensajesToast(
                         "warning",
-                        "Por favor, completa todos los nombres de los pasajeros."
+                        "Debe subir pdf de la lista de pasajeros"
                       );
-                      // fin validacion de lista de pasajeros
-                    } else {
-                      // Todos los nombres de los pasajeros están llenos, continuar con el envío de la solicitud.
-                      if ((await this.mensajesService.mensajesConfirmar()) == true) {
-                        await this.registrarSoliVe();
-                      }
                     }
-                  } else {
-                    this.mensajesService.mensajesToast(
-                      "warning",
-                      "Debe subir pdf de la lista de pasajeros"
-                    );
                   }
                 }
 
@@ -255,7 +264,7 @@ export class ModalComponent implements OnInit {
       }
     } else {
       // Mostrar nombres de campos inválidos por consola
-      /*console.log('Campos inválidos:',
+      /*//console.log('Campos inválidos:',
         Object.keys(this.formularioSoliVe.controls).filter((controlName) =>
           this.formularioSoliVe.get(controlName)?.invalid));*/
 
@@ -324,15 +333,15 @@ export class ModalComponent implements OnInit {
     }
     /* fin de la direccion */
 
+
+    let alertLoading: any;
     // Mostrar SweetAlert de carga
-    Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
+    alertLoading = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
     });
 
     return new Promise<void> ((resolve, reject) => {
@@ -358,7 +367,6 @@ export class ModalComponent implements OnInit {
             this.soliVeService.enviarPdfPasajeros(formData).subscribe({
               next: () => {
                 //console.log(pdfResp:any);
-                this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
                 /*Correo*/
                 if (this.usuarioActivo.role != ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
                   this.enviarEmail(this.usuarioActivo.empleado.departamento.nombre);
@@ -367,13 +375,15 @@ export class ModalComponent implements OnInit {
                   'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
                 }
                 /*Fin correo*/
-                this.mensajesService.mensajesToast("success", "Registro agregado");
+                this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
                 this.modalService.dismissAll();
                 this.formularioSoliVe.reset();
+                alertLoading.close();
+                this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
                 resolve();
               },
               error: (pdfError) => {
-                Swal.close();
+                alertLoading.close();
                 this.mensajesService.mensajesSweet(
                   'error',
                   'Ups... Algo salió mal al enviar el PDF',
@@ -383,7 +393,6 @@ export class ModalComponent implements OnInit {
               },
             });
           } else {
-            this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
             /*Correo*/
             if (this.usuarioActivo.role != ("JEFE_DEPTO" || "JEFE_FINANACIERO" || 'DECANO')){
               this.enviarEmail(this.usuarioActivo.empleado.departamento.nombre);
@@ -392,16 +401,17 @@ export class ModalComponent implements OnInit {
               'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
             }
             /*Fin correo*/
-            this.mensajesService.mensajesToast("success", "Registro agregado");
+            this.soliVeService.getSolicitudesVehiculo(this.estadoSelecionado);
             this.modalService.dismissAll();
             this.formularioSoliVe.reset();
+            alertLoading.close();
+            this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
             resolve();
           }
-          Swal.close();
         },
         error : (err) => {
           // Cerrar SweetAlert de carga
-          Swal.close();
+          alertLoading.close();
           this.mensajesService.mensajesSweet(
             "error",
             "Ups... Algo salió mal al registrar la solicitud",
@@ -447,7 +457,10 @@ export class ModalComponent implements OnInit {
       ],
       fechaSalida: [
         '',
-        [Validators.required]
+        [Validators.required, (value) => {
+          const fechaActual = new Date();
+          return fechaActual <= value;
+        }]
       ],
       fechaEntrada: [
         '',
@@ -684,27 +697,40 @@ export class ModalComponent implements OnInit {
   }
 
   actualizarSolicitud(data: any, accion: string ):Promise <void>{
+
+    let alertLoadingUpdate: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingUpdate = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
           //resp:any
 
-          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
-          this.modalService.dismissAll();
           if (accion == 'anulada'){
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
           }else if(accion=='aprobada'){
             this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo pendiente',
-              'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
+            'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
           }
 
-          setTimeout(() => {
+          /*setTimeout(() => {
             this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
-          }, 3025);
+          }, 3025);*/
+          this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+          alertLoadingUpdate.close();
+          this.modalService.dismissAll();
+          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           resolve();
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingUpdate.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
@@ -717,6 +743,17 @@ export class ModalComponent implements OnInit {
   }
 
   actualizarSolicitudDec(data: any):Promise <void>{
+
+    let alertLoadingDec: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingDec = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
@@ -729,15 +766,17 @@ export class ModalComponent implements OnInit {
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
               // valeResp: any
-              this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
-              this.modalService.dismissAll();
-              setTimeout(() => {
+              /*setTimeout(() => {
                 this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
-              }, 3025);
+              }, 3025);*/
+              this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
+              alertLoadingDec.close();
+              this.modalService.dismissAll();
+              this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               resolve();
             },
             error: (errorSoli) => {
-              Swal.close();
+              alertLoadingDec.close();
               this.mensajesService.mensajesSweet(
                 'error',
                 'Ups... Algo salió mal al aprobar la solicitud',
@@ -748,7 +787,7 @@ export class ModalComponent implements OnInit {
           })
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingDec.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
@@ -790,26 +829,37 @@ export class ModalComponent implements OnInit {
   }
 
   actualizarSolicitudAdmin(data: any, accion: string ):Promise <void>{
+    let alertLoadingAdmin: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingAdmin = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
           //resp:any
 
-          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
-          this.modalService.dismissAll();
           if (accion == 'aprobada'){
             this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo pendiente',
               'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
-          }else if (accion == 'anulada'){
-            this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
-          }
-          setTimeout(() => {
+            }else if (accion == 'anulada'){
+              this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
+            }
+          /*setTimeout(() => {
             this.soliVeService.getSolicitudesVehiculo(1);
-          }, 3025);
+          }, 3025);*/
+          this.soliVeService.getSolicitudesVehiculo(1);
+          alertLoadingAdmin.close();
+          this.modalService.dismissAll();
+          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           resolve();
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingAdmin.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
@@ -895,5 +945,19 @@ export class ModalComponent implements OnInit {
   }
 
   /* fin correo */
+  getFechaActual(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+  }
 
+  getHoraActual(): string {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds();
+    return `${hours}:${minutes}:${seconds}`;
+  }
 }

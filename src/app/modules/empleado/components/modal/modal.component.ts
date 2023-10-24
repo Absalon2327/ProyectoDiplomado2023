@@ -109,10 +109,12 @@ export class ModalComponent implements OnInit {
     this.empleadoService.listCargos.forEach((x) => {
       if (this.leyenda == "Editar") {
         if (x.estado == 8 && x.id != this.empleadOd.cargo.id) {
-          cargos.push(x);
+           if(x.nombreCargo != "MOTORISTA" && x.nombreCargo != "ADMINISTRADOR"){
+            cargos.push(x);
+           }
         }
       } else {
-        if (x.estado == 8) {
+        if (x.estado == 8 && x.nombreCargo != "ADMINISTRADOR") {
           cargos.push(x);
         }
       }
@@ -152,7 +154,7 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     } else {
-      //Usar mensajes globales :u
+      
       this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"
@@ -267,7 +269,7 @@ export class ModalComponent implements OnInit {
       this.empleadoService.postEmpleadoImagen(empleado, this.file).subscribe((resp: any) => {
         if (resp) {
           if (this.esMotorista) {
-            console.log("No se envio correo");
+            //console.log("No se envio correo");
             Swal.close();
             const Toast = Swal.mixin({
               toast: true,
@@ -290,7 +292,7 @@ export class ModalComponent implements OnInit {
               this.modalService.dismissAll();
             });
           } else {
-            console.log("se envio correo");
+            //console.log("se envio correo");
             this.Email(this.formBuilder.get('correo').value, this.formBuilder.get('nombre').value + ' ' + this.formBuilder.get('apellido').value);
           }
         }
@@ -406,7 +408,7 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  /////// metodo para modificacion de validaciones y estados cambiando el formulario a comveniencia si el empleado es motorista o no //////
+  /////// metodo para Modificación de validaciones y estados cambiando el formulario a comveniencia si el empleado es motorista o no //////
 
   SelectCargo(newValue: string) {
     // Lógica para determinar si el cargo seleccionado es "Motorista"

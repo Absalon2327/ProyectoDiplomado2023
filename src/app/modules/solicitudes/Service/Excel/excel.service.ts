@@ -768,7 +768,7 @@ export class ExcelService {
         argb: "FF000000",
       },
     };
-    console.log("obj veri", this.valor);
+    //console.log("obj veri", this.valor);
     //--------------------------------------------
     let connnnnn = 0;
     let ooo = 0;
@@ -838,7 +838,7 @@ export class ExcelService {
           (this.valor[i].cantidad - this.valor[i].conv) *
           this.valor[i].valorAntes
         }`;
-        console.log(this.valor[i]);
+        //console.log(this.valor[i]);
       }
     }
   }

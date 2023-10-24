@@ -197,7 +197,7 @@ export class ConsultaService {
         tap((empleado: any) => {
           const { codigoEmpleado, dui, nombre, apellido, telefono, licencia, tipolicencia, fechalicencia, estado, jefe, correo, nombrefoto, urlfoto, cargo, departamento } = empleado;
           const usuarioObj = new Empleado(codigoEmpleado, dui, nombre, apellido, telefono, licencia, tipolicencia, fechalicencia, estado, jefe, correo, nombrefoto, urlfoto, cargo, departamento);
-         // console.log(usuarioObj);
+         //console.log(usuarioObj);
           return usuarioObj;
         })
       );

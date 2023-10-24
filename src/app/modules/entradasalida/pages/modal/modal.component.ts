@@ -220,7 +220,7 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     } else {
-      //Usar mensajes globales :u
+      
             this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"
@@ -352,7 +352,7 @@ export class ModalComponent implements OnInit {
                     );
                 });
             } else {
-              //Usar mensajes globales :u
+              
             this.mensajesService.mensajesToast(
               "warning",
               "El kilometraje debe ser mayor al de salida"
