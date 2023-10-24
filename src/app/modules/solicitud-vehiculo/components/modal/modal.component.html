@@ -76,6 +76,7 @@
           <input type="date" class="form-control" id="fecha-mision"
                 formControlName="fechaSalida"
                 [class]="esCampoValido('fechaSalida')"
+                [min]="getFechaActual()"
                 (change)="cargarPlacas(formularioSoliVe.get('tipoVehiculo').value,
                 formularioSoliVe.get('fechaSalida').value,formularioSoliVe.get('fechaEntrada').value)"
                 [readonly]="soliVeOd != null && leyenda === 'Detalle'"/>

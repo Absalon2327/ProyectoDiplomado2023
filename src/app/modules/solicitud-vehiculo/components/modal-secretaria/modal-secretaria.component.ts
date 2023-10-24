@@ -452,14 +452,14 @@ export class ModalSecretariaComponent implements OnInit {
     /* fin de la direccion */
 
     // Mostrar SweetAlert de carga
-    const loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
+    let alertLoadingEdit: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingEdit = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
     });
 
     //console.log(solicitudVehiculo);
@@ -467,7 +467,6 @@ export class ModalSecretariaComponent implements OnInit {
       this.soliVeService.updateSolicitudVehiculo(solicitudVehiculo).subscribe({
         next: (resp: any) => {
           this.soliSave = resp;
-          Swal.close();
           if (solicitudVehiculo.cantidadPersonas != this.soliVeOd.cantidadPersonas && this.file != null) {
             // enviar pdf
             const formData = new FormData();
@@ -494,16 +493,17 @@ export class ModalSecretariaComponent implements OnInit {
                 } else{
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
-                this.mensajesService.mensajesToast("success", "Asignación exitosa");
                 if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 6){
                   this.enviarEmailSD('DECANO', 'Solicitud de vehículo','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
                 }
                 this.modalService.dismissAll();
+                alertLoadingEdit.close();
                 this.formularioSoliVe.reset();
+                this.mensajesService.mensajesToast("success", "Asignación exitosa");
                 resolve();
               },
               error: (pdfError) => {
-                Swal.close();
+                alertLoadingEdit.close();
                 this.mensajesService.mensajesSweet(
                   'error',
                   'Ups... Algo salió mal al enviar el PDF',
@@ -520,18 +520,19 @@ export class ModalSecretariaComponent implements OnInit {
             } else{
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
-            this.mensajesService.mensajesToast("success", "Asignación exitosa");
             if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 6) {
               this.enviarEmailSD('DECANO', 'Solicitud de vehículo', 'Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
             }
             this.modalService.dismissAll();
+            alertLoadingEdit.close();
             this.formularioSoliVe.reset();
+            this.mensajesService.mensajesToast("success", "Asignación exitosa");
             resolve();
           }
         },
         error : (err) => {
           // Cerrar SweetAlert de carga
-          Swal.close();
+          alertLoadingEdit.close();
           this.mensajesService.mensajesSweet(
             "error",
             "Ups... Algo salió mal en la asignacion",
@@ -816,6 +817,15 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   actualizarSolicitud(data: any, accion: string):Promise <void>{
+    let alertLoadingUpdate: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingUpdate = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
@@ -827,7 +837,6 @@ export class ModalSecretariaComponent implements OnInit {
           }else {
             this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           }
-          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           if (data.estado == 6) {
             this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo',
             `Tiene una solicitud vehículo pendiente de revisión. ${data.observaciones}.`);
@@ -835,10 +844,12 @@ export class ModalSecretariaComponent implements OnInit {
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
           }
           this.modalService.dismissAll();
+          alertLoadingUpdate.close();
+          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           resolve();
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingUpdate.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
@@ -880,6 +891,15 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   actualizarSolicitudDec(data: any):Promise <void>{
+    let alertLoadingDec: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingDec = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: (resp: any) => {
@@ -904,12 +924,13 @@ export class ModalSecretariaComponent implements OnInit {
               }
               this.enviarEmailSD("ASIS_FINANCIERO",
                 "Solicitud de vales", "Tiene una nueva solicitud de vales para la misión: "+data.objetivoMision);
-              this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               this.modalService.dismissAll();
+              alertLoadingDec.close();
+              this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               resolve();
             },
             error: (errorSoli) => {
-              Swal.close();
+              alertLoadingDec.close();
               this.mensajesService.mensajesSweet(
                 'error',
                 'Ups... Algo salió mal al aprobar la solicitud',
@@ -920,7 +941,7 @@ export class ModalSecretariaComponent implements OnInit {
           })
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingDec.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
@@ -933,18 +954,28 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   actualizarSolicitudSinVa(data: any):Promise <void>{
+    let alertLoadingSinVa: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingSinVa = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculoSinVale(data).subscribe({
         next: () => {
           // resp: any
           this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
-          this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
           this.modalService.dismissAll();
+          alertLoadingSinVa.close();
+          this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           resolve();
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingSinVa.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
