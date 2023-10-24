@@ -1505,70 +1505,70 @@ export class SolicitanteComponent implements OnInit {
         { text: "Nota: Si el número de persona es mayor a cuatro, anexar listado", fontSize: 11 },
       );
     }
-
-    pdfDefinicion.content.push(
-      { text: "\n" },
-      {
-        columns: [
-          {
-            text: [{ text: "Sello\n", bold: true,fontSize: 11 },],
-            alignment: "",
-          },
-        ],
-      },
-      {
-        style: "tableExample",
-        table: {
-          widths: ["*"],
-          headerRows: 1,
-          body: [
-            [
-              {
-                text: "AUTORIZACIÓN",
-                style: "tableHeader",
-                alignment: "center",
-              },
-            ],
-            [""],
+      pdfDefinicion.content.push(
+        { text: "\n" },
+        {
+          columns: [
+            {
+              text: [{ text: "Sello\n", bold: true,fontSize: 11 },],
+              alignment: "",
+            },
           ],
         },
-        layout: "lightHorizontalLines",
-      },
-      {
-        columns: [
-          {
-            text: [
-              { text: "Nombre de Motorista: ", bold: true, fontSize: 11 },
-              { text: soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido,fontSize: 11 },
+        {
+          style: "tableExample",
+          table: {
+            widths: ["*"],
+            headerRows: 1,
+            body: [
+              [
+                {
+                  text: "AUTORIZACIÓN",
+                  style: "tableHeader",
+                  alignment: "center",
+                },
+              ],
+              [""],
             ],
           },
-        ],
-      },
-      { text: "\n" },
-      {
-        columns: [
-          {
-            text: [
-              { text: "Vehículo: ", bold: true, fontSize: 11 },
-              { text: soliVehi.vehiculo.marca +
-                ", " +
-                soliVehi.vehiculo.modelo +
-                ", " +
-                soliVehi.vehiculo.clase +
-                ", " +
-                soliVehi.vehiculo.tipo_gas +
-                ", " +
-                soliVehi.vehiculo.color +
-                ", " +
-                soliVehi.vehiculo.year, fontSize: 11 },
-            ],
-          },
-          {
-            text: [{ text: "Placa: ", bold: true, fontSize: 11 }, { text: soliVehi.vehiculo.placa, fontSize: 11 },],
-          },
-        ],
-      }
-    );
+          layout: "lightHorizontalLines",
+        },
+        {
+          columns: [
+            {
+              text: [
+                { text: "Nombre de Motorista: ", bold: true, fontSize: 11 },
+                { text: soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido,fontSize: 11 },
+              ],
+            },
+          ],
+        },
+        { text: "\n" },
+        {
+          columns: [
+            {
+              text: [
+                { text: "Vehículo: ", bold: true, fontSize: 11 },
+                { text: soliVehi.vehiculo.marca +
+                  ", " +
+                  soliVehi.vehiculo.modelo +
+                  ", " +
+                  soliVehi.vehiculo.clase +
+                  ", " +
+                  soliVehi.vehiculo.tipo_gas +
+                  ", " +
+                  soliVehi.vehiculo.color +
+                  ", " +
+                  soliVehi.vehiculo.year, fontSize: 11 },
+              ],
+            },
+            {
+              text: [{ text: "Placa: ", bold: true, fontSize: 11 }, { text: soliVehi.vehiculo.placa, fontSize: 11 },],
+            },
+          ],
+        }
+      );
+
     if (vales != null) {
       pdfDefinicion.content.push(
         { text: "\n" },
