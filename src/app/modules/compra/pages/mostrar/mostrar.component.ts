@@ -11,7 +11,7 @@ export class MostrarComponent implements OnInit {
   // bread crumb items
   breadCrumbItems: Array<{}>;
   offset = 0;
-
+  items: number = 10;
   term: string = '';
 
   constructor(private compraService: CompraService) { }

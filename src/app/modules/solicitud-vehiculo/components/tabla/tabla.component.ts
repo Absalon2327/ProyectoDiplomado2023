@@ -21,6 +21,7 @@ export class TablaComponent implements OnInit {
   @Input() opc!: string;
   @Input() term!: any; // para buscar
   @Input() vista!: string;
+  @Input() items!: number;
   @Input() userAcivo!: Usuario;
   p: any; // paginacion
   selectedData: any; // Almacena los datos del registro seleccionado

@@ -21,6 +21,7 @@ export class ListarComponent implements OnInit {
   lstDeptos: IDepto[] = [];
   cambio: string;
   term: string = '';
+  items: number = 10;
   p: any;
 
   constructor(private deptoService: DeptoService,
