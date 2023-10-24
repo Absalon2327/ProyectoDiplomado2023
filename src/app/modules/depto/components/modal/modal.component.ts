@@ -67,7 +67,7 @@ export class ModalComponent implements OnInit {
       }
 
     } else {
-      
+
             this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"
@@ -90,14 +90,31 @@ export class ModalComponent implements OnInit {
 
     data.nombre = data.nombre.toUpperCase();
 
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     //console.log(data);
     //console.log(this.formDepto.value);
 
     this.deptopService.saveDepto(data).subscribe({
       next: (resp) => {
+        this.deptopService.getDeptosAll2();
         this.modalService.dismissAll();
         this.formDepto.reset();
-        this.mostrar();
+       // this.mostrar();
       },
       error: (err) => {
 
@@ -110,7 +127,7 @@ export class ModalComponent implements OnInit {
 
       },
       complete: () => {
-        const Toast = Swal.mixin({
+       /* const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
           showConfirmButton: false,
@@ -123,7 +140,9 @@ export class ModalComponent implements OnInit {
         Toast.fire({
           icon: 'success',
           text: 'Datos Guardados con exito'
-        });
+        });*/
+        loadingAlert.close();
+        this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
       }
     });
   }
@@ -141,11 +160,28 @@ export class ModalComponent implements OnInit {
 
     data.nombre = data.nombre.toUpperCase();
 
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     this.deptopService.editDepto(data.codigoDepto, data).subscribe({
       next: (resp) => {
+        this.deptopService.getDeptosAll2();
         this.formDepto.reset();
         this.modalService.dismissAll();
-        this.mostrar();
+       // this.mostrar();
       },
       error: (err) => {
         this.mensajesService.mensajesSweet(
@@ -156,7 +192,7 @@ export class ModalComponent implements OnInit {
         //console.log(err);
       },
       complete: () => {
-        const Toast = Swal.mixin({
+        /* const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
           showConfirmButton: false,
@@ -169,8 +205,9 @@ export class ModalComponent implements OnInit {
         Toast.fire({
           icon: 'success',
           text: 'Datos Guardados con exito'
-        });
-
+        }); */
+        loadingAlert.close();
+        this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
       }
     });
   }
@@ -219,7 +256,19 @@ export class ModalComponent implements OnInit {
     return this.formDepto.get('descripcion');
   }
 
+
+  formatInputMayusDet(nombre: string, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+
+    this.formDepto
+      .get(nombre)
+      .setValue(formattedValue, { emitEvent: false });
+  }
+
   get tipo() {
     return this.formDepto.get('tipo');
+
   }
 }
