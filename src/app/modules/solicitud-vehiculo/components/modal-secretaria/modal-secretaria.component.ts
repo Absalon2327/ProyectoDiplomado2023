@@ -155,6 +155,7 @@ export class ModalSecretariaComponent implements OnInit {
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
       this.placas = [this.soliVeOd.vehiculo];
+      //this.motoristas = [this.soliVeOd.motorista];
       console.log(this.placas);
 
 
@@ -174,6 +175,8 @@ export class ModalSecretariaComponent implements OnInit {
 
       // por estado revision
       if(this.soliVeOd.motorista != null){
+        this.motoristas = [this.soliVeOd.motorista];
+        console.log("motorista: ",this.motoristas);
         this.formularioSoliVe.get('motorista')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
             + this.soliVeOd.motorista.apellido: '');
@@ -324,12 +327,23 @@ export class ModalSecretariaComponent implements OnInit {
 
         if(motoristasData.length > 0){  //si lo que trae la data es 0
           this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
-          this.motoristas.push(this.soliVeOd.motorista);
+          //this.motoristas.push(this.soliVeOd.motorista);
 
           this.formularioSoliVe.get('motorista').setValue(null);
 
           if(var1 == fechaSalida && var2 == fechaEntrada){
+           if(this.soliVeOd.motorista.dui != '00000000'){
             this.motoristas.push(this.soliVeOd.motorista);
+           }
+
+            this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' +
+              this.soliVeOd.motorista.apellido);
+          }
+
+          if(var1 == fechaSalida){
+            if(this.soliVeOd.motorista.dui != '00000000'){
+              this.motoristas.push(this.soliVeOd.motorista);
+             }
             this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' +
               this.soliVeOd.motorista.apellido);
           }
@@ -362,14 +376,14 @@ export class ModalSecretariaComponent implements OnInit {
     (motoristasData: IMotorista[]) => {
       if(motoristasData.length > 0) {
         this.motoristas = motoristasData;
-        if(this.soliVeOd.motorista != null){
-          this.motoristas.push(this.soliVeOd.motorista);
+        if(this.soliVeOd.motorista != null && this.soliVeOd.motorista.dui != '00000000'){
+         this.motoristas.push(this.soliVeOd.motorista);
         }
       }else if(motoristasData.length == 0 && this.soliVeOd.motorista == null){
         this.mensajesService.mensajesToast("warning", "No hay motoristas disponibles.");
       }else if(motoristasData.length == 0 && this.soliVeOd.motorista != null){
         //this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
-        this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
+       this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
         this.motoristas.push(this.soliVeOd.motorista);
       }
     });
