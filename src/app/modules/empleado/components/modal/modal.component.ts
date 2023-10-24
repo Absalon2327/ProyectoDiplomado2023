@@ -109,12 +109,12 @@ export class ModalComponent implements OnInit {
     this.empleadoService.listCargos.forEach((x) => {
       if (this.leyenda == "Editar") {
         if (x.estado == 8 && x.id != this.empleadOd.cargo.id) {
-           if(x.nombreCargo != "MOTORISTA"){
+           if(x.nombreCargo != "MOTORISTA" && x.nombreCargo != "ADMINISTRADOR"){
             cargos.push(x);
            }
         }
       } else {
-        if (x.estado == 8) {
+        if (x.estado == 8 && x.nombreCargo != "ADMINISTRADOR") {
           cargos.push(x);
         }
       }

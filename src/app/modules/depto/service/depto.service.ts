@@ -26,30 +26,24 @@ export class DeptoService {
       return this.http.get<unknown[]>(`${this.url}/depto`);
   }
 
-  getDeptosAll2():Promise<IDepto[]>{
-    Swal.fire({
-      title: 'Espere un momento!',
-      html: 'Se está procesando la información...',
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-    return this.http
+  getDeptosAll2(){
+    // Swal.fire({
+    //   title: 'Espere un momento!',
+    //   html: 'Se está procesando la información...',
+    //   didOpen: () => {
+    //     Swal.showLoading();
+    //   }
+    // });
+    this.http
     .get(`${this.url}/depto`)
     .pipe(map((resp: any) => resp as IDepto[]))
-    .toPromise() // Convertir el observable en una Promesa
-    .then((depto: IDepto[]) => {
+     // Convertir el observable en una Promesa
+    .subscribe((depto: IDepto[]) => {
       // Cierra la alerta de Swal cuando se obtienen las solicitudes
-      Swal.close();
+    //  Swal.close();
       this.lstDeptos = depto;
-      return this.lstDeptos; // Devuelve las solicitudes como resultado de la Promesa
+     // return this.lstDeptos; // Devuelve las solicitudes como resultado de la Promesa
     })
-    .catch((error) => {
-      // Cierra la alerta de Swal en caso de error y lanza el error
-      Swal.close();
-      console.error('Error al obtener las solicitudes de vehículo', error);
-      throw error; // Lanza el error para que el componente lo maneje
-    });
   }
 
   saveDepto(data : IDepto){

@@ -274,4 +274,10 @@ export class SolicitudVehiculoService {
       });
   }
 
+  obtenerMotoristaAcuerdo(uuidEmpleado:string){
+    return this.http
+      .get(`${this.url}/empleado/${uuidEmpleado}`)
+      .pipe(map((resp: any) => resp as IMotorista));
+  }
+
 }
