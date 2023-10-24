@@ -15,7 +15,7 @@ import {map} from "rxjs/operators";
 import Swal from "sweetalert2";
 import {MensajesService} from "../../../../shared/global/mensajes.service";
 import {IVehiculos} from "../../../vehiculo/interfaces/vehiculo-interface";
-import {INTEGER_VALIDATE} from "../../../../constants/constants";
+import {INTEGER_VALIDATE, NAME_TILDES_VALIDATE} from "../../../../constants/constants";
 import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import { log } from 'console';
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
@@ -60,6 +60,7 @@ export class ModalSecretariaComponent implements OnInit {
   file!: File;
   fileAcuerdo!: File;
   documentoSoliVe: IDocumentoSoliVe [] = [];
+  private isText:string = NAME_TILDES_VALIDATE;
 
   alerts = [
     {
@@ -1028,7 +1029,8 @@ export class ModalSecretariaComponent implements OnInit {
       .subscribe((MotorisData: IMotorista) => {
         if(MotorisData.dui == '00000000'){
           this.isChecked = true;
-          this.formularioSoliVe.get('motoristaJunta').setValidators([Validators.required]);
+          this.formularioSoliVe.get('motoristaJunta')
+          .setValidators([Validators.required,Validators.pattern(this.isText)]);
         }else{
           this.isChecked = false;
           this.formularioSoliVe.get('motoristaJunta').setValue(null);
