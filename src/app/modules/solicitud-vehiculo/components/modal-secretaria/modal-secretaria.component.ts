@@ -15,7 +15,7 @@ import {map} from "rxjs/operators";
 import Swal from "sweetalert2";
 import {MensajesService} from "../../../../shared/global/mensajes.service";
 import {IVehiculos} from "../../../vehiculo/interfaces/vehiculo-interface";
-import {INTEGER_VALIDATE} from "../../../../constants/constants";
+import {INTEGER_VALIDATE, NAME_TILDES_VALIDATE} from "../../../../constants/constants";
 import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import { log } from 'console';
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
@@ -60,6 +60,7 @@ export class ModalSecretariaComponent implements OnInit {
   file!: File;
   fileAcuerdo!: File;
   documentoSoliVe: IDocumentoSoliVe [] = [];
+  private isText:string = NAME_TILDES_VALIDATE;
 
   alerts = [
     {
@@ -153,6 +154,10 @@ export class ModalSecretariaComponent implements OnInit {
       this.formularioSoliVe.get('solicitante')
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
+      this.placas = [this.soliVeOd.vehiculo];
+      console.log(this.placas);
+
+
       // para input radio
       if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle'){
         this.formularioSoliVe.get('tieneVale').disable();
@@ -172,6 +177,14 @@ export class ModalSecretariaComponent implements OnInit {
         this.formularioSoliVe.get('motorista')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
             + this.soliVeOd.motorista.apellido: '');
+        // nuevo codigo para mostrar motorista junta
+        if(this.soliVeOd.motoristaJunta != null){
+          this.isChecked = true;
+          this.formularioSoliVe.get('motoristaJunta')
+          .setValue(this.soliVeOd != null ? this.soliVeOd.motoristaJunta: '');
+        }else{
+          this.isChecked = false;
+        }
       }
       if (this.soliVeOd.observaciones != null){
         this.formularioSoliVe.get('observaciones')
@@ -534,6 +547,7 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
+    this.placas = [];
     this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
@@ -613,6 +627,7 @@ export class ModalSecretariaComponent implements OnInit {
       observaciones:['',[]],
       file: ['',],
       tieneVale:['',[Validators.required]],
+      motoristaJunta:[null]
     });
   }
 
@@ -778,8 +793,6 @@ export class ModalSecretariaComponent implements OnInit {
 
   actualizarEstadoCheckbox() {
     this.isChecked = !this.isChecked;
-    //console.log(this.isChecked);
-
   }
 
   borrarPasatiempo(i: number){
@@ -1020,5 +1033,23 @@ export class ModalSecretariaComponent implements OnInit {
 
   get textoBoton(): string {
     return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+  }
+
+  verficarSelect(){
+    const valorSeleccionado = this.formularioSoliVe.get('motorista').value;
+    if (valorSeleccionado != null) {
+      this.soliVeService.obtenerMotoristaAcuerdo(valorSeleccionado)
+      .subscribe((MotorisData: IMotorista) => {
+        if(MotorisData.dui == '00000000'){
+          this.isChecked = true;
+          this.formularioSoliVe.get('motoristaJunta')
+          .setValidators([Validators.required,Validators.pattern(this.isText)]);
+        }else{
+          this.isChecked = false;
+          this.formularioSoliVe.get('motoristaJunta').setValue(null);
+        }
+      });
+    }
+    this.isChecked = false;
   }
 }
