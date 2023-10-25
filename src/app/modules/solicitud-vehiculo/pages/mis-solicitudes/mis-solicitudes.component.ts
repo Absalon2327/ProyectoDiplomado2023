@@ -26,6 +26,7 @@ export class MisSolicitudesComponent implements OnInit {
   estadosSoliVe: IEstados [] = [];
   usuario!: Usuario;
   public textSizeClass = '';
+  items: number = 10;
 
   constructor( private soliVeService: SolicitudVehiculoService, private modalService: NgbModal,
                private userService: UsuarioService) { }

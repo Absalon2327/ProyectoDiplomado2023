@@ -118,7 +118,7 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   detalle(leyenda: string){
-    if (leyenda == 'Edicion' || leyenda == 'Detalle'){
+    if (leyenda == 'Edicion' || leyenda == 'Detalle' || leyenda == 'Calendario'){
 
       const solicitudVehiculo = this.soliVeOd;
 
@@ -160,7 +160,7 @@ export class ModalSecretariaComponent implements OnInit {
 
 
       // para input radio
-      if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle'){
+      if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle' || leyenda == 'Calendario'){
         this.formularioSoliVe.get('tieneVale').disable();
       }
 
@@ -1077,8 +1077,10 @@ export class ModalSecretariaComponent implements OnInit {
 
 
   get textoBoton(): string {
-    return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+    return this.leyenda === 'Detalle' ||
+      this.leyenda === 'Calendario' ? 'Cerrar' : 'Cancelar';
   }
+
 
   verficarSelect(){
     const valorSeleccionado = this.formularioSoliVe.get('motorista').value;
