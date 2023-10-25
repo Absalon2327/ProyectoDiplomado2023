@@ -95,9 +95,6 @@ export class SolicitudVehiculoService {
       .pipe(map((resp: any) => resp as ISolicitudVehiculo[]))
       .toPromise() // Convertir el observable en una Promesa
       .then((soliVe: ISolicitudVehiculo[]) => {
-        // Cierra la alerta de Swal cuando se obtienen las solicitudes
-        //Swal.close();
-        console.log('Datos de getSolicitudesVehiculo:', soliVe);
 
         if (soliVe && soliVe.length > 0) {
           //this.listSoliVehiculo.length = 0;
@@ -105,7 +102,6 @@ export class SolicitudVehiculoService {
             this.listSoliVehiculo.push(element);
           });
         }
-        console.log('Datos de listSoliVehiculo:', this.listSoliVehiculo);
 
         return this.listSoliVehiculo; // Devuelve las solicitudes como resultado de la Promesa
       })

@@ -156,7 +156,7 @@ export class ModalSecretariaComponent implements OnInit {
           + this.soliVeOd.solicitante.empleado.apellido: '');
       this.placas = [this.soliVeOd.vehiculo];
       //this.motoristas = [this.soliVeOd.motorista];
-      console.log(this.placas);
+      //console.log(this.placas);
 
 
       // para input radio
@@ -176,7 +176,7 @@ export class ModalSecretariaComponent implements OnInit {
       // por estado revision
       if(this.soliVeOd.motorista != null){
         this.motoristas = [this.soliVeOd.motorista];
-        console.log("motorista: ",this.motoristas);
+        //console.log("motorista: ",this.motoristas);
         this.formularioSoliVe.get('motorista')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
             + this.soliVeOd.motorista.apellido: '');
