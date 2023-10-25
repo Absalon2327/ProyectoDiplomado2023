@@ -30,7 +30,7 @@ export class ListarComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Solicitud de Vehículo' }, { label: 'Lista', active: true }]; // miga de pan
-    this.userService.getUsuario();
+    //this.userService.getUsuario();
     this.obtenerUsuarioActivo();
   }
 
@@ -46,7 +46,7 @@ export class ListarComponent implements OnInit {
   }
 
   get listSoliVeData(){
-    return this.soliVeService.listSoliVehiculoRol;
+    return this.soliVeService.listSoliVehiculo;
   }
 
   calcularNumeroCorrelativo(index: number): number {
@@ -62,6 +62,8 @@ export class ListarComponent implements OnInit {
   filtrar(event: any) {
     this.estadoSeleccionado = event.target.value ? event.target.value : null;
 
+    let alertLoading: any;
+
     if (this.estadoSeleccionado == 4 || this.estadoSeleccionado == 5) {
 
       Swal.fire({
@@ -75,20 +77,30 @@ export class ListarComponent implements OnInit {
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          from(this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado))
-            .subscribe((data: ISolicitudVehiculo[]) => {
-              this.listSoliVeData.length = 0;
-              this.listSoliVeData.push(...data);
+          alertLoading = Swal.fire({
+            title: 'Espere un momento!',
+            html: 'Se está procesando la información...',
+            didOpen: () => {
+              Swal.showLoading();
+            }
           });
+            this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado);
+            alertLoading.close();
+        }else{
+          this.selectElement.nativeElement.selectedIndex = 0;
         }
       })
 
     }else{
-      from(this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado))
-      .subscribe((data: ISolicitudVehiculo[]) => {
-        this.listSoliVeData.length = 0;
-        this.listSoliVeData.push(...data);
+      alertLoading = Swal.fire({
+        title: 'Espere un momento!',
+        html: 'Se está procesando la información...',
+        didOpen: () => {
+          Swal.showLoading();
+        }
       });
+      this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado);
+      alertLoading.close();
       this.selectElement.nativeElement.selectedIndex = 0;
     }
   }

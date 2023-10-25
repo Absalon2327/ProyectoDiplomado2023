@@ -118,7 +118,7 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   detalle(leyenda: string){
-    if (leyenda == 'Edicion' || leyenda == 'Detalle'){
+    if (leyenda == 'Edicion' || leyenda == 'Detalle' || leyenda == 'Calendario'){
 
       const solicitudVehiculo = this.soliVeOd;
 
@@ -160,7 +160,7 @@ export class ModalSecretariaComponent implements OnInit {
 
 
       // para input radio
-      if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle'){
+      if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle' || leyenda == 'Calendario'){
         this.formularioSoliVe.get('tieneVale').disable();
       }
 
@@ -501,7 +501,7 @@ export class ModalSecretariaComponent implements OnInit {
               next: (pdfResp: any) => {
                 //console.log(pdfResp);
                 if (this.usuarioActivo.role == 'ADMIN'){
-                  this.soliVeService.getSolicitudesVehiculo(2);
+                  this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
                 }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
                   this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
                 } else{
@@ -528,7 +528,7 @@ export class ModalSecretariaComponent implements OnInit {
             });
           } else {
             if (this.usuarioActivo.role == 'ADMIN'){
-              this.soliVeService.getSolicitudesVehiculo(2);
+              this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
             }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
               this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
             } else{
@@ -1077,8 +1077,10 @@ export class ModalSecretariaComponent implements OnInit {
 
 
   get textoBoton(): string {
-    return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+    return this.leyenda === 'Detalle' ||
+      this.leyenda === 'Calendario' ? 'Cerrar' : 'Cancelar';
   }
+
 
   verficarSelect(){
     const valorSeleccionado = this.formularioSoliVe.get('motorista').value;
@@ -1092,6 +1094,8 @@ export class ModalSecretariaComponent implements OnInit {
         }else{
           this.isChecked = false;
           this.formularioSoliVe.get('motoristaJunta').setValue(null);
+          this.formularioSoliVe.get('motoristaJunta').clearValidators();
+          this.formularioSoliVe.get('motoristaJunta').updateValueAndValidity();
         }
       });
     }

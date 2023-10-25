@@ -78,7 +78,7 @@ export class CalendarioComponent implements OnInit {
           const paso1 = val.solicitante.empleado.nombre;
           const paso2 = paso1.split(" ");
           const nombre = paso2[0];
-       
+
           // switch para pintar los eventos segun el estado
              switch (val.estado) {
                 case 1:
@@ -189,7 +189,7 @@ export class CalendarioComponent implements OnInit {
           let data = dataSoli.find(x => x.codigoSolicitudVehiculo == clickInfo.event.id);  // se busca la solicitud
             if (data.codigoSolicitudVehiculo == compara) {
 
-              this.abrirModalSecre('Detalle', data);                  // se invoca al metodo para abrir el modal
+              this.abrirModalSecre('Calendario', data);                  // se invoca al metodo para abrir el modal
             }
           }
 
@@ -215,7 +215,7 @@ export class CalendarioComponent implements OnInit {
     this.usuario = this.usuarioService.usuario;
     const selectedData = data;
 
-    const modalRef = this.modalService.open(ModalSecretariaComponent, {size:'xl', backdrop: 'static'});
+    const modalRef = this.modalService.open(ModalSecretariaComponent, {size:'xl', backdrop: 'static', scrollable: true});
     modalRef.componentInstance.leyenda = leyenda;
     modalRef.componentInstance.soliVeOd = data;
     modalRef.componentInstance.usuarioActivo = this.usuario;
