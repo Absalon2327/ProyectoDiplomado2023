@@ -82,13 +82,13 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label>Kilometraje</label><span class="text-danger"> *</span>
-                            <input type="text" class="form-control" id="kilometraje" name="kilometraje"
-                            formControlName="kilometraje" autocomplete="off" [class]="esCampoValido('kilometraje')" pattern="" (keypress)="OnlyNumbersAllowed($event)" placeholder="Escribe el kilometraje"/>
+                            <input type="text" class="form-control" id="kilometraje" name="Kilometraje"
+                            formControlName="kilometraje" autocomplete="off" [class]="esCampoValido('kilometraje')" pattern="" (keypress)="OnlyNumbersAllowed($event)" placeholder="Escribe el Kilometraje"/>
                             <div class="invalid-feedback">
                                 <!-- aqui la validación-->
                                 <span *ngIf="formBuilder.get('kilometraje')?.errors?.['required']">Requiere datos en el campo</span>
 
-                            </div>
+                             </div>
                         </div>
                     </div>
 
