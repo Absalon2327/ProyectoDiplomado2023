@@ -10,6 +10,26 @@
       <div class="card">
         <div class="card-body">
           <div class="row mb-2 align-items-end">
+            <div class="col-sm-2 col-md-4 m-1">
+              <div class="dataTables_length" id="tickets-table_length">
+                <label class="d-inline-flex align-items-center"
+                  >Mostrar
+                  <select
+                    name="tickets-table_length"
+                    aria-controls="tickets-table"
+                    name="items"
+                    [(ngModel)]="items"
+                    class="form-control form-control-sm mx-2"
+                  >
+                    <option [ngValue]="5">5</option>
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="100">100</option></select
+                  >registros</label
+                >
+              </div>
+            </div>
             <div class="col-sm-4 col-md-4">
               <div class="search-box me-2 mb-2 d-inline-block">
                 <div class="position-relative">
@@ -23,6 +43,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-sm-4 col-md-3">
               <div class="form-group">
                 <label for="">Filtro por Estado</label>
@@ -60,7 +81,7 @@
                     *ngFor="
                       let item of solicitudesVales
                         | filter : term
-                        | paginate : { itemsPerPage: 10, currentPage: p };
+                        | paginate : { itemsPerPage: items, currentPage: p };
                       let i = index
                     "
                   >
@@ -131,7 +152,7 @@
     <h5 class="modal-title mt-0">Detalle Solicitud de Vehículo</h5>
     <div class="btn-alerta" *ngIf="alerts">
       <i
-        class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor float-md-end "
+        class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor float-md-end"
         ngbTooltip="Mostrar Ayuda"
         *ngIf="!siMuestraAlertas()"
         (click)="restaurarAlerts()"
@@ -325,7 +346,7 @@
               />
             </div>
           </div>
-          <div class="row mb-4">
+          <div *ngIf="estadoSoli != 'Aprobada'" class="row mb-4">
             <label for="formrow-firstname-input">Observación</label>
             <div class="col-sm-12">
               <textarea
@@ -338,16 +359,41 @@
               ></textarea>
             </div>
           </div>
+          <div
+            *ngIf="estadoSoli == 'Aprobada' || estadoSoli == 'Revisión'"
+            class="row mb-4"
+          >
+            <label for="formrow-firstname-input">Observación</label>
+            <div class="col-sm-12">
+              <textarea
+                row="3"
+                maxlength="750"
+                class="form-control"
+                placeholder="Comentario"
+                disabled=""
+                formControlName="observacionRevision"
+              ></textarea>
+            </div>
+          </div>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-
-    <button type="button" class="btn btn-success btn-dca" (click)="aprobar()">
+    <button
+      *ngIf="estadoSoli != 'Aprobada'"
+      type="button"
+      class="btn btn-success btn-dca"
+      (click)="aprobar()"
+    >
       Aprobar
     </button>
-    <button type="submit" class="btn btn-warning btn-dca" form="formSoliVale">
+    <button
+      *ngIf="estadoSoli != 'Aprobada'"
+      type="submit"
+      class="btn btn-warning btn-dca"
+      form="formSoliVale"
+    >
       Revisión
     </button>
     <button

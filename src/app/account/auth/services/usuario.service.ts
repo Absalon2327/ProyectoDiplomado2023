@@ -1,5 +1,5 @@
 import { Injectable, NgZone, inject } from '@angular/core';
-import { DataCards, Empleado, Usuario } from '../models/usuario.models';
+import { DataCards, Empleado, SendGrid, Usuario } from '../models/usuario.models';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { IEmail, ILoginUsuario, IRegistroUsuario, IRespass } from '../interfaces/usuario';
@@ -15,6 +15,7 @@ export class UsuarioService {
   storage: Storage = window.localStorage;
   public usuario!: Usuario;
   public empleado!: Empleado;
+  public sendgrid!: SendGrid;
   public cards!: DataCards;
   private http = inject(HttpClient);
   private baseUrl: string = environment.baseUrl;
@@ -26,7 +27,7 @@ export class UsuarioService {
 
   /* Creacion de usuario */
   /*   crearUsuario(forData: IRegistroUsuario) {
-      console.log();
+
       return this.http.post(`${this.baseUrl}/usuarios`, forData).pipe(
         tap((resp: any) => {
           this.guardarLocalSotrage('token', resp.token);
@@ -188,13 +189,37 @@ export class UsuarioService {
   }
 
 
+  getSendGrid() {
+    this.http
+      .get(`${this.baseUrl}/correo/sendgrid`)
+      .pipe(tap((resp: any) => resp as any))
+      .subscribe(
+        (sendgrid: any) => {
+          const { codigoSendgrid, keysendgrid, keyplantilla } = sendgrid;
+          this.sendgrid = new SendGrid(codigoSendgrid, keysendgrid, keyplantilla);
+        },
+        (error) => {
+          console.error("Error al obtener los usuario:", error);
+        }
+      );
+  }
+
+
   public Credenciales(usuario: Usuario): any {
     return this.http.put(`${this.baseUrl}/usuario/credenciales`, usuario);
   }
 
+  public Sendgrid(sendgrid: SendGrid): any {
+    return this.http.put(`${this.baseUrl}/correo/editsendgrid`, sendgrid);
+  }
+
 
   logout() {
-    this.storage.clear();
+    var remenber = localStorage.getItem('remenber');
+    localStorage.clear();
+    if(remenber != null) {
+      localStorage.setItem('remenber', remenber);
+    }
     this.ngZone.run(() => {
       this.router.navigateByUrl('/account/login');
     });
@@ -203,7 +228,7 @@ export class UsuarioService {
   SendEmail(body: IEmail) {
     return this.http.post(`${this.baseUrl}/correo/enviarmail`, body).pipe(
       tap((resp: any) => {
-        console.log(resp);
+        //console.log("Correo enviado");
       }),
       catchError(err => {
         return throwError(err.error.message);

@@ -205,11 +205,7 @@ export class ModalComponent implements OnInit {
         }
       },
       (err: any) => {
-        this.mensajesService.mensajesSweet(
-          "error",
-          "Ups... Algo salió mal",
-          err.error.message
-        );
+             this.mensajesService.mensajesSweet("error","Error",err.error.message, "Entiendo");;
         this.obtenerLista();
         this.recargar();
       }
@@ -224,7 +220,7 @@ export class ModalComponent implements OnInit {
         this.registrando();
       }
     } else {
-      //Usar mensajes globales :u
+      
             this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"
@@ -356,7 +352,7 @@ export class ModalComponent implements OnInit {
                     );
                 });
             } else {
-              //Usar mensajes globales :u
+              
             this.mensajesService.mensajesToast(
               "warning",
               "El kilometraje debe ser mayor al de salida"
@@ -446,11 +442,7 @@ export class ModalComponent implements OnInit {
         }).then(() => {});
       },
       (err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Algo salió mal",
-          text: err,
-        });
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
       }
     );
   }

@@ -251,7 +251,7 @@
           <div class="row mb-2 align-items-center">
             <div class="col-sm-3">
               <div class="search-box me-2 mb-2 d-inline-block">
-                <div class="position-relative">
+                <div class="position-relative m-2">
                   <input
                     type="text"
                     class="form-control"
@@ -259,6 +259,20 @@
                     [(ngModel)]="term"
                   />
                   <i class="bx bx-search-alt search-icon"></i>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 m-2">
+                <div class="dataTables_length" id="tickets-table_length"><label
+                    class="d-inline-flex align-items-center">Mostrar
+                    <select name="tickets-table_length" aria-controls="tickets-table" name="items"
+                      [(ngModel)]="items" class="form-control form-control-sm mx-2">
+                      <option [ngValue]="5">5</option>
+                      <option [ngValue]="10">10</option>
+                      <option [ngValue]="25">25</option>
+                      <option [ngValue]="50">50</option>
+                      <option [ngValue]="100">100</option>
+                    </select>registros</label>
                 </div>
               </div>
             </div>
@@ -293,7 +307,7 @@
           </div>
           <!-- Table data -->
 
-          <app-tabla [vales]="listDatos" [queryString]="term"></app-tabla>
+          <app-tabla [vales]="listDatos" [queryString]="term" [items]="items"></app-tabla>
         </div>
       </div>
     </div>
@@ -356,7 +370,7 @@
               minlength="2"
               type="text"
               class="form-control"
-              placeholder="Omita @ues.edu.sv"
+              placeholder="Digite usuario sin @ues.edu.sv"
               formControlName="nombre"
               [class]="esCampoValidoUsuario('nombre')"
               (keyup)="getCorreo()"

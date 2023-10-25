@@ -3,11 +3,15 @@
     background-color: #df3636; /* Color de fondo azul */
     color: #ffffff; /* Color de texto blanco */
   }
-  
+
   /* Estilo para el botón "Salida" */
   .btn-salida {
     background-color: #3c4cdaad; /* Color de fondo rojo */
     color: #ffffff; /* Color de texto blanco */
+  }
+
+  button.btn-close{
+    margin-left: 5px;
   }
 
 

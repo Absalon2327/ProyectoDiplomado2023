@@ -21,6 +21,7 @@ export class TablaComponent implements OnInit {
   @Input() opc!: string;
   @Input() term!: any; // para buscar
   @Input() vista!: string;
+  @Input() items!: number;
   @Input() userAcivo!: Usuario;
   p: any; // paginacion
   selectedData: any; // Almacena los datos del registro seleccionado
@@ -47,7 +48,7 @@ export class TablaComponent implements OnInit {
       this.abrirModalSecre(leyenda, data)
     } else if (this.userAcivo.role == 'SECR_DECANATO' && (data.estado == 2 || data.estado == 4 || data.estado == 5 || data.estado == 6) && this.vista == 'listado'){
       this.abrirModalSecre(leyenda, data);
-      console.log("entro");
+      //console.log("entro");
     }else {
       this.selectedData = data; // Almacena los datos del registro seleccionado
       const modalRef = this.modalService.open(ModalComponent, {size: 'xl', backdrop: 'static' , scrollable: true});
@@ -131,6 +132,15 @@ export class TablaComponent implements OnInit {
   }
 
   actualizarSolicitud(data: any):Promise <void>{
+    let alertLoadingUpdate: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingUpdate = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
@@ -142,6 +152,7 @@ export class TablaComponent implements OnInit {
           }
           this.enviarEmailAprob('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
             'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
+          alertLoadingUpdate.close();
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           resolve();
         },
@@ -159,6 +170,15 @@ export class TablaComponent implements OnInit {
   }
 
   actualizarSolicitudDec(data: any):Promise <void>{
+    let alertLoadingDec: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingDec = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
@@ -181,8 +201,7 @@ export class TablaComponent implements OnInit {
 
               this.enviarEmailAprob("ASIS_FINANCIERO",
                 "Solicitud de vales", "Tiene una nueva solicitud de vales para la misión: "+data.objetivoMision);
-              this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
-
+              alertLoadingDec.close();
               this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               resolve();
             },
@@ -211,13 +230,25 @@ export class TablaComponent implements OnInit {
   }
 
   actualizarSolicitudSinVa(data: any):Promise <void>{
+
+    let alertLoadingSinVa: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingSinVa = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     return new Promise<void>((resolve, reject) => {
       this.soliService.updateSolciitudVehiculoSinVale(data).subscribe({
         next: () => {
           // resp: any
-          this.soliService.getSolicitudesRol(this.userAcivo.role);
           this.enviarEmailAprob('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
-                'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
+          'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
+          this.soliService.getSolicitudesRol(this.userAcivo.role);
+          alertLoadingSinVa.close();
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           resolve();
         },

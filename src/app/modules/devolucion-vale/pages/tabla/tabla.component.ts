@@ -9,6 +9,7 @@ import { IVale } from '../../interfaces/vale.interface';
 export class TablaComponent implements OnInit {
 
   @Input() vales!: IVale[];
+  @Input() items!: number;
   @Input() queryString!: string;
   p: any;
 

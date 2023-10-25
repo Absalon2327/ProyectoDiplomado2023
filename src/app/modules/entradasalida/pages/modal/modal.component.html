@@ -21,11 +21,19 @@
         <div class="modal-header">
             <h5 class="modal-title mt-0">Registro de {{leyendas}} </h5>
             <div class="btn-alerta" *ngIf="alerts">
-                <i class="mdi mdi-20px mdi-lightbulb-on-outline custom-cursor" ngbTooltip="Mostrar Ayuda"
-                    *ngIf="!siMuestraAlertas()" (click)="restaurarAlerts()"></i>
-                    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+              <i
+                class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor"
+                ngbTooltip="Mostrar Ayuda"
+                *ngIf="!siMuestraAlertas()"
+                (click)="restaurarAlerts()"
+              ></i>
             </div>
-
+            <button
+              type="button"
+              class="btn-close"
+              aria-hidden="true"
+              (click)="modal.dismiss('Cross click')"
+            ></button>
         </div>
         <div class="modal-body">
             <div *ngFor="let alert of alerts">

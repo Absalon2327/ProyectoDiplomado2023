@@ -15,7 +15,7 @@ import {map} from "rxjs/operators";
 import Swal from "sweetalert2";
 import {MensajesService} from "../../../../shared/global/mensajes.service";
 import {IVehiculos} from "../../../vehiculo/interfaces/vehiculo-interface";
-import {INTEGER_VALIDATE} from "../../../../constants/constants";
+import {INTEGER_VALIDATE, NAME_TILDES_VALIDATE} from "../../../../constants/constants";
 import { Usuario } from 'src/app/account/auth/models/usuario.models';
 import { log } from 'console';
 import {ISolicitudvalep} from "../../../solicitud-vale-paginacion/interface/solicitudvalep.interface";
@@ -60,6 +60,7 @@ export class ModalSecretariaComponent implements OnInit {
   file!: File;
   fileAcuerdo!: File;
   documentoSoliVe: IDocumentoSoliVe [] = [];
+  private isText:string = NAME_TILDES_VALIDATE;
 
   alerts = [
     {
@@ -117,7 +118,7 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   detalle(leyenda: string){
-    if (leyenda == 'Edicion' || leyenda == 'Detalle'){
+    if (leyenda == 'Edicion' || leyenda == 'Detalle' || leyenda == 'Calendario'){
 
       const solicitudVehiculo = this.soliVeOd;
 
@@ -153,8 +154,13 @@ export class ModalSecretariaComponent implements OnInit {
       this.formularioSoliVe.get('solicitante')
         .setValue(this.soliVeOd != null ? this.soliVeOd.solicitante.empleado.nombre+' '
           + this.soliVeOd.solicitante.empleado.apellido: '');
+      this.placas = [this.soliVeOd.vehiculo];
+      //this.motoristas = [this.soliVeOd.motorista];
+      console.log(this.placas);
+
+
       // para input radio
-      if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle'){
+      if(this.usuarioActivo.role == 'DECANO' || leyenda == 'Detalle' || leyenda == 'Calendario'){
         this.formularioSoliVe.get('tieneVale').disable();
       }
 
@@ -169,9 +175,19 @@ export class ModalSecretariaComponent implements OnInit {
 
       // por estado revision
       if(this.soliVeOd.motorista != null){
+        this.motoristas = [this.soliVeOd.motorista];
+        console.log("motorista: ",this.motoristas);
         this.formularioSoliVe.get('motorista')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motorista.nombre + ' '
             + this.soliVeOd.motorista.apellido: '');
+        // nuevo codigo para mostrar motorista junta
+        if(this.soliVeOd.motoristaJunta != null){
+          this.isChecked = true;
+          this.formularioSoliVe.get('motoristaJunta')
+          .setValue(this.soliVeOd != null ? this.soliVeOd.motoristaJunta: '');
+        }else{
+          this.isChecked = false;
+        }
       }
       if (this.soliVeOd.observaciones != null){
         this.formularioSoliVe.get('observaciones')
@@ -277,7 +293,7 @@ export class ModalSecretariaComponent implements OnInit {
       }
     } else {
       // Mostrar nombres de campos inválidos por consola
-      /*console.log('Campos inválidos:',
+      /*//console.log('Campos inválidos:',
         Object.keys(this.formularioSoliVe.controls).filter((controlName) =>
           this.formularioSoliVe.get(controlName)?.invalid));*/
 
@@ -308,12 +324,26 @@ export class ModalSecretariaComponent implements OnInit {
        //this.formularioSoliVe.get('motorista').setValue(null);// limpiar el select
        if(this.soliVeOd.motorista != null ){ // si el motorista no es null falto agregar mensaje que cuando sea null
         // viene en estado 6
+
         if(motoristasData.length > 0){  //si lo que trae la data es 0
           this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
+          //this.motoristas.push(this.soliVeOd.motorista);
+
           this.formularioSoliVe.get('motorista').setValue(null);
 
           if(var1 == fechaSalida && var2 == fechaEntrada){
+           if(this.soliVeOd.motorista.dui != '00000000'){
             this.motoristas.push(this.soliVeOd.motorista);
+           }
+
+            this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' +
+              this.soliVeOd.motorista.apellido);
+          }
+
+          if(var1 == fechaSalida){
+            if(this.soliVeOd.motorista.dui != '00000000'){
+              this.motoristas.push(this.soliVeOd.motorista);
+             }
             this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' +
               this.soliVeOd.motorista.apellido);
           }
@@ -346,10 +376,15 @@ export class ModalSecretariaComponent implements OnInit {
     (motoristasData: IMotorista[]) => {
       if(motoristasData.length > 0) {
         this.motoristas = motoristasData;
+        if(this.soliVeOd.motorista != null && this.soliVeOd.motorista.dui != '00000000'){
+         this.motoristas.push(this.soliVeOd.motorista);
+        }
       }else if(motoristasData.length == 0 && this.soliVeOd.motorista == null){
         this.mensajesService.mensajesToast("warning", "No hay motoristas disponibles.");
       }else if(motoristasData.length == 0 && this.soliVeOd.motorista != null){
-        this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+        //this.mensajesService.mensajesToast("warning", "No hay más motoristas disponibles.");
+       this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
+        this.motoristas.push(this.soliVeOd.motorista);
       }
     });
   }
@@ -431,14 +466,14 @@ export class ModalSecretariaComponent implements OnInit {
     /* fin de la direccion */
 
     // Mostrar SweetAlert de carga
-    const loadingAlert = Swal.fire({
-      title: "Espere",
-      text: "Realizando la acción...",
-      icon: "info",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showCancelButton: false,
-      showConfirmButton: false,
+    let alertLoadingEdit: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingEdit = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
     });
 
     //console.log(solicitudVehiculo);
@@ -446,7 +481,6 @@ export class ModalSecretariaComponent implements OnInit {
       this.soliVeService.updateSolicitudVehiculo(solicitudVehiculo).subscribe({
         next: (resp: any) => {
           this.soliSave = resp;
-          Swal.close();
           if (solicitudVehiculo.cantidadPersonas != this.soliVeOd.cantidadPersonas && this.file != null) {
             // enviar pdf
             const formData = new FormData();
@@ -467,22 +501,23 @@ export class ModalSecretariaComponent implements OnInit {
               next: (pdfResp: any) => {
                 //console.log(pdfResp);
                 if (this.usuarioActivo.role == 'ADMIN'){
-                  this.soliVeService.getSolicitudesVehiculo(2);
+                  this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
                 }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
                   this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
                 } else{
                   this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
                 }
-                this.mensajesService.mensajesToast("success", "Asignación exitosa");
                 if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 6){
                   this.enviarEmailSD('DECANO', 'Solicitud de vehículo','Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
                 }
                 this.modalService.dismissAll();
+                alertLoadingEdit.close();
                 this.formularioSoliVe.reset();
+                this.mensajesService.mensajesToast("success", "Asignación exitosa");
                 resolve();
               },
               error: (pdfError) => {
-                Swal.close();
+                alertLoadingEdit.close();
                 this.mensajesService.mensajesSweet(
                   'error',
                   'Ups... Algo salió mal al enviar el PDF',
@@ -493,24 +528,25 @@ export class ModalSecretariaComponent implements OnInit {
             });
           } else {
             if (this.usuarioActivo.role == 'ADMIN'){
-              this.soliVeService.getSolicitudesVehiculo(2);
+              this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
             }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
               this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
             } else{
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
             }
-            this.mensajesService.mensajesToast("success", "Asignación exitosa");
             if (this.soliVeOd.estado == 2 || this.soliVeOd.estado == 6) {
               this.enviarEmailSD('DECANO', 'Solicitud de vehículo', 'Tiene una nueva solicitud de vehículo pendiente de aprobar o verificar la información');
             }
             this.modalService.dismissAll();
+            alertLoadingEdit.close();
             this.formularioSoliVe.reset();
+            this.mensajesService.mensajesToast("success", "Asignación exitosa");
             resolve();
           }
         },
         error : (err) => {
           // Cerrar SweetAlert de carga
-          Swal.close();
+          alertLoadingEdit.close();
           this.mensajesService.mensajesSweet(
             "error",
             "Ups... Algo salió mal en la asignacion",
@@ -526,6 +562,7 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   cargarPlacas(tipoVehiculo: string, fechaSalida:string, fechaEntrada:string) {
+    this.placas = [];
     this.soliVeService.filtroPlacasVehiculo(tipoVehiculo,fechaSalida,fechaEntrada).subscribe(
       (vehiculosData: IVehiculos[]) => {
         if (vehiculosData && vehiculosData.length > 0) {
@@ -605,6 +642,7 @@ export class ModalSecretariaComponent implements OnInit {
       observaciones:['',[]],
       file: ['',],
       tieneVale:['',[Validators.required]],
+      motoristaJunta:[null]
     });
   }
 
@@ -704,8 +742,14 @@ export class ModalSecretariaComponent implements OnInit {
     this.cantidadPersonas = this.formularioSoliVe.get('cantidadPersonas').value;
 
     if(this.cantidadPersonas == this.soliVeOd.cantidadPersonas){
-      this.mostrarTabla=false;
-      this.mostrarArchivoAdjunto = false;
+      if((this.soliVeOd.cantidadPersonas < 6 && this.soliVeOd.cantidadPersonas >=2 ) &&
+      (this.cantidadPersonas < 6 && this.cantidadPersonas >=2)){
+        this.mostrarTabla = true;
+        this.mostrarArchivoAdjunto = false;
+      }else{
+        this.mostrarTabla = false;
+        this.mostrarArchivoAdjunto = true;
+      }
     } else if (this.cantidadPersonas > 5 ) {
       this.mostrarTabla = false; // Ocultar la tabla
       this.mostrarArchivoAdjunto = true; // Mostrar el campo de entrada de archivo
@@ -737,8 +781,6 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
 
-
-
   siMuestraAlertas() {
     return this.alerts.every((alert) => alert.show);
   }
@@ -766,8 +808,6 @@ export class ModalSecretariaComponent implements OnInit {
 
   actualizarEstadoCheckbox() {
     this.isChecked = !this.isChecked;
-    //console.log(this.isChecked);
-
   }
 
   borrarPasatiempo(i: number){
@@ -791,6 +831,15 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   actualizarSolicitud(data: any, accion: string):Promise <void>{
+    let alertLoadingUpdate: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingUpdate = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: () => {
@@ -802,7 +851,6 @@ export class ModalSecretariaComponent implements OnInit {
           }else {
             this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           }
-          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           if (data.estado == 6) {
             this.enviarEmailSD('SECR_DECANATO', 'Solicitud de vehículo',
             `Tiene una solicitud vehículo pendiente de revisión. ${data.observaciones}.`);
@@ -810,10 +858,12 @@ export class ModalSecretariaComponent implements OnInit {
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
           }
           this.modalService.dismissAll();
+          alertLoadingUpdate.close();
+          this.mensajesService.mensajesToast("success", `Solicitud ${accion} con éxito`);
           resolve();
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingUpdate.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
@@ -855,6 +905,15 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   actualizarSolicitudDec(data: any):Promise <void>{
+    let alertLoadingDec: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingDec = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculo(data).subscribe({
         next: (resp: any) => {
@@ -879,12 +938,13 @@ export class ModalSecretariaComponent implements OnInit {
               }
               this.enviarEmailSD("ASIS_FINANCIERO",
                 "Solicitud de vales", "Tiene una nueva solicitud de vales para la misión: "+data.objetivoMision);
-              this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               this.modalService.dismissAll();
+              alertLoadingDec.close();
+              this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
               resolve();
             },
             error: (errorSoli) => {
-              Swal.close();
+              alertLoadingDec.close();
               this.mensajesService.mensajesSweet(
                 'error',
                 'Ups... Algo salió mal al aprobar la solicitud',
@@ -895,7 +955,7 @@ export class ModalSecretariaComponent implements OnInit {
           })
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingDec.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
@@ -908,18 +968,28 @@ export class ModalSecretariaComponent implements OnInit {
   }
 
   actualizarSolicitudSinVa(data: any):Promise <void>{
+    let alertLoadingSinVa: any;
+    // Mostrar SweetAlert de carga
+    alertLoadingSinVa = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     return new Promise<void>((resolve, reject) => {
       this.soliVeService.updateSolciitudVehiculoSinVale(data).subscribe({
         next: () => {
           // resp: any
           this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
-          this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           this.enviarEmailAprobacionASolicitante(data.solicitante.codigoUsuario, data.observaciones);
           this.modalService.dismissAll();
+          alertLoadingSinVa.close();
+          this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
           resolve();
         },
         error: (error) => {
-          Swal.close();
+          alertLoadingSinVa.close();
           this.mensajesService.mensajesSweet(
             'error',
             'Ups... Algo salió mal',
@@ -1007,6 +1077,28 @@ export class ModalSecretariaComponent implements OnInit {
 
 
   get textoBoton(): string {
-    return this.leyenda === 'Detalle' ? 'Cerrar' : 'Cancelar';
+    return this.leyenda === 'Detalle' ||
+      this.leyenda === 'Calendario' ? 'Cerrar' : 'Cancelar';
+  }
+
+
+  verficarSelect(){
+    const valorSeleccionado = this.formularioSoliVe.get('motorista').value;
+    if (valorSeleccionado != null) {
+      this.soliVeService.obtenerMotoristaAcuerdo(valorSeleccionado)
+      .subscribe((MotorisData: IMotorista) => {
+        if(MotorisData.dui == '00000000'){
+          this.isChecked = true;
+          this.formularioSoliVe.get('motoristaJunta')
+          .setValidators([Validators.required,Validators.pattern(this.isText)]);
+        }else{
+          this.isChecked = false;
+          this.formularioSoliVe.get('motoristaJunta').setValue(null);
+          this.formularioSoliVe.get('motoristaJunta').clearValidators();
+          this.formularioSoliVe.get('motoristaJunta').updateValueAndValidity();
+        }
+      });
+    }
+    this.isChecked = false;
   }
 }

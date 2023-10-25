@@ -16,6 +16,7 @@ export class TablaComponent implements OnInit {
 
   @Input() empleados!: IEmpleado[];
   @Input() queryString!: string;
+  @Input() items!: number;
   p: any;
   cambio: string;
 

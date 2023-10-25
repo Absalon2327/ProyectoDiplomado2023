@@ -21,6 +21,7 @@ export class ListarComponent implements OnInit {
   lstDeptos: IDepto[] = [];
   cambio: string;
   term: string = '';
+  items: number = 10;
   p: any;
 
   constructor(private deptoService: DeptoService,
@@ -32,6 +33,7 @@ export class ListarComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Departamento' }, { label: 'Listar', active: true }];
     this.getDeptosAll();
+    this.deptoService.getDeptosAll2();
   }
 
   cargaDeptos(event: any) {
@@ -52,6 +54,9 @@ export class ListarComponent implements OnInit {
     });
   }
 
+  get lstDeptosData() {
+    return this.deptoService.lstDeptos;
+  }
   cambiarEstado(data: IDepto, estado: number) {
 
     if (estado == 8) {
@@ -82,37 +87,60 @@ export class ListarComponent implements OnInit {
 
         }
 
+        // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
         this.deptoService.editDepto(data.codigoDepto, data).subscribe({
           next: (resp) => {
-
-            this.mostrar();
+             this.deptoService.getDeptosAll2();
+           // this.mostrar();
           },
-          error: (error) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Algo paso, hable con el administrador',
-            });
+          error: (err) => {
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'Error',
+            //   text: 'Algo paso, hable con el administrador',
+            // });
+            this.mensajesService.mensajesSweet(
+              "error",
+              "Ups... Algo salió mal",
+              err.error.message
+            );
 
           },
           complete: () => {
 
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              //timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
+            // const Toast = Swal.mixin({
+            //   toast: true,
+            //   position: 'top-end',
+            //   showConfirmButton: false,
+            //   timer: 3000,
+            //   //timerProgressBar: true,
+            //   didOpen: (toast) => {
+            //     toast.addEventListener('mouseenter', Swal.stopTimer)
+            //     toast.addEventListener('mouseleave', Swal.resumeTimer)
+            //   }
+            // })
 
-            Toast.fire({
-              icon: 'success',
-              text: 'Modificación exitosa'
-            })
+            // Toast.fire({
+            //   icon: 'success',
+            //   text: 'Modificación exitosa'
+            // })
+            loadingAlert.close();
+            this.mensajesService.mensajesToast("success", "Datos almacenados exitosamente...");
           },
         });
       } else if (result.isDenied) {
@@ -128,13 +156,13 @@ export class ListarComponent implements OnInit {
   }
 
   abrirModal(leyenda: string) {
-    const modalRef = this.modalService.open(ModalComponent);
+    const modalRef = this.modalService.open(ModalComponent,{backdrop: 'static'});
     modalRef.componentInstance.leyenda = leyenda;
   }
 
   abrirModal2(leyenda: string, data: IDepto) {
 
-    const modalRef = this.modalService.open(ModalComponent);
+    const modalRef = this.modalService.open(ModalComponent,{backdrop: 'static'});
     modalRef.componentInstance.leyenda = leyenda; // Pasa la leyenda al componente modal
     modalRef.componentInstance.deptos = data; // Pasa la data al componente modal
   }

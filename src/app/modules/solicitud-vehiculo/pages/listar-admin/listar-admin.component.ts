@@ -13,6 +13,7 @@ export class ListarAdminComponent implements OnInit {
   breadCrumbItems: Array<{}>;
   term: any; // para buscar
   estadoSeleccionado: number;
+  items: number = 10;
   usuario!: Usuario;
 
   constructor(private serviceSoliVe: SolicitudVehiculoService) { }
@@ -21,9 +22,26 @@ export class ListarAdminComponent implements OnInit {
     this.obtenerUsuarioActivo();
     this.breadCrumbItems = [{ label: 'Solicitud de Vehículo' }, { label: 'Listar', active: true }];
   }
+
+
   filtrar(event: any) {
     this.estadoSeleccionado = event.target.value ? event.target.value : null;
-    this.serviceSoliVe.getSolicitudesVehiculo(this.estadoSeleccionado);
+    let alertLoading: any;
+    // Mostrar SweetAlert de carga
+    alertLoading = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+    this.serviceSoliVe.getSolicitudesVehiculo(this.estadoSeleccionado).then(result => {
+      alertLoading.close();
+    })
+    .catch(error => {
+      console.error('Error al obtener las solicitudes de vehículo', error);
+      alertLoading.close();
+    });
   }
   get listSoliVeData(){
     if (this.serviceSoliVe.listSoliVehiculo) {

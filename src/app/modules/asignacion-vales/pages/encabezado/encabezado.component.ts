@@ -182,6 +182,8 @@ export class EncabezadoComponent implements OnInit {
         showConfirmButton: false,
       });
       return new Promise<void>((resolve, reject) => {
+        console.log("misión: ", this.misionAnulada, "usuario: ", this.usuario, "empleado: ", this.empleado, "cargo: ", this.cargo);
+
         this.service
           .anularMision(this.misionAnulada, this.usuario, this.empleado, this.cargo)
           .subscribe({
@@ -224,7 +226,7 @@ export class EncabezadoComponent implements OnInit {
   }
   obtenerSolicitud(id: string) {
     this.service.getSolicitudVale(id).subscribe({
-      next: (data) => {        this
+      next: (data) => {
         this.estadoEntrada = data[0].estadoEntradaSolicitudVale;
         this.liquidar();
       },

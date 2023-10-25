@@ -74,6 +74,7 @@ export class SolicitudvaleComponent implements OnInit {
 
   busqueda: string = "";
   p: any;
+  elementos: number = 10;
 
   itemsPerPageVale = 10;
   currentPageVale = 1;
@@ -779,11 +780,7 @@ export class SolicitudvaleComponent implements OnInit {
         }).then(() => {});
       },
       (err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Algo salió mal",
-          text: err,
-        });
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
       }
     );
   }

@@ -8,12 +8,12 @@ import { UsuarioService } from 'src/app/account/auth/services/usuario.service';
   providedIn: 'root'
 })
 export class AuthSecretariaGuard implements CanActivate {
-  public usuario : Usuario ;
+  public usuario: Usuario;
   constructor(private router: Router,
     private usuarioService: UsuarioService,) {
-      this.usuario = this.usuarioService.usuario;
-      console.log(this.usuario);
-     }
+    this.usuario = this.usuarioService.usuario;
+    //console.log(this.usuario);
+  }
 
 
 
@@ -21,27 +21,27 @@ export class AuthSecretariaGuard implements CanActivate {
 
 
 
-  if (this.usuario.role === "SECR_DECANATO"){
-    return true;
-  }else{
-    this.router.navigateByUrl('/dashboard');
-    return false;
+    if (this.usuario.role === "SECR_DECANATO") {
+      return true;
+    } else {
+      this.router.navigateByUrl('/dashboard');
+      return false;
+
+    }
 
   }
 
-}
+  canLoad(): Observable<boolean> | boolean {
 
-canLoad(): Observable<boolean> | boolean {
+    if (this.usuario.role === "SECR_DECANATO") {
+      return true;
+    } else {
+      this.router.navigateByUrl('/dashboard');
+      return false;
 
-  if (this.usuario.role === "SECR_DECANATO"){
-    return true;
-  }else{
-    this.router.navigateByUrl('/dashboard');
-    return false;
+    }
 
   }
-
-}
 
 
 

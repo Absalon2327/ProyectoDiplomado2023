@@ -37,6 +37,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
   //para la paginación
   p: any;
   term: any;
+  items: number = 10;
 
   //filtro para las solicitudes
   filtroEstado: number;
@@ -118,7 +119,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
       error: (error) => {
         this.mensajeTabla = "No hay datos para mostrar";
         this.solicitudesVales = undefined;
-        console.log("solicitudes: ", this.solicitudesVales);
+        //console.log("solicitudes: ", this.solicitudesVales);
       },
     });
   }
@@ -231,7 +232,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
   }
 
   async guardar() {
-    console.log("form: ", this.formularioSolicitudVale);
+    //console.log("form: ", this.formularioSolicitudVale);
 
     if (this.formularioSolicitudVale.valid) {
       if ((await this.mensajesService.mensajeSolicitudRevision()) == true) {
@@ -330,7 +331,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
         estadoSolicitudVale: estadoSolicitud,
         observaciones: this.observaciones,
       };
-      console.log("solictud: ", solicitud);
+      //console.log("solictud: ", solicitud);
 
       Swal.fire({
         title: "Espere",
@@ -404,7 +405,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
   obtenerCorreos(){
     this.service.getCorreosFinanciero().subscribe({
       next: (data)=>{
-        console.log("data: ", data);
+        //console.log("data: ", data);
         this.correos = data;
       }
     })
@@ -427,7 +428,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
 
     this.usuarios.SendEmail(email).subscribe(
       (resp) => {
-        console.log("resp: ", resp);
+        //console.log("resp: ", resp);
 
         Swal.close();
         const Toast = Swal.mixin({
@@ -447,11 +448,7 @@ export class SolicitudValeAprobarComponent implements OnInit {
         }).then(() => {});
       },
       (err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Algo salió mal",
-          text: err,
-        });
+        this.mensajesService.mensajesSweet("error","Error",err, "Entiendo");
       }
     );
   }

@@ -46,19 +46,28 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private mensajesService: MensajesService
-  ) { 
+  ) {
     this.loginForm = this.iniciarFormulario();
   }
 
   ngOnInit() {
-    
+    this.llenarusuario();
   }
 
   private iniciarFormulario() {
     return this.fb.group({
       email: ["", [Validators.required]],
       password: ["", [Validators.required]],
+      remenber: [false],
     });
+  }
+
+  llenarusuario() {
+    let usuario = this.storage.getItem("remenber");
+    if(usuario != null) {
+      this.loginForm.get('email').setValue(usuario);
+      this.loginForm.get('remenber').setValue(true);
+    }
   }
 
   /**
@@ -77,11 +86,12 @@ export class LoginComponent implements OnInit {
 
       this.usuarioService.login(login).subscribe(
         (resp) => {
-          if (this.loginForm.get("remember")?.value) {
-            this.storage.setItem("email", this.loginForm.get("email")?.value);
+          if (this.loginForm.get("remenber")?.value) {
+            this.storage.setItem("remenber", this.loginForm.get("email")?.value);
           } else {
-            this.storage.removeItem("email");
+            this.storage.removeItem("remenber");
           }
+
           Swal.close();
           const Toast = Swal.mixin({
             toast: true,
@@ -105,11 +115,11 @@ export class LoginComponent implements OnInit {
           });
         },
         (err) => {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: err,
-          });
+          if (err !== null) {
+            this.mensajesService.mensajesSweet("error", "Error", err, "Entiendo");
+          } else {
+            this.mensajesService.mensajesSweet("error", "Error", 'Algo salio mal, hable con el Administrator', "Entiendo");
+          }
         }
       );
     } else {
