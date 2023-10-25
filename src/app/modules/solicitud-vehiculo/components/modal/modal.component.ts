@@ -711,7 +711,7 @@ export class ModalComponent implements OnInit {
           if (accion == 'anulada'){
             this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
           }else if(accion=='aprobada'){
-            this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo pendiente',
+            this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo',
             'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
           }
 
@@ -839,7 +839,7 @@ export class ModalComponent implements OnInit {
           //resp:any
 
           if (accion == 'aprobada'){
-            this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo pendiente',
+            this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo',
               'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
             }else if (accion == 'anulada'){
               this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
