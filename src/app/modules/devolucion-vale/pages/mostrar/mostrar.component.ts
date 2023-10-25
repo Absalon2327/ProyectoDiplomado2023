@@ -31,7 +31,7 @@ export class MostrarComponent implements OnInit {
   usuarioRespuestaDto?: IUsuarioRespuestaDto;
 
   term: string = "";
-
+  items: number = 10;
   cantidad: number;
   total_monetario: number;
   tipoOpcion: number;

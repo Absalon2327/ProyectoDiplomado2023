@@ -56,6 +56,7 @@ export class MovimientosvalesComponent implements OnInit {
   estadosSoliVe: IEstados[] = [];
   fechaActual: Date = new Date();
   estado: string = "";
+  items: number = 10;
 
   constructor(
     private soliVeService: SolicitudVehiculoService,

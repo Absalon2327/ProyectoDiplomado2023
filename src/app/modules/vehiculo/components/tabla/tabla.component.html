@@ -13,7 +13,7 @@
     </thead>
     <tbody>
       <ng-container *ngIf="vehiculos.length > 0; else noDataTemplate">
-        <tr *ngFor="let obj of vehiculos | filter:busqueda | paginate: { itemsPerPage: 10, currentPage: p }">
+        <tr *ngFor="let obj of vehiculos | filter:busqueda | paginate: { itemsPerPage: items, currentPage: p }">
           <td class="align-middle text-center">{{ obj.placa }}</td>
           <td class="align-middle text-center">{{ obj.clase }}</td>
           <td class="align-middle text-center">{{ obj.modelo }}</td>

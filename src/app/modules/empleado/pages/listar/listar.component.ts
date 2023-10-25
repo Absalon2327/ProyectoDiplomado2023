@@ -13,6 +13,7 @@ export class ListarComponent implements OnInit {
   breadCrumbItems: Array<{}>;
   term: string = '';
   term2: string = '';
+  items: number = 10;
 
   constructor(private empleadoService: EmpleadoService) { }
 

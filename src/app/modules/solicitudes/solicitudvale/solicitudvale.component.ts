@@ -74,6 +74,7 @@ export class SolicitudvaleComponent implements OnInit {
 
   busqueda: string = "";
   p: any;
+  elementos: number = 10;
 
   itemsPerPageVale = 10;
   currentPageVale = 1;

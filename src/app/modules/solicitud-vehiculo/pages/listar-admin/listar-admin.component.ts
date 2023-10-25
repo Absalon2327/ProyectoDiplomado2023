@@ -13,6 +13,7 @@ export class ListarAdminComponent implements OnInit {
   breadCrumbItems: Array<{}>;
   term: any; // para buscar
   estadoSeleccionado: number;
+  items: number = 10;
   usuario!: Usuario;
 
   constructor(private serviceSoliVe: SolicitudVehiculoService) { }

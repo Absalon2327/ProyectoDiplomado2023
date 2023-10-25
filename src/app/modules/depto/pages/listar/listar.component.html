@@ -10,13 +10,13 @@
             <div class="col-4">
               <div class="search-box me-2 mb-2 d-inline-block">
 
-                <div class="position-relative search-1">
+                <div class="position-relative search-1 m-2">
                   <input type="text" class="form-control" id="input-search-1" name="input-search-1"
                     placeholder="Buscar..." [(ngModel)]="term">
                   <i class="bx bx-search-alt search-icon"></i>
                 </div>
 
-                <div class="search-2">
+                <div class="search-2 m-2">
                   <div class="dropdown search" ngbDropdown>
                     <button type="button" class="btn header-item noti-icon btn-search-2"
                       id="page-header-search-dropdown" data-toggle="dropdown" aria-haspopup="true" ngbDropdownToggle
@@ -40,9 +40,23 @@
                     </div>
                   </div>
                 </div>
-
-
               </div>
+
+              <div class="col-sm-12 col-md-6 m-2">
+                <div class="dataTables_length" id="tickets-table_length"><label
+                    class="d-inline-flex align-items-center">Mostrar
+                    <select name="tickets-table_length" aria-controls="tickets-table" name="items"
+                      [(ngModel)]="items" class="form-control form-control-sm mx-2">
+                      <option [ngValue]="5">5</option>
+                      <option [ngValue]="10">10</option>
+                      <option [ngValue]="25">25</option>
+                      <option [ngValue]="50">50</option>
+                      <option [ngValue]="100">100</option>
+                    </select>
+                    registros</label>
+                </div>
+              </div>
+
             </div>
             <!--
                      <div class="col-sm-4">
@@ -78,7 +92,7 @@
               </thead>
               <tbody>
                 <tr
-                  *ngFor="let data of lstDeptosData  | filter : term | paginate : { itemsPerPage: 10, currentPage: p };let i = index">
+                  *ngFor="let data of lstDeptosData  | filter : term | paginate : { itemsPerPage: items, currentPage: p };let i = index">
                   <td class="align-middle text-center">{{ (i + 1) }}</td>
                   <td class="align-middle text-center">{{ data.nombre }}</td>
                   <td class="align-middle text-center">{{ data.tipo }}</td>

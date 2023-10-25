@@ -1,3 +1,9 @@
+@import "./../../../../shared/scss/buscar.component.scss";
+
+.dataTables_length {
+  width: 300px !important;
+}
+
 ng-select.is-invalid {
   box-shadow: 0 0 0 1px #f46a6a;
   border-radius: 0.25rem;

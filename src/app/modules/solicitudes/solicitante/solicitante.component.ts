@@ -70,6 +70,7 @@ export class SolicitanteComponent implements OnInit {
 
   idVales!: IdVale[];
   condicion: boolean;
+  items: number = 10;
 
   constructor(
     private soliVeService: SolicitudVehiculoService,
