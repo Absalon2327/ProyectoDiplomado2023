@@ -19,6 +19,7 @@ export class UsuarioService {
   public cards!: DataCards;
   private http = inject(HttpClient);
   private baseUrl: string = environment.baseUrl;
+  usuarioJSONdata: any;
 
   constructor(
     private router: Router,
@@ -190,6 +191,8 @@ export class UsuarioService {
 
 
   getSendGrid() {
+    this.usuarioJSONdata = this.usuarioJSON;
+    if(this.usuarioJSONdata.role == "ADMIN"){
     this.http
       .get(`${this.baseUrl}/correo/sendgrid`)
       .pipe(tap((resp: any) => resp as any))
@@ -202,6 +205,7 @@ export class UsuarioService {
           console.error("Error al obtener los usuario:", error);
         }
       );
+    }
   }
 
 

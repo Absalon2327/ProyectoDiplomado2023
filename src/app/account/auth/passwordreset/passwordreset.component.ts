@@ -221,6 +221,9 @@ export class PasswordresetComponent implements OnInit {
             icon: 'success',
             text: '¡Código confirmado!'
           }).then(() => {
+            this.alerts.map((alert) => {
+              alert.message = "La clave debe incluir letras mayúsculas y minúsculas, tener más de 5 caracteres y contener caracteres especiales como '!@#$%^&'.";
+            });
             this.resetpass = true;
             this.code = false;
             this.anothermethod = true;
