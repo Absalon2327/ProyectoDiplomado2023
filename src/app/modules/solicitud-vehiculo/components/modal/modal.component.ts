@@ -181,10 +181,6 @@ export class ModalComponent implements OnInit {
                     "La hora de regreso debe ser mayor a la hora de salida en una misión de un día"
                   );
                 }else {
-                  if (solicitudVehiculo.fechaSalida ==  this.getFechaActual() &&
-                  solicitudVehiculo.horaSalida < this.getHoraActual()) {
-                    this.mensajesService.mensajesToast('warning', 'La hora de salida debe ser mayor a la actual');
-                  } else {
                     if(this.file  != null
                       || solicitudVehiculo.cantidadPersonas < 6){
                       //  vacío para almacenar los datos de los pasajeros
@@ -233,7 +229,6 @@ export class ModalComponent implements OnInit {
                         "Debe subir pdf de la lista de pasajeros"
                       );
                     }
-                  }
                 }
 
               }else{
@@ -953,11 +948,11 @@ export class ModalComponent implements OnInit {
     return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
   }
 
-  getHoraActual(): string {
+  /*getHoraActual(): string {
     const now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds();
     return `${hours}:${minutes}:${seconds}`;
-  }
+  }*/
 }
