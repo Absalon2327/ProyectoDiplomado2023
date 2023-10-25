@@ -501,7 +501,7 @@ export class ModalSecretariaComponent implements OnInit {
               next: (pdfResp: any) => {
                 //console.log(pdfResp);
                 if (this.usuarioActivo.role == 'ADMIN'){
-                  this.soliVeService.getSolicitudesVehiculo(2);
+                  this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
                 }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
                   this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
                 } else{
@@ -528,7 +528,7 @@ export class ModalSecretariaComponent implements OnInit {
             });
           } else {
             if (this.usuarioActivo.role == 'ADMIN'){
-              this.soliVeService.getSolicitudesVehiculo(2);
+              this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
             }else if (this.soliVeOd.estado == 4 || this.soliVeOd.estado == 5){
               this.soliVeService.getSolicitudesVehiculo(this.soliVeOd.estado);
             } else{
@@ -1092,6 +1092,8 @@ export class ModalSecretariaComponent implements OnInit {
         }else{
           this.isChecked = false;
           this.formularioSoliVe.get('motoristaJunta').setValue(null);
+          this.formularioSoliVe.get('motoristaJunta').clearValidators();
+          this.formularioSoliVe.get('motoristaJunta').updateValueAndValidity();
         }
       });
     }

@@ -81,19 +81,14 @@ export class SolicitudVehiculoService {
   }*/
 
   getSolicitudesVehiculo(estado: number): Promise<ISolicitudVehiculo[]> {
-    // Mostrar la alerta de Swal antes de realizar la solicitud
-    /*Swal.fire({
-      title: 'Espere un momento!',
-      html: 'Se está procesando la información...',
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-*/
+
     let requestUrl = `${this.url}/solicitudvehiculo/lista`;
     if (estado != null) {
       requestUrl = `${this.url}/solicitudvehiculo/lista/${estado}`;
     }
+
+    this.listSoliVehiculo.length = 0;
+    this.listSoliVehiculo = [];
 
     return this.http
       .get(requestUrl)
@@ -102,7 +97,16 @@ export class SolicitudVehiculoService {
       .then((soliVe: ISolicitudVehiculo[]) => {
         // Cierra la alerta de Swal cuando se obtienen las solicitudes
         //Swal.close();
-        this.listSoliVehiculo = soliVe;
+        console.log('Datos de getSolicitudesVehiculo:', soliVe);
+
+        if (soliVe && soliVe.length > 0) {
+          //this.listSoliVehiculo.length = 0;
+          soliVe.forEach(element => {
+            this.listSoliVehiculo.push(element);
+          });
+        }
+        console.log('Datos de listSoliVehiculo:', this.listSoliVehiculo);
+
         return this.listSoliVehiculo; // Devuelve las solicitudes como resultado de la Promesa
       })
       .catch((error) => {
@@ -198,15 +202,8 @@ export class SolicitudVehiculoService {
   }*/
 
   getSolicitudesRol(rol: string): Promise<ISolicitudVehiculo[]> {
-    // Mostrar la alerta de Swal antes de realizar la solicitud
-    /*Swal.fire({
-      title: 'Espere un momento!',
-      html: 'Se está procesando la información...',
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-*/
+    this.listSoliVehiculo.length = 0;
+    this.listSoliVehiculo = [];
     return this.http
       .get(`${this.url}/solicitudvehiculo/listado/${rol}`)
       .pipe(map((resp: any) => resp as ISolicitudVehiculo[]))
@@ -214,8 +211,8 @@ export class SolicitudVehiculoService {
       .then((soliVe: ISolicitudVehiculo[]) => {
         // Cierra la alerta de Swal cuando se obtienen las solicitudes
         //Swal.close();
-        this.listSoliVehiculoRol = soliVe;
-        return this.listSoliVehiculoRol; // Devuelve las solicitudes como resultado de la Promesa
+        this.listSoliVehiculo = soliVe;
+        return this.listSoliVehiculo; // Devuelve las solicitudes como resultado de la Promesa
       })
       .catch((error) => {
         // Cierra la alerta de Swal en caso de error y lanza el error

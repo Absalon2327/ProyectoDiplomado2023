@@ -5,6 +5,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { IEstados } from '../../interfaces/data.interface';
 import { UsuarioService } from 'src/app/account/auth/services/usuario.service';
 import {Usuario} from "../../../../account/auth/models/usuario.models";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mis-solicitudes',
@@ -62,10 +63,31 @@ export class MisSolicitudesComponent implements OnInit {
 
   onEstadoSeleccionado(event: any) {
     this.estadoSeleccionado = event.target.value;
+
+    let alertLoading: any;
+    // Mostrar SweetAlert de carga
+    alertLoading = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     if (this.estadoSeleccionado == 0) {
-      this.soliVeService.getSolicitudesVehiculo(null);
+      this.soliVeService.getSolicitudesVehiculo(null).then(result => {
+        alertLoading.close();
+      }).catch(error => {
+        console.error('Error al obtener las solicitudes de vehículo', error);
+        alertLoading.close();
+      });
     } else {
-      this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado);
+      this.soliVeService.getSolicitudesVehiculo(this.estadoSeleccionado).then(result => {
+        alertLoading.close();
+      }).catch(error => {
+        console.error('Error al obtener las solicitudes de vehículo', error);
+        alertLoading.close();
+      });
     }
   }
 
