@@ -947,12 +947,4 @@ export class ModalComponent implements OnInit {
     const day = today.getDate();
     return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
   }
-
-  /*getHoraActual(): string {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds();
-    return `${hours}:${minutes}:${seconds}`;
-  }*/
 }
