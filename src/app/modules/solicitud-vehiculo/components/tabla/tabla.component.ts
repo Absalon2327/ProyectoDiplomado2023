@@ -150,7 +150,7 @@ export class TablaComponent implements OnInit {
           }else {
             this.soliService.getSolicitudesRol(this.userAcivo.role);
           }
-          this.enviarEmailAprob('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+          this.enviarEmailAprob('SECR_DECANATO', 'Solicitud de vehículo',
             'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
           alertLoadingUpdate.close();
           this.mensajesService.mensajesToast("success", "Solicitud aprobada con éxito");
@@ -245,7 +245,7 @@ export class TablaComponent implements OnInit {
       this.soliService.updateSolciitudVehiculoSinVale(data).subscribe({
         next: () => {
           // resp: any
-          this.enviarEmailAprob('SECR_DECANATO', 'Nueva solicitud de vehículo pendiente',
+          this.enviarEmailAprob('SECR_DECANATO', 'Solicitud de vehículo',
           'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
           this.soliService.getSolicitudesRol(this.userAcivo.role);
           alertLoadingSinVa.close();
