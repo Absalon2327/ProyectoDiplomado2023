@@ -1,3 +1,4 @@
+import { Time } from "@angular/common";
 import { SolicitudVale } from "./SolicitudVale";
 import { Vale } from "./Vale";
 
@@ -143,4 +144,12 @@ export interface IdVale{
 export interface UsuarioDto{  
     usuario:string;
     cargo:string;
+}
+
+export interface EntradaSalidaDto{  
+    combustible:string;
+    estado:number;
+    fecha:Date;
+    hora:Date;
+    kilometraje:string;
 }
