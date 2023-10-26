@@ -600,6 +600,7 @@
                  <td>{{ i + 1}}</td>
                  <td>
                    <input type="text" style="width: 100%"
+                          (keyup)="onInputMayus(i, $event)"
                           [formControl]="pasajeroFormControls[i]"
                           [readonly]="soliVeOd != null && leyenda === 'Detalle'">
                  </td>
@@ -619,6 +620,7 @@
                  <td>{{ i + 1 }}</td>
                  <td>
                    <input type="text" style="width: 100%" [formControl]="control"
+                          (keyup)="onInputMayus(i, $event)"
                           [readonly]="soliVeOd != null && leyenda === 'Detalle'">
                  </td>
                </tr>
