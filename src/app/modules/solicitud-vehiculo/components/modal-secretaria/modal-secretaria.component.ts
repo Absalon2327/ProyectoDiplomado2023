@@ -1101,4 +1101,13 @@ export class ModalSecretariaComponent implements OnInit {
     }
     this.isChecked = false;
   }
+  onInputMayus(index: number, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue = inputValue
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    this.pasajeroFormControls[index].setValue(formattedValue, { emitEvent: false });
+  }
 }

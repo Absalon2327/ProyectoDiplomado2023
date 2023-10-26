@@ -947,4 +947,14 @@ export class ModalComponent implements OnInit {
     const day = today.getDate();
     return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
   }
+
+  onInputMayus(index: number, event: any) {
+    const inputValue = event.target.value;
+    const formattedValue = inputValue
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    this.pasajeroFormControls[index].setValue(formattedValue, { emitEvent: false });
+  }
 }
