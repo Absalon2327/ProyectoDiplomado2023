@@ -39,7 +39,7 @@
                 <div class="mb-3">
                   <label for="email">Usuario :</label>
                   <input type="email" formControlName="email" class="form-control" id="email"
-                    placeholder="Digite usuario sin @ues.edu.sv" [class]="esCampoValido('email')"
+                    placeholder="Digite su usuario sin @ues.edu.sv" [class]="esCampoValido('email')"
                     [autocomplete]="false" />
                   <div class="invalid-feedback">
                     <span *ngIf="loginForm.get('email')?.errors?.['required']">

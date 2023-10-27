@@ -23,6 +23,7 @@ export interface ISolicitudVehiculo {
   observaciones:string;
   tieneVale:boolean;
   motoristaJunta:string;
+  detalleAcuerdo:string;
 }
 
 interface ISolicitante {
