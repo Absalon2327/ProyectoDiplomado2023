@@ -14,6 +14,7 @@ import {
   DocumetSoliC,
   DocumetVale,
   DocumetValeId,
+  EntradaSalidaDto,
   IConsultaDelAl,
   IdVale,
   LogSoliVehi,
@@ -419,7 +420,7 @@ export class SolicitanteComponent implements OnInit {
         (error) => {
           // Cerrar SweetAlert de carga
           loadingAlert.close();
-          this.crearPDFLog(response, soliVehi, null);
+          this.genrarVlogVhi(soliVehi, response, null);
         }
       );
   }
@@ -448,12 +449,47 @@ export class SolicitanteComponent implements OnInit {
       (res: LogSoliVehiID[]) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.crearPDFLog(response, soliVehi, res);
+        this.genrarEntradaSalida(response, soliVehi, res);
       },
       (error) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.crearPDFLog(response, soliVehi, null);
+        this.genrarEntradaSalida(response, soliVehi, null);
+      }
+    );
+
+  }
+  genrarEntradaSalida(
+    log: LogSoliVehi[],
+    soliVehi: ISolicitudVehiculo,
+    logv: LogSoliVehiID[]
+  ) {
+    // Crear una variable para la alerta de carga
+    let loadingAlert: any;
+
+    // Mostrar SweetAlert de carga
+    loadingAlert = Swal.fire({
+      title: "Espere un momento!",
+      html: "Se está procesando la información...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    this.consultaService.getEntradaSalida(soliVehi.codigoSolicitudVehiculo).subscribe(
+      (res: EntradaSalidaDto[]) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.crearPDFLog(log, soliVehi, logv, res);
+        console.log(res);
+      },
+      (error) => {
+        // Cerrar SweetAlert de carga
+        loadingAlert.close();
+        this.crearPDFLog(log, soliVehi, logv, null);
       }
     );
 
@@ -946,7 +982,8 @@ export class SolicitanteComponent implements OnInit {
   crearPDFLog(
     log: LogSoliVehi[],
     soliVehi: ISolicitudVehiculo,
-    logv: LogSoliVehiID[]
+    logv: LogSoliVehiID[],
+    ensali: EntradaSalidaDto[]
   ) {
 
     const pdfDefinicionl: any = {
@@ -1083,6 +1120,23 @@ export class SolicitanteComponent implements OnInit {
           },
         ],
       },
+     /* { text: "\n" },
+      {
+        columns: [
+          {
+            text: [
+              { text: "Capacidad de Personas del Vehículo: ", bold: true },
+              soliVehi.vehiculo.capacidad
+               
+            ],
+          },
+          {
+            text: [{ text: "Capacidad de Combustible del Vehículo: ", bold: true }, soliVehi.vehiculo.capacidadTanque],
+          },
+        ],
+      },*/
+    );
+    pdfDefinicionl.content.push(
       {
         style: "tableExample",
         table: {
@@ -1091,7 +1145,7 @@ export class SolicitanteComponent implements OnInit {
           body: [
             [
               {
-                text: "LISTA DE MOVIMIENTOS",
+                text: "LISTA DE MOVIMIENTOS DE VEHÍCULO",
                 style: "tableHeader",
                 alignment: "center",
               },
@@ -1101,9 +1155,68 @@ export class SolicitanteComponent implements OnInit {
         },
         layout: "lightHorizontalLines",
       },
-      { text: "\n" }
     );
-
+    const tableRowe = [];
+    let je = 0;
+    tableRowe.push([
+      { text: "N.", alignment: "center", style: "tableHeader" },
+      { text: "NIVEL DE COMBUSTIBLE", alignment: "center", style: "tableHeader" },
+      { text: "FECHA", alignment: "center", style: "tableHeader" },
+      { text: "HORA", alignment: "center", style: "tableHeader" },
+      { text: "KILOMETRAJE", alignment: "center", style: "tableHeader" },
+      { text: "ESTADO", alignment: "center", style: "tableHeader" },
+    ]);
+    for (const persona of ensali) {
+      // console.log(persona.nombrePasajero);
+      if (persona.estado == 1) {
+        this.estado = "Salida";
+      } else if (persona.estado == 2) {
+        this.estado = "Entrada";
+      } 
+      tableRowe.push([
+        { text: `${je + 1}`, alignment: "center" },
+        { text: `${persona.combustible}`, alignment: "center" },
+        {
+          text: `${this.datePipe.transform(
+            persona.fecha,
+            "dd/MM/yyyy"
+          )}`,
+          alignment: "center",
+        },
+        { text: `${persona.hora}`, alignment: "center" },
+        { text: `${persona.kilometraje}`, alignment: "center" },
+        { text: `${this.estado}`, alignment: "center" },
+      ]);
+      je++;
+    }
+    pdfDefinicionl.content.push({
+      style: "tableExample",
+      table: {
+        widths: ["auto", "auto", "auto", "auto", "auto", "*"],
+        headerRows: 1,
+        body: tableRowe,
+      },
+    });
+     pdfDefinicionl.content.push(
+      {
+        style: "tableExample",
+        table: {
+          widths: ["*"],
+          headerRows: 1,
+          body: [
+            [
+              {
+                text: "LISTA DE MOVIMIENTOS DE SOLICITUD",
+                style: "tableHeader",
+                alignment: "center",
+              },
+            ],
+            [""],
+          ],
+        },
+        layout: "lightHorizontalLines",
+      },
+    );
     const tableRow = [];
     let j = 0;
     tableRow.push([
