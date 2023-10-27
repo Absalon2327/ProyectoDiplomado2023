@@ -185,6 +185,9 @@ export class ModalSecretariaComponent implements OnInit {
           this.isChecked = true;
           this.formularioSoliVe.get('motoristaJunta')
           .setValue(this.soliVeOd != null ? this.soliVeOd.motoristaJunta: '');
+
+          this.formularioSoliVe.get('detalleAcuerdo')
+          .setValue(this.soliVeOd != null ? this.soliVeOd.detalleAcuerdo: '');
         }else{
           this.isChecked = false;
         }
@@ -642,7 +645,8 @@ export class ModalSecretariaComponent implements OnInit {
       observaciones:['',[]],
       file: ['',],
       tieneVale:['',[Validators.required]],
-      motoristaJunta:[null]
+      motoristaJunta:[null],
+      detalleAcuerdo:[null]
     });
   }
 
@@ -1091,11 +1095,18 @@ export class ModalSecretariaComponent implements OnInit {
           this.isChecked = true;
           this.formularioSoliVe.get('motoristaJunta')
           .setValidators([Validators.required,Validators.pattern(this.isText)]);
+
+          this.formularioSoliVe.get('detalleAcuerdo')
+          .setValidators([Validators.required,Validators.pattern(this.isText)]);
         }else{
           this.isChecked = false;
           this.formularioSoliVe.get('motoristaJunta').setValue(null);
           this.formularioSoliVe.get('motoristaJunta').clearValidators();
           this.formularioSoliVe.get('motoristaJunta').updateValueAndValidity();
+
+          this.formularioSoliVe.get('detalleAcuerdo').setValue(null);
+          this.formularioSoliVe.get('detalleAcuerdo').clearValidators();
+          this.formularioSoliVe.get('detalleAcuerdo').updateValueAndValidity();
         }
       });
     }
