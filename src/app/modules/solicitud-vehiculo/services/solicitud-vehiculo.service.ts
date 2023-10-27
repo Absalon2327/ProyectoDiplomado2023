@@ -180,7 +180,6 @@ export class SolicitudVehiculoService {
   }
 
   updateSolicitudVehiculo(data: ISolicitudVehiculo){
-    console.log(data);
     return this.http.put<ISolicitudVehiculo>( `${this.url}/solicitudvehiculo/edit/${data.codigoSolicitudVehiculo}`, data);
   }
 
