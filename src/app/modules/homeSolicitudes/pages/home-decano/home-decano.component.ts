@@ -66,18 +66,12 @@ export class HomeDecanoComponent implements OnInit {
 
     cargarSolicitudesUSER(){
 
-
-
-
       //inicio de carga de solicitudes
       this.solicitudService.getSolicitudesVehiculo1(4).then((data) => {
        this.solicitud = data;
 
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSolicitud);
-           if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobadas.push(element);
-           }
 
          })
      });
@@ -86,10 +80,7 @@ export class HomeDecanoComponent implements OnInit {
       this.solicitud = data;
 
         this.solicitud.forEach(element => {
-          const date = new Date(element.fechaSolicitud);
-          if(date.getMonth() == new Date().getMonth()){
             this.cargaAprobadas.push(element);
-          }
 
         })
     });// carga las solicitudes de vehiculo para el usuario
@@ -115,10 +106,7 @@ export class HomeDecanoComponent implements OnInit {
        this.solicitud = data;
 
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSolicitud);
-           if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobar.push(element);
-           }
 
          })
      });

@@ -14,8 +14,6 @@ export class HomeJefeComponent implements OnInit {
 
   isVisible: string;
   storage: Storage = window.localStorage;
-  //emailSentBarChart: ChartType;
-  //monthlyEarningChart: ChartType;
   transactions: Array<[]>;
   statData: Array<[]>;
 
@@ -42,12 +40,8 @@ export class HomeJefeComponent implements OnInit {
     this.usuariojson = this.usuarioService.usuarioJSON;
     this.usuarioService.getCards();
 
-
-
-
       this.cargarSolicitudesUSER();
       this.cargaSoliporAprobar();
-
      // aqui optengo las cards del admin
   }
 
@@ -68,25 +62,12 @@ export class HomeJefeComponent implements OnInit {
 
     cargarSolicitudesUSER(){
 
-     //this.listSoliVeData2.forEach(element => {
-     //  const fecha = new Date(element.fechaSolicitud);
-     //  const fecha2 = new Date();
-
-    //   if(fecha.getMonth()==fecha2.getMonth()){
-     //      this.carga.push(element);
-     //  }
-
-    // });
-
     //inicio de carga de solicitudes en revision
     this.solicitudService.getSolicitudesVehiculo2(6).then((data) => {
      this.solicitud = data;
 
        this.solicitud.forEach(element => {
-         const date = new Date(element.fechaSolicitud);
-         if(date.getMonth() == new Date().getMonth()){
            this.cargaRevision.push(element);
-         }
 
        })
    });// carga las solicitudes de vehiculo para el usuario
@@ -96,22 +77,14 @@ export class HomeJefeComponent implements OnInit {
        this.solicitud = data;
 
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSolicitud);
-           if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobadas.push(element);
-           }
-
          })
      });
      this.solicitudService.getSolicitudesVehiculo1(5).then((data) => {
       this.solicitud = data;
 
         this.solicitud.forEach(element => {
-          const date = new Date(element.fechaSolicitud);
-          if(date.getMonth() == new Date().getMonth()){
             this.cargaAprobadas.push(element);
-          }
-
         })
     });// carga las solicitudes de vehiculo para el usuario
      //inicio de carga de solicitudes
@@ -136,10 +109,7 @@ export class HomeJefeComponent implements OnInit {
        this.solicitud = data;
 
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSolicitud);
-           if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobar.push(element);
-           }
 
          })
      });

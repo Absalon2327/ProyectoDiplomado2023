@@ -15,8 +15,6 @@ export class HomeSecreComponent implements OnInit {
 
   isVisible: string;
   storage: Storage = window.localStorage;
-  //emailSentBarChart: ChartType;
-  //monthlyEarningChart: ChartType;
   transactions: Array<[]>;
   statData: Array<[]>;
 
@@ -42,7 +40,7 @@ export class HomeSecreComponent implements OnInit {
     this.fotoEmpleado =  this.usuarioService.empleadofoto;
     this.usuariojson = this.usuarioService.usuarioJSON;
     this.usuarioService.getCards();
-   
+
     this.cargarSolicitudesUSER();
     this.cargaSoliporAprobar();
   }
@@ -63,9 +61,6 @@ export class HomeSecreComponent implements OnInit {
     }
 
     cargarSolicitudesUSER(){
-
-
-
 
       //inicio de carga de solicitudes
       this.solicitudService.getSolicitudesVehiculo1(4).then((data) => {
@@ -99,10 +94,7 @@ export class HomeSecreComponent implements OnInit {
      //inicio de carga de solicitudes por aprobar
      this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
        this.solicitud = data;
-
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSalida);
-           if(date.getMonth() == new Date().getMonth()){
               if(element.estado == 2){
                 this.cargaAsignar.push(element);
               }
@@ -110,25 +102,9 @@ export class HomeSecreComponent implements OnInit {
                 this.cargaRevision.push(element);
               }
 
-           }
-
          })
      });
      //fin de la carga
-     //inicio de carga de solicitudes en revision
-     /*
-    this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
-      this.solicitud = data;
-        //console.log("dasd",this.solicitud)
-        this.solicitud.forEach(element => {
-          const date = new Date(element.fechaSalida);
-          if(date.getMonth() == new Date().getMonth()){
-
-
-          }
-          //console.log("carga",this.cargaRevision)
-        })
-    }); */// carga las solicitudes de vehiculo para el usuario
     }
 
    /* Metodos para optener datos de cards */
