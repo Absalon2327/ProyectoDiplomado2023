@@ -115,10 +115,7 @@ export class HomeDecanoComponent implements OnInit {
        this.solicitud = data;
 
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSolicitud);
-           if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobar.push(element);
-           }
 
          })
      });

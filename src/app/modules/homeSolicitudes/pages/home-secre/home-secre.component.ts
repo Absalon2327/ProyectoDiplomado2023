@@ -42,7 +42,7 @@ export class HomeSecreComponent implements OnInit {
     this.fotoEmpleado =  this.usuarioService.empleadofoto;
     this.usuariojson = this.usuarioService.usuarioJSON;
     this.usuarioService.getCards();
-   
+
     this.cargarSolicitudesUSER();
     this.cargaSoliporAprobar();
   }
@@ -99,18 +99,13 @@ export class HomeSecreComponent implements OnInit {
      //inicio de carga de solicitudes por aprobar
      this.solicitudService.getSolicitudesRol(this.usuariojson.role).then((data) => {
        this.solicitud = data;
-
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSalida);
-           if(date.getMonth() == new Date().getMonth()){
               if(element.estado == 2){
                 this.cargaAsignar.push(element);
               }
               if(element.estado == 6){
                 this.cargaRevision.push(element);
               }
-
-           }
 
          })
      });

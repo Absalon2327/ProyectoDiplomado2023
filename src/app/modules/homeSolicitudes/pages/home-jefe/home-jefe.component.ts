@@ -83,10 +83,7 @@ export class HomeJefeComponent implements OnInit {
      this.solicitud = data;
 
        this.solicitud.forEach(element => {
-         const date = new Date(element.fechaSolicitud);
-         if(date.getMonth() == new Date().getMonth()){
            this.cargaRevision.push(element);
-         }
 
        })
    });// carga las solicitudes de vehiculo para el usuario
