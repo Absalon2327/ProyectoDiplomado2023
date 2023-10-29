@@ -612,6 +612,7 @@ export class ExcelService {
           cantcompra = cantcompra + item.cantidad;
           cantcomprapu = cantcomprapu + item.cantidad * item.preciounitario;
         } else {
+          row = fileInsertar[index];
           row.values = [
             "DEl " + `${item.codigoinicio}` + " AL " + `${item.codigofin}`,
             `${item.cantidad}`,
