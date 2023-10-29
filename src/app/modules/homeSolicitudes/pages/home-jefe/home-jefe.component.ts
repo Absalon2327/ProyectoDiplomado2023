@@ -41,7 +41,7 @@ export class HomeJefeComponent implements OnInit {
     this.fotoEmpleado =  this.usuarioService.empleadofoto;
     this.usuariojson = this.usuarioService.usuarioJSON;
     this.usuarioService.getCards();
-    
+
 
 
 
@@ -102,7 +102,18 @@ export class HomeJefeComponent implements OnInit {
            }
 
          })
-     });// carga las solicitudes de vehiculo para el usuario
+     });
+     this.solicitudService.getSolicitudesVehiculo1(5).then((data) => {
+      this.solicitud = data;
+
+        this.solicitud.forEach(element => {
+          const date = new Date(element.fechaSolicitud);
+          if(date.getMonth() == new Date().getMonth()){
+            this.cargaAprobadas.push(element);
+          }
+
+        })
+    });// carga las solicitudes de vehiculo para el usuario
      //inicio de carga de solicitudes
      this.solicitudService.getSolicitudesVehiculo3(null).then((data) => {
        this.solicitud = data;
