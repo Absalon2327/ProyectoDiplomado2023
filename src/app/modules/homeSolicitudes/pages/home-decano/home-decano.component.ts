@@ -66,9 +66,6 @@ export class HomeDecanoComponent implements OnInit {
 
     cargarSolicitudesUSER(){
 
-
-
-
       //inicio de carga de solicitudes
       this.solicitudService.getSolicitudesVehiculo1(4).then((data) => {
        this.solicitud = data;

@@ -15,8 +15,6 @@ export class HomeUserComponent implements OnInit {
 
   isVisible: string;
   storage: Storage = window.localStorage;
-  //emailSentBarChart: ChartType;
-  //monthlyEarningChart: ChartType;
   transactions: Array<[]>;
   statData: Array<[]>;
 
@@ -44,9 +42,6 @@ export class HomeUserComponent implements OnInit {
     this.usuariojson = this.usuarioService.usuarioJSON;
     this.usuarioService.getCards();
 
-
-
-
       this.cargarSolicitudesUSER();
 
      // aqui optengo las cards del admin
@@ -69,16 +64,6 @@ export class HomeUserComponent implements OnInit {
    }
 
    cargarSolicitudesUSER(){
-
-    //this.listSoliVeData2.forEach(element => {
-    //  const fecha = new Date(element.fechaSolicitud);
-    //  const fecha2 = new Date();
-
-   //   if(fecha.getMonth()==fecha2.getMonth()){
-    //      this.carga.push(element);
-    //  }
-
-   // });
 
    //inicio de carga de solicitudes en revision
    this.solicitudService.getSolicitudesVehiculo2(6).then((data) => {

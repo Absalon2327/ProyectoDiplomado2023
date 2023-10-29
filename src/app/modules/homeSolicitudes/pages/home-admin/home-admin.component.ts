@@ -43,13 +43,6 @@ export class HomeAdminComponent implements OnInit {
 
   }
 
-
-
-
-
-
-
-
    /* Metodos para optener datos de cards */
    get cards(): DataCards | null {
        return this.usuarioService.cards;
