@@ -77,22 +77,14 @@ export class HomeJefeComponent implements OnInit {
        this.solicitud = data;
 
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSolicitud);
-           if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobadas.push(element);
-           }
-
          })
      });
      this.solicitudService.getSolicitudesVehiculo1(5).then((data) => {
       this.solicitud = data;
 
         this.solicitud.forEach(element => {
-          const date = new Date(element.fechaSolicitud);
-          if(date.getMonth() == new Date().getMonth()){
             this.cargaAprobadas.push(element);
-          }
-
         })
     });// carga las solicitudes de vehiculo para el usuario
      //inicio de carga de solicitudes
@@ -117,10 +109,7 @@ export class HomeJefeComponent implements OnInit {
        this.solicitud = data;
 
          this.solicitud.forEach(element => {
-           const date = new Date(element.fechaSolicitud);
-           if(date.getMonth() == new Date().getMonth()){
              this.cargaAprobar.push(element);
-           }
 
          })
      });

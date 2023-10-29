@@ -70,7 +70,6 @@ export class HomeUserComponent implements OnInit {
     this.solicitud = data;
 
       this.solicitud.forEach(element => {
-          //console.log("fecha",new Date().getMonth())
           this.cargaRevision.push(element);
 
       })
@@ -81,10 +80,7 @@ export class HomeUserComponent implements OnInit {
       this.solicitud = data;
 
         this.solicitud.forEach(element => {
-          const date = new Date(element.fechaSalida);
-          if(date.getMonth() == new Date().getMonth()){
             this.cargaAprobadas.push(element);
-          }
         })
     });// carga las solicitudes de vehiculo para el usuario
 
@@ -92,10 +88,7 @@ export class HomeUserComponent implements OnInit {
       this.solicitud = data;
 
       this.solicitud.forEach(element => {
-        const date = new Date(element.fechaSalida);
-        if(date.getMonth() == new Date().getMonth()){
           this.cargaAprobadas.push(element);
-        }
       });
     });
 
@@ -121,10 +114,7 @@ export class HomeUserComponent implements OnInit {
       this.solicitud = data;
 
         this.solicitud.forEach(element => {
-          const date = new Date(element.fechaSolicitud);
-          if(date.getMonth() == new Date().getMonth()){
             this.cargaRevision.push(element);
-          }
 
         })
     });
