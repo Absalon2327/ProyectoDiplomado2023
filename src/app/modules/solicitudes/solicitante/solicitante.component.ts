@@ -298,11 +298,11 @@ export class SolicitanteComponent implements OnInit {
       (err) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.mensajesService.mensajesSweet(
+        /*this.mensajesService.mensajesSweet(
           "info",
           "?...",
           err.error.message
-        );
+        );*/
       }
     );
   }
@@ -345,11 +345,11 @@ export class SolicitanteComponent implements OnInit {
       (error) => {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
-        this.mensajesService.mensajesSweet(
+       /* this.mensajesService.mensajesSweet(
           "info",
           "?...",
           "Datos almacenados exitosamente.."
-        );
+        );*/
       }
     );
   }
