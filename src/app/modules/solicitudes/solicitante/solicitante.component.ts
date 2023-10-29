@@ -1619,7 +1619,7 @@ export class SolicitanteComponent implements OnInit {
         { text: "Nota: Si el número de persona es mayor a cuatro, anexar listado", fontSize: 11 },
       );
     }
-    if(soliVehi.motoristaJunta == null){
+    if(soliVehi.motoristaJunta == null && soliVehi.detalleAcuerdo == null){
       pdfDefinicion.content.push(
         { text: "\n" },
         {
@@ -1718,6 +1718,12 @@ export class SolicitanteComponent implements OnInit {
               text: [
                 { text: "Nombre de Motorista: ", bold: true, fontSize: 11 },
                 { text: soliVehi.motorista?.nombre + ", " + soliVehi.motorista?.apellido + ", " + soliVehi.motoristaJunta,fontSize: 11 },
+              ],
+            },
+            {
+              text: [
+                { text: "Detalle del Acuerdo: ", bold: true, fontSize: 11 },
+                { text: soliVehi.detalleAcuerdo,fontSize: 11 },
               ],
             },
           ],
