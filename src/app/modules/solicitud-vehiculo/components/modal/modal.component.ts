@@ -258,11 +258,6 @@ export class ModalComponent implements OnInit {
         }
       }
     } else {
-      // Mostrar nombres de campos inválidos por consola
-      /*//console.log('Campos inválidos:',
-        Object.keys(this.formularioSoliVe.controls).filter((controlName) =>
-          this.formularioSoliVe.get(controlName)?.invalid));*/
-
       this.mensajesService.mensajesToast(
         "warning",
         "Complete lo que se indican"
@@ -714,10 +709,6 @@ export class ModalComponent implements OnInit {
             this.enviarEmailSecre('SECR_DECANATO', 'Solicitud de vehículo',
             'Tiene una nueva solicitud de vehículo pendiente de asignar motorista o verificación de la información.');
           }
-
-          /*setTimeout(() => {
-            this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
-          }, 3025);*/
           this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
           alertLoadingUpdate.close();
           this.modalService.dismissAll();
@@ -760,10 +751,6 @@ export class ModalComponent implements OnInit {
 
           this.soliVeService.registrarSolicitudVale(this.solicitudVale).subscribe({
             next: () => {
-              // valeResp: any
-              /*setTimeout(() => {
-                this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
-              }, 3025);*/
               this.soliVeService.getSolicitudesRol(this.usuarioActivo.role);
               alertLoadingDec.close();
               this.modalService.dismissAll();
@@ -844,9 +831,6 @@ export class ModalComponent implements OnInit {
             }else if (accion == 'anulada'){
               this.enviarEmailAnulacion(data.solicitante.codigoUsuario, data.observaciones);
             }
-          /*setTimeout(() => {
-            this.soliVeService.getSolicitudesVehiculo(1);
-          }, 3025);*/
           this.soliVeService.getSolicitudesVehiculo(1);
           alertLoadingAdmin.close();
           this.modalService.dismissAll();
