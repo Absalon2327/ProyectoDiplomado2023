@@ -24,7 +24,7 @@
     <div class="card text-center">
       <div class="card-header">
         {{
-          proveedor.encargado == null || ""
+          proveedor.encargado == null || proveedor.encargado == ''
             ? "Sin encargado"
             : proveedor.encargado
         }}
