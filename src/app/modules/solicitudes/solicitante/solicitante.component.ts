@@ -445,6 +445,7 @@ export class SolicitanteComponent implements OnInit {
         Swal.showLoading();
       },
     });
+    if(soliVehi.tieneVale){
     this.consultaService.getLogSoliVehiID(respon[0].idsolicitudvale).subscribe(
       (res: LogSoliVehiID[]) => {
         // Cerrar SweetAlert de carga
@@ -457,6 +458,9 @@ export class SolicitanteComponent implements OnInit {
         this.genrarEntradaSalida(response, soliVehi, null);
       }
     );
+    }else{
+      this.genrarEntradaSalida(response, soliVehi, null);
+    }
 
   }
   genrarEntradaSalida(
@@ -1228,6 +1232,7 @@ export class SolicitanteComponent implements OnInit {
       { text: "ESTADO", alignment: "center", style: "tableHeader" },
     ]);
     let estado = "";
+    let i = 0
     for (const persona of log) {
       // console.log(persona.nombrePasajero);
       if (persona.estadosolive == 1) {
@@ -1261,7 +1266,27 @@ export class SolicitanteComponent implements OnInit {
       } else if (persona.estadosolive == 15) {
         this.estado = "Anulada";
       }
+      if(soliVehi.tieneVale){
      if(persona.estadosolive != 7){
+      tableRow.push([
+        { text: `${i + 1}`, alignment: "center" },
+        { text: `${persona.actividad}`, alignment: "center" },
+        {
+          text: `${this.datePipe.transform(
+            persona.fechalogsolive,
+            "dd/MM/yyyy HH:mm:ss a"
+          )}`,
+          alignment: "center",
+        },
+        { text: `${persona.usuario}`, alignment: "center" },
+
+        { text: `${persona.cargo}`, alignment: "center" },
+        { text: `${this.estado}`, alignment: "center" },
+      ]);
+      i++;
+    }
+    j++;
+    }else{
       tableRow.push([
         { text: `${j + 1}`, alignment: "center" },
         { text: `${persona.actividad}`, alignment: "center" },
@@ -1278,8 +1303,8 @@ export class SolicitanteComponent implements OnInit {
         { text: `${this.estado}`, alignment: "center" },
       ]);
     }
-      j++;
-    }
+    j++;
+  }
     if (logv != null) {
       for (const persona of logv) {
         // console.log(persona.nombrePasajero);
@@ -1316,7 +1341,7 @@ export class SolicitanteComponent implements OnInit {
         }
         console.log(this.estado);
         tableRow.push([
-          { text: `${j + 1}`, alignment: "center" },
+          { text: `${i + 1}`, alignment: "center" },
           { text: `${persona.actividad}`, alignment: "center" },
           {
             text: `${this.datePipe.transform(
@@ -1329,7 +1354,7 @@ export class SolicitanteComponent implements OnInit {
           { text: `${persona.cargo}`, alignment: "center" },
           { text: `${this.estado}`, alignment: "center" },
         ]);
-        j++;
+        i++;
       }
     }
     pdfDefinicionl.content.push({
