@@ -174,16 +174,16 @@
         <div class="row">
           <div class="col-sm-8 mb-2">
             <ng-select
-              placeholder="Escriba o seleccione un estado de vale"
-              [selectOnTab]="true"
-              labelForId="estado"
-              [(ngModel)]="valorSeleccionado"
-              (ngModelChange)="getValesSelect()"
-            >
-              <ng-option *ngFor="let x of listEstado" [value]="x">{{
-                estadoNombre(x)
-              }}</ng-option>
-            </ng-select>
+            placeholder="Escriba o seleccione un estado de vale"
+            [selectOnTab]="true"
+            labelForId="estado"
+            [(ngModel)]="valorSeleccionado"
+            (ngModelChange)="getValesSelect()"
+          >
+            <ng-option *ngFor="let x of listEstado" [value]="x">{{
+              estadoNombre(x)
+            }}</ng-option>
+          </ng-select>
           </div>
           <div class="col-sm-4 mb-2">
             <div class="text-sm-end">

@@ -1985,42 +1985,22 @@ export class SolicitanteComponent implements OnInit {
   }
 
   estadoNombre(estado: number): string {
-    if (estado == 5) {
-      return "Asignado";
-    } else if (estado == 7) {
-      return "Finalizada";
-    } else if (estado == 8) {
+    if (estado == 8) {
       return "Activo";
     } else if (estado == 9) {
       return "Inactivo";
-    } else if (estado == 10) {
-      return "Caducado";
     } else if (estado == 11) {
       return "Consumido";
-    } else if (estado == 12) {
-      return "Devuelto";
-    } else if (estado == 15) {
-      return "Anulada";
     }
   }
 
   getClassOf(estado: number) {
-    if (estado == 5) {
-      return "badge rounded-pill bg-info";
-    } else if (estado == 7) {
-      return "badge rounded-pill bg-primary";
-    } else if (estado == 8) {
-      return "badge rounded-pill bg-success";
+    if (estado == 8) {
+      return "badge rounded-pill bg-success me-1";
     } else if (estado == 9) {
-      return "badge rounded-pill bg-danger";
-    } else if (estado == 10) {
-      return "badge rounded-pill bg-light";
+      return "badge rounded-pill bg-dark me-1";
     } else if (estado == 11) {
-      return "badge rounded-pill bg-dark";
-    } else if (estado == 12) {
-      return "badge rounded-pill bg-warning";
-    } else if (estado == 15) {
-      return "badge rounded-pill bg-secondary";
+      return "badge rounded-pill bg-info me-1";
     }
   }
 
