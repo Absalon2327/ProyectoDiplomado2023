@@ -488,7 +488,6 @@ export class SolicitanteComponent implements OnInit {
         // Cerrar SweetAlert de carga
         loadingAlert.close();
         this.crearPDFLog(log, soliVehi, logv, res);
-        console.log(res);
       },
       (error) => {
         // Cerrar SweetAlert de carga
@@ -1124,21 +1123,6 @@ export class SolicitanteComponent implements OnInit {
           },
         ],
       },
-     /* { text: "\n" },
-      {
-        columns: [
-          {
-            text: [
-              { text: "Capacidad de Personas del Vehículo: ", bold: true },
-              soliVehi.vehiculo.capacidad
-               
-            ],
-          },
-          {
-            text: [{ text: "Capacidad de Combustible del Vehículo: ", bold: true }, soliVehi.vehiculo.capacidadTanque],
-          },
-        ],
-      },*/
     );
     pdfDefinicionl.content.push(
       {
@@ -1307,7 +1291,6 @@ export class SolicitanteComponent implements OnInit {
   }
     if (logv != null) {
       for (const persona of logv) {
-        // console.log(persona.nombrePasajero);
         if (persona.estadosolive == 1) {
           this.estado = "En espera por jefe";
         } else if (persona.estadosolive == 2) {
