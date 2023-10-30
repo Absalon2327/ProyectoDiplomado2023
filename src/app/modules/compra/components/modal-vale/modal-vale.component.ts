@@ -13,7 +13,7 @@ export class ModalValeComponent implements OnInit {
   @Input() compra!: ICompra;
   listVale: IVale[] = [];
   listValeAux: IVale[] = [];
-  listEstado: number[] = [8, 5, 9, 10, 11, 12];
+  listEstado: number[] = [8, 9, 11];
   queryVale!: string;
   valorSeleccionado: number;
 
@@ -49,43 +49,37 @@ export class ModalValeComponent implements OnInit {
   }
 
   estadoNombre(estado: number): string {
-    if (estado == 5) {
-      return "Asignado";
-    } else if (estado == 7) {
-      return "Finalizada";
-    } else if (estado == 8) {
+    if (estado == 8) {
       return "Activo";
     } else if (estado == 9) {
       return "Inactivo";
-    } else if (estado == 10) {
-      return "Caducado";
     } else if (estado == 11) {
       return "Consumido";
-    } else if (estado == 12) {
-      return "Devuelto";
-    } else if (estado == 15) {
-      return "Anulada";
     }
   }
 
   getClassOf(estado: number) {
-    if (estado == 5) {
-      return "badge rounded-pill bg-info";
-    } else if (estado == 7) {
-      return "badge rounded-pill bg-primary";
-    } else if (estado == 8) {
-      return "badge rounded-pill bg-success";
+    if (estado == 8) {
+      return "badge rounded-pill bg-success me-1";
     } else if (estado == 9) {
-      return "badge rounded-pill bg-danger";
-    } else if (estado == 10) {
-      return "badge rounded-pill bg-light";
+      return "badge rounded-pill bg-dark me-1";
     } else if (estado == 11) {
-      return "badge rounded-pill bg-dark";
-    } else if (estado == 12) {
-      return "badge rounded-pill bg-warning";
-    } else if (estado == 15) {
-      return "badge rounded-pill bg-secondary";
+      return "badge rounded-pill bg-info me-1";
     }
+  }
+
+  get fechaActual() {
+    // Obtiene la fecha actual
+    const fechaActual = new Date();
+
+    // Obtiene el año, el mes y el día por separado
+    const año = fechaActual.getFullYear();
+    const mes = (fechaActual.getMonth() + 1).toString().padStart(2, "0"); // El mes es de 0 a 11, así que sumamos 1
+    const dia = fechaActual.getDate().toString().padStart(2, "0");
+
+    // Formatea la fecha en "YYYY-MM-dd"
+    const fechaFormateada = `${año}-${mes}-${dia}`;
+    return fechaFormateada;
   }
 
   openModal(content: any, compra: ICompra) {
