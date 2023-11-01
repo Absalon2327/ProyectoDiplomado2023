@@ -22,6 +22,12 @@
     </a>
 </div>
 
+<div *ngIf="leyenda == 'Ayuda' && home == false">
+    <a class="dropdown-item" style="cursor: pointer;" (click)="openModal(content)">
+        <i class="mdi mdi-18px mdi-lightbulb-on-outline me-1"></i>Ayuda audiovisual
+    </a>
+</div>
+
 <div *ngIf="leyenda == 'Datos' && home == true">
     <a style="cursor: pointer;" class="btn btn-primary btn-sm" (click)="openModal(content)">Ver Perfil
         <i class="mdi mdi-arrow-right ms-1"></i></a>
@@ -56,11 +62,15 @@
                 <h5 class="modal-title mt-0">Credenciales de SendGrid</h5>
             </div>
 
+            <div *ngIf="leyenda == 'Ayuda'">
+                <h5 class="modal-title mt-0">Ayuda audiovisual</h5>
+            </div>
+
 
             <div class="btn-alerta" *ngIf="alerts">
                 <i class="mdi mdi-18px mdi-lightbulb-on-outline custom-cursor" ngbTooltip="Mostrar Ayuda"
-                    *ngIf="leyenda == 'Datos' ? !siMuestraAlertas() : leyenda == 'Credenciales' ? !siMuestraAlertas2() : !siMuestraAlertas3()"
-                    (click)="leyenda == 'Datos' ? restaurarAlerts() : leyenda == 'Credenciales' ? restaurarAlerts2() : restaurarAlerts3()"></i>
+                    *ngIf="leyenda == 'Datos' ? !siMuestraAlertas() : leyenda == 'Credenciales' ? !siMuestraAlertas2() : leyenda == 'SendGrid' ? !siMuestraAlertas3() : !siMuestraAlertas4()"
+                    (click)="leyenda == 'Datos' ? restaurarAlerts() : leyenda == 'Credenciales' ? restaurarAlerts2() : leyenda == 'SendGrid' ? restaurarAlerts3() : restaurarAlerts4()"></i>
             </div>
 
             <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
@@ -102,6 +112,20 @@
                         <br />
                         <div class="text-justify">{{ alert.message }}</div>
                         <button type="button" class="btn-close" (click)="CambiarAlert3(alert)"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div *ngIf="leyenda == 'Ayuda'">
+                <div *ngFor="let alert of alerts4">
+                    <div class="alert alert-{{ alert.type }} alert-dismissible fade show" role="alert"
+                        *ngIf="alert.show">
+                        <strong>Importante!</strong>
+                        <br />
+                        <div class="text-justify">{{ alert.message }}</div>
+                        <button type="button" class="btn-close" (click)="CambiarAlert4(alert)"
                             aria-label="Close"></button>
                     </div>
                 </div>
@@ -343,6 +367,75 @@
                 </form>
             </div>
             <!-- SendGrid -->
+
+
+            <!-- Ayuda -->
+
+            <div *ngIf="leyenda == 'Ayuda'">
+                <div class="row">
+                    <div class="col-md">
+
+                        <!-- Inicio del enlace a la Playlist -->
+                        <div class="form-group row m-4">
+                            <label class="control-label text-black">Link de Playlist :</label>
+                            <div class="input-group auth-pass-inputgroup col-5">
+                                <p *ngIf="user == 'ADMIN'">Para acceder a la playlist, <a class="menu__link"
+                                        href="https://www.youtube.com/playlist?list=PLHpY1hI_W0nj5Vv0mptSEhpTkm7-c4SBk"
+                                        target="_blank">haga
+                                        clic aquí</a>.</p>
+
+                                <p *ngIf="user == 'USER'">Para acceder a la playlist, <a class="menu__link"
+                                        href="https://www.youtube.com/playlist?list=PLHpY1hI_W0ng56ynerW3JsG-CfGZXQXcH"
+                                        target="_blank">haga
+                                        clic aquí</a>.</p>
+
+                                <p *ngIf="user == 'JEFE_DEPTO'">Para acceder a la playlist, <a class="menu__link"
+                                        href="https://www.youtube.com/playlist?list=PLHpY1hI_W0nhwY8GRJaVUUHMeSD0ZLLB1"
+                                        target="_blank">haga
+                                        clic aquí</a>.</p>
+
+                                <p *ngIf="user == 'SECR_DECANATO'">Para acceder a la playlist, <a class="menu__link"
+                                        href="https://www.youtube.com/playlist?list=PLHpY1hI_W0ngCMasdtm9FCzgWVVftuUCp"
+                                        target="_blank">haga
+                                        clic aquí</a>.</p>
+
+                                <p *ngIf="user == 'DECANO'">Para acceder a la playlist, <a class="menu__link"
+                                        href="https://www.youtube.com/playlist?list=PLHpY1hI_W0ngngi1a_X3RbbohI6_mP4kT"
+                                        target="_blank">haga
+                                        clic aquí</a>.</p>
+
+                                <p *ngIf="user == 'ASIS_FINANCIERO'">Para acceder a la playlist, <a class="menu__link"
+                                        href="https://www.youtube.com/playlist?list=PLHpY1hI_W0ng9zdv1QeEIrW0COQlzmWZk"
+                                        target="_blank">haga
+                                        clic aquí</a>.</p>
+
+                                <p *ngIf="user == 'JEFE_FINANACIERO'">Para acceder a la playlist, <a class="menu__link"
+                                        href="https://www.youtube.com/playlist?list=PLHpY1hI_W0nje2syPIptYn0YEC2l9qTf6"
+                                        target="_blank">haga
+                                        clic aquí</a>.</p>
+
+                                <p *ngIf="user == 'VIGILANTE'">Para acceder a la playlist, <a class="menu__link"
+                                        href="https://www.youtube.com/playlist?list=PLHpY1hI_W0njl7lirhgkHxTkeAF2Qd3KI"
+                                        target="_blank">haga
+                                        clic aquí</a>.</p>
+
+                            </div>
+
+                        </div>
+                        <!-- Fin del enlace a la Playlist -->
+
+                    </div>
+                </div>
+
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="button" class="btn btn-dark w-sm" id="btn-cancel" name="btn-cancel" aria-hidden="true"
+                        (click)="modal.dismiss('Cross click')">
+                        {{ leyenda !== 'Ayuda' ? 'Cancelar' : 'Cerrar' }}
+                    </button>
+                </div>
+            </div>
+            <!-- Ayuda -->
 
         </div>
     </ng-template>
