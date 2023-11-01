@@ -21,6 +21,7 @@ export class ModalComponent implements OnInit {
 
   @Input() nuevo!: boolean;
   @Input() leyenda!: string;
+  @Input() user!: string;
   @Input() home: boolean = false;
   public imgTemp: string | ArrayBuffer = null;
   private file!: File;
@@ -69,6 +70,16 @@ export class ModalComponent implements OnInit {
     },
   ];
 
+  alerts4 = [
+    {
+      id: 1,
+      type: "info",
+      message:
+        "Este enlace está destinado exclusivamente para el uso de la Aplicación Web Misiones Decanato en apoyo a material audiovisual. Por favor, absténgase de compartir este enlace a través de cualquier otro medio.",
+      show: false,
+    },
+  ];
+
 
   constructor(
     private usuarioService: UsuarioService,
@@ -96,6 +107,10 @@ export class ModalComponent implements OnInit {
 
     if (this.leyenda == "SendGrid") {
       this.restaurarAlerts3();
+    }
+
+    if (this.leyenda == "Ayuda") {
+      this.restaurarAlerts4();
     }
 
   }
@@ -508,6 +523,22 @@ export class ModalComponent implements OnInit {
 
   siMuestraAlertas3() {
     return this.alerts3.every((alert3) => alert3.show);
+  }
+
+
+    //// para la alerta de Ayuda  
+  CambiarAlert4(alerts4) {
+    alerts4.show = !alerts4.show;
+  }
+
+  restaurarAlerts4() {
+    this.alerts4.forEach((alerts4) => {
+      alerts4.show = true;
+    });
+  }
+
+  siMuestraAlertas4() {
+    return this.alerts4.every((alerts4) => alerts4.show);
   }
 
   SeguridadClave(event: any) {

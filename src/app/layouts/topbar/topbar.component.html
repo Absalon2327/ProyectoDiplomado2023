@@ -76,6 +76,8 @@
 
           <app-modal *ngIf="usuario?.role === 'ADMIN'" [leyenda]="'SendGrid'"></app-modal>
 
+          <app-modal [user]="usuario?.role" [leyenda]="'Ayuda'"></app-modal>
+
           <app-modal [leyenda]="'AcercaDe'"></app-modal>
 
           <a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()"><i
