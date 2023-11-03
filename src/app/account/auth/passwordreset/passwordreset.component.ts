@@ -440,7 +440,7 @@ export class PasswordresetComponent implements OnInit {
       mensaje = alert.message;
     });
 
-    this.mensajesService.mensajesSweet("info", "¡Importante!", mensaje, "Entiendo");
+    this.mensajesService.mensajesSweetLogin("info", "¡Importante!", mensaje, "Entiendo");
   }
 }
 

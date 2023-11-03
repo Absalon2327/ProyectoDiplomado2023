@@ -42,6 +42,28 @@ export class MensajesService {
     });
   }
 
+
+  mensajesSweetLogin(
+    icono: SweetAlertIcon = "info",
+    title: string = "Algo pasó",
+    text: string = "Comuniquese con el administrador",
+    boton: string = "Ok"
+  ) {
+    Swal.fire({
+      icon: icono,
+      title: title,
+      text: text,
+      confirmButtonText: boton,
+      confirmButtonColor: "#972727",
+      showCancelButton: true,
+      cancelButtonText: '<a href="https://youtu.be/llvEtzBKdy4" style="color: #ffff" target="_blank">Ver video</a>',
+      cancelButtonColor: "#2C3136",
+      cancelButtonAriaLabel: "Ver video"
+    });
+  }
+  
+  
+
   async mensajesConfirmar(
     icono: SweetAlertIcon = "warning",
     title: string = "¿Está seguro de guardar?",
