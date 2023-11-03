@@ -75,7 +75,7 @@ export class ModalComponent implements OnInit {
       id: 1,
       type: "info",
       message:
-        "Este enlace está destinado exclusivamente para el uso de la Aplicación Web Misiones Decanato en apoyo a material audiovisual. Por favor, absténgase de compartir este enlace a través de cualquier otro medio.",
+        "Este enlace está destinado exclusivamente para el uso de la Aplicación Web Misiones Decanato en apoyo al material audiovisual. Por favor, absténgase de compartir este enlace a través de cualquier otro medio.",
       show: false,
     },
   ];

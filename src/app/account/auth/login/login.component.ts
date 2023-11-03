@@ -139,7 +139,7 @@ export class LoginComponent implements OnInit {
   }
 
   mostrarAyuda() {
-    this.mensajesService.mensajesSweet("info", "¡Importante!", "Ingrese su nombre de usuario y contraseña. Si es la primera vez que inicia sesión, su contraseña será el número de su DUI.", "Entiendo");
+    this.mensajesService.mensajesSweetLogin("info", "¡Importante!", "Ingrese su nombre de usuario y contraseña. Si es la primera vez que inicia sesión, su contraseña será el número de su DUI.", "Entiendo");
   }
 
 
