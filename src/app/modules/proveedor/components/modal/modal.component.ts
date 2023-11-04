@@ -103,12 +103,10 @@ export class ModalComponent implements OnInit {
 
   formatInputMayusDet(nombre: string, event: any) {
     const inputValue = event.target.value;
-    const formattedValue =
-      inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+    const firstLetter = inputValue.charAt(0).toUpperCase();
+    const restOfString = inputValue.slice(1);
 
-    this.formularioGeneral
-      .get(nombre)
-      .setValue(formattedValue, { emitEvent: false });
+    this.formularioGeneral.get(nombre).setValue(firstLetter + restOfString, { emitEvent: false });
   }
 
   async guardar() {
