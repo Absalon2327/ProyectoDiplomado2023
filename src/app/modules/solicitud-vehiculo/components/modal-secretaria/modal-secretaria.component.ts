@@ -332,7 +332,16 @@ export class ModalSecretariaComponent implements OnInit {
           this.motoristas = motoristasData;  // si en caso es mayor a 0 se setea la data
           //this.motoristas.push(this.soliVeOd.motorista);
 
-          this.formularioSoliVe.get('motorista').setValue(null);
+          if(this.soliVeOd.motorista.dui != '00000000'){
+            this.formularioSoliVe.get('motorista').setValue(null);
+           }else{
+            this.formularioSoliVe.get('motorista').setValue(this.soliVeOd.motorista.nombre + ' ' +
+            this.soliVeOd.motorista.apellido);
+            this.isChecked = true;
+            this.formularioSoliVe.get('motoristaJunta').setValue(this.soliVeOd.motoristaJunta);
+            this.formularioSoliVe.get('detalleAcuerdo').setValue(this.soliVeOd.detalleAcuerdo);
+           }
+
 
           if(var1 == fechaSalida && var2 == fechaEntrada){
            if(this.soliVeOd.motorista.dui != '00000000'){
