@@ -21,6 +21,7 @@ export class ListarAdminComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerUsuarioActivo();
     this.breadCrumbItems = [{ label: 'Solicitud de Vehículo' }, { label: 'Listar', active: true }];
+    this.recargarTabla();
   }
 
 
@@ -56,4 +57,25 @@ export class ListarAdminComponent implements OnInit {
       this.usuario = usuario;
     });
   }
+
+  recargarTabla() {
+    let alertLoading: any;
+
+    alertLoading = Swal.fire({
+      title: 'Espere un momento!',
+      html: 'Se está procesando la información...',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    this.serviceSoliVe.getSolicitudesVehiculo(this.estadoSeleccionado).then(result => {
+      alertLoading.close();
+    })
+    .catch(error => {
+      console.error('Error al obtener las solicitudes de vehículo', error);
+      alertLoading.close();
+    });
+  }
+
 }
