@@ -45,7 +45,7 @@ export class MostrarComponent implements OnInit {
     this.cargarComprasPorRangoDeFechas();
     this.getcatidadValesPorEstado();
     this.getcatidadSolicitudesPorEstado();
-    this.obtenerLogValesPorEstado(5);
+    this.obtenerLogValesPorEstado(11);
     this.texto = "Este Mes";
   }
 
