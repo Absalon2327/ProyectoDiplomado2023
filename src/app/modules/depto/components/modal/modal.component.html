@@ -37,7 +37,7 @@
             El campo Nombre es obligatorio
           </span>
           <span *ngIf="nombre?.errors?.['pattern'] && nombre?.touched">
-            Solamente letras y respecte los espacios
+            Solamente letras y espacios
           </span>
         </div>
 
@@ -59,12 +59,15 @@
     [readonly]="leyenda == 'Detalle'"
     [class]="esCampoValido('descripcion')"
     (keyup)="formatInputMayusDet('descripcion', $event)"></textarea>
-    <div *ngIf="descripcion?.errors?.['required'] && descripcion?.touched">
-      <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*El campo Descripcion es obligatorio</span>
-      </div>
-      <div *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
-        <span [ngStyle]="{color:'tomato', 'font-size': '12'}">*Solo letras, espacio y numeros</span>
-        </div>
+    <div class="invalid-feedback">
+      <span *ngIf="descripcion?.errors?.['required'] &&descripcion?.touched">
+        El campo Descripción es obligatorio
+      </span>
+      <span *ngIf="descripcion?.errors?.['pattern'] && descripcion?.touched">
+        Solo letras, espacios y numeros
+      </span>
+    </div>
+
   </div>
 </div>
 

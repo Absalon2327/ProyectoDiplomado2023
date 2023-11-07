@@ -28,7 +28,7 @@ export class ModalComponent implements OnInit {
       id: 1,
       type: "info",
       message:
-        "Ingrese el nombre del departamento y complete los campos obligatorios (*), asegurarse de no dejar espacios al inicion o final de los campos",
+        "Ingrese el nombre del departamento y complete los campos obligatorios (*), asegurarse de no dejar espacios al inicio o al final de los campos",
       show: false,
     },
   ];
