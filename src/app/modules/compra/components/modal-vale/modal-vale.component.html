@@ -84,7 +84,7 @@
               <span [ngClass]="getClassOf(data.estado)">
                 {{ estadoNombre(data.estado) }}</span
               >
-              <span *ngIf="data.fechaVencimiento < fechaActual" class="badge rounded-pill bg-danger">Vencido</span>
+              <span *ngIf="data.fechaVencimiento < fechaActual && (data.estado == 8 || data.estado == 5) " class="badge rounded-pill bg-danger">Vencido</span>
             </h5>
           </div>
         </div>

@@ -51,6 +51,8 @@ export class ModalValeComponent implements OnInit {
   estadoNombre(estado: number): string {
     if (estado == 8) {
       return "Activo";
+    } else if (estado == 5) {
+      return "Asignado";
     } else if (estado == 9) {
       return "Inactivo";
     } else if (estado == 11) {
@@ -61,6 +63,8 @@ export class ModalValeComponent implements OnInit {
   getClassOf(estado: number) {
     if (estado == 8) {
       return "badge rounded-pill bg-success me-1";
+    } else if (estado == 5) {
+      return "badge rounded-pill bg-warning me-1";
     } else if (estado == 9) {
       return "badge rounded-pill bg-dark me-1";
     } else if (estado == 11) {
