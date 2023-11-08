@@ -1130,4 +1130,8 @@ export class ModalSecretariaComponent implements OnInit {
 
     this.pasajeroFormControls[index].setValue(formattedValue, { emitEvent: false });
   }
+
+  get textoBotonEditar(): string {
+    return this.leyenda === 'Edicion' && this.soliVeOd.estado == 2 ? 'Asignar' : 'Modificar';
+  }
 }
