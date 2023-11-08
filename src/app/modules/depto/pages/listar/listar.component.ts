@@ -156,13 +156,13 @@ export class ListarComponent implements OnInit {
   }
 
   abrirModal(leyenda: string) {
-    const modalRef = this.modalService.open(ModalComponent,{backdrop: 'static'});
+    const modalRef = this.modalService.open(ModalComponent,{backdrop: 'static', keyboard: false});
     modalRef.componentInstance.leyenda = leyenda;
   }
 
   abrirModal2(leyenda: string, data: IDepto) {
 
-    const modalRef = this.modalService.open(ModalComponent,{backdrop: 'static'});
+    const modalRef = this.modalService.open(ModalComponent,{backdrop: 'static', keyboard: false});
     modalRef.componentInstance.leyenda = leyenda; // Pasa la leyenda al componente modal
     modalRef.componentInstance.deptos = data; // Pasa la data al componente modal
   }
