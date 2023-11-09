@@ -305,6 +305,7 @@ export class DetalleService {
       `${this.baseUrl}/asignacionvale/listar/${codigoAsignacion}`
     );
   }
+
   getAsignacionValeSolicitudVale(codigoAsignacion: string) {
     return this.http.get<IAsignacionValeSolicitud>(
       `${this.baseUrl}/asignacionvale/ver/${codigoAsignacion}`
