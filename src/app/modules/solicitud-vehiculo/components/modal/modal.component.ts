@@ -838,7 +838,7 @@ export class ModalComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: nombreCompletoSolicitante+" ha realizado una solicitud de vehículo para una misión y esta a la espera de su aprobación.",
-          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
+          centro: 'Para acceder, haz clic aquí, o en la imagen de arriba: https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -863,7 +863,7 @@ export class ModalComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: "Su solicitud ha sido anulada por "+nombreUserAccion+". "+obsevacion,
-          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
+          centro: 'Para acceder, haz clic aquí, o en la imagen de arriba: https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -883,7 +883,7 @@ export class ModalComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: mensaje,
-          centro: 'Por favor ingrese al sistema para ver más detalles. https://orellana2023.me/',
+          centro: 'Para acceder, haz clic aquí, o en la imagen de arriba: https://orellana2023.me/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
