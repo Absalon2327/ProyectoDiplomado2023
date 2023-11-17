@@ -297,7 +297,7 @@ export class TablaComponent implements OnInit {
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
           mensaje: mensaje,
-          centro: 'Para acceder, haz clic aquí, o en la imagen de arriba: https://orellana2023.me/',
+          centro: 'Para acceder, haz clic aquí, o en la imagen de arriba: https://uti.fmp.ues.edu.sv/GestionCombustible/',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
         this.emailService.notificarEmail(email);
@@ -321,7 +321,7 @@ export class TablaComponent implements OnInit {
           titulo: 'Solicitud de vehículo',
           email: datos.correo,
           receptor: "Estimad@ "+datos.nombreCompleto+".",
-          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales. https://orellana2023.me/",
+          mensaje: "Su solicitud ha sido aprobada por el Dencano: "+nombreUserAccion+". Y está a la espera de asignación de vales. https://uti.fmp.ues.edu.sv/GestionCombustible/",
           centro: '',
           abajo: 'Gracias por su atención a este importante mensaje.\nFeliz día!',
         }
